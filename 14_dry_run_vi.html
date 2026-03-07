@@ -1,0 +1,245 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>14_Dry_Run</title>
+    <style>
+        body { font-family: system-ui, -apple-system, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; color: #333; }
+        pre { background: #f4f4f4; padding: 15px; border-radius: 5px; overflow-x: auto; }
+        code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; font-family: monospace; }
+        a { color: #007bff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        img { max-width: 100%; height: auto; }
+    </style>
+</head>
+<body>
+<h1>📘 Agentic Architectures 14: Observability + Dry-Run Harness</h1>
+<p>Chào mừng bạn đến với một notebook quan trọng trong loạt bài của chúng ta, tập trung vào việc triển khai và an toàn vận hành của các AI agent. Chúng ta sẽ triển khai một <strong>Observability and Dry-Run Harness</strong> (Cơ chế Quan sát và Chạy thử), một pattern thiết yếu để kiểm thử, gỡ lỗi và quản lý an toàn các agent tương tác với các hệ thống trong thế giới thực.</p>
+<p>Nguyên tắc cốt lõi rất đơn giản nhưng mạnh mẽ: <strong>không bao giờ chạy một hành động của agent trong môi trường thực tế (live) mà không biết chính xác nó định làm gì.</strong> Kiến trúc này chính thức hóa quy trình "nhìn kỹ trước khi nhảy". Một agent trước tiên thực thi kế hoạch của mình ở chế độ <code>dry_run</code>, chế độ này không thay đổi thế giới thực nhưng tạo ra các bản nhật ký (logs) chi tiết và một kế hoạch hành động rõ ràng. Kế hoạch này sau đó được trình bày cho con người (hoặc một bộ kiểm tra tự động) để phê duyệt trước khi cho phép thực thi chính thức, thực tế.</p>
+<p>Để chứng minh điều này, chúng ta sẽ xây dựng một <strong>Corporate Social Media Agent</strong>. Agent này có nhiệm vụ tạo và xuất bản các bài đăng. Chúng ta sẽ thấy cơ chế chạy thử cho phép chúng ta:
+1.  <strong>Generate a Proposed Post (Tạo bài đăng đề xuất):</strong> AI sẽ soạn thảo một bài đăng một cách sáng tạo dựa trên một câu lệnh.
+2.  <strong>Perform a Dry Run (Thực hiện chạy thử):</strong> Agent sẽ gọi hàm <code>publish</code> ở chế độ hộp cát <code>dry_run=True</code>, tạo ra các bản nhật ký về những gì <em>sẽ</em> xảy ra.
+3.  <strong>Human-in-the-Loop Review (Đánh giá có sự tham gia của con người):</strong> Một người vận hành sẽ được xem nội dung bài đăng chính xác và dấu vết chạy thử (dry-run trace). Họ phải nhập <code>approve</code> để tiếp tục.
+4.  <strong>Execute Live Action (Thực thi hành động thực tế):</strong> Chỉ sau khi được phê duyệt, hàm <code>publish</code> mới được gọi lại, lần này với <code>dry_run=False</code>, để thực hiện hành động thực.</p>
+<p>Pattern này là nền tảng của việc triển khai agent có trách nhiệm, cung cấp sự minh bạch và khả năng kiểm soát cần thiết để vận hành AI an toàn trong môi trường production.</p>
+<h3>Definition</h3>
+<p>Một <strong>Observability and Dry-Run Harness</strong> là một kiến trúc kiểm thử và triển khai giúp đánh chặn các hành động của agent. Trước tiên, nó thực thi chúng ở chế độ "dry run" hoặc "hộp cát" (sandboxed) giúp mô phỏng hành động mà không gây ra tác động thực tế. Kế hoạch và các bản nhật ký kết quả sau đó được đưa ra để đánh giá, và chỉ sau khi có sự chấp thuận rõ ràng, hành động mới được thực thi trong môi trường thực.</p>
+<h3>High-level Workflow</h3>
+<ol>
+<li><strong>Agent Proposes Action:</strong> Agent xác định một kế hoạch hoặc một cuộc gọi công cụ (tool call) cụ thể để thực thi (ví dụ: <code>api.post_update(...)</code>).</li>
+<li><strong>Dry Run Execution:</strong> Cơ chế này gọi kế hoạch của agent với cờ <code>dry_run=True</code>. Các công cụ bên dưới được thiết kế để nhận diện cờ này và chỉ đưa ra những gì chúng <em>sẽ</em> làm, cùng với các bản nhật ký và dấu vết (traces).</li>
+<li><strong>Collect Observability Data:</strong> Cơ chế này thu thập hành động đề xuất, các bản nhật ký chạy thử và bất kỳ dữ liệu dấu vết liên quan nào khác từ mô phỏng.</li>
+<li><strong>Human/Automated Review:</strong> Dữ liệu quan sát này được trình bày cho người đánh giá. Con người có thể kiểm tra tính chính xác, an toàn và sự phù hợp với mục tiêu. Một hệ thống tự động có thể chạy các bài kiểm tra vi phạm chính sách hoặc các pattern xấu đã biết.</li>
+<li><strong>Go/No-Go Decision:</strong> Người đánh giá đưa ra quyết định <code>approve</code> (phê duyệt) hoặc <code>reject</code> (từ chối).</li>
+<li><strong>Live Execution (on 'Go'):</strong> Nếu được phê duyệt, cơ chế này thực thi lại hành động của agent, lần này với <code>dry_run=False</code>, gây ra tác động thực tế.</li>
+</ol>
+<h3>When to Use / Applications</h3>
+<ul>
+<li><strong>Gỡ lỗi và Kiểm thử:</strong> Trong quá trình phát triển, để hiểu chính xác cách một agent đang diễn giải một nhiệm vụ và những hành động nào nó đang thực hiện mà không gây ra tác dụng phụ.</li>
+<li><strong>Xác thực &amp; An toàn trong Production:</strong> Như một tính năng vĩnh viễn trong production cho bất kỳ agent nào có thể sửa đổi trạng thái, chi tiêu tiền, gửi thông tin liên lạc hoặc thực hiện bất kỳ hành động không thể đảo ngược nào khác.</li>
+<li><strong>CI/CD cho Agent:</strong> Tích hợp cơ chế chạy thử vào một pipeline kiểm thử tự động để xác thực hành vi của agent trước khi triển khai các phiên bản mới.</li>
+</ul>
+<h3>Strengths &amp; Weaknesses</h3>
+<ul>
+<li><strong>Strengths:</strong><ul>
+<li><strong>Tính minh bạch &amp; An toàn tối đa:</strong> Cung cấp bản xem trước rõ ràng, có thể kiểm tra được về các hành động của agent, ngăn chặn những sai lầm tốn kém hoặc gây bối rối.</li>
+<li><strong>Tuyệt vời cho việc gỡ lỗi:</strong> Giúp dễ dàng truy vết logic và các cuộc gọi công cụ của agent mà không phải hoàn tác các thay đổi thực tế.</li>
+</ul>
+</li>
+<li><strong>Weaknesses:</strong><ul>
+<li><strong>Làm chậm việc triển khai/thực thi:</strong> Bước đánh giá bắt buộc (đặc biệt nếu là con người) gây ra độ trễ, khiến nó không phù hợp cho các ứng dụng thời gian thực.</li>
+<li><strong>Yêu cầu sự hỗ trợ từ công cụ:</strong> Các công cụ và API mà agent sử dụng phải được thiết kế để hỗ trợ chế độ <code>dry_run</code>.</li>
+</ul>
+</li>
+</ul>
+<h2>Phase 0: Foundation &amp; Setup</h2>
+<p>Thiết lập tiêu chuẩn các thư viện và biến môi trường.</p>
+<pre><code class="language-python"># !pip install -q -U langchain-nebius langchain langgraph rich python-dotenv
+</code></pre>
+<pre><code class="language-python">import os
+import datetime
+from typing import List, Dict, Any, Optional
+from dotenv import load_dotenv
+
+# Pydantic for data modeling
+from pydantic import BaseModel, Field
+
+# LangChain components
+from langchain_nebius import ChatNebius
+from langchain_core.prompts import ChatPromptTemplate
+
+# LangGraph components
+from langgraph.graph import StateGraph, END
+from typing_extensions import TypedDict
+
+# For pretty printing
+from rich.console import Console
+from rich.markdown import Markdown
+from rich.panel import Panel
+
+# --- API Key and Tracing Setup ---
+load_dotenv()
+
+os.environ[&quot;LANGCHAIN_TRACING_V2&quot;] = &quot;true&quot;
+os.environ[&quot;LANGCHAIN_PROJECT&quot;] = &quot;Agentic Architecture - Dry-Run Harness (Nebius)&quot;
+
+required_vars = [&quot;NEBIUS_API_KEY&quot;, &quot;LANGCHAIN_API_KEY&quot;]
+for var in required_vars:
+    if var not in os.environ:
+        print(f&quot;Warning: Environment variable {var} not set.&quot;)
+
+print(&quot;Environment variables loaded and tracing is set up.&quot;)
+</code></pre>
+<h2>Phase 1: Building the Environment and Tools</h2>
+<p>Cốt lõi của kiến trúc này là một công cụ hỗ trợ chế độ <code>dry_run</code>. Chúng ta sẽ tạo một class <code>SocialMediaAPI</code> đơn giản. Phương thức <code>publish_post</code> của nó sẽ hành xử khác nhau tùy thuộc vào cờ <code>dry_run</code>, cung cấp khả năng quan sát mà chúng ta cần.</p>
+<pre><code class="language-python">console = Console()
+
+# Model có cấu trúc cho bài đăng đề xuất của agent
+class SocialMediaPost(BaseModel):
+    content: str = Field(description=&quot;The full text content of the social media post.&quot;)
+    hashtags: List[str] = Field(description=&quot;A list of relevant hashtags, without the '#'.&quot;)
+
+# Thành phần mấu chốt: Một công cụ với cờ dry_run
+class SocialMediaAPI:
+    &quot;&quot;&quot;Một API mạng xã hội giả lập hỗ trợ chế độ dry-run.&quot;&quot;&quot;
+
+    def publish_post(self, post: SocialMediaPost, dry_run: bool = True) -&gt; Dict[str, Any]:
+        &quot;&quot;&quot;Xuất bản một bài đăng lên bảng tin mạng xã hội.&quot;&quot;&quot;
+        timestamp = datetime.datetime.now().isoformat()
+        hashtags_str = ' '.join([f'#{h}' for h in post.hashtags])
+        full_post_text = f&quot;{post.content}\n\n{hashtags_str}&quot;
+
+        if dry_run:
+            # Trong chế độ dry-run, chúng ta không thực thi, chúng ta chỉ trả về kế hoạch và logs
+            log_message = f&quot;[DRY RUN] At {timestamp}, would publish the following post:\n--- PREVIEW ---\n{full_post_text}\n--- END PREVIEW ---&quot;
+            console.print(Panel(log_message, title=&quot;[yellow]Dry Run Log[/yellow]&quot;, border_style=&quot;yellow&quot;))
+            return {&quot;status&quot;: &quot;DRY_RUN_SUCCESS&quot;, &quot;log&quot;: log_message, &quot;proposed_post&quot;: full_post_text}
+        else:
+            # Trong chế độ live, chúng ta thực thi hành động
+            log_message = f&quot;[LIVE] At {timestamp}, successfully published post!&quot;
+            console.print(Panel(log_message, title=&quot;[green]Live Execution Log[/green]&quot;, border_style=&quot;green&quot;))
+            # Tại đây bạn sẽ thực hiện cuộc gọi API thực tế, ví dụ: twitter_client.create_tweet(...)
+            return {&quot;status&quot;: &quot;LIVE_SUCCESS&quot;, &quot;log&quot;: log_message, &quot;post_id&quot;: f&quot;post_{hash(full_post_text)}&quot;}
+
+social_media_tool = SocialMediaAPI()
+print(&quot;Dry-run capable SocialMediaAPI tool defined successfully.&quot;)
+</code></pre>
+<h2>Phase 2: Building the Dry-Run Harness with LangGraph</h2>
+<p>Bây giờ chúng ta sẽ xây dựng toàn bộ workflow. Graph sẽ quản lý trạng thái của quy trình, chuyển từ việc đề xuất một hành động, đến bước chạy thử và đánh giá, và cuối cùng là thực thi có điều kiện dựa trên sự phê duyệt của con người.</p>
+<pre><code class="language-python">llm = ChatNebius(model=&quot;mistralai/Mixtral-8x22B-Instruct-v0.1&quot;, temperature=0.5)
+
+# LangGraph State
+class AgentState(TypedDict):
+    user_request: str
+    proposed_post: Optional[SocialMediaPost]
+    dry_run_log: Optional[str]
+    review_decision: Optional[str] # 'approve' hoặc 'reject'
+    final_status: str
+
+# Graph Nodes
+def propose_post_node(state: AgentState) -&gt; Dict[str, Any]:
+    &quot;&quot;&quot;Agent sáng tạo thực hiện soạn thảo bài đăng mạng xã hội.&quot;&quot;&quot;
+    console.print(&quot;--- 📝 Social Media Agent Drafting Post ---&quot;)
+    prompt = ChatPromptTemplate.from_template(
+        &quot;You are a creative and engaging social media manager for a major AI company. Based on the user's request, draft a compelling social media post, including relevant hashtags.\n\nRequest: {request}&quot;
+    )
+    post_generator_llm = llm.with_structured_output(SocialMediaPost)
+    chain = prompt | post_generator_llm
+    proposed_post = chain.invoke({&quot;request&quot;: state['user_request']})
+    return {&quot;proposed_post&quot;: proposed_post}
+
+def dry_run_review_node(state: AgentState) -&gt; Dict[str, Any]:
+    &quot;&quot;&quot;Thực hiện chạy thử và yêu cầu con người đánh giá.&quot;&quot;&quot;
+    console.print(&quot;--- 🧐 Performing Dry Run &amp; Awaiting Human Review ---&quot;)
+    dry_run_result = social_media_tool.publish_post(state['proposed_post'], dry_run=True)
+
+    # Trình bày kế hoạch để đánh giá
+    review_panel = Panel(
+        f&quot;[bold]Proposed Post:[/bold]\n{dry_run_result['proposed_post']}&quot;,
+        title=&quot;[bold yellow]Human-in-the-Loop: Review Required[/bold yellow]&quot;,
+        border_style=&quot;yellow&quot;
+    )
+    console.print(review_panel)
+
+    # Lấy phê duyệt từ con người
+    decision = &quot;&quot;
+    while decision.lower() not in [&quot;approve&quot;, &quot;reject&quot;]:
+        decision = console.input(&quot;Type 'approve' to publish or 'reject' to cancel: &quot;)
+
+    return {&quot;dry_run_log&quot;: dry_run_result['log'], &quot;review_decision&quot;: decision.lower()}
+
+def execute_live_post_node(state: AgentState) -&gt; Dict[str, Any]:
+    &quot;&quot;&quot;Thực thi bài đăng live sau khi được phê duyệt.&quot;&quot;&quot;
+    console.print(&quot;--- ✅ Post Approved, Executing Live ---&quot;)
+    live_result = social_media_tool.publish_post(state['proposed_post'], dry_run=False)
+    return {&quot;final_status&quot;: f&quot;Post successfully published! ID: {live_result.get('post_id')}&quot;}
+
+def post_rejected_node(state: AgentState) -&gt; Dict[str, Any]:
+    &quot;&quot;&quot;Xử lý trường hợp bài đăng bị từ chối.&quot;&quot;&quot;
+    console.print(&quot;--- ❌ Post Rejected by Human Reviewer ---&quot;)
+    return {&quot;final_status&quot;: &quot;Action was rejected by the reviewer and not executed.&quot;}
+
+# Conditional Edge
+def route_after_review(state: AgentState) -&gt; str:
+    &quot;&quot;&quot;Định tuyến tới thực thi hoặc từ chối dựa trên đánh giá của con người.&quot;&quot;&quot;
+    return &quot;execute_live&quot; if state[&quot;review_decision&quot;] == &quot;approve&quot; else &quot;reject&quot;
+
+# Xây dựng graph
+workflow = StateGraph(AgentState)
+workflow.add_node(&quot;propose_post&quot;, propose_post_node)
+workflow.add_node(&quot;dry_run_review&quot;, dry_run_review_node)
+workflow.add_node(&quot;execute_live&quot;, execute_live_post_node)
+workflow.add_node(&quot;reject&quot;, post_rejected_node)
+
+workflow.set_entry_point(&quot;propose_post&quot;)
+workflow.add_edge(&quot;propose_post&quot;, &quot;dry_run_review&quot;)
+workflow.add_conditional_edges(&quot;dry_run_review&quot;, route_after_review, {&quot;execute_live&quot;: &quot;execute_live&quot;, &quot;reject&quot;: &quot;reject&quot;})
+workflow.add_edge(&quot;execute_live&quot;, END)
+workflow.add_edge(&quot;reject&quot;, END)
+
+dry_run_agent = workflow.compile()
+print(&quot;Dry-Run Harness agent graph compiled successfully.&quot;)
+</code></pre>
+<h2>Phase 3: Demonstration</h2>
+<p>Hãy kiểm tra toàn bộ hệ thống. Đầu tiên, với một yêu cầu an toàn, tiêu chuẩn mà chúng ta sẽ phê duyệt. Thứ hai, với một yêu cầu mơ hồ hơn có thể tạo ra một bài đăng rủi ro, mà chúng ta sẽ từ chối.</p>
+<pre><code class="language-python">def run_agent_with_harness(request: str):
+    initial_state = {&quot;user_request&quot;: request}
+    # Lưu ý: Bạn sẽ được yêu cầu nhập vào console bên dưới cell.
+    result = dry_run_agent.invoke(initial_state)
+    console.print(f&quot;\n[bold]Final Status:[/bold] {result['final_status']}&quot;)
+
+# Test 1: Một bài đăng an toàn mà chúng ta sẽ phê duyệt.
+console.print(&quot;--- ✅ Test 1: Safe Post (Approve) ---&quot;)
+run_agent_with_harness(&quot;Draft a positive launch announcement for our new AI model, 'Nebula'.&quot;)
+
+# Test 2: Một bài đăng rủi ro mà chúng ta sẽ từ chối.
+console.print(&quot;\n--- ❌ Test 2: Risky Post (Reject) ---&quot;)
+run_agent_with_harness(&quot;Draft a post that emphasizes how much better our new 'Nebula' model is than the competition.&quot;)
+</code></pre>
+<h3>Analysis of the Results</h3>
+<p>Phần trình diễn là một minh chứng hoàn hảo cho giá trị của cơ chế này:</p>
+<ol>
+<li>
+<p><strong>Bài đăng an toàn:</strong> Yêu cầu đầu tiên rất rõ ràng. Agent đã tạo ra một bài đăng chuyên nghiệp và nhiệt huyết. Chạy thử đã cho xem trước chính xác những gì sẽ được xuất bản. Chúng ta đã phê duyệt nó, và nhật ký <code>[LIVE]</code> xác nhận rằng hành động thực tế đã được thực hiện. Quy trình hoạt động đúng như mong đợi.</p>
+</li>
+<li>
+<p><strong>Bài đăng rủi ro:</strong> Yêu cầu thứ hai mơ hồ hơn và có thể được diễn giải một cách quyết liệt. Agent, được yêu cầu nhấn mạnh sự vượt trội, đã soạn thảo một bài đăng mang tính kiêu ngạo và thiếu chuyên nghiệp (<code>làm cho tất cả các đối thủ của chúng ta trở nên lỗi thời</code>). Mặc dù agent đã đáp ứng được câu lệnh sáng tạo của nó, nhưng đây không phải là thông điệp mà một công ty thực thụ muốn xuất bản.</p>
+</li>
+</ol>
+<p>Đây là lúc cơ chế chạy thử chứng minh giá trị của mình. Việc chạy thử đã phơi bày nội dung rủi ro này <em>trước khi</em> nó có thể được xuất bản. Người đánh giá là con người đã dễ dàng xác định giọng điệu không phù hợp và nhập <code>reject</code>. Graph đã định tuyến chính xác tới <code>post_rejected_node</code>, và trạng thái cuối cùng xác nhận rằng <strong>không có hành động live nào được thực hiện.</strong> Một cuộc khủng hoảng PR tiềm tàng đã được ngăn chặn bằng một workflow đơn giản, có cấu trúc.</p>
+<p>Điều này phân tách rõ ràng việc tạo ra nội dung sáng tạo nhưng khó đoán của agent với việc thực thi có kiểm soát, mang tính định hình, cung cấp một lớp an toàn quan trọng.</p>
+<h2>Conclusion</h2>
+<p>Trong notebook này, chúng ta đã xây dựng một <strong>Observability and Dry-Run Harness</strong> hoàn chỉnh. Kiến trúc này không chỉ là một tính năng mà là một triết lý nền tảng để triển khai các agent tương tác với thế giới thực. Bằng cách thực thi chu kỳ <code>propose -&gt; review -&gt; execute</code> (đề xuất -&gt; đánh giá -&gt; thực thi), chúng ta đạt được những lợi ích then chốt:</p>
+<ul>
+<li><strong>Sự minh bạch:</strong> Chúng ta biết chính xác những gì agent định làm trước khi nó thực hiện.</li>
+<li><strong>Khả năng kiểm soát:</strong> Chúng ta có con người tham gia (hoặc một công cụ quy tắc tự động) với quyền phủ quyết tối cao đối với bất kỳ hành động nào.</li>
+<li><strong>An toàn:</strong> Chúng ta ngăn chặn các hành động không mong muốn, tốn kém hoặc có hại, chuyển từ việc thực thi một cách đầy hy vọng sang triển khai một cách đầy tự tin.</li>
+</ul>
+<p>Mặc dù pattern này gây ra độ trễ, nhưng sự an toàn và độ tin cậy mà nó cung cấp là không thể thương lượng đối với hầu hết các ứng dụng thực tế. Nó là một công cụ thiết yếu cho bất kỳ nhà phát triển nào muốn xây dựng các hệ thống agentic mạnh mẽ, đáng tin cậy và sẵn sàng cho môi trường production.</p>
+</body>
+</html>

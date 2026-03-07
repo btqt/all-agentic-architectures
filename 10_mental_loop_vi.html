@@ -1,0 +1,321 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>10_Mental_Loop</title>
+    <style>
+        body { font-family: system-ui, -apple-system, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; color: #333; }
+        pre { background: #f4f4f4; padding: 15px; border-radius: 5px; overflow-x: auto; }
+        code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; font-family: monospace; }
+        a { color: #007bff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        img { max-width: 100%; height: auto; }
+    </style>
+</head>
+<body>
+<h1>📘 Agentic Architectures 10: Simulator / Mental-Model-in-the-Loop</h1>
+<p>Chào mừng bạn đến với notebook thứ mười trong loạt bài của chúng ta. Hôm nay, chúng ta khám phá một kiến trúc tinh vi được thiết kế cho sự an toàn và ra quyết định mạnh mẽ trong các môi trường có rủi ro cao: <strong>Simulator</strong>, còn được gọi là <strong>Mental-Model-in-the-Loop</strong>.</p>
+<p>Ý tưởng cốt lõi là cung cấp cho agent khả năng "suy nghĩ trước khi hành động" theo một cách rất cụ thể. Thay vì thực hiện một hành động trong thế giới thực ngay lập tức, trước hết agent sẽ kiểm tra hành động dự kiến của mình trong một phiên bản mô phỏng nội bộ của môi trường. Bằng cách quan sát các hệ quả có khả năng xảy ra trong "hộp cát" (sandbox) an toàn này, nó có thể đánh giá rủi ro, tinh chỉnh chiến lược của mình và chỉ sau đó mới thực thi một hành động đã được cân nhắc kỹ lưỡng hơn trong thực tế.</p>
+<p>Chúng ta sẽ xây dựng một <strong>stock trading agent</strong> đơn giản để chứng minh điều này. "Thế giới thực" sẽ là một market simulator tiến triển từng bước một. Trước khi thực hiện một giao dịch, agent của chúng ta sẽ:
+1. Đề xuất một chiến lược chung (ví dụ: "mua quyết đoán").
+2. Chạy chiến lược đó qua một phiên bản <em>fork</em> (tách nhánh) của market simulator cho nhiều bước trong tương lai để xem các kết quả tiềm năng.
+3. Phân tích kết quả mô phỏng để đánh giá rủi ro và lợi nhuận.
+4. Đưa ra quyết định cuối cùng, đã được tinh chỉnh (ví dụ: "Mô phỏng cho thấy độ biến động cao; hãy mua một lượng nhỏ hơn.").
+5. Thực thi giao dịch đã tinh chỉnh đó trong thị trường thực.</p>
+<p>Pattern này là cực kỳ quan trọng để chuyển đổi các agent từ các nhiệm vụ thông tin sang thực hiện các hành động trong thế giới thực, nơi những sai lầm có thể gây ra hậu quả thực tế.</p>
+<h3>Definition</h3>
+<p>Một kiến trúc <strong>Simulator</strong> hoặc <strong>Mental-Model-in-the-Loop</strong> bao gồm một agent sử dụng một mô hình nội bộ về môi trường của nó để mô phỏng các kết quả của các hành động tiềm năng trước khi thực thi bất kỳ hành động nào trong số đó. Điều này cho phép agent thực hiện phân tích 'what-if' (điều gì xảy ra nếu), dự đoán các hệ quả và tinh chỉnh kế hoạch của mình để đảm bảo an toàn và hiệu quả.</p>
+<h3>High-level Workflow</h3>
+<ol>
+<li><strong>Observe (Quan sát):</strong> Agent quan sát trạng thái hiện tại của môi trường thực.</li>
+<li><strong>Propose Action (Đề xuất hành động):</strong> Dựa trên các mục tiêu và trạng thái hiện tại, module lập kế hoạch của agent tạo ra một hành động hoặc chiến lược đề xuất ở mức độ cao.</li>
+<li><strong>Simulate (Mô phỏng):</strong> Agent tách (fork) trạng thái hiện tại của môi trường vào một mô phỏng trong hộp cát. Nó áp dụng hành động đề xuất và chạy mô phỏng về phía trước để quan sát một loạt các kết quả có thể xảy ra.</li>
+<li><strong>Assess &amp; Refine (Đánh giá &amp; Tinh chỉnh):</strong> Agent phân tích kết quả từ mô phỏng. Hành động đó có dẫn đến kết quả mong muốn không? Có những hệ quả tiêu cực không lường trước được không? Dựa trên đánh giá này, nó tinh chỉnh đề xuất ban đầu thành một hành động cụ thể, cuối cùng.</li>
+<li><strong>Execute (Thực thi):</strong> Agent thực thi hành động cuối cùng, đã tinh chỉnh trong môi trường <em>thực</em>.</li>
+<li><strong>Repeat (Lặp lại):</strong> Vòng lặp bắt đầu lại từ trạng thái mới của môi trường thực.</li>
+</ol>
+<h3>When to Use / Applications</h3>
+<ul>
+<li><strong>Robotics:</strong> Mô phỏng một thao tác cầm nắm hoặc một con đường trước khi di chuyển một cánh tay vật lý để tránh va chạm hoặc hư hỏng.</li>
+<li><strong>Ra quyết định rủi ro cao:</strong> Trong tài chính, mô phỏng tác động của một giao dịch đối với danh mục đầu tư dưới các điều kiện thị trường khác nhau. Trong y tế, mô phỏng tác động tiềm năng của một kế hoạch điều trị.</li>
+<li><strong>AI trong trò chơi phức tạp:</strong> Một AI trong một trò chơi chiến thuật mô phỏng vài bước đi trước để chọn ra bước đi tối ưu.</li>
+</ul>
+<h3>Strengths &amp; Weaknesses</h3>
+<ul>
+<li><strong>Strengths:</strong><ul>
+<li><strong>An toàn &amp; Giảm thiểu rủi ro:</strong> Giảm đáng kể khả năng xảy ra các sai lầm có hại hoặc tốn kém bằng cách kiểm tra các hành động trong một môi trường an toàn trước.</li>
+<li><strong>Cải thiện hiệu năng:</strong> Dẫn đến các quyết định mạnh mẽ và được cân nhắc kỹ lưỡng hơn bằng cách cho phép nhìn xa và lập kế hoạch.</li>
+</ul>
+</li>
+<li><strong>Weaknesses:</strong><ul>
+<li><strong>Khoảng cách Mô phỏng-Thực tế (Simulation-Reality Gap):</strong> Hiệu quả phụ thuộc hoàn toàn vào độ trung thực của simulator. Nếu mô hình thế giới không chính xác, các kế hoạch của agent có thể dựa trên các giả định sai lầm.</li>
+<li><strong>Chi phí tính toán:</strong> Việc chạy các mô phỏng, đặc biệt là nhiều kịch bản, rất tốn kém tài nguyên tính toán và chậm hơn so với việc hành động trực tiếp.</li>
+</ul>
+</li>
+</ul>
+<h2>Phase 0: Foundation &amp; Setup</h2>
+<p>Chúng ta sẽ cài đặt các thư viện và thiết lập môi trường.</p>
+<pre><code class="language-python"># !pip install -q -U langchain-nebius langchain langgraph rich python-dotenv numpy
+</code></pre>
+<pre><code class="language-python">import os
+import random
+import numpy as np
+from typing import List, Dict, Any, Optional
+from dotenv import load_dotenv
+
+# Pydantic for data modeling
+from pydantic import BaseModel, Field
+
+# LangChain components
+from langchain_nebius import ChatNebius
+from langchain_core.prompts import ChatPromptTemplate
+
+# LangGraph components
+from langgraph.graph import StateGraph, END
+from typing_extensions import TypedDict
+
+# For pretty printing
+from rich.console import Console
+from rich.markdown import Markdown
+from rich.table import Table
+
+# --- API Key and Tracing Setup ---
+load_dotenv()
+
+os.environ[&quot;LANGCHAIN_TRACING_V2&quot;] = &quot;true&quot;
+os.environ[&quot;LANGCHAIN_PROJECT&quot;] = &quot;Agentic Architecture - Simulator (Nebius)&quot;
+
+required_vars = [&quot;NEBIUS_API_KEY&quot;, &quot;LANGCHAIN_API_KEY&quot;]
+for var in required_vars:
+    if var not in os.environ:
+        print(f&quot;Warning: Environment variable {var} not set.&quot;)
+
+print(&quot;Environment variables loaded and tracing is set up.&quot;)
+</code></pre>
+<h2>Phase 1: Building the Simulator Environment</h2>
+<p>Đầu tiên, chúng ta cần tạo ra "thế giới" mà agent sẽ tương tác. Chúng ta sẽ xây dựng một class <code>MarketSimulator</code> quản lý trạng thái của một cổ phiếu, một danh mục đầu tư và bao gồm một hàm <code>step</code> để tiến triển thời gian. Đây sẽ đóng vai trò là cả "thế giới thực" và hộp cát cho các mô phỏng của agent.</p>
+<pre><code class="language-python">console = Console()
+
+class Portfolio(BaseModel):
+    cash: float = 10000.0
+    shares: int = 0
+
+    def value(self, current_price: float) -&gt; float:
+        return self.cash + self.shares * current_price
+
+class MarketSimulator(BaseModel):
+    &quot;&quot;&quot;Một mô phỏng đơn giản về thị trường chứng khoán cho một tài sản.&quot;&quot;&quot;
+    day: int = 0
+    price: float = 100.0
+    volatility: float = 0.1 # Độ lệch chuẩn cho thay đổi giá
+    drift: float = 0.01 # Xu hướng chung
+    market_news: str = &quot;Market is stable.&quot;
+    portfolio: Portfolio = Field(default_factory=Portfolio)
+
+    def step(self, action: str, amount: float = 0.0):
+        &quot;&quot;&quot;Tiến triển mô phỏng thêm một ngày, thực hiện giao dịch trước.&quot;&quot;&quot;
+        # 1. Thực thi giao dịch
+        if action == &quot;buy&quot;: # amount là số lượng cổ phiếu
+            shares_to_buy = int(amount)
+            cost = shares_to_buy * self.price
+            if self.portfolio.cash &gt;= cost:
+                self.portfolio.shares += shares_to_buy
+                self.portfolio.cash -= cost
+        elif action == &quot;sell&quot;: # amount là số lượng cổ phiếu
+            shares_to_sell = int(amount)
+            if self.portfolio.shares &gt;= shares_to_sell:
+                self.portfolio.shares -= shares_to_sell
+                self.portfolio.cash += shares_to_sell * self.price
+
+        # 2. Cập nhật giá thị trường (Geometric Brownian Motion)
+        daily_return = np.random.normal(self.drift, self.volatility)
+        self.price *= (1 + daily_return)
+
+        # 3. Tiến triển thời gian
+        self.day += 1
+
+        # 4. Có khả năng cập nhật tin tức
+        if random.random() &lt; 0.1: # 10% cơ hội có tin tức mới
+            self.market_news = random.choice([&quot;Positive earnings report expected.&quot;, &quot;New competitor enters the market.&quot;, &quot;Macroeconomic outlook is strong.&quot;, &quot;Regulatory concerns are growing.&quot;])
+            # Tin tức ảnh hưởng đến drift
+            if &quot;Positive&quot; in self.market_news or &quot;strong&quot; in self.market_news:
+                self.drift = 0.05
+            else:
+                self.drift = -0.05
+        else:
+             self.drift = 0.01 # Trở lại drift bình thường
+
+    def get_state_string(self) -&gt; str:
+        return f&quot;Day {self.day}: Price=${self.price:.2f}, News: {self.market_news}\nPortfolio: ${self.portfolio.value(self.price):.2f} ({self.portfolio.shares} shares, ${self.portfolio.cash:.2f} cash)&quot;
+
+print(&quot;Market simulator environment defined successfully.&quot;)
+</code></pre>
+<h2>Phase 2: Building the Simulator Agent</h2>
+<p>Bây giờ chúng ta sẽ dùng LangGraph để điều phối workflow <code>Observe -&gt; Propose -&gt; Simulate -&gt; Refine -&gt; Execute</code>. Chúng ta sẽ định nghĩa các Pydantic models cho kết quả đầu ra của LLM để đảm bảo giao tiếp có cấu trúc giữa các bước.</p>
+<pre><code class="language-python">llm = ChatNebius(model=&quot;mistralai/Mixtral-8x22B-Instruct-v0.1&quot;, temperature=0.4)
+
+# Pydantic models cho structured LLM outputs
+class ProposedAction(BaseModel):
+    &quot;&quot;&quot;Chiến lược cấp cao được đề xuất bởi nhà phân tích.&quot;&quot;&quot; 
+    strategy: str = Field(description=&quot;A high-level trading strategy, e.g., 'buy aggressively', 'sell cautiously', 'hold'.&quot;)
+    reasoning: str = Field(description=&quot;Brief reasoning for the proposed strategy.&quot;)
+
+class FinalDecision(BaseModel):
+    &quot;&quot;&quot;Hành động cụ thể, cuối cùng được thực thi.&quot;&quot;&quot;
+    action: str = Field(description=&quot;The final action to take: 'buy', 'sell', or 'hold'.&quot;)
+    amount: float = Field(description=&quot;The number of shares to buy or sell. Should be 0 if holding.&quot;)
+    reasoning: str = Field(description=&quot;Final reasoning, referencing the simulation results.&quot;)
+
+# LangGraph State
+class AgentState(TypedDict):
+    real_market: MarketSimulator
+    proposed_action: Optional[ProposedAction]
+    simulation_results: Optional[List[Dict]]
+    final_decision: Optional[FinalDecision]
+
+# Graph Nodes
+def propose_action_node(state: AgentState) -&gt; Dict[str, Any]:
+    &quot;&quot;&quot;Quan sát thị trường và đề xuất một chiến lược cấp cao.&quot;&quot;&quot;
+    console.print(&quot;--- 🧐 Analyst Proposing Action ---&quot;)
+    prompt = ChatPromptTemplate.from_template(
+        &quot;You are a sharp financial analyst. Based on the current market state, propose a trading strategy.\n\nMarket State:\n{market_state}&quot;
+    )
+    proposer_llm = llm.with_structured_output(ProposedAction)
+    chain = prompt | proposer_llm
+    proposal = chain.invoke({&quot;market_state&quot;: state['real_market'].get_state_string()})
+    console.print(f&quot;[yellow]Proposal:[/yellow] {proposal.strategy}. [italic]Reason: {proposal.reasoning}[/italic]&quot;)
+    return {&quot;proposed_action&quot;: proposal}
+
+def run_simulation_node(state: AgentState) -&gt; Dict[str, Any]:
+    &quot;&quot;&quot;Chạy chiến lược đề xuất trong một mô phỏng hộp cát.&quot;&quot;&quot;
+    console.print(&quot;--- 🤖 Running Simulations ---&quot;)
+    strategy = state['proposed_action'].strategy
+    num_simulations = 5
+    simulation_horizon = 10 # ngày
+    results = []
+
+    for i in range(num_simulations):
+        # QUAN TRỌNG: Tạo một bản copy sâu để không ảnh hưởng đến trạng thái thị trường thực
+        simulated_market = state['real_market'].model_copy(deep=True)
+        initial_value = simulated_market.portfolio.value(simulated_market.price)
+
+        # Chuyển đổi chiến lược thành một hành động cụ thể cho mô phỏng
+        if &quot;buy&quot; in strategy:
+            action = &quot;buy&quot;
+            # Quyết đoán = 25% tiền mặt, Thận trọng = 10%
+            amount = (simulated_market.portfolio.cash * (0.25 if &quot;aggressively&quot; in strategy else 0.1)) / simulated_market.price
+        elif &quot;sell&quot; in strategy:
+            action = &quot;sell&quot;
+            # Quyết đoán = 25% số lượng cổ phiếu, Thận trọng = 10%
+            amount = simulated_market.portfolio.shares * (0.25 if &quot;aggressively&quot; in strategy else 0.1)
+        else:
+            action = &quot;hold&quot;
+            amount = 0
+
+        # Chạy mô phỏng về phía trước
+        simulated_market.step(action, amount)
+        for _ in range(simulation_horizon - 1):
+            simulated_market.step(&quot;hold&quot;) # Chỉ giữ sau hành động ban đầu
+
+        final_value = simulated_market.portfolio.value(simulated_market.price)
+        results.append({&quot;sim_num&quot;: i+1, &quot;initial_value&quot;: initial_value, &quot;final_value&quot;: final_value, &quot;return_pct&quot;: (final_value - initial_value) / initial_value * 100})
+
+    console.print(&quot;[cyan]Simulation complete. Results will be passed to the risk manager.[/cyan]&quot;)
+    return {&quot;simulation_results&quot;: results}
+
+def refine_and_decide_node(state: AgentState) -&gt; Dict[str, Any]:
+    &quot;&quot;&quot;Phân tích kết quả mô phỏng và đưa ra quyết định cuối cùng, đã được tinh chỉnh.&quot;&quot;&quot;
+    console.print(&quot;--- 🧠 Risk Manager Refining Decision ---&quot;)
+    results_summary = &quot;\n&quot;.join([f&quot;Sim {r['sim_num']}: Initial=${r['initial_value']:.2f}, Final=${r['final_value']:.2f}, Return={r['return_pct']:.2f}%&quot; for r in state['simulation_results']])
+
+    prompt = ChatPromptTemplate.from_template(
+        &quot;You are a cautious risk manager. Your analyst proposed a strategy. You have run simulations to test it. Based on the potential outcomes, make a final, concrete decision. If results are highly variable or negative, reduce risk (e.g., buy/sell fewer shares, or hold).\n\nInitial Proposal: {proposal}\n\nSimulation Results:\n{results}\n\nReal Market State:\n{market_state}&quot;
+    )
+    decider_llm = llm.with_structured_output(FinalDecision)
+    chain = prompt | decider_llm
+    final_decision = chain.invoke({
+        &quot;proposal&quot;: state['proposed_action'].strategy,
+        &quot;results&quot;: results_summary,
+        &quot;market_state&quot;: state['real_market'].get_state_string()
+    })
+    console.print(f&quot;[green]Final Decision:[/green] {final_decision.action} {final_decision.amount:.0f} shares. [italic]Reason: {final_decision.reasoning}[/italic]&quot;)
+    return {&quot;final_decision&quot;: final_decision}
+
+def execute_in_real_world_node(state: AgentState) -&gt; Dict[str, Any]:
+    &quot;&quot;&quot;Thực thi quyết định cuối cùng trong môi trường thị trường thực.&quot;&quot;&quot;
+    console.print(&quot;--- 🚀 Executing in Real World ---&quot;)
+    decision = state['final_decision']
+    real_market = state['real_market']
+    real_market.step(decision.action, decision.amount)
+    console.print(f&quot;[bold]Execution complete. New market state:[/bold]\n{real_market.get_state_string()}&quot;)
+    return {&quot;real_market&quot;: real_market}
+
+# Xây dựng graph
+workflow = StateGraph(AgentState)
+workflow.add_node(&quot;propose&quot;, propose_action_node)
+workflow.add_node(&quot;simulate&quot;, run_simulation_node)
+workflow.add_node(&quot;refine&quot;, refine_and_decide_node)
+workflow.add_node(&quot;execute&quot;, execute_in_real_world_node)
+
+workflow.set_entry_point(&quot;propose&quot;)
+workflow.add_edge(&quot;propose&quot;, &quot;simulate&quot;)
+workflow.add_edge(&quot;simulate&quot;, &quot;refine&quot;)
+workflow.add_edge(&quot;refine&quot;, &quot;execute&quot;)
+workflow.add_edge(&quot;execute&quot;, END)
+
+simulator_agent = workflow.compile()
+print(&quot;Simulator-in-the-loop agent graph compiled successfully.&quot;)
+</code></pre>
+<h2>Phase 3: Demonstration</h2>
+<p>Hãy để agent của chúng ta chạy vài ngày trên thị trường. Chúng ta sẽ bắt đầu với một số tin tốt và xem nó phản ứng thế nào, sau đó đưa vào một số tin xấu.</p>
+<pre><code class="language-python">real_market = MarketSimulator()
+console.print(&quot;--- Initial Market State ---&quot;)
+console.print(real_market.get_state_string())
+
+# --- Chạy Ngày 1 ---
+console.print(&quot;\n--- Day 1: Good News Hits! ---&quot;)
+real_market.market_news = &quot;Positive earnings report expected.&quot;
+real_market.drift = 0.05
+initial_state = {&quot;real_market&quot;: real_market}
+final_state = simulator_agent.invoke(initial_state)
+real_market = final_state['real_market']
+
+# --- Chạy Ngày 2 ---
+console.print(&quot;\n--- Day 2: Bad News Hits! ---&quot;)
+real_market.market_news = &quot;New competitor enters the market.&quot;
+real_market.drift = -0.05
+initial_state = {&quot;real_market&quot;: real_market}
+final_state = simulator_agent.invoke(initial_state)
+real_market = final_state['real_market']
+</code></pre>
+<h3>Analysis of the Results</h3>
+<p>Hành vi của agent chứng minh giá trị của vòng lặp mô phỏng:</p>
+<ul>
+<li>
+<p><strong>Vào Ngày 1 (Tin tốt):</strong></p>
+<ul>
+<li><em>Analyst</em> đề xuất mua quyết đoán khi nhận thấy cơ hội.</li>
+<li><em>Simulator</em> xác nhận khả năng cao có kết quả tích cực.</li>
+<li><em>Risk Manager</em> chuyển chiến lược mua quyết đoán thành một giao dịch mua cụ thể, số lượng lớn (20 cổ phiếu) nhưng không mạo hiểm toàn bộ số dư tiền mặt.</li>
+</ul>
+</li>
+<li>
+<p><strong>Vào Ngày 2 (Tin xấu):</strong></p>
+<ul>
+<li><em>Analyst</em> xác định chính xác rủi ro mới và đề xuất bán thận trọng.</li>
+<li><em>Simulator</em> có khả năng đưa ra một loạt kết quả hỗn hợp, với một số kịch bản cho thấy sự sụt giảm mạnh và một số khác là sự phục hồi, xác nhận sự không chắc chắn.</li>
+<li><em>Risk Manager</em>, nhận thấy sự biến động và tỷ lệ sinh lời trung bình âm trong các mô phỏng, đã đưa ra quyết định thận trọng là giảm vị thế (bán 5 cổ phiếu) thay vì bán tháo toàn bộ trong hoảng loạn. Đây là một hành động sắc sảo hơn nhiều so với những gì một agent đơn giản dựa trên quy tắc có thể thực hiện.</li>
+</ul>
+</li>
+</ul>
+<p>Một agent đơn giản không có vòng lặp mô phỏng có thể đã mua quá nhiều vào ngày 1 và sau đó bán hết sạch vào ngày 2, làm tăng chi phí giao dịch và có khả năng bỏ lỡ cơ hội phục hồi. Agent mô phỏng của chúng ta hành động giống như một nhà giao dịch thực tế, thực hiện một vụ đặt cược theo xác suất và sau đó phòng vệ cho vụ đặt cược đó khi thông tin mới thay đổi hồ sơ rủi ro.</p>
+<h2>Conclusion</h2>
+<p>Trong notebook này, chúng ta đã xây dựng một kiến trúc agent mạnh mẽ sử dụng một <strong>simulator</strong> nội bộ để kiểm tra và tinh chỉnh các hành động trước khi thực hiện chúng. Bằng cách tạo ra một vòng lặp <code>Propose -&gt; Simulate -&gt; Refine -&gt; Execute</code>, chúng ta cho phép agent của mình thực hiện phân tích rủi ro tinh vi và đưa ra các quyết định sắc sảo, an toàn hơn trong một môi trường năng động.</p>
+<p>Pattern này là nền tảng để xây dựng các agent có thể hoạt động an toàn và hiệu quả trong thế giới thực. Khả năng thực hiện phân tích 'what-if' trên một "mô hình trí tuệ" (mental model) nội bộ cho phép agent dự đoán các hệ quả, tránh các sai lầm tốn kém và phát triển các chiến lược mạnh mẽ hơn. Mặc dù độ trung thực của simulator là một yếu điểm quan trọng ("khoảng cách mô phỏng-thực tế"), kiến trúc này cung cấp một framework rõ ràng và có thể mở rộng để xây dựng các AI có trách nhiệm và có khả năng hành động.</p>
+</body>
+</html>

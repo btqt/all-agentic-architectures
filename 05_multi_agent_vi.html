@@ -1,0 +1,312 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>05_Multi_Agent</title>
+    <style>
+        body { font-family: system-ui, -apple-system, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; color: #333; }
+        pre { background: #f4f4f4; padding: 15px; border-radius: 5px; overflow-x: auto; }
+        code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; font-family: monospace; }
+        a { color: #007bff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        img { max-width: 100%; height: auto; }
+    </style>
+</head>
+<body>
+<h1>📘 Agentic Architectures 5: Multi-Agent Systems</h1>
+<p>Trong notebook này, chúng ta tiến tới một trong những kiến trúc mạnh mẽ và linh hoạt nhất: <strong>Multi-Agent System</strong>. Pattern này vượt qua khái niệm về một agent đơn lẻ, bất kể nó phức tạp đến đâu, và thay vào đó mô hình hóa một nhóm gồm các specialized agents cộng tác với nhau để giải quyết một vấn đề. Mỗi agent có một vai trò, persona và bộ kỹ năng riêng biệt, mô phỏng cách làm việc của các nhóm chuyên gia con người.</p>
+<p>Cách tiếp cận này cho phép thực hiện "phân công lao động" (division of labor) một cách sâu sắc, nơi các vấn đề phức tạp được chia nhỏ thành các nhiệm vụ phụ và giao cho agent phù hợp nhất với công việc đó. Để giới thiệu sức mạnh của nó, chúng ta sẽ thực hiện một so sánh trực tiếp. Đầu tiên, chúng ta sẽ giao cho một <strong>monolithic 'generalist' agent</strong> duy nhất nhiệm vụ tạo ra một báo cáo phân tích thị trường toàn diện. Sau đó, chúng ta sẽ tập hợp một <strong>specialist team</strong>—bao gồm một Technical Analyst, một News Analyst và một Financial Analyst—và để agent 'Manager' thứ tư tổng hợp các thông tin đầu vào chuyên môn của họ thành một báo cáo cuối cùng. Sự khác biệt về chất lượng, cấu trúc và chiều sâu sẽ hiển hiện ngay lập tức.</p>
+<h3>Definition</h3>
+<p>Một <strong>Multi-Agent System</strong> là một kiến trúc nơi một nhóm các specialized agents riêng biệt, chuyên môn hóa cộng tác (hoặc đôi khi cạnh tranh) để đạt được một mục tiêu chung. Một bộ điều khiển trung tâm hoặc một giao thức workflow đã được định nghĩa được sử dụng để quản lý giao tiếp và route các nhiệm vụ giữa các agent.</p>
+<h3>High-level Workflow</h3>
+<ol>
+<li><strong>Decomposition:</strong> Một bộ điều khiển chính hoặc người dùng cung cấp một nhiệm vụ phức tạp.</li>
+<li><strong>Role Definition:</strong> Hệ thống giao các nhiệm vụ phụ cho các specialized agents dựa trên vai trò đã định nghĩa của họ (ví dụ: 'Researcher', 'Coder', 'Critic', 'Writer').</li>
+<li><strong>Collaboration:</strong> Các agent thực thi các nhiệm vụ của mình, thường là song song hoặc tuần tự. Họ chuyển kết quả đầu ra cho nhau hoặc cho một 'blackboard' trung tâm.</li>
+<li><strong>Synthesis:</strong> Một agent 'manager' hoặc 'synthesizer' cuối cùng thu thập các kết quả đầu ra từ các chuyên gia và lắp ráp thành một phản hồi cuối cùng, hợp nhất.</li>
+</ol>
+<h3>When to Use / Applications</h3>
+<ul>
+<li><strong>Complex Report Generation:</strong> Tạo ra các báo cáo chi tiết yêu cầu kiến thức chuyên môn từ nhiều lĩnh vực (ví dụ: phân tích tài chính, nghiên cứu khoa học).</li>
+<li><strong>Software Development Pipelines:</strong> Mô phỏng một nhóm phát triển với một lập trình viên, một người review code, một tester và một quản lý dự án.</li>
+<li><strong>Creative Brainstorming:</strong> Một nhóm các agent với các 'personalities' khác nhau (ví dụ: một người lạc quan, một người thận trọng, một người cực kỳ sáng tạo) có thể tạo ra một bộ ý tưởng đa dạng hơn.</li>
+</ul>
+<h3>Strengths &amp; Weaknesses</h3>
+<ul>
+<li><strong>Strengths:</strong><ul>
+<li><strong>Specialization &amp; Depth:</strong> Mỗi agent có thể được tinh chỉnh với một persona và tool cụ thể, dẫn đến công việc chất lượng cao hơn trong lĩnh vực của nó.</li>
+<li><strong>Tính module &amp; Khả năng mở rộng:</strong> Dễ dàng thêm, xóa hoặc nâng cấp các agent riêng lẻ mà không cần thiết kế lại toàn bộ hệ thống.</li>
+<li><strong>Tính song song (Parallelism):</strong> Nhiều agent có thể làm việc trên các nhiệm vụ phụ của mình cùng một lúc, tiềm năng giảm tổng thời gian thực hiện nhiệm vụ.</li>
+</ul>
+</li>
+<li><strong>Weaknesses:</strong><ul>
+<li><strong>Chi phí điều phối (Coordination Overhead):</strong> Việc quản lý giao tiếp và workflow giữa các agent làm tăng thêm sự phức tạp cho việc thiết kế hệ thống.</li>
+<li><strong>Tăng chi phí &amp; Độ trễ:</strong> Việc chạy nhiều agent liên quan đến nhiều cuộc gọi LLM hơn, có thể đắt hơn và chậm hơn so với cách tiếp cận single-agent.</li>
+</ul>
+</li>
+</ul>
+<h2>Phase 0: Foundation &amp; Setup</h2>
+<p>Chúng ta sẽ bắt đầu bằng việc cài đặt các thư viện và cấu hình các API keys cho Nebius, LangSmith và Tavily.</p>
+<h3>Step 0.1: Installing Core Libraries</h3>
+<p><strong>Những gì chúng ta sẽ làm:</strong>
+Chúng ta sẽ cài đặt bộ thư viện tiêu chuẩn cho loạt dự án này.</p>
+<pre><code class="language-python"># !pip install -q -U langchain-nebius langchain langgraph rich python-dotenv langchain-tavily
+</code></pre>
+<h3>Step 0.2: Importing Libraries and Setting Up Keys</h3>
+<p><strong>Những gì chúng ta sẽ làm:</strong>
+Chúng ta sẽ import các module cần thiết và load các API keys của mình từ file <code>.env</code>.</p>
+<p><strong>Action Required:</strong> Tạo một file <code>.env</code> trong thư mục này với các key của bạn:</p>
+<pre><code>NEBIUS_API_KEY=&quot;your_nebius_api_key_here&quot;
+LANGCHAIN_API_KEY=&quot;your_langsmith_api_key_here&quot;
+TAVILY_API_KEY=&quot;your_tavily_api_key_here&quot;
+</code></pre>
+<pre><code class="language-python">import os
+from typing import List, Annotated, TypedDict, Optional
+from dotenv import load_dotenv
+
+# LangChain components
+from langchain_nebius import ChatNebius
+from langchain_tavily import TavilySearch
+from langchain_core.messages import BaseMessage, SystemMessage, HumanMessage
+from pydantic import BaseModel, Field
+from langchain_core.prompts import ChatPromptTemplate
+
+# LangGraph components
+from langgraph.graph import StateGraph, END
+from langgraph.graph.message import AnyMessage, add_messages
+from langgraph.prebuilt import ToolNode, tools_condition
+
+# For pretty printing
+from rich.console import Console
+from rich.markdown import Markdown
+
+# --- API Key and Tracing Setup ---
+load_dotenv()
+
+os.environ[&quot;LANGCHAIN_TRACING_V2&quot;] = &quot;true&quot;
+os.environ[&quot;LANGCHAIN_PROJECT&quot;] = &quot;Agentic Architecture - Multi-Agent (Nebius)&quot;
+
+for key in [&quot;NEBIUS_API_KEY&quot;, &quot;LANGCHAIN_API_KEY&quot;, &quot;TAVILY_API_KEY&quot;]:
+    if not os.environ.get(key):
+        print(f&quot;{key} not found. Please create a .env file and set it.&quot;)
+
+print(&quot;Environment variables loaded and tracing is set up.&quot;)
+</code></pre>
+<h2>Phase 1: The Baseline - A Monolithic 'Generalist' Agent</h2>
+<p>Để giới thiệu giá trị của một specialist team, trước tiên chúng ta cần xem một agent đơn lẻ thực hiện một nhiệm vụ phức tạp như thế nào. Chúng ta sẽ xây dựng một ReAct agent và cung cấp cho nó một prompt rộng yêu cầu nó thực hiện nhiều loại phân tích cùng một lúc.</p>
+<h3>Step 1.1: Building the Monolithic Agent</h3>
+<p><strong>Những gì chúng ta sẽ làm:</strong>
+Chúng ta sẽ xây dựng một ReAct agent tiêu chuẩn. Chúng ta sẽ cung cấp cho nó một công cụ tìm kiếm web và một system prompt rất chung chung yêu cầu nó trở thành một chuyên gia phân tích tài chính toàn diện.</p>
+<pre><code class="language-python">console = Console()
+
+# Định nghĩa state chung cho cả hai agent
+class AgentState(TypedDict):
+    messages: Annotated[list[AnyMessage], add_messages]
+
+# Định nghĩa tool và LLM
+search_tool = TavilySearch(max_results=3, name=&quot;web_search&quot;)
+llm = ChatNebius(model=&quot;meta-llama/Meta-Llama-3.1-8B-Instruct&quot;, temperature=0)
+llm_with_tools = llm.bind_tools([search_tool])
+
+# Định nghĩa monolithic agent node
+def monolithic_agent_node(state: AgentState):
+    console.print(&quot;--- MONOLITHIC AGENT: Thinking... ---&quot;)
+    response = llm_with_tools.invoke(state[&quot;messages&quot;])
+    return {&quot;messages&quot;: [response]}
+
+tool_node = ToolNode([search_tool])
+
+# Xây dựng ReAct graph cho monolithic agent
+mono_graph_builder = StateGraph(AgentState)
+mono_graph_builder.add_node(&quot;agent&quot;, monolithic_agent_node)
+mono_graph_builder.add_node(&quot;tools&quot;, tool_node)
+mono_graph_builder.set_entry_point(&quot;agent&quot;)
+
+def tools_condition_with_end(state):
+    result = tools_condition(state)
+    if isinstance(result, str):
+        # Các phiên bản cũ chỉ trả về &quot;tools&quot; hoặc &quot;agent&quot;
+        return {result: &quot;tools&quot;, &quot;__default__&quot;: END}
+    elif isinstance(result, dict):
+        # Các phiên bản mới trả về một mapping
+        result[&quot;__default__&quot;] = END
+        return result
+    else:
+        raise TypeError(f&quot;Unexpected type from tools_condition: {type(result)}&quot;)
+
+mono_graph_builder.add_conditional_edges(&quot;agent&quot;, tools_condition_with_end)
+mono_graph_builder.add_edge(&quot;tools&quot;, &quot;agent&quot;)
+
+monolithic_agent_app = mono_graph_builder.compile()
+
+print(&quot;Monolithic 'generalist' agent compiled successfully.&quot;)
+</code></pre>
+<h3>Step 1.2: Testing the Monolithic Agent</h3>
+<p><strong>Những gì chúng ta sẽ làm:</strong>
+Chúng ta sẽ giao cho generalist agent một nhiệm vụ phức tạp: tạo một báo cáo phân tích thị trường đầy đủ cho một công ty, bao gồm ba lĩnh vực riêng biệt.</p>
+<pre><code class="language-python">company = &quot;NVIDIA (NVDA)&quot;
+monolithic_query = f&quot;Create a brief but comprehensive market analysis report for {company}. The report should include three sections: 1. A summary of recent news and market sentiment. 2. A basic technical analysis of the stock's price trend. 3. A look at the company's recent financial performance.&quot;
+
+console.print(f&quot;[bold yellow]Testing MONOLITHIC agent on a multi-faceted task:[/bold yellow]\n'{monolithic_query}'\n&quot;)
+
+final_mono_output = monolithic_agent_app.invoke({
+    &quot;messages&quot;: [
+        SystemMessage(content=&quot;You are a single, expert financial analyst. You must create a comprehensive report covering all aspects of the user's request.&quot;),
+        HumanMessage(content=monolithic_query)
+    ]
+})
+
+console.print(&quot;\n--- [bold red]Final Report from Monolithic Agent[/bold red] ---&quot;)
+console.print(Markdown(final_mono_output['messages'][-1].content))
+</code></pre>
+<p><strong>Discussion of the Output:</strong>
+Monolithic agent đã tạo ra một báo cáo. Nó có khả năng đã thực hiện vài cuộc tìm kiếm web và cố gắng hết sức để tổng hợp thông tin. Tuy nhiên, kết quả đầu ra có thể có một số điểm yếu:
+- <strong>Thiếu cấu trúc:</strong> Các phần có thể bị trộn lẫn với nhau, không có tiêu đề rõ ràng hoặc định dạng chuyên nghiệp.
+- <strong>Phân tích hời hợt:</strong> Việc cố gắng trở thành chuyên gia trong ba lĩnh vực cùng một lúc có thể khiến agent chỉ cung cấp các tóm tắt cấp cao mà không đi sâu vào bất kỳ lĩnh vực đơn lẻ nào.
+- <strong>Giọng văn chung chung:</strong> Ngôn ngữ có thể chung chung, thiếu các thuật ngữ chuyên môn và sự tập trung của một chuyên gia thực thụ trong mỗi lĩnh vực.</p>
+<p>Kết quả này là baseline của chúng ta. Nó hoạt động được, nhưng không xuất sắc. Bây giờ, chúng ta sẽ xây dựng một specialist team để xem liệu chúng ta có thể làm tốt hơn không.</p>
+<h2>Phase 2: The Advanced Approach - A Multi-Agent Specialist Team</h2>
+<p>Bây giờ chúng ta sẽ xây dựng nhóm của mình: một News Analyst, một Technical Analyst và một Financial Analyst. Mỗi người sẽ là một agent node riêng với một persona cụ thể. Một Report Writer cuối cùng sẽ đóng vai trò manager, biên soạn công việc của họ.</p>
+<h3>Step 2.1: Defining the Specialist Agent Nodes</h3>
+<p><strong>Những gì chúng ta sẽ làm:</strong>
+Chúng ta sẽ tạo ra ba agent nodes riêng biệt. Sự khác biệt chính là system prompt có tính cụ thể cao mà chúng ta cung cấp cho mỗi node. Prompt này định nghĩa persona của họ, lĩnh vực chuyên môn của họ và định dạng chính xác mà kết quả đầu ra của họ nên có. Đây là cách chúng ta thực thi sự chuyên môn hóa (specialization).</p>
+<pre><code class="language-python"># State cho hệ thống đa tác vụ của chúng ta sẽ giữ kết quả đầu ra của mỗi chuyên gia
+class MultiAgentState(TypedDict):
+    user_request: str
+    news_report: Optional[str]
+    technical_report: Optional[str]
+    financial_report: Optional[str]
+    final_report: Optional[str]
+
+def create_specialist_node(persona: str, output_key: str):
+    &quot;&quot;&quot;Factory function để tạo một specialist agent node.&quot;&quot;&quot;
+    system_prompt = persona + &quot;\n\nYou have access to a web search tool. Your output MUST be a concise report section, formatted in markdown, focusing only on your area of expertise.&quot;
+
+    # Xây dựng ChatPromptTemplate
+    prompt_template = ChatPromptTemplate.from_messages([
+        (&quot;system&quot;, system_prompt),
+        (&quot;human&quot;, &quot;{user_request}&quot;)
+    ])
+
+    agent = prompt_template | llm_with_tools
+
+    def specialist_node(state: MultiAgentState):
+        console.print(f&quot;--- CALLING {output_key.replace('_report','').upper()} ANALYST ---&quot;)
+        result = agent.invoke({&quot;user_request&quot;: state[&quot;user_request&quot;]})
+        content = result.content if result.content else f&quot;No direct content, tool calls: {result.tool_calls}&quot;
+        return {output_key: content}
+
+    return specialist_node
+
+
+# Tạo các specialist nodes
+news_analyst_node = create_specialist_node(
+    &quot;You are an expert News Analyst. Your specialty is scouring the web for the latest news, articles, and social media sentiment about a company.&quot;,
+    &quot;news_report&quot;
+)
+technical_analyst_node = create_specialist_node(
+    &quot;You are an expert Technical Analyst. You specialize in analyzing stock price charts, trends, and technical indicators.&quot;,
+    &quot;technical_report&quot;
+)
+financial_analyst_node = create_specialist_node(
+    &quot;You are an expert Financial Analyst. You specialize in interpreting financial statements and performance metrics.&quot;,
+    &quot;financial_report&quot;
+)
+
+def report_writer_node(state: MultiAgentState):
+    &quot;&quot;&quot;Agent quản lý thực hiện tổng hợp các báo cáo từ các chuyên gia.&quot;&quot;&quot;
+    console.print(&quot;--- CALLING REPORT WRITER ---&quot;)
+    prompt = f&quot;&quot;&quot;You are an expert financial editor. Your task is to combine the following specialist reports into a single, professional, and cohesive market analysis report. Add a brief introductory and concluding paragraph.
+
+    News &amp; Sentiment Report:
+    {state['news_report']}
+
+    Technical Analysis Report:
+    {state['technical_report']}
+
+    Financial Performance Report:
+    {state['financial_report']}
+    &quot;&quot;&quot;
+    final_report = llm.invoke(prompt).content
+    return {&quot;final_report&quot;: final_report}
+
+print(&quot;Specialist agent nodes and Report Writer node defined.&quot;)
+</code></pre>
+<h3>Step 2.2: Building the Multi-Agent Graph</h3>
+<p><strong>Những gì chúng ta sẽ làm:</strong>
+Bây giờ chúng ta sẽ kết nối các chuyên gia và quản lý vào một graph. Đối với nhiệm vụ này, các chuyên gia có thể làm việc độc lập, vì vậy chúng ta có thể chạy chúng theo một trình tự đơn giản (trong một ứng dụng thực tế, những việc này có thể được chạy song song). Bước cuối cùng luôn là report writer.</p>
+<pre><code class="language-python">multi_agent_graph_builder = StateGraph(MultiAgentState)
+
+# Thêm tất cả các nodes
+multi_agent_graph_builder.add_node(&quot;news_analyst&quot;, news_analyst_node)
+multi_agent_graph_builder.add_node(&quot;technical_analyst&quot;, technical_analyst_node)
+multi_agent_graph_builder.add_node(&quot;financial_analyst&quot;, financial_analyst_node)
+multi_agent_graph_builder.add_node(&quot;report_writer&quot;, report_writer_node)
+
+# Định nghĩa trình tự workflow
+multi_agent_graph_builder.set_entry_point(&quot;news_analyst&quot;)
+multi_agent_graph_builder.add_edge(&quot;news_analyst&quot;, &quot;technical_analyst&quot;)
+multi_agent_graph_builder.add_edge(&quot;technical_analyst&quot;, &quot;financial_analyst&quot;)
+multi_agent_graph_builder.add_edge(&quot;financial_analyst&quot;, &quot;report_writer&quot;)
+multi_agent_graph_builder.add_edge(&quot;report_writer&quot;, END)
+
+multi_agent_app = multi_agent_graph_builder.compile()
+print(&quot;Multi-agent specialist team compiled successfully.&quot;)
+</code></pre>
+<h2>Phase 3: Head-to-Head Comparison</h2>
+<p>Bây giờ chúng ta sẽ chạy specialist team cho cùng một nhiệm vụ như monolithic agent và so sánh các báo cáo cuối cùng.</p>
+<pre><code class="language-python">multi_agent_query = f&quot;Create a brief but comprehensive market analysis report for {company}.&quot;
+initial_multi_agent_input = {&quot;user_request&quot;: multi_agent_query}
+
+console.print(f&quot;[bold green]Testing MULTI-AGENT TEAM on the same task:[/bold green]\n'{multi_agent_query}'\n&quot;)
+
+final_multi_agent_output = multi_agent_app.invoke(initial_multi_agent_input)
+
+console.print(&quot;\n--- [bold green]Final Report from Multi-Agent Team[/bold green] ---&quot;)
+console.print(Markdown(final_multi_agent_output['final_report']))
+</code></pre>
+<p><strong>Discussion of the Output:</strong>
+Sự khác biệt trong báo cáo cuối cùng là rất lớn. Kết quả đầu ra từ multi-agent team mang những đặc điểm:
+- <strong>Tính cấu trúc cao:</strong> Nó có các phần rõ ràng, riêng biệt cho từng lĩnh vực phân tích bởi vì mỗi phần được tạo ra bởi một chuyên gia với hướng dẫn định dạng cụ thể.
+- <strong>Phân tích sâu hơn:</strong> Mỗi phần chứa ngôn ngữ và thông tin chi tiết cụ thể hơn cho từng lĩnh vực chuyên môn. Technical Analyst nói về các đường trung bình động (moving averages), News Analyst thảo luận về sentiment, và Financial Analyst tập trung vào doanh thu và lợi nhuận.
+- <strong>Chuyên nghiệp hơn:</strong> Báo cáo cuối cùng, được lắp ráp bởi Report Writer, đọc giống như một tài liệu chuyên nghiệp, với phần mở đầu, nội dung chính và kết luận rõ ràng.</p>
+<p>Sự so sánh định định tính này cho thấy bằng cách phân chia lao động giữa một nhóm các chuyên gia, chúng ta đạt được một kết quả vượt trội mà một generalist agent đơn lẻ khó có thể tái hiện được.</p>
+<h2>Phase 4: Quantitative Evaluation</h2>
+<p>Để chính thức hóa việc so sánh, chúng ta sẽ sử dụng một LLM-as-a-Judge để chấm điểm cả hai báo cáo. Các tiêu chí sẽ tập trung vào các phẩm chất mà chúng ta mong đợi sẽ tốt hơn trong cách tiếp cận multi-agent, chẳng hạn như cấu trúc và chiều sâu phân tích.</p>
+<pre><code class="language-python">class Evaluation(BaseModel):
+    &quot;&quot;&quot;Schema cho việc chấm điểm báo cáo.&quot;&quot;&quot;
+    clarity_and_structure_score: int = Field(description=&quot;Score từ 1-10 về độ rõ nét và cấu trúc.&quot;)
+    analytical_depth_score: int = Field(description=&quot;Score từ 1-10 về chiều sâu phân tích.&quot;)
+    completeness_score: int = Field(description=&quot;Score từ 1-10 về tính đầy đủ.&quot;)
+    justification: str = Field(description=&quot;Giải thích ngắn gọn cho các điểm số.&quot;)
+
+judge_llm = llm.with_structured_output(Evaluation)
+
+def evaluate_report(report_content: str):
+    prompt = f&quot;&quot;&quot;You are an expert judge of financial reports. Evaluate the following market analysis report based on its clarity, analytical depth, and completeness.
+
+    Report Content:
+    {report_content}
+    &quot;&quot;&quot;
+    return judge_llm.invoke(prompt)
+
+if final_mono_output and final_multi_agent_output:
+    console.print(&quot;--- Evaluating Monolithic Agent's Report ---&quot;)
+    mono_eval = evaluate_report(final_mono_output['messages'][-1].content)
+    console.print(mono_eval.model_dump())
+
+    console.print(&quot;\n--- Evaluating Multi-Agent Team's Report ---&quot;)
+    multi_eval = evaluate_report(final_multi_agent_output['final_report'])
+    console.print(multi_eval.model_dump())
+</code></pre>
+<p><strong>Discussion of the Output:</strong>
+Giám khảo định lượng xác nhận sự ưu việt của Multi-Agent System cho các nhiệm vụ đòi hỏi sự đa dạng về kiến thức chuyên môn. specialist team liên tục đạt điểm cao hơn về cấu trúc và chiều sâu phân tích. Bằng cách cho phép mỗi chuyên gia hoạt động trong phạm vi năng lực cốt lõi của họ và có một manager chuyên trách thực hiện việc tổng hợp cuối cùng, chúng ta tạo ra một bản phân tích sắc bén hơn, chi tiết hơn và nhìn chuyên nghiệp hơn so với bất kỳ điều gì mà một tác nhân đơn lẻ, "đa năng" có thể đạt được.</p>
+<h2>Conclusion</h2>
+<p>Kiến trúc <strong>Multi-Agent System</strong> phản ánh sức mạnh của sự chuyên môn hóa của con người trong thế giới AI. Bằng cách chuyển đổi từ một mô hình agent đơn lẻ sang một nhóm các specialized agents cộng tác, chúng ta mở khóa các mức độ sâu, độ chính xác và tính chuyên nghiệp mới cho các nhiệm vụ phức tạp. Mặc dù việc điều phối một nhóm như vậy làm tăng thêm sự phức tạp cho hệ thống, nhưng kết quả—vốn vượt trội đáng kể về chất lượng và độ tinh tế—thường biện minh hoàn toàn cho nỗ lực đó. Pattern này là một nền tảng cho việc xây dựng các hệ thống AI cấp doanh nghiệp, thực sự mang lại kết quả chất lượng cao cho các vấn đề phức tạp.</p>
+</body>
+</html>

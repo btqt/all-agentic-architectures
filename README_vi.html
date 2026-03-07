@@ -1,0 +1,338 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Readme</title>
+    <style>
+        body { font-family: system-ui, -apple-system, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; color: #333; }
+        pre { background: #f4f4f4; padding: 15px; border-radius: 5px; overflow-x: auto; }
+        code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; font-family: monospace; }
+        a { color: #007bff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        img { max-width: 100%; height: auto; }
+    </style>
+</head>
+<body>
+<h1>All Agentic Architectures</h1>
+<p><img alt="made-with-Python" src="https://img.shields.io/badge/Made%20with-Python-1f425f.svg" /> <img alt="made-with-Jupyter" src="https://img.shields.io/badge/Made%20with-Jupyter-f97c2c.svg" /> <img alt="LangChain" src="https://img.shields.io/badge/LangChain-b084f3.svg" /> <img alt="LangGraph" src="https://img.shields.io/badge/LangGraph-20232a.svg" /> <img alt="Educational" src="https://img.shields.io/badge/Purpose-Educational-4caf50.svg" /> <a href="https://opensource.org/licenses/MIT"><img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" /></a></p>
+<p>Chào mừng bạn đến với lớp học chuyên sâu, thực hành về <strong>thiết kế AI agent hiện đại</strong>. Kho lưu trữ này chứa các bản triển khai chi tiết của <strong>hơn 17 kiến trúc agentic tiên tiến</strong>, được xây dựng bằng LangChain và LangGraph. Nó được thiết kế để trở thành một cuốn sách giáo khoa sống động, thu hẹp khoảng cách giữa các khái niệm lý thuyết và mã nguồn thực tế, sẵn sàng cho sản xuất.</p>
+<h2>📖 Tại sao lại có Kho lưu trữ này?</h2>
+<p>Lĩnh vực AI agent đang phát triển với tốc độ chóng mặt, nhưng nhiều tài nguyên vẫn còn mang tính trừu tượng và lý thuyết. Dự án này được tạo ra để cung cấp một lộ trình có cấu trúc, thực tế và mang tính giáo dục sâu sắc cho các nhà phát triển, nhà nghiên cứu và những người đam mê AI để nắm vững nghệ thuật xây dựng các hệ thống thông minh.</p>
+<ul>
+<li><strong>Từ Lý thuyết đến Mã nguồn có thể chạm tới:</strong> Mỗi kiến trúc không chỉ được giải thích mà còn được triển khai từ đầu đến cuối trong một Jupyter notebook có thể khởi chạy được.</li>
+<li><strong>Lộ trình học tập có cấu trúc:</strong> Các notebook được sắp xếp để xây dựng các khái niệm theo tiến trình, từ các pattern nền tảng đến các hệ thống đa agent và tự nhận thức cực kỳ nâng cao.</li>
+<li><strong>Nhấn mạnh vào Đánh giá (Evaluation):</strong> Chúng ta không chỉ xây dựng các agent, chúng ta đo lường chúng. Hầu hết các notebook đều có một pattern <code>LLM-as-a-Judge</code> mạnh mẽ để cung cấp phản hồi khách quan, định lượng về hiệu suất của agent, một kỹ năng quan trọng cho AI trong sản xuất.</li>
+<li><strong>Các kịch bản thực tế:</strong> Các ví dụ dựa trên các ứng dụng thực tế—phân tích tài chính, lập trình, quản lý mạng xã hội, sàng lọc y tế—làm cho các khái niệm trở nên liên quan ngay lập tức.</li>
+<li><strong>Framework hiện đại, nhất quán:</strong> Bằng cách sử dụng <code>LangGraph</code> làm bộ điều phối cốt lõi, bạn sẽ học được một cách tiếp cận mạnh mẽ, có trạng thái (stateful) và có chu kỳ (cyclical) đối với việc thiết kế agent, vốn đang nhanh chóng trở thành tiêu chuẩn của ngành.</li>
+</ul>
+<hr />
+<h2>🏛️ Các Kiến trúc: Một cái nhìn sâu sắc</h2>
+<p>Bộ sưu tập này bao gồm toàn bộ các thiết kế agentic hiện đại, từ việc cải tiến agent đơn lẻ đến các hệ thống đa agent phức tạp, cộng tác và tự cải thiện.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">#</th>
+<th>Kiến trúc</th>
+<th>Khái niệm cốt lõi / TL;DR</th>
+<th>Trường hợp sử dụng chính</th>
+<th style="text-align: center;">Notebook</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>01</strong></td>
+<td><strong>Reflection</strong></td>
+<td>Chuyển từ một bộ tạo một lần sang một bộ lập luận đa bước có tính toán bằng cách phê bình và tinh chỉnh công việc của chính mình.</td>
+<td>Tạo mã chất lượng cao, Tóm tắt phức tạp</td>
+<td style="text-align: center;"><a href="./01_reflection.ipynb">01_reflection.ipynb</a></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>02</strong></td>
+<td><strong>Tool Use</strong></td>
+<td>Trao quyền cho một agent để vượt qua giới hạn kiến thức và tương tác với thế giới thực bằng cách gọi các API và hàm ngoại vi.</td>
+<td>Trợ lý nghiên cứu thời gian thực, Enterprise Bot</td>
+<td style="text-align: center;"><a href="./02_tool_use.ipynb">02_tool_use.ipynb</a></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>03</strong></td>
+<td><strong>ReAct</strong></td>
+<td>Đan xen linh hoạt giữa lập luận ("thought") và hành động ("tool use") trong một vòng lặp thích ứng để giải quyết các vấn đề phức tạp, đa bước.</td>
+<td>Q&amp;A đa bước, Điều hướng Web &amp; Nghiên cứu</td>
+<td style="text-align: center;"><a href="./03_ReAct.ipynb">03_ReAct.ipynb</a></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>04</strong></td>
+<td><strong>Planning</strong></td>
+<td>Chủ động phân rã một nhiệm vụ phức tạp thành một kế hoạch chi tiết, từng bước <em>trước khi</em> thực thi, đảm bảo một workflow có cấu trúc và có thể truy vết.</td>
+<td>Tạo báo cáo có thể dự đoán, Quản lý dự án</td>
+<td style="text-align: center;"><a href="./04_planning.ipynb">04_planning.ipynb</a></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>05</strong></td>
+<td><strong>Multi-Agent Systems</strong></td>
+<td>Một đội ngũ các agent chuyên biệt cộng tác để giải quyết một vấn đề, phân chia lao động để đạt được chiều sâu, chất lượng và cấu trúc vượt trội trong đầu ra cuối cùng.</td>
+<td>Pipeline phát triển phần mềm, Brainstorming sáng tạo</td>
+<td style="text-align: center;"><a href="./05_multi_agent.ipynb">05_multi_agent.ipynb</a></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>06</strong></td>
+<td><strong>PEV (Plan, Execute, Verify)</strong></td>
+<td>Một vòng lặp tự sửa lỗi cực kỳ mạnh mẽ, nơi một agent Verifier kiểm tra kết quả của mỗi hành động, cho phép phát hiện lỗi và phục hồi động.</td>
+<td>Tự động hóa rủi ro cao, Tài chính, Công cụ không đáng tin cậy</td>
+<td style="text-align: center;"><a href="./06_PEV.ipynb">06_PEV.ipynb</a></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>07</strong></td>
+<td><strong>Blackboard Systems</strong></td>
+<td>Một hệ thống đa agent linh hoạt, nơi các agent cộng tác một cách cơ hội thông qua một bộ nhớ trung tâm dùng chung ("blackboard"), được hướng dẫn bởi một bộ điều khiển động.</td>
+<td>Chẩn đoán phức tạp, Hiểu biết động</td>
+<td style="text-align: center;"><a href="./07_blackboard.ipynb">07_blackboard.ipynb</a></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>08</strong></td>
+<td><strong>Episodic + Semantic Memory</strong></td>
+<td>Một hệ thống bộ nhớ kép kết hợp vector store cho các cuộc hội thoại trong quá khứ (episodic) và graph DB cho các sự thật có cấu trúc (semantic) để cá nhân hóa dài hạn thực sự.</td>
+<td>Trợ lý cá nhân dài hạn, Gia sư cá nhân hóa</td>
+<td style="text-align: center;"><a href="./08_episodic_with_semantic.ipynb">08_episodic_with_semantic.ipynb</a></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>09</strong></td>
+<td><strong>Tree of Thoughts (ToT)</strong></td>
+<td>Giải quyết các vấn đề bằng cách khám phá nhiều lộ trình lập luận trong cấu trúc cây, đánh giá và cắt tỉa các nhánh để tìm ra giải pháp tối ưu một cách có hệ thống.</td>
+<td>Câu đố logic, Lập kế hoạch có ràng buộc</td>
+<td style="text-align: center;"><a href="./09_tree_of_thoughts.ipynb">09_tree_of_thoughts.ipynb</a></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>10</strong></td>
+<td><strong>Mental Loop (Simulator)</strong></td>
+<td>Một agent kiểm tra các hành động của nó trong một "mô hình tâm trí" nội bộ hoặc bộ giả lập để dự đoán kết quả và đánh giá rủi ro trước khi hành động trong thế giới thực.</td>
+<td>Robotics, Giao dịch tài chính, Hệ thống an toàn sống còn</td>
+<td style="text-align: center;"><a href="./10_mental_loop.ipynb">10_mental_loop.ipynb</a></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>11</strong></td>
+<td><strong>Meta-Controller</strong></td>
+<td>Một agent giám sát phân tích các nhiệm vụ đến và định tuyến chúng đến agent chuyên biệt phù hợp nhất từ một nhóm chuyên gia.</td>
+<td>Nền tảng AI đa dịch vụ, Trợ lý thích ứng</td>
+<td style="text-align: center;"><a href="./11_meta_controller.ipynb">11_meta_controller.ipynb</a></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>12</strong></td>
+<td><strong>Graph (World-Model Memory)</strong></td>
+<td>Lưu trữ kiến thức dưới dạng biểu đồ (graph) có cấu trúc của các thực thể và mối quan hệ, cho phép lập luận đa bước phức tạp bằng cách duyệt qua các kết nối.</td>
+<td>Tình báo doanh nghiệp, Nghiên cứu chuyên sâu</td>
+<td style="text-align: center;"><a href="./12_graph.ipynb">12_graph.ipynb</a></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>13</strong></td>
+<td><strong>Ensemble</strong></td>
+<td>Nhiều agent độc lập phân tích một vấn đề từ các góc nhìn khác nhau, và một agent "aggregator" cuối cùng tổng hợp các đầu ra của chúng để có một kết luận mạnh mẽ hơn, ít định kiến hơn.</td>
+<td>Hỗ trợ quyết định rủi ro cao, Kiểm chứng sự thật</td>
+<td style="text-align: center;"><a href="./13_ensemble.ipynb">13_ensemble.ipynb</a></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>14</strong></td>
+<td><strong>Dry-Run Harness</strong></td>
+<td>Một pattern an toàn quan trọng nơi hành động đề xuất của một agent trước tiên được mô phỏng (dry run) và phải được phê duyệt (bởi con người hoặc bộ kiểm tra) trước khi thực thi trực tiếp.</td>
+<td>Triển khai Agent trong sản xuất, Debugging</td>
+<td style="text-align: center;"><a href="./14_dry_run.ipynb">14_dry_run.ipynb</a></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>15</strong></td>
+<td><strong>RLHF (Self-Improvement)</strong></td>
+<td>Đầu ra của một agent được phê bình bởi một agent "editor", và phản hồi được sử dụng để sửa đổi công việc một cách lặp lại. Các đầu ra chất lượng cao được lưu lại để cải thiện hiệu suất trong tương lai.</td>
+<td>Tạo nội dung chất lượng cao, Học tập liên tục</td>
+<td style="text-align: center;"><a href="./15_RLHF.ipynb">15_RLHF.ipynb</a></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>16</strong></td>
+<td><strong>Cellular Automata</strong></td>
+<td>Một hệ thống gồm nhiều agent đơn giản, phi tập trung dựa trên lưới, các tương tác cục bộ của chúng tạo ra hành vi toàn cục phức tạp và nảy sinh như tìm đường tối ưu.</td>
+<td>Lập luận không gian, Logistics, Giả lập hệ thống phức tạp</td>
+<td style="text-align: center;"><a href="./16_cellular_automata.ipynb">16_cellular_automata.ipynb</a></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>17</strong></td>
+<td><strong>Reflexive Metacognitive</strong></td>
+<td>Một agent với "mô hình bản thân" lập luận về các khả năng và hạn chế của chính nó, lựa chọn hành động, sử dụng công cụ hoặc chuyển lên cho con người để đảm bảo an toàn.</td>
+<td>Tư vấn rủi ro cao (Y tế, Pháp lý, Tài chính)</td>
+<td style="text-align: center;"><a href="./17_reflexive_metacognitive.ipynb">17_reflexive_metacognitive.ipynb</a></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>🗺️ Một chuyến tham quan có hướng dẫn qua các Kiến trúc</h2>
+<p>Kho lưu trữ được cấu trúc để đưa bạn vào một hành trình từ những cải tiến đơn giản đến việc xây dựng các hệ thống tự nhận thức, đa agent thực sự tinh vi.</p>
+<details>
+<summary><b>Nhấp để mở rộng lộ trình học tập</b></summary>
+
+#### Phần 1: Các Pattern Nền tảng (Notebook 1-4)
+Phần này bao gồm các khối xây dựng thiết yếu để làm cho một agent đơn lẻ trở nên mạnh mẽ hơn.
+- Chúng ta bắt đầu với **Reflection** để cải thiện chất lượng đầu ra.
+- Sau đó, chúng ta cấp cho agent các **Công cụ (Tools)** để tương tác với thế giới.
+- **ReAct** kết hợp những thứ này thành một vòng lặp động.
+- Cuối cùng, **Planning** thêm khả năng nhìn xa trông rộng và cấu trúc cho các hành động của nó.
+
+#### Phần 2: Cộng tác đa Agent (Notebook 5, 7, 11, 13)
+Tại đây, chúng ta khám phá cách làm cho các agent làm việc cùng nhau.
+- **Multi-Agent Systems** giới thiệu khái niệm về các nhóm chuyên biệt.
+- **Meta-Controller** đóng vai trò là một bộ định tuyến thông minh để điều phối các nhiệm vụ đến các nhóm này.
+- **Blackboard** cung cấp một không gian làm việc chung, linh hoạt cho sự cộng tác động.
+- Pattern **Ensemble** sử dụng nhiều agent song song để phân tích chính xác và đa dạng hơn.
+
+#### Phần 3: Bộ nhớ & Lập luận nâng cao (Notebook 8, 9, 12)
+Phần này tập trung vào cách các agent có thể suy nghĩ sâu sắc hơn và ghi nhớ những gì chúng đã học.
+- **Episodic + Semantic Memory** cung cấp một hệ thống bộ nhớ mạnh mẽ, giống như con người.
+- **Graph World-Model** cho phép lập luận phức tạp trên các kiến thức liên kết với nhau.
+- **Tree of Thoughts** cho phép khám phá nhiều con đường, có hệ thống để giải quyết các vấn đề logic khó.
+
+#### Phần 4: An toàn, Tin cậy và Tương tác thực tế (Notebook 6, 10, 14, 17)
+Những kiến trúc này rất quan trọng để xây dựng các agent có thể được tin cậy trong sản xuất.
+- **Dry-Run Harness** cung cấp một lớp an toàn quan trọng với con người trong vòng lặp (human-in-the-loop).
+- **Simulator** cho phép một agent "suy nghĩ trước khi hành động" bằng cách mô hình hóa các hệ quả.
+- **PEV** xây dựng khả năng tự động phát hiện và phục hồi lỗi.
+- Agent **Metacognitive** hiểu các giới hạn của chính nó, một chìa khóa để vận hành an toàn trong các lĩnh vực rủi ro cao.
+
+#### Phần 5: Học tập và Thích ứng (Notebook 15, 16)
+Phần cuối cùng khám phá cách các agent có thể cải thiện theo thời gian và giải quyết các vấn đề theo những cách mới lạ.
+- **Self-Improvement Loop** tạo ra một cơ chế để agent học hỏi từ phản hồi, tương tự như RLHF.
+- **Cellular Automata** cho thấy hành vi toàn cục phức tạp có thể nảy sinh từ các quy tắc cục bộ đơn giản như thế nào, tạo ra các hệ thống có khả năng thích ứng cao.
+
+</details>
+
+<details>
+<summary><b>Sơ đồ kiến trúc ví dụ: Meta-Controller</b></summary>
+
+Sơ đồ này minh họa luồng trong notebook `11_meta_controller.ipynb`, một pattern phổ biến để điều phối các agent chuyên biệt.
+
+
+<pre><code class="language-mermaid">graph TD
+    A[Yêu cầu người dùng] --&gt; B{Meta-Controller};
+    B -- Phân tích yêu cầu --&gt; C{Định tuyến đến Chuyên gia};
+    C --&gt; D[Generalist Agent];
+    C --&gt; E[Research Agent];
+    C --&gt; F[Coding Agent];
+    D --&gt; G[Phản hồi cuối cùng];
+    E --&gt; G[Phản hồi cuối cùng];
+    F --&gt; G[Phản hồi cuối cùng];
+
+    style B fill:#f9f,stroke:#333,stroke-width:2px
+    style C fill:#bbf,stroke:#333,stroke-width:2px
+</code></pre>
+
+</details>
+
+<hr />
+<h2>🛠️ Stack kỹ thuật &amp; Thiết lập</h2>
+<p>Dự án này tận dụng một stack hiện đại, mạnh mẽ để xây dựng các ứng dụng AI tinh vi.</p>
+<table>
+<thead>
+<tr>
+<th>Thành phần</th>
+<th>Mục đích</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Python 3.10+</strong></td>
+<td>Ngôn ngữ lập trình cốt lõi cho toàn bộ dự án.</td>
+</tr>
+<tr>
+<td><strong>LangChain</strong></td>
+<td>Cung cấp các khối xây dựng nền tảng để tương tác với LLM và công cụ.</td>
+</tr>
+<tr>
+<td><strong>LangGraph</strong></td>
+<td>Framework điều phối quan trọng để xây dựng các workflow agent phức tạp, có trạng thái và chu kỳ.</td>
+</tr>
+<tr>
+<td><strong>Nebius AI Models</strong></td>
+<td>Các LLM hiệu suất cao (ví dụ: <code>Mixtral-8x22B-Instruct-v0.1</code>) cung cấp sức mạnh cho việc lập luận của agent.</td>
+</tr>
+<tr>
+<td><strong>Jupyter Notebooks</strong></td>
+<td>Được sử dụng cho phát triển tương tác, giải thích phong phú và các bản trình diễn rõ ràng, từng bước.</td>
+</tr>
+<tr>
+<td><strong>Pydantic</strong></td>
+<td>Đảm bảo mô hình hóa dữ liệu có cấu trúc, mạnh mẽ, điều này rất quan trọng để giao tiếp tin cậy với LLM.</td>
+</tr>
+<tr>
+<td><strong>Tavily Search</strong></td>
+<td>Một API tìm kiếm mạnh mẽ được sử dụng làm công cụ cho các agent định hướng nghiên cứu.</td>
+</tr>
+<tr>
+<td><strong>Neo4j</strong></td>
+<td>Cơ sở dữ liệu graph tiêu chuẩn ngành được sử dụng để triển khai bộ nhớ semantic và world-model.</td>
+</tr>
+<tr>
+<td><strong>FAISS</strong></td>
+<td>Một vector store hiệu quả được sử dụng để triển khai bộ nhớ episodic thông qua tìm kiếm tương tự.</td>
+</tr>
+</tbody>
+</table>
+<h2>🚀 Bắt đầu</h2>
+<p>Làm theo các bước sau để thiết lập môi trường cục bộ và chạy các notebook.</p>
+<h3>1. Clone Kho lưu trữ</h3>
+<pre><code class="language-bash">git clone https://github.com/your-username/all-agentic-architectures.git
+cd all-agentic-architectures
+</code></pre>
+<h3>2. Thiết lập Môi trường ảo</h3>
+<p>Khuyên dùng môi trường ảo để quản lý các phụ thuộc (dependencies).</p>
+<pre><code class="language-bash"># Cho Unix/macOS
+python3 -m venv venv
+source venv/bin/activate
+
+# Cho Windows
+python -m venv venv
+.\venv\Scripts\activate
+</code></pre>
+<h3>3. Cài đặt các Phụ thuộc</h3>
+<p>Cài đặt tất cả các gói Python cần thiết từ file <code>requirements.txt</code>.</p>
+<pre><code class="language-bash">pip install -r requirements.txt
+</code></pre>
+<p>Để trực quan hóa các biểu đồ trong LangGraph, bạn cũng có thể cần cài đặt <code>pygraphviz</code>.</p>
+<h3>4. Cấu hình Biến môi trường</h3>
+<p>Các agent yêu cầu các API key để hoạt động. Tạo một file tên là <code>.env</code> trong thư mục gốc của dự án. Bạn có thể sao chép nội dung <code>requirements.txt</code> được cung cấp để xem những gì cần thiết và sau đó tạo file <code>.env</code> của mình.</p>
+<p>Mở file <code>.env</code> và thêm thông tin đăng nhập của bạn. Nó sẽ trông như thế này:</p>
+<pre><code class="language-python"># file .env
+
+# Nebius AI API Key (cho truy cập LLM)
+NEBIUS_API_KEY=&quot;your_nebius_api_key_here&quot;
+
+# LangSmith API Key (cho tracing và debugging)
+LANGCHAIN_API_KEY=&quot;your_langsmith_api_key_here&quot;
+LANGCHAIN_TRACING_V2=&quot;true&quot;
+LANGCHAIN_PROJECT=&quot;All-Agentic-Architectures&quot; # Tùy chọn: Đặt tên dự án
+
+# Tavily Search API Key (cho công cụ của Research agent)
+TAVILY_API_KEY=&quot;your_tavily_api_key_here&quot;
+
+# Neo4j Credentials (cho các kiến trúc Graph và Memory)
+# Bạn phải có một instance Neo4j đang chạy (ví dụ: qua Docker hoặc Neo4j Desktop)
+NEO4J_URI=&quot;bolt://localhost:7687&quot;
+NEO4J_USERNAME=&quot;neo4j&quot;
+NEO4J_PASSWORD=&quot;your_neo4j_password_here&quot;
+</code></pre>
+<h3>5. Chạy các Notebook</h3>
+<p>Bây giờ bạn có thể khởi chạy Jupyter và khám phá các notebook theo thứ tự số.</p>
+<pre><code class="language-bash">jupyter notebook
+</code></pre>
+<h2>🤝 Cách đóng góp</h2>
+<p>Sự đóng góp là những gì làm cho cộng đồng mã nguồn mở trở thành một nơi tuyệt vời để học hỏi, truyền cảm hứng và sáng tạo. Bất kỳ đóng góp nào của bạn đều được <strong>trân trọng sâu sắc</strong>.</p>
+<ol>
+<li><strong>Fork kho lưu trữ.</strong></li>
+<li><strong>Tạo một branch mới</strong> cho tính năng hoặc bản sửa lỗi của bạn (<code>git checkout -b feature/new-architecture</code> or <code>bugfix/fix-typo</code>).</li>
+<li><strong>Thực hiện các thay đổi.</strong> Vui lòng đảm bảo code được chú thích tốt và các giải thích trong notebook rõ ràng.</li>
+<li><strong>Gửi một pull request</strong> với mô tả chi tiết về các thay đổi của bạn.</li>
+</ol>
+<p>Bạn cũng có thể mở một issue để báo cáo lỗi, đề xuất cải tiến hoặc đề xuất một kiến trúc mới để thêm vào bộ sưu tập.</p>
+<h2>📄 Giấy phép</h2>
+<p>Dự án này được cấp giấy phép theo MIT License. Xem file <a href="LICENSE">LICENSE</a> để biết thêm chi tiết.</p>
+</body>
+</html>

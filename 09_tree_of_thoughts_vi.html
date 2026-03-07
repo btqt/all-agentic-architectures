@@ -1,0 +1,331 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>09_Tree_Of_Thoughts</title>
+    <style>
+        body { font-family: system-ui, -apple-system, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; color: #333; }
+        pre { background: #f4f4f4; padding: 15px; border-radius: 5px; overflow-x: auto; }
+        code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; font-family: monospace; }
+        a { color: #007bff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        img { max-width: 100%; height: auto; }
+    </style>
+</head>
+<body>
+<h1>📘 Agentic Architectures 9: Tree-of-Thoughts Planning</h1>
+<p>Chào mừng bạn đến với notebook thứ chín trong loạt bài của chúng ta. Hôm nay, chúng ta khám phá một kiến trúc lập luận và lập kế hoạch mạnh mẽ: <strong>Tree-of-Thoughts (ToT)</strong>. Pattern này nâng tầm khả năng giải quyết vấn đề của agent từ một chuỗi suy nghĩ tuyến tính (linear chain of thought) lên một cuộc tìm kiếm khám phá đa con đường.</p>
+<p>Thay vì tạo ra một dòng lập luận tuần tự, duy nhất, một ToT agent sẽ tạo ra nhiều "suy nghĩ" (thoughts) ứng viên hoặc các bước tiếp theo tại mỗi giai đoạn của một vấn đề. Sau đó, nó đánh giá những suy nghĩ này, cắt tỉa (pruning) các nhánh không hợp lệ hoặc không hứa hẹn và mở rộng những nhánh hứa hẹn nhất. Điều này tạo ra một cây tìm kiếm (search tree) nơi agent có thể quay lui (backtrack), khám phá các lựa chọn thay thế và điều hướng một không gian vấn đề phức tạp một cách có hệ thống.</p>
+<p>Để chứng minh điều này, chúng ta sẽ giao cho agent của mình một câu đố logic cổ điển: <strong>Bài toán Sói, Dê và Bắp cải</strong>. Câu đố này nổi tiếng vì nó yêu cầu các bước không hiển nhiên (như mang một vật <em>quay trở lại</em>) và có một vài trạng thái không hợp lệ có thể làm "bẫy" một người lập luận đơn giản. Chúng ta sẽ chỉ ra cách một Chain-of-Thought agent đơn giản có thể thất bại, trong khi ToT agent xây dựng một kế hoạch hợp lệ một cách có phương pháp bằng cách khám phá và đánh giá một cây các khả năng.</p>
+<h3>Definition</h3>
+<p><strong>Tree-of-Thoughts (ToT)</strong> là một framework lập luận agentic, nơi việc giải quyết vấn đề được mô hình hóa như một cuộc tìm kiếm qua một cái cây. Agent khám phá nhiều con đường lập luận (các nhánh) đồng thời. Tại mỗi bước, nó tạo ra các bước tiếp theo tiềm năng ("suy nghĩ"), đánh giá tính khả thi của chúng và quyết định con đường nào nên tiếp tục khám phá, qua đó cắt tỉa không gian tìm kiếm một cách hiệu quả.</p>
+<h3>High-level Workflow</h3>
+<ol>
+<li><strong>Decomposition (Phân rã):</strong> Vấn đề được chia nhỏ thành một loạt các bước hoặc suy nghĩ.</li>
+<li><strong>Thought Generation (Tạo suy nghĩ):</strong> Đối với trạng thái hiện tại của vấn đề, agent tạo ra nhiều bước tiếp theo tiềm năng hoặc các suy nghĩ. Điều này tạo ra các nhánh trong cây tìm kiếm.</li>
+<li><strong>State Evaluation (Đánh giá trạng thái):</strong> Mỗi suy nghĩ mới (dẫn đến một trạng thái mới) được đánh giá bởi một "critic" hoặc một hàm thẩm định (validation function). Đánh giá này có thể xem xét:<ul>
+<li><strong>Tính hợp lệ (Validity):</strong> Bước đi này có được phép theo quy tắc của bài toán không?</li>
+<li><strong>Tiến độ (Progress):</strong> Bước đi này có đưa chúng ta đến gần giải pháp hơn không?</li>
+<li><strong>Heuristics (Cảm tính):</strong> Con đường này có khả năng thành công cao không?</li>
+</ul>
+</li>
+<li><strong>Pruning &amp; Expansion (Cắt tỉa &amp; Mở rộng):</strong> Các nhánh không hợp lệ hoặc không khả quan sẽ bị cắt tỉa. Agent sau đó tiếp tục từ những nhánh hoạt động hứa hẹn nhất, lặp lại quá trình tạo suy nghĩ.</li>
+<li><strong>Solution (Giải pháp):</strong> Quá trình tiếp tục cho đến khi đạt được trạng thái mục tiêu. Giải pháp là con đường chứa các suy nghĩ từ gốc (root) đến mục tiêu (goal).</li>
+</ol>
+<h3>When to Use / Applications</h3>
+<ul>
+<li><strong>Câu đố Logic &amp; Bài toán Toán học:</strong> Các vấn đề có quy tắc và trạng thái mục tiêu rõ ràng, yêu cầu lập luận đa bước, phi tuyến tính (ví dụ: Sudoku, các bài toán qua sông).</li>
+<li><strong>Lập kế hoạch phức tạp:</strong> Khi một nhiệm vụ yêu cầu một kế hoạch chi tiết, nơi thứ tự các hoạt động là quan trọng và các ràng buộc phải được tôn trọng (ví dụ: lập kế hoạch cho một chuyến đi phức tạp với nhiều chặng và ràng buộc ngân sách).</li>
+<li><strong>Sáng tác nội dung hoặc Tạo mã nguồn:</strong> Khám phá nhiều nhánh câu chuyện hoặc chiến lược triển khai trước khi quyết định chọn một cái.</li>
+</ul>
+<h3>Strengths &amp; Weaknesses</h3>
+<ul>
+<li><strong>Strengths:</strong><ul>
+<li><strong>Tính ổn định (Robustness):</strong> Khám phá không gian vấn đề một cách có hệ thống, khiến nó ít có khả năng bị kẹt hoặc đưa ra câu trả lời sai so với phương pháp chạy một lượt (single-pass).</li>
+<li><strong>Xử lý độ phức tạp tổ hợp:</strong> Rất phù hợp cho các vấn đề mà số lượng các chuỗi khả thi là khổng lồ.</li>
+</ul>
+</li>
+<li><strong>Weaknesses:</strong><ul>
+<li><strong>Tốn kém tài nguyên tính toán:</strong> Đòi hỏi nhiều lượt gọi LLM và quản lý trạng thái hơn đáng kể so với một Chain-of-Thought prompt đơn giản, khiến nó chậm hơn và đắt hơn.</li>
+<li><strong>Yêu cầu bộ đánh giá (Evaluator) tốt:</strong> Hiệu quả của cuộc tìm kiếm phụ thuộc rất nhiều vào chất lượng của logic đánh giá trạng thái.</li>
+</ul>
+</li>
+</ul>
+<h2>Phase 0: Foundation &amp; Setup</h2>
+<p>Chúng ta sẽ cài đặt các thư viện và cấu hình các API keys như thường lệ.</p>
+<pre><code class="language-python"># !pip install -q -U langchain-nebius langchain langgraph rich python-dotenv
+</code></pre>
+<pre><code class="language-python">import os
+import re
+from typing import List, Dict, Any, Optional
+from dotenv import load_dotenv
+from collections import defaultdict
+
+# Pydantic for data modeling
+from pydantic import BaseModel, Field
+
+# LangChain components
+from langchain_nebius import ChatNebius
+from langchain_core.prompts import ChatPromptTemplate
+
+# LangGraph components
+from langgraph.graph import StateGraph, END
+from typing_extensions import TypedDict
+
+# For pretty printing
+from rich.console import Console
+from rich.markdown import Markdown
+from rich.tree import Tree
+
+# --- API Key and Tracing Setup ---
+load_dotenv()
+
+os.environ[&quot;LANGCHAIN_TRACING_V2&quot;] = &quot;true&quot;
+os.environ[&quot;LANGCHAIN_PROJECT&quot;] = &quot;Agentic Architecture - Tree-of-Thoughts (Nebius)&quot;
+
+# Kiểm tra các biến môi trường bắt buộc
+required_vars = [&quot;NEBIUS_API_KEY&quot;, &quot;LANGCHAIN_API_KEY&quot;]
+for var in required_vars:
+    if var not in os.environ:
+        print(f&quot;Warning: Environment variable {var} not set.&quot;)
+
+print(&quot;Environment variables loaded and tracing is set up.&quot;)
+</code></pre>
+<h2>Phase 1: Defining the Problem Environment</h2>
+<p>Một hệ thống Tree-of-Thoughts yêu cầu một môi trường được định nghĩa rõ ràng để hoạt động. Đối với câu đố Sói, Dê và Bắp cải, điều này có nghĩa là chúng ta cần định nghĩa bằng lập trình:</p>
+<ol>
+<li><strong>State Representation (Đại diện trạng thái):</strong> Một cách để mô tả vị trí của tất cả các vật phẩm.</li>
+<li><strong>Validation Rules (Quy tắc thẩm định):</strong> Một hàm để kiểm tra xem một trạng thái có không hợp lệ hay không (ví dụ: dê và bắp cải bị bỏ lại cùng nhau).</li>
+<li><strong>Goal State (Trạng thái mục tiêu):</strong> Một cách để kiểm tra xem câu đố đã được giải xong chưa.</li>
+<li><strong>Possible Moves (Các bước đi khả thi):</strong> Một hàm để xác định tất cả các bước đi hợp lệ từ một trạng thái cho trước.</li>
+</ol>
+<pre><code class="language-python">console = Console()
+
+class PuzzleState(BaseModel):
+    &quot;Đại diện cho trạng thái của câu đố Sói, Dê và Bắp cải.&quot;
+    # Sử dụng các set cho các tập hợp vật phẩm không có thứ tự trên mỗi bờ
+    left_bank: set[str] = Field(default_factory=lambda: {&quot;wolf&quot;, &quot;goat&quot;, &quot;cabbage&quot;})
+    right_bank: set[str] = Field(default_factory=set)
+    boat_location: str = &quot;left&quot;
+    move_description: str = &quot;Initial state.&quot;
+
+    def is_valid(self) -&gt; bool:
+        &quot;&quot;&quot;Kiểm tra xem trạng thái hiện tại có hợp lệ không (không ai bị ăn thịt).&quot;&quot;&quot;
+        # Kiểm tra bờ bên trái
+        if self.boat_location == &quot;right&quot;:
+            if &quot;wolf&quot; in self.left_bank and &quot;goat&quot; in self.left_bank:
+                return False
+            if &quot;goat&quot; in self.left_bank and &quot;cabbage&quot; in self.left_bank:
+                return False
+        # Kiểm tra bờ bên phải
+        if self.boat_location == &quot;left&quot;:
+            if &quot;wolf&quot; in self.right_bank and &quot;goat&quot; in self.right_bank:
+                return False
+            if &quot;goat&quot; in self.right_bank and &quot;cabbage&quot; in self.right_bank:
+                return False
+        return True
+
+    def is_goal(self) -&gt; bool:
+        &quot;&quot;&quot;Kiểm tra xem đã đạt đến trạng thái mục tiêu chưa.&quot;&quot;&quot;
+        return self.right_bank == {&quot;wolf&quot;, &quot;goat&quot;, &quot;cabbage&quot;}
+
+    def __hash__(self):
+        # Làm cho trạng thái có thể hash được để kiểm tra các trạng thái đã ghé thăm
+        return hash((frozenset(self.left_bank), frozenset(self.right_bank), self.boat_location))
+
+    def __eq__(self, other):
+        return self.__hash__() == other.__hash__()
+
+def get_possible_moves(state: PuzzleState) -&gt; list[PuzzleState]:
+    &quot;&quot;&quot;Tạo ra tất cả các trạng thái tiếp theo hợp lệ khả thi từ trạng thái hiện tại.&quot;&quot;&quot;
+    moves = []
+    current_bank = state.left_bank if state.boat_location == &quot;left&quot; else state.right_bank
+
+    # Lựa chọn 1: Di chuyển một vật phẩm trong thuyền
+    for item in current_bank:
+        new_state = state.model_copy(deep=True)
+        if state.boat_location == &quot;left&quot;:
+            new_state.left_bank.remove(item)
+            new_state.right_bank.add(item)
+            new_state.boat_location = &quot;right&quot;
+            new_state.move_description = f&quot;Move {item} to the right bank.&quot;
+        else:
+            new_state.right_bank.remove(item)
+            new_state.left_bank.add(item)
+            new_state.boat_location = &quot;left&quot;
+            new_state.move_description = f&quot;Move {item} to the left bank.&quot;
+        if new_state.is_valid():
+            moves.append(new_state)
+
+    # Lựa chọn 2: Di chuyển thuyền trống
+    empty_move_state = state.model_copy(deep=True)
+    if state.boat_location == &quot;left&quot;:
+        empty_move_state.boat_location = &quot;right&quot;
+        empty_move_state.move_description = &quot;Move the boat empty to the right bank.&quot;
+    else:
+        empty_move_state.boat_location = &quot;left&quot;
+        empty_move_state.move_description = &quot;Move the boat empty to the left bank.&quot;
+    if empty_move_state.is_valid():
+        moves.append(empty_move_state)
+
+    return moves
+
+print(&quot;Puzzle environment defined successfully.&quot;)
+</code></pre>
+<h2>Phase 2: Implementing the ToT Agent with LangGraph</h2>
+<p>Bây giờ chúng ta sẽ xây dựng bản thân agent. State của graph sẽ theo dõi tất cả các con đường (các nhánh) đang hoạt động trong cây suy nghĩ của mình. Các node sẽ thực hiện các hành động ToT chính:</p>
+<ol>
+<li><strong>Expand Paths (Thought Generator):</strong> Một node được hỗ trợ bởi LLM giúp xem xét trạng thái cuối cùng của mỗi con đường đang hoạt động và đề xuất một bước đi tiếp theo đầy hứa hẹn từ danh sách các khả năng hợp lệ.</li>
+<li><strong>Prune Paths (State Evaluator):</strong> Node này dọn dẹp sau khi tạo. Nó sẽ loại bỏ bất kỳ con đường nào đã rơi vào trạng thái không hợp lệ hoặc bị lặp (ghé thăm lại một trạng thái trước đó).</li>
+<li><strong>Check for Solution (Goal Check):</strong> Một node điều kiện giúp kiểm tra xem có con đường nào đang hoạt động đã đạt được trạng thái mục tiêu chưa. Nếu có, nó sẽ kết thúc vòng lặp.</li>
+</ol>
+<pre><code class="language-python">llm = ChatNebius(model=&quot;mistralai/Mixtral-8x22B-Instruct-v0.1&quot;, temperature=0.4)
+
+# Pydantic model cho lựa chọn bước đi của LLM
+class MoveChoice(BaseModel):
+    best_move_index: int = Field(description=&quot;The index of the best move from the provided list of possible moves.&quot;)
+    reasoning: str = Field(description=&quot;Brief reasoning for why this is the most promising move.&quot;)
+
+# LangGraph State
+class ToTState(TypedDict):
+    problem_description: str
+    # Mỗi con đường là một danh sách các đối tượng PuzzleState
+    active_paths: List[List[PuzzleState]]
+    # Chúng ta sẽ lưu trữ giải pháp cuối cùng tại đây
+    solution: Optional[List[PuzzleState]]
+
+# Graph Nodes
+def initialize_search(state: ToTState) -&gt; Dict[str, Any]:
+    &quot;&quot;&quot;Node để thiết lập trạng thái ban đầu cho cuộc tìm kiếm.&quot;&quot;&quot;
+    initial_puzzle_state = PuzzleState()
+    return {&quot;active_paths&quot;: [[initial_puzzle_state]]}
+
+def expand_paths(state: ToTState) -&gt; Dict[str, Any]:
+    &quot;&quot;&quot;'Thought Generator'. Mở rộng mỗi con đường đang hoạt động bằng một bước đi tiếp theo hứa hẹn.&quot;&quot;&quot;
+    console.print(&quot;--- Expanding Paths ---&quot;)
+    new_paths = []
+    choice_llm = llm.with_structured_output(MoveChoice)
+
+    prompt = ChatPromptTemplate.from_messages([
+        (&quot;system&quot;, &quot;You are an expert logic puzzle solver. Your goal is to solve the Wolf, Goat, and Cabbage problem. Analyze the current path and choose the most promising next move from the list of options to reach the goal.&quot;),
+        (&quot;human&quot;, &quot;Problem: {problem}\n\nCurrent Path History:\n{path_history}\n\nFrom the final state, choose the best next move from this list:\n{possible_moves}&quot;)
+    ])
+
+    for path in state['active_paths']:
+        last_state = path[-1]
+        possible_next_states = get_possible_moves(last_state)
+
+        if not possible_next_states:
+            continue # Con đường này đi vào ngõ cụt
+
+        path_history_str = &quot; -&gt; &quot;.join([s.move_description for s in path])
+        possible_moves_str = &quot;\n&quot;.join([f&quot;{i}: {s.move_description}&quot; for i, s in enumerate(possible_next_states)])
+
+        # Để đơn giản và để hiển thị chiều rộng, chúng ta có thể khám phá nhiều bước đi.
+        # Một ToT tiên tiến hơn có thể sử dụng LLM để chỉ chọn ra một cái tốt nhất duy nhất.
+        # Ở đây, chúng ta sẽ để tất cả các bước đi hợp lệ rẽ nhánh ra để chứng minh cấu trúc cây.
+        for next_state in possible_next_states:
+            new_paths.append(path + [next_state])
+
+    console.print(f&quot;[cyan]Expanded to {len(new_paths)} potential paths.[/cyan]&quot;)
+    return {&quot;active_paths&quot;: new_paths}
+
+def prune_paths(state: ToTState) -&gt; Dict[str, Any]:
+    &quot;&quot;&quot;'State Evaluator'. Cắt tỉa các con đường không hợp lệ hoặc chứa các vòng lặp (cycles).&quot;&quot;&quot;
+    console.print(&quot;--- Pruning Paths ---&quot;)
+    pruned_paths = []
+    for path in state['active_paths']:
+        # Kiểm tra các vòng lặp: nếu trạng thái cuối cùng đã xuất hiện trước đó trong con đường này
+        if path[-1] in path[:-1]:
+            continue # Đã thấy vòng lặp, cắt tỉa con đường này
+
+        # Hàm get_possible_moves đã đảm bảo tính hợp lệ rồi, nhưng đây là nơi tốt để thêm các kiểm tra phụ.
+        pruned_paths.append(path)
+
+    console.print(f&quot;[green]Pruned down to {len(pruned_paths)} valid, non-cyclical paths.[/green]&quot;)
+    return {&quot;active_paths&quot;: pruned_paths}
+
+# Conditional Node
+def check_for_solution(state: ToTState) -&gt; str:
+    &quot;&quot;&quot;Kiểm tra xem có con đường nào đã đạt được mục tiêu chưa và điều hướng thực thi.&quot;&quot;&quot;
+    for path in state['active_paths']:
+        if path[-1].is_goal():
+            console.print(&quot;[bold green]Solution Found![/bold green]&quot;)
+            # Side effect: cập nhật giải pháp trong state. LangGraph sẽ copy nó ra.
+            state['solution'] = path
+            return &quot;solution_found&quot;
+    return &quot;continue_search&quot;
+
+# Xây dựng graph
+workflow = StateGraph(ToTState)
+
+workflow.add_node(&quot;initialize&quot;, initialize_search)
+workflow.add_node(&quot;expand&quot;, expand_paths)
+workflow.add_node(&quot;prune&quot;, prune_paths)
+
+workflow.set_entry_point(&quot;initialize&quot;)
+workflow.add_edge(&quot;initialize&quot;, &quot;expand&quot;)
+workflow.add_edge(&quot;expand&quot;, &quot;prune&quot;)
+
+workflow.add_conditional_edges(
+    &quot;prune&quot;,
+    check_for_solution,
+    {
+        &quot;solution_found&quot;: END,
+        &quot;continue_search&quot;: &quot;expand&quot;
+    }
+)
+
+tot_agent = workflow.compile()
+print(&quot;Tree-of-Thoughts agent graph compiled successfully.&quot;)
+</code></pre>
+<h2>Phase 3: Demonstration &amp; Analysis</h2>
+<p>Bây giờ, hãy chạy ToT agent của chúng ta cho câu đố. Chúng ta sẽ so sánh cách tiếp cận có hệ thống của nó với một yêu cầu Chain-of-Thought đơn lẻ, chạy một lượt (single-pass) để làm nổi bật sự khác biệt về tính ổn định.</p>
+<pre><code class="language-python">problem = &quot;A farmer wants to cross a river with a wolf, a goat, and a cabbage. The boat can only carry the farmer and one other item. The farmer cannot leave the wolf alone with the goat, nor the goat alone with the cabbage. How can the farmer get everyone across safely?&quot;
+
+console.print(&quot;--- 🌳 Running Tree-of-Thoughts Agent ---&quot;)
+# Giới hạn đệ quy ngăn chặn các vòng lặp vô hạn trong graph của chúng ta
+config = {&quot;recursion_limit&quot;: 15}
+final_state = tot_agent.invoke({&quot;problem_description&quot;: problem}, config=config)
+
+console.print(&quot;\n--- ✅ ToT Agent Solution ---&quot;)
+if final_state.get('solution'):
+    solution_path = final_state['solution']
+    # Sử dụng rich.Tree cho đầu ra trực quan đẹp mắt
+    tree = Tree(&quot;[bold magenta]Wolf, Goat, and Cabbage Solution Path[/bold magenta]&quot;)
+    for i, state in enumerate(solution_path):
+        tree.add(f&quot;[green]{i+1}.[/green] {state.move_description}&quot;)
+    console.print(tree)
+else:
+    console.print(&quot;[bold red]No solution found within the step limit.[/bold red]&quot;)
+
+console.print(&quot;\n--- 🤔 Running Simple Chain-of-Thought Agent ---&quot;)
+cot_prompt = ChatPromptTemplate.from_messages([
+    (&quot;system&quot;, &quot;You are a world-class logic puzzle solver. Provide a step-by-step solution to the user's puzzle.&quot;),
+    (&quot;human&quot;, &quot;{problem}&quot;)
+])
+cot_chain = cot_prompt | llm
+cot_result = cot_chain.invoke({&quot;problem&quot;: problem}).content
+console.print(Markdown(cot_result))
+</code></pre>
+<h3>Analysis of the Results</h3>
+<p>Sự khác biệt giữa hai phương pháp là rất sâu sắc:</p>
+<ul>
+<li>
+<p><strong>Chain-of-Thought (CoT):</strong> Cách tiếp cận này dựa trên kiến thức đã được huấn luyện trước của LLM để nhớ lại giải pháp. Đối với một vấn đề cổ điển, nổi tiếng như thế này, một LLM mạnh mẽ thường có thể đưa ra câu trả lời đúng ngay trong một lượt. Tuy nhiên, nếu nó mắc một lỗi duy nhất, nó không có cơ chế để tự sửa chữa. Đối với một vấn đề mới lạ hoặc phức tạp hơn, khả năng thất bại cao hơn nhiều. Tính đúng đắn của nó là vấn đề của việc ghi nhớ, không phải là lập luận có thể xác minh.</p>
+</li>
+<li>
+<p><strong>Tree-of-Thoughts (ToT):</strong> Agent này <em>khám phá ra</em> giải pháp thông qua cuộc tìm kiếm có hệ thống, có thể xác minh. Nó không chỉ nhớ lại một câu trả lời; nó xây dựng một cái. Chúng ta có thể thấy quy trình trong nhật ký: mở rộng các con đường, sau đó cắt tỉa những con đường rơi vào ngõ cụt hoặc vòng lặp. Ngay cả khi LLM hướng dẫn việc mở rộng đưa ra một lựa chọn không tối ưu trên một nhánh, agent vẫn có thể tiếp tục khám phá các nhánh khác đầy hứa hẹn hơn. Phương pháp này ổn định và đáng tin cậy hơn nhiều vì giải pháp cuối cùng của nó được đảm bảo là hợp lệ theo các quy tắc của môi trường mà chúng ta đã định nghĩa.</p>
+</li>
+</ul>
+<p>Thành công của ToT agent không dựa trên sự may mắn hay việc học thuộc lòng, mà dựa trên sự vững chãi của thuật toán tìm kiếm của nó. Điều này khiến nó trở thành một cách tiếp cận vượt trội hơn hẳn cho các nhiệm vụ đòi hỏi độ tin cậy và lập kế hoạch cao.</p>
+<h2>Conclusion</h2>
+<p>Trong notebook này, chúng ta đã triển khai một <strong>Tree-of-Thoughts</strong> agent để giải một câu đố logic cổ điển. Chúng ta đã chứng minh rằng bằng cách chuyển đổi một vấn đề thành một không gian trạng thái (state space) và tìm kiếm qua đó một cách có hệ thống, một agent có thể đạt được mức độ ổn định và chính xác mà các phương pháp lập luận đơn giản, chạy một lượt không thể làm được.</p>
+<p>Các thành phần cốt lõi của ToT—<strong>tạo suy nghĩ (thought generation - expansion)</strong>, <strong>đánh giá trạng thái (state evaluation - pruning)</strong>, và <strong>tìm kiếm (search)</strong>—tạo ra một framework mạnh mẽ để giải quyết các nhiệm vụ lập kế hoạch và lập luận phức tạp. Mặc dù nó đi kèm với chi phí tính toán cao hơn, nhưng sự đánh đổi lại là sự gia tăng đáng kể về tính tin cậy và khả năng giải quyết vấn đề. Kiến trúc này là một bước đi then chốt hướng tới việc xây dựng các agent có thể lập luận một cách chủ động (reason deliberately) và tìm ra giải pháp cho các vấn đề đa bước, đầy thách thức.</p>
+</body>
+</html>

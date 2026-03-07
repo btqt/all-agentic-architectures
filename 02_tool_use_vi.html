@@ -1,0 +1,280 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>02_Tool_Use</title>
+    <style>
+        body { font-family: system-ui, -apple-system, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; color: #333; }
+        pre { background: #f4f4f4; padding: 15px; border-radius: 5px; overflow-x: auto; }
+        code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; font-family: monospace; }
+        a { color: #007bff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        img { max-width: 100%; height: auto; }
+    </style>
+</head>
+<body>
+<h1>📘 Agentic Architectures 2: Tool Use</h1>
+<p>Notebook này đề cập đến kiến trúc agentic thứ hai, và có thể nói là một trong những kiến trúc mang tính thay đổi nhất: <strong>Tool Use</strong>. Pattern này là cầu nối liên kết khả năng suy luận của Large Language Model (LLM) với thế giới thực đầy biến động.</p>
+<p>Nếu không có tool, một LLM là một hệ thống khép kín, bị giới hạn bởi kiến thức đã được "đóng băng" trong dữ liệu training của nó. Nó không thể biết thời tiết hôm nay thế nào, giá cổ phiếu hiện tại là bao nhiêu, hay trạng thái của một đơn hàng trong Database của công ty bạn. Bằng cách cung cấp cho agent khả năng sử dụng tool, chúng ta trao quyền cho nó vượt qua giới hạn cơ bản này, cho phép nó truy vấn các API, tìm kiếm Database, và truy cập thông tin trực tiếp để đưa ra các câu trả lời không chỉ dựa trên suy luận mà còn dựa trên dữ liệu thực tế, kịp thời và phù hợp.</p>
+<h3>Definition</h3>
+<p>Kiến trúc <strong>Tool Use</strong> trang bị cho một agent chạy bằng LLM khả năng gọi các hàm hoặc API bên ngoài (gọi là "tools"). Agent sẽ tự chủ quyết định khi nào một truy vấn của người dùng không thể được trả lời chỉ bằng kiến thức nội bộ của nó và xác định tool nào là phù hợp để gọi nhằm tìm kiếm thông tin cần thiết.</p>
+<h3>High-level Workflow</h3>
+<ol>
+<li><strong>Receive Query:</strong> Agent nhận một request từ người dùng.</li>
+<li><strong>Decision:</strong> Agent phân tích truy vấn và các tool hiện có. Nó quyết định xem có cần một tool để trả lời câu hỏi một cách chính xác hay không.</li>
+<li><strong>Action:</strong> Nếu cần một tool, agent sẽ định dạng một lời gọi đến tool đó (ví dụ: một hàm cụ thể với các đối số phù hợp).</li>
+<li><strong>Observation:</strong> Hệ thống thực thi lời gọi tool, và kết quả (gọi là "observation") được trả về cho agent.</li>
+<li><strong>Synthesis:</strong> Agent tích hợp kết quả đầu ra của tool vào quá trình suy luận của mình để tạo ra câu trả lời cuối cùng, có căn cứ cho người dùng.</li>
+</ol>
+<h3>When to Use / Applications</h3>
+<ul>
+<li><strong>Research Assistants:</strong> Trả lời các câu hỏi yêu cầu thông tin cập nhật từng phút bằng cách sử dụng một web search API.</li>
+<li><strong>Enterprise Assistants:</strong> Truy vấn các Database nội bộ của công ty để trả lời các câu hỏi như "Có bao nhiêu người dùng mới đã đăng ký vào tuần trước?"</li>
+<li><strong>Scientific &amp; Mathematical Tasks:</strong> Sử dụng máy tính hoặc một computational engine như WolframAlpha cho các phép tính chính xác mà các LLM thường gặp khó khăn.</li>
+</ul>
+<h3>Strengths &amp; Weaknesses</h3>
+<ul>
+<li><strong>Strengths:</strong><ul>
+<li><strong>Factual Grounding:</strong> Giảm đáng kể tình trạng ảo giác (hallucination) bằng cách truy xuất dữ liệu thực tế, trực tiếp.</li>
+<li><strong>Extensibility:</strong> Khả năng của agent có thể được mở rộng liên tục bằng cách thêm các tool mới.</li>
+</ul>
+</li>
+<li><strong>Weaknesses:</strong><ul>
+<li><strong>Integration Overhead:</strong> Yêu cầu việc thiết lập hệ thống ("plumbing") cẩn thận để định nghĩa các tool, xử lý API keys, và quản lý các lỗi tiềm ẩn của tool.</li>
+<li><strong>Tool Trust:</strong> Chất lượng câu trả lời của agent phụ thuộc vào độ tin cậy và tính chính xác của các tool mà nó sử dụng. Agent phải tin tưởng rằng các tool của nó cung cấp thông tin chính xác.</li>
+</ul>
+</li>
+</ul>
+<h2>Phase 0: Foundation &amp; Setup</h2>
+<p>Như trước đây, chúng ta bắt đầu bằng việc thiết lập môi trường. Việc này bao gồm cài đặt các thư viện cần thiết và cấu hình API keys cho Nebius, LangSmith, và tool cụ thể mà chúng ta sẽ sử dụng.</p>
+<h3>Step 0.1: Installing Core Libraries</h3>
+<p><strong>Những gì chúng ta sẽ làm:</strong>
+Chúng ta sẽ cài đặt bộ thư viện tiêu chuẩn để thực hiện orchestration (<code>langchain-nebius</code>, <code>langgraph</code>), quản lý môi trường (<code>python-dotenv</code>), và in ấn (<code>rich</code>). Quan trọng nhất, chúng ta cũng sẽ cài đặt <code>tavily-python</code>, thư viện cung cấp một API dễ sử dụng cho một công cụ tìm kiếm web mạnh mẽ mà chúng ta sẽ cung cấp cho agent của mình.</p>
+<pre><code class="language-python"># !pip install -q -U langchain-nebius langchain langgraph rich python-dotenv tavily-python
+</code></pre>
+<h3>Step 0.2: Importing Libraries and Setting Up Keys</h3>
+<p><strong>Những gì chúng ta sẽ làm:</strong>
+Chúng ta sẽ import các module cần thiết và sử dụng <code>python-dotenv</code> để load các API keys. Đối với notebook này, chúng ta cần các key cho Nebius (cho LLM), LangSmith (để thực hiện tracing), và Tavily (cho công cụ tìm kiếm web).</p>
+<p><strong>Action Required:</strong> Tạo một file <code>.env</code> trong thư mục này với các key của bạn:</p>
+<pre><code>NEBIUS_API_KEY=&quot;your_nebius_api_key_here&quot;
+LANGCHAIN_API_KEY=&quot;your_langsmith_api_key_here&quot;
+TAVILY_API_KEY=&quot;your_tavily_api_key_here&quot;
+</code></pre>
+<pre><code class="language-python">import os
+import json
+from typing import List, Annotated, TypedDict, Optional
+from dotenv import load_dotenv
+
+# LangChain components
+from langchain_nebius import ChatNebius
+from langchain_community.tools.tavily_search import TavilySearchResults
+from langchain_core.messages import BaseMessage, ToolMessage
+from pydantic import BaseModel, Field
+
+# LangGraph components
+from langgraph.graph import StateGraph, END
+from langgraph.graph.message import AnyMessage, add_messages
+from langgraph.prebuilt import ToolNode
+
+# For pretty printing
+from rich.console import Console
+from rich.markdown import Markdown
+
+# --- API Key and Tracing Setup ---
+load_dotenv()
+
+os.environ[&quot;LANGCHAIN_TRACING_V2&quot;] = &quot;true&quot;
+os.environ[&quot;LANGCHAIN_PROJECT&quot;] = &quot;Agentic Architecture - Tool Use (Nebius)&quot;
+
+# Kiểm tra xem các key đã được thiết lập chưa
+for key in [&quot;NEBIUS_API_KEY&quot;, &quot;LANGCHAIN_API_KEY&quot;, &quot;TAVILY_API_KEY&quot;]:
+    if not os.environ.get(key):
+        print(f&quot;{key} not found. Please create a .env file and set it.&quot;)
+
+print(&quot;Environment variables loaded and tracing is set up.&quot;)
+</code></pre>
+<h2>Phase 1: Defining the Agent's Toolkit</h2>
+<p>Một agent chỉ có năng lực tương đương với các tool mà nó có quyền truy cập. Trong Phase này, chúng ta sẽ định nghĩa và kiểm thử tool cụ thể mà chúng ta sẽ cung cấp cho agent: tính năng tìm kiếm web trực tiếp.</p>
+<h3>Step 1.1: Creating and Testing the Web Search Tool</h3>
+<p><strong>Những gì chúng ta sẽ làm:</strong>
+Chúng ta sẽ khởi tạo tool <code>TavilySearchResults</code>. Phần quan trọng nhất của việc định nghĩa một tool là <strong>mô tả (description)</strong> của nó. LLM sử dụng mô tả bằng ngôn ngữ tự nhiên này để hiểu tool đó làm gì và khi nào nên sử dụng nó. Một bản mô tả rõ ràng, chính xác là điều thiết yếu để agent đưa ra các quyết định đúng đắn. Sau đó, chúng ta sẽ kiểm thử tool trực tiếp để xem kết quả đầu ra thô của nó trông như thế nào.</p>
+<pre><code class="language-python"># Khởi tạo tool. Chúng ta có thể đặt số lượng kết quả tối đa để giữ cho context ngắn gọn.
+search_tool = TavilySearchResults(max_results=2)
+
+# Việc đặt tên và mô tả rõ ràng cho tool là cực kỳ quan trọng đối với agent
+search_tool.name = &quot;web_search&quot;
+search_tool.description = &quot;A tool that can be used to search the internet for up-to-date information on any topic, including news, events, and current affairs.&quot;
+
+tools = [search_tool]
+print(f&quot;Tool '{search_tool.name}' created with description: '{search_tool.description}'&quot;)
+
+console = Console()
+
+# Hãy thử kiểm thử tool trực tiếp để xem format kết quả đầu ra của nó
+print(&quot;\n--- Testing the tool directly ---&quot;)
+test_query = &quot;What was the score of the last Super Bowl?&quot;
+test_result = search_tool.invoke({&quot;query&quot;: test_query})
+console.print(f&quot;[bold green]Query:[/bold green] {test_query}&quot;)
+console.print(&quot;\n[bold green]Result:[/bold green]&quot;)
+console.print(test_result)
+</code></pre>
+<p><strong>Discussion of the Output:</strong>
+Bài kiểm thử cho thấy kết quả thô của tool <code>web_search</code> của chúng ta. Nó trả về một danh sách các dictionary, trong đó mỗi dictionary chứa URL và đoạn snippet nội dung của một kết quả tìm kiếm. Thông tin có cấu trúc này chính là những gì agent sẽ nhận được dưới dạng "observation" sau khi nó quyết định sử dụng tool. Bây giờ khi đã có một tool hoạt động tốt, chúng ta có thể xây dựng agent sẽ học cách sử dụng nó.</p>
+<h2>Phase 2: Building the Tool-Using Agent with LangGraph</h2>
+<p>Bây giờ chúng ta sẽ xây dựng agentic workflow. Việc này bao gồm làm cho LLM nhận thức được các tool và tạo ra một graph cho phép nó lặp lại qua chu kỳ "think-act-observe" (suy nghĩ-hành động-quan sát), vốn là bản chất của việc sử dụng tool.</p>
+<h3>Step 2.1: Defining the Graph State</h3>
+<p><strong>Những gì chúng ta sẽ làm:</strong>
+State cho một agent sử dụng tool thường là một danh sách các message đại diện cho lịch sử hội thoại. Lịch sử này bao gồm các câu hỏi của người dùng, suy nghĩ của agent và các lời gọi tool, cùng với kết quả từ các tool đó. Chúng ta sẽ sử dụng một <code>TypedDict</code> có thể chứa bất kỳ loại LangChain message nào.</p>
+<pre><code class="language-python">class AgentState(TypedDict):
+    messages: Annotated[list[AnyMessage], add_messages]
+
+print(&quot;AgentState TypedDict defined to manage conversation history.&quot;)
+</code></pre>
+<h3>Step 2.2: Binding the Tools to the LLM</h3>
+<p><strong>Những gì chúng ta sẽ làm:</strong>
+Đây là bước quan trọng nơi chúng ta làm cho LLM "nhận thức" được về các tool. Chúng ta sử dụng phương thức <code>.bind_tools()</code>, phương thức này truyền tên và mô tả của các tool vào system prompt của LLM. Điều này cho phép logic nội bộ của model quyết định khi nào nên gọi một tool dựa trên mô tả của nó.</p>
+<pre><code class="language-python">llm = ChatNebius(model=&quot;meta-llama/Meta-Llama-3.1-8B-Instruct&quot;, temperature=0)
+
+# Bind các tool vào LLM, giúp nó nhận thức được các tool
+llm_with_tools = llm.bind_tools(tools)
+
+print(&quot;LLM has been bound with the provided tools.&quot;)
+</code></pre>
+<h3>Step 2.3: Defining the Agent Nodes</h3>
+<p><strong>Những gì chúng ta sẽ làm:</strong>
+Graph của chúng ta sẽ có hai node chính:
+1.  <strong><code>agent_node</code>:</strong> Đây là "bộ não". Nó gọi LLM với lịch sử hội thoại hiện tại. Phản hồi của LLM sẽ là câu trả lời cuối cùng hoặc một yêu cầu gọi một tool.
+2.  <strong><code>tool_node</code>:</strong> Đây là "đôi tay". Nó tiếp nhận yêu cầu gọi tool từ <code>agent_node</code>, thực thi tool tương ứng, và trả về kết quả đầu ra. Chúng ta sẽ sử dụng <code>ToolNode</code> có sẵn của LangGraph cho việc này.</p>
+<pre><code class="language-python">def agent_node(state: AgentState):
+    &quot;&quot;&quot;Node chính thực hiện gọi LLM để quyết định hành động tiếp theo.&quot;&quot;&quot;
+    console.print(&quot;--- AGENT: Thinking... ---&quot;)
+    response = llm_with_tools.invoke(state[&quot;messages&quot;])
+    return {&quot;messages&quot;: [response]}
+
+# ToolNode là một node có sẵn từ LangGraph thực hiện việc chạy các tool
+tool_node = ToolNode(tools)
+
+print(&quot;Agent node and Tool node have been defined.&quot;)
+</code></pre>
+<h3>Step 2.4: Defining the Conditional Router</h3>
+<p><strong>Những gì chúng ta sẽ làm:</strong>
+Sau khi <code>agent_node</code> chạy, chúng ta cần quyết định đi đâu tiếp theo. Hàm router kiểm tra message cuối cùng từ agent. Nếu message đó chứa attribute <code>tool_calls</code>, điều đó có nghĩa là agent muốn sử dụng một tool, vì vậy chúng ta route đến <code>tool_node</code>. Nếu không, điều đó có nghĩa là agent đã có câu trả lời cuối cùng, và chúng ta có thể kết thúc workflow.</p>
+<pre><code class="language-python">def router_function(state: AgentState) -&gt; str:
+    &quot;&quot;&quot;Kiểm tra message cuối cùng của agent để quyết định bước tiếp theo.&quot;&quot;&quot;
+    last_message = state[&quot;messages&quot;][-1]
+    if last_message.tool_calls:
+        # Agent đã yêu cầu một cuộc gọi tool
+        console.print(&quot;--- ROUTER: Decision is to call a tool. ---&quot;)
+        return &quot;call_tool&quot;
+    else:
+        # Agent đã cung cấp câu trả lời cuối cùng
+        console.print(&quot;--- ROUTER: Decision is to finish. ---&quot;)
+        return &quot;__end__&quot;
+
+print(&quot;Router function defined.&quot;)
+</code></pre>
+<h2>Phase 3: Assembling and Running the Workflow</h2>
+<p>Bây giờ chúng ta sẽ kết nối tất cả các thành phần lại với nhau thành một graph hoàn chỉnh, có thể thực thi và chạy nó trên một truy vấn buộc agent phải sử dụng khả năng tìm kiếm web mới của mình.</p>
+<h3>Step 3.1: Building and Visualizing the Graph</h3>
+<p><strong>Những gì chúng ta sẽ làm:</strong>
+Chúng ta sẽ tạo <code>StateGraph</code> và thêm các node cùng các edge của mình. Phần then chốt là conditional edge sử dụng <code>router_function</code> của chúng ta để tạo ra vòng lặp suy luận chính của agent: <code>agent -&gt; router -&gt; tool -&gt; agent</code>.</p>
+<pre><code class="language-python">graph_builder = StateGraph(AgentState)
+
+# Thêm các node
+graph_builder.add_node(&quot;agent&quot;, agent_node)
+graph_builder.add_node(&quot;call_tool&quot;, tool_node)
+
+# Thiết lập điểm bắt đầu
+graph_builder.set_entry_point(&quot;agent&quot;)
+
+# Thêm conditional router
+graph_builder.add_conditional_edges(
+    &quot;agent&quot;,
+    router_function,
+)
+
+# Thêm edge từ tool node quay lại agent để hoàn tất vòng lặp
+graph_builder.add_edge(&quot;call_tool&quot;, &quot;agent&quot;)
+
+# Compile graph
+tool_agent_app = graph_builder.compile()
+
+print(&quot;Tool-using agent graph compiled successfully!&quot;)
+
+# Hình ảnh hóa graph
+try:
+    from IPython.display import Image, display
+    png_image = tool_agent_app.get_graph().draw_png()
+    display(Image(png_image))
+except Exception as e:
+    print(f&quot;Graph visualization failed: {e}. Please ensure pygraphviz is installed.&quot;)
+</code></pre>
+<p><strong>Discussion of the Output:</strong>
+Graph đã hoàn tất việc compile và sẵn sàng hoạt động. Hình ảnh hóa cho thấy rõ ràng vòng lặp suy luận của agent. Quy trình bắt đầu tại node <code>agent</code>. Conditional edge (được đại diện bởi hình thoi) sau đó sẽ route luồng công việc. Nếu cần một tool, nó sẽ đi đến node <code>call_tool</code>, và kết quả đầu ra được đưa ngược lại node <code>agent</code> để tổng hợp. Nếu không cần tool nào, quy trình sẽ đi tới <code>__end__</code>. Cấu trúc này triển khai hoàn hảo pattern Tool Use.</p>
+<h3>Step 3.2: End-to-End Execution</h3>
+<p><strong>Những gì chúng ta sẽ làm:</strong>
+Hãy chạy agent với một câu hỏi mà nó không thể biết được từ dữ liệu training của mình, buộc nó phải sử dụng tool tìm kiếm web. Chúng ta sẽ stream các bước trung gian để theo dõi quá trình suy luận của nó diễn ra.</p>
+<pre><code class="language-python">user_query = &quot;What were the main announcements from Apple's latest WWDC event?&quot;
+initial_input = {&quot;messages&quot;: [(&quot;user&quot;, user_query)]}
+
+console.print(f&quot;[bold cyan]🚀 Kicking off Tool Use workflow for request:[/bold cyan] '{user_query}'\n&quot;)
+
+for chunk in tool_agent_app.stream(initial_input, stream_mode=&quot;values&quot;):
+    chunk[&quot;messages&quot;][-1].pretty_print()
+    console.print(&quot;\n---\n&quot;)
+
+console.print(&quot;\n[bold green]✅ Tool Use workflow complete![/bold green]&quot;)
+</code></pre>
+<h2>Phase 4: Evaluation</h2>
+<p>Bây giờ agent đã chạy xong, chúng ta có thể evaluate hiệu năng của nó. Đối với một agent sử dụng tool, chúng ta quan tâm đến hai điều: liệu nó có sử dụng các tool của mình một cách chính xác không, và câu trả lời cuối cùng – vốn được tổng hợp từ kết quả đầu ra của tool – có đạt chất lượng cao không?</p>
+<h3>Step 4.1: Analyzing the Execution Trace</h3>
+<p><strong>Những gì chúng ta sẽ làm:</strong>
+Bằng cách xem kết quả được stream ở bước trước, chúng ta có thể trace chính xác quá trình tư duy của agent. Kết quả cho thấy các loại message khác nhau (<code>AIMessage</code> với <code>tool_calls</code>, <code>ToolMessage</code> với các kết quả) luân chuyển qua graph state.</p>
+<p><strong>Discussion of the Output:</strong>
+Execution trace cho thấy rõ ràng pattern Tool Use đang hoạt động:
+1.  Message đầu tiên được in ra là từ node <code>agent</code>. Đó là một <code>AIMessage</code> chứa attribute <code>tool_calls</code>, cho thấy LLM đã quyết định chính xác việc sử dụng tool <code>web_search</code>.
+2.  Message tiếp theo là một <code>ToolMessage</code>. Đây là kết quả đầu ra từ <code>tool_node</code> sau khi nó thực hiện tìm kiếm và trả về các kết quả thô.
+3.  Message cuối cùng là một <code>AIMessage</code> khác, nhưng lần này không có <code>tool_calls</code>. Đây là lúc agent tổng hợp thông tin từ <code>ToolMessage</code> thành một câu trả lời cuối cùng, mạch lạc cho người dùng.
+Trace này xác nhận rằng logic của agent và việc routing của graph đã hoạt động hoàn hảo.</p>
+<h3>Step 4.2: Evaluating with LLM-as-a-Judge</h3>
+<p><strong>Những gì chúng ta sẽ làm:</strong>
+Chúng ta sẽ tạo một LLM 'Judge' (Giám khảo) để cung cấp một bản evaluation có cấu trúc, mang tính định lượng về hiệu năng của agent. Các tiêu chí evaluation sẽ được điều chỉnh cụ thể để đánh giá chất lượng của việc sử dụng tool.</p>
+<pre><code class="language-python">class ToolUseEvaluation(BaseModel):
+    &quot;&quot;&quot;Schema để đánh giá việc sử dụng tool của agent và câu trả lời cuối cùng.&quot;&quot;&quot;
+    tool_selection_score: int = Field(description=&quot;Score 1-5 on whether the agent chose the correct tool for the task.&quot;)
+    tool_input_score: int = Field(description=&quot;Score 1-5 on how well-formed and relevant the input to the tool was.&quot;)
+    synthesis_quality_score: int = Field(description=&quot;Score 1-5 on how well the agent integrated the tool's output into its final answer.&quot;)
+    justification: str = Field(description=&quot;A brief justification for the scores.&quot;)
+
+judge_llm = llm.with_structured_output(ToolUseEvaluation)
+
+# Để đánh giá, chúng ta cần tái lập conversation trace đầy đủ
+final_answer = tool_agent_app.invoke(initial_input)
+conversation_trace = &quot;\n&quot;.join([f&quot;{m.type}: {m.content or ''} {getattr(m, 'tool_calls', '')}&quot; for m in final_answer['messages']])
+
+def evaluate_tool_use(trace: str):
+    prompt = f&quot;&quot;&quot;You are an expert judge of AI agents. Evaluate the following conversation trace based on the agent's tool use on a scale of 1-5. Provide a brief justification.
+
+    Conversation Trace:
+    ```
+    {trace}
+    ```
+    &quot;&quot;&quot;
+    return judge_llm.invoke(prompt)
+
+console.print(&quot;--- Evaluating Tool Use Performance ---&quot;)
+evaluation = evaluate_tool_use(conversation_trace)
+console.print(evaluation.model_dump())
+</code></pre>
+<p><strong>Discussion of the Output:</strong>
+LLM-as-a-Judge cung cấp một bản đánh giá có cấu trúc và có lý lẽ về hiệu năng của agent của chúng ta. Các điểm số cao trên cả ba danh mục—<code>tool_selection_score</code>, <code>tool_input_score</code>, và <code>synthesis_quality_score</code>—xác nhận rằng agent của chúng ta không chỉ đang sử dụng các tool, mà còn sử dụng chúng một cách <em>hiệu quả</em>. Nó đã xác định chính xác nhu cầu tìm kiếm web, xây dựng một truy vấn phù hợp, và tổng hợp thành công các sự thật đã truy xuất được thành một câu trả lời cuối cùng hữu ích và chính xác. Bản evaluation tự động này giúp chúng ta tin tưởng vào mức độ mạnh mẽ của việc triển khai.</p>
+<h2>Conclusion</h2>
+<p>Trong notebook này, chúng ta đã xây dựng một agent hoàn chỉnh, đang hoạt động dựa trên kiến trúc <strong>Tool Use</strong>. Chúng ta đã trang bị thành công cho một LLM chạy trên Nebius một tool tìm kiếm web và sử dụng LangGraph để tạo ra một vòng lặp suy luận mạnh mẽ, cho phép agent quyết định khi nào và làm thế nào để sử dụng nó.</p>
+<p>Việc thực thi từ đầu đến cuối và quá trình đánh giá sau đó chứng minh giá trị to lớn của pattern này. Bằng cách kết nối agent của mình với thông tin thực tế bên ngoài, chúng ta đã vượt qua được giới hạn của dữ liệu training tĩnh một cách cơ bản. Agent giờ đây không còn chỉ là một bộ máy suy luận; nó là một nhà nghiên cứu, có khả năng đưa ra những câu trả lời có cơ sở, thực tế và cập nhật. Kiến trúc này là một khối xây dựng nền tảng để tạo ra hầu hết mọi AI assistant thực tiễn trong thế giới thực.</p>
+</body>
+</html>

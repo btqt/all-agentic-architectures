@@ -1,0 +1,260 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>13_Ensemble</title>
+    <style>
+        body { font-family: system-ui, -apple-system, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; color: #333; }
+        pre { background: #f4f4f4; padding: 15px; border-radius: 5px; overflow-x: auto; }
+        code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; font-family: monospace; }
+        a { color: #007bff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        img { max-width: 100%; height: auto; }
+    </style>
+</head>
+<body>
+<h1>📘 Agentic Architectures 13: Parallel Exploration + Ensemble Decision</h1>
+<p>Chào mừng bạn đến với bài tìm hiểu sâu về một trong những kiến trúc lập luận mạnh mẽ và đáng tin cậy nhất: <strong>Parallel Exploration with Ensemble Decision-Making</strong> (Khám phá song song với ra quyết định theo nhóm). Pattern này giải quyết tính phi định hình vốn có và các định kiến tiềm ẩn của một LLM đơn lẻ bằng cách tận dụng nguyên lý "trí tuệ tập thể" (wisdom of the crowd) áp dụng cho các AI agent.</p>
+<p>Thay vì dựa vào một dòng lập luận duy nhất, kiến trúc này sinh ra nhiều agent độc lập để phân tích một vấn đề từ các góc nhìn khác nhau cùng một lúc. Mỗi agent đi theo con đường lập luận riêng của mình, giống như các chuyên gia khác nhau trong một ủy ban. Các kết luận cá nhân của họ sau đó được thu thập và tổng hợp bởi một agent "aggregator" (người tổng hợp) cuối cùng. Agent này sẽ cân nhắc các quan điểm khác nhau, xác định sự đồng thuận và xung đột, và đưa ra một câu trả lời cuối cùng sắc sảo và đáng tin cậy hơn.</p>
+<p>Để xây dựng một triển khai phức tạp và mạnh mẽ, chúng ta sẽ tạo ra một <strong>Hội đồng Đầu tư AI giả lập</strong> với nhiệm vụ trả lời một câu hỏi khó và mở: <strong>"NVIDIA (NVDA) có phải là một khoản đầu tư dài hạn tốt vào giữa năm 2024 không?"</strong></p>
+<p>Hội đồng của chúng ta sẽ bao gồm ba agent song song, riêng biệt:
+1.  <strong>The Bullish Growth Analyst (Nhà phân tích tăng trưởng lạc quan):</strong> Một người lạc quan tập trung vào sự đổi mới, sự thống trị thị trường và tiềm năng tương lai.
+2.  <strong>The Cautious Value Analyst (Nhà phân tích giá trị thận trọng):</strong> Một người hoài nghi, xem xét kỹ lưỡng các số liệu tài chính, định giá, cạnh tranh và các rủi ro tiềm ẩn.
+3.  <strong>The Quantitative Analyst (Quant - Nhà phân tích định lượng):</strong> Một chuyên gia dựa trên dữ liệu, chỉ nhìn vào các chỉ số tài chính và các chỉ báo kỹ thuật của cổ phiếu.</p>
+<p>Cuối cùng, một agent <strong>Chief Investment Officer (CIO - Giám đốc đầu tư)</strong> sẽ tổng hợp các báo cáo mâu thuẫn của họ thành một luận điểm đầu tư cuối cùng, cân bằng, cung cấp một câu trả lời mạnh mẽ hơn nhiều so với bất kỳ agent đơn lẻ nào có thể làm được.</p>
+<h3>Definition</h3>
+<p><strong>Parallel Exploration + Ensemble Decision</strong> là một kiến trúc agentic nơi một vấn đề được xử lý đồng thời bởi nhiều agent hoặc các con đường lập luận độc lập. Các kết quả đầu ra cá nhân sau đó được tập hợp lại, thường là bởi một agent riêng biệt, thông qua một phương pháp như bỏ phiếu (voting), xây dựng sự đồng thuận (consensus-building), hoặc tổng hợp (synthesis) để đi đến một kết luận cuối cùng mạnh mẽ hơn.</p>
+<h3>High-level Workflow</h3>
+<ol>
+<li><strong>Fan-Out (Khám phá song song):</strong> Truy vấn của người dùng được phân phối tới N specialist agent độc lập. Quan trọng là các agent này thường được cung cấp các hướng dẫn, persona (hình mẫu nhân vật) hoặc công cụ khác nhau để khuyến khích các phương pháp phân tích đa dạng.</li>
+<li><strong>Independent Processing (Xử lý độc lập):</strong> Mỗi agent làm việc trên vấn đề một cách cô lập, tạo ra phân tích, kết luận hoặc câu trả lời hoàn chỉnh của riêng mình.</li>
+<li><strong>Fan-In (Tập hợp):</strong> Kết quả đầu ra từ tất cả N agent được thu thập lại.</li>
+<li><strong>Synthesize (Ra quyết định theo nhóm):</strong> Một agent "aggregator" (người tổng hợp) hoặc "judge" (thẩm phán) cuối cùng nhận tất cả các kết quả đầu ra cá nhân. Nhiệm vụ của nó là phân tích các góc nhìn này, xác định điểm chung, cân đối các bằng chứng mâu thuẫn và tổng hợp thành một câu trả lời cuối cùng toàn diện.</li>
+</ol>
+<h3>When to Use / Applications</h3>
+<ul>
+<li><strong>Q&amp;A Lập luận khó:</strong> Đối với các câu hỏi phức tạp, mơ hồ mà một dòng lập luận duy nhất có thể dễ dàng bỏ lỡ các sắc thái (ví dụ: "Nguyên nhân chính của cuộc khủng hoảng tài chính năm 2008 là gì?").</li>
+<li><strong>Kiểm chứng sự thật &amp; Xác minh:</strong> Việc có nhiều agent tìm kiếm và xác minh một sự thật từ các nguồn khác nhau có thể giảm thiểu đáng kể tình trạng ảo giác (hallucinations).</li>
+<li><strong>Hỗ trợ ra quyết định rủi ro cao:</strong> Trong các lĩnh vực như y tế hoặc tài chính, việc lấy "ý kiến thứ hai" (hoặc thứ ba, thứ tư) từ các persona AI khác nhau trước khi đưa ra khuyến nghị.</li>
+</ul>
+<h3>Strengths &amp; Weaknesses</h3>
+<ul>
+<li><strong>Strengths:</strong><ul>
+<li><strong>Tăng cường độ tin cậy &amp; độ chính xác:</strong> Trung hòa các lỗi ngẫu nhiên hoặc định kiến của một agent đơn lẻ, làm cho câu trả lời cuối cùng có khả năng chính xác và toàn diện hơn nhiều.</li>
+<li><strong>Giảm thiểu ảo giác:</strong> Nếu một agent ảo giác về một sự thật, những agent khác ít có khả năng làm điều tương tự, và người tổng hợp có thể dễ dàng phát hiện ra điểm bất thường.</li>
+</ul>
+</li>
+<li><strong>Weaknesses:</strong><ul>
+<li><strong>Chi phí rất cao:</strong> Đây là một trong những kiến trúc tốn kém nhất, vì nó nhân số lượng lượt gọi LLM với số lượng agent trong nhóm (cộng với lượt gọi tổng hợp cuối cùng).</li>
+<li><strong>Tăng độ trễ:</strong> Hệ thống phải chờ tất cả các con đường song song hoàn thành trước khi quá trình tổng hợp cuối cùng có thể bắt đầu.</li>
+</ul>
+</li>
+</ul>
+<h2>Phase 0: Foundation &amp; Setup</h2>
+<p>Chúng ta sẽ cài đặt các thư viện và thiết lập môi trường. Chúng ta sẽ cần <code>langchain-tavily</code> cho các công cụ nghiên cứu của các nhà phân tích.</p>
+<pre><code class="language-python"># !pip install -q -U langchain-nebius langchain langgraph rich python-dotenv langchain-tavily
+</code></pre>
+<pre><code class="language-python">import os
+from typing import List, Dict, Any, Optional
+from dotenv import load_dotenv
+
+# Pydantic for data modeling
+from pydantic import BaseModel, Field
+
+# LangChain components
+from langchain_nebius import ChatNebius
+from langchain_tavily import TavilySearch
+from langchain_core.prompts import ChatPromptTemplate
+
+# LangGraph components
+from langgraph.graph import StateGraph, END
+from typing_extensions import TypedDict
+
+# For pretty printing
+from rich.console import Console
+from rich.markdown import Markdown
+from rich.panel import Panel
+
+# --- API Key and Tracing Setup ---
+load_dotenv()
+
+os.environ[&quot;LANGCHAIN_TRACING_V2&quot;] = &quot;true&quot;
+os.environ[&quot;LANGCHAIN_PROJECT&quot;] = &quot;Agentic Architecture - Parallel Ensemble (Nebius)&quot;
+
+required_vars = [&quot;NEBIUS_API_KEY&quot;, &quot;LANGCHAIN_API_KEY&quot;, &quot;TAVILY_API_KEY&quot;]
+for var in required_vars:
+    if var not in os.environ:
+        print(f&quot;Warning: Environment variable {var} not set.&quot;)
+
+print(&quot;Environment variables loaded and tracing is set up.&quot;)
+</code></pre>
+<h2>Phase 1: Creating the Diverse Specialist Analysts</h2>
+<p>Chìa khóa của một nhóm (ensemble) thành công là sự đa dạng về nhận thức. Chúng ta sẽ tạo ra ba agent nhà phân tích riêng biệt, mỗi agent có một persona chi tiết được thiết kế để tạo ra một loại phân tích khác nhau. Tất cả đều có quyền truy cập vào search tool.</p>
+<pre><code class="language-python">console = Console()
+# Cần một model mạnh mẽ cho nhiệm vụ phức tạp này
+llm = ChatNebius(model=&quot;mistralai/Mixtral-8x22B-Instruct-v0.1&quot;, temperature=0.3)
+search_tool = TavilySearch(max_results=5)
+
+# LangGraph State
+class EnsembleState(TypedDict):
+    query: str
+    # Dict 'analyses' sẽ lưu trữ đầu ra từ mỗi agent song song
+    analyses: Dict[str, str]
+    final_recommendation: Optional[Any] # Sẽ lưu trữ đầu ra có cấu trúc từ CIO
+
+# Helper factory để tạo các analyst nodes của chúng ta
+def create_analyst_node(persona: str, agent_name: str):
+    &quot;&quot;&quot;Factory để tạo một specialist analyst node với persona độc nhất.&quot;&quot;&quot;
+    system_prompt = f&quot;You are an expert financial analyst. Your persona is '{persona}'. You must use your search tool to gather up-to-date information. Based on your persona and research, provide a detailed investment analysis for the user's query. Conclude with a clear 'Recommendation' (e.g., Buy, Hold, Sell) and a 'Confidence Score' (1-10).&quot;
+
+    prompt = ChatPromptTemplate.from_messages([
+        (&quot;system&quot;, system_prompt),
+        (&quot;human&quot;, &quot;{query}&quot;)
+    ])
+    chain = prompt | llm.bind_tools([search_tool])
+
+    def analyst_node(state: EnsembleState) -&gt; Dict[str, Any]:
+        console.print(f&quot;--- 👨‍💻 Calling {agent_name} --- &quot;)
+        result = chain.invoke({&quot;query&quot;: state['query']})
+        # Việc cập nhật state được thiết kế cẩn thận để thêm vào dict 'analyses'
+        # mà không ghi đè lên các bản khác. Đây là chìa khóa cho việc thực thi song song.
+        current_analyses = state.get('analyses', {})
+        current_analyses[agent_name] = result.content
+        return {&quot;analyses&quot;: current_analyses}
+
+    return analyst_node
+
+# 1. The Bullish Growth Analyst
+bullish_persona = &quot;The Bullish Growth Analyst: You are extremely optimistic about technology and innovation. You focus on Total Addressable Market (TAM), visionary leadership, technological moats, and future growth potential. Downplay short-term volatility and valuation concerns in favor of the long-term disruptive story.&quot;
+bullish_analyst_node = create_analyst_node(bullish_persona, &quot;BullishAnalyst&quot;)
+
+# 2. The Cautious Value Analyst
+value_persona = &quot;The Cautious Value Analyst: You are a skeptical investor focused on fundamentals and risk. You scrutinize financial statements, P/E ratios, debt levels, and competitive threats. You are wary of hype and market bubbles. Highlight potential risks, downside scenarios, and reasons for caution.&quot;
+value_analyst_node = create_analyst_node(value_persona, &quot;ValueAnalyst&quot;)
+
+# 3. The Quantitative Analyst
+quant_persona = &quot;The Quantitative Analyst (Quant): You are purely data-driven. You ignore narratives and focus on hard numbers. Report on key financial metrics (YoY revenue growth, EPS, margins), valuation multiples (P/E, P/S), and technical indicators (RSI, moving averages). Your analysis must be objective and based on the data you find.&quot;
+quant_analyst_node = create_analyst_node(quant_persona, &quot;QuantAnalyst&quot;)
+
+print(&quot;Specialist analyst agents defined successfully.&quot;)
+</code></pre>
+<h2>Phase 2: Building the CIO Aggregator Agent</h2>
+<p>Đây là bước <strong>Ensemble Decision</strong>. Chúng ta sẽ tạo ra một agent cuối cùng, Chief Investment Officer (CIO), người có nhiệm vụ tổng hợp các báo cáo từ ba nhà phân tích. Agent này cần một prompt tinh vi và một model đầu ra có cấu trúc để đảm bảo nó tạo ra một luận điểm đầu tư cuối cùng chất lượng cao và cân bằng.</p>
+<pre><code class="language-python"># Pydantic model cho khuyến nghị cuối cùng có cấu trúc
+class FinalRecommendation(BaseModel):
+    &quot;&quot;&quot;Luận điểm đầu tư cuối cùng, được tổng hợp từ CIO.&quot;&quot;&quot;
+    final_recommendation: str = Field(description=&quot;The final investment decision, must be one of 'Strong Buy', 'Buy', 'Hold', 'Sell', 'Strong Sell'.&quot;)
+    confidence_score: float = Field(description=&quot;The CIO's confidence in this recommendation, from 1.0 to 10.0.&quot;)
+    synthesis_summary: str = Field(description=&quot;A detailed summary synthesizing the analysts' viewpoints, highlighting points of agreement and contention.&quot;)
+    identified_opportunities: List[str] = Field(description=&quot;A bulleted list of the primary opportunities or bullish points.&quot;)
+    identified_risks: List[str] = Field(description=&quot;A bulleted list of the primary risks or bearish points.&quot;)
+
+def cio_synthesizer_node(state: EnsembleState) -&gt; Dict[str, Any]:
+    &quot;&quot;&quot;Node cuối cùng tổng hợp tất cả các phân tích thành một khuyến nghị duy nhất.&quot;&quot;&quot;
+    console.print(&quot;--- 🏛️ Calling Chief Investment Officer for Final Decision ---&quot;)
+
+    # Kết hợp tất cả các phân tích cá nhân thành một chuỗi duy nhất cho prompt
+    all_analyses = &quot;\n\n---\n\n&quot;.join(
+        f&quot;**Analysis from {name}:**\n{analysis}&quot;
+        for name, analysis in state['analyses'].items()
+    )
+
+    cio_prompt = ChatPromptTemplate.from_messages([
+        (&quot;system&quot;, &quot;You are the Chief Investment Officer (CIO) of a major investment fund. You have received reports from your team of specialist analysts. Your task is to synthesize these diverse and often conflicting viewpoints into a single, final, and actionable investment thesis. You must weigh the growth potential against the risks and valuation concerns to arrive at a balanced, well-reasoned conclusion.&quot;),
+        (&quot;human&quot;, &quot;Here are the reports from your team regarding the query: '{query}'\n\n{analyses}\n\nBased on all these perspectives, provide your final, synthesized investment thesis.&quot;)
+    ])
+
+    cio_llm = llm.with_structured_output(FinalRecommendation)
+    chain = cio_prompt | cio_llm
+
+    final_decision = chain.invoke({&quot;query&quot;: state['query'], &quot;analyses&quot;: all_analyses})
+
+    return {&quot;final_recommendation&quot;: final_decision}
+
+print(&quot;CIO Aggregator agent defined successfully.&quot;)
+</code></pre>
+<h2>Phase 3: Assembling the LangGraph Workflow</h2>
+<p>Bây giờ chúng ta kết nối mọi thứ lại với nhau. Graph sẽ có một entry point duy nhất rẽ nhánh (fan-out) tới ba analyst node song song của chúng ta. Khi tất cả các nhà phân tích đã hoàn thành công việc, graph sẽ tụ lại (fan-in) tới node cio_synthesizer duy nhất để tạo ra kết quả cuối cùng.</p>
+<pre><code class="language-python"># Node bắt đầu đơn giản là nhận truy vấn và chuẩn bị state.
+def start_analysis_node(state: EnsembleState) -&gt; Dict[str, Any]:
+    # Khởi tạo dictionary analyses
+    return {&quot;analyses&quot;: {}}
+
+# Xây dựng graph
+workflow = StateGraph(EnsembleState)
+
+workflow.add_node(&quot;start_analysis&quot;, start_analysis_node)
+
+# Thêm các analyst node song song
+workflow.add_node(&quot;bullish_analyst&quot;, bullish_analyst_node)
+workflow.add_node(&quot;value_analyst&quot;, value_analyst_node)
+workflow.add_node(&quot;quant_analyst&quot;, quant_analyst_node)
+
+# Thêm node synthesizer cuối cùng
+workflow.add_node(&quot;cio_synthesizer&quot;, cio_synthesizer_node)
+
+# Thiết lập entry point
+workflow.set_entry_point(&quot;start_analysis&quot;)
+
+# FAN-OUT: Từ lúc bắt đầu, chạy cả ba analyst song song
+workflow.add_edge(&quot;start_analysis&quot;, [&quot;bullish_analyst&quot;, &quot;value_analyst&quot;, &quot;quant_analyst&quot;])
+
+# FAN-IN: Sau khi tất cả analyst xong, gọi CIO synthesizer
+workflow.add_edge([&quot;bullish_analyst&quot;, &quot;value_analyst&quot;, &quot;quant_analyst&quot;], &quot;cio_synthesizer&quot;)
+
+workflow.add_edge(&quot;cio_synthesizer&quot;, END)
+
+ensemble_agent = workflow.compile()
+print(&quot;Parallel Ensemble agent graph compiled successfully.&quot;)
+</code></pre>
+<h2>Phase 3: Demonstration &amp; Analysis</h2>
+<p>Hãy chạy toàn bộ hội đồng đầu tư cho câu hỏi phức tạp của chúng ta. Chúng ta sẽ in các báo cáo cá nhân trước để thấy sự đa dạng của các ý kiến, sau đó là khuyến nghị tổng hợp cuối cùng của CIO.</p>
+<pre><code class="language-python">query = &quot;Based on recent news, financial performance, and future outlook, is NVIDIA (NVDA) a good long-term investment in mid-2024?&quot;
+console.print(f&quot;--- 📈 Running Investment Committee for: {query} ---&quot;)
+
+result = ensemble_agent.invoke({&quot;query&quot;: query})
+
+# Hiển thị các báo cáo cá nhân
+console.print(&quot;\n--- Individual Analyst Reports ---&quot;)
+for name, analysis in result['analyses'].items():
+    console.print(Panel(Markdown(analysis), title=f&quot;[bold yellow]{name}[/bold yellow]&quot;, border_style=&quot;yellow&quot;))
+
+# Hiển thị khuyến nghị tổng hợp cuối cùng
+console.print(&quot;\n--- Final CIO Recommendation ---&quot;)
+final_rec = result['final_recommendation']
+if final_rec:
+    rec_panel = Panel(
+        f&quot;[bold]Final Recommendation:[/bold] {final_rec.final_recommendation}\n&quot;
+        f&quot;[bold]Confidence Score:[/bold] {final_rec.confidence_score}/10\n\n&quot;
+        f&quot;[bold]Synthesis Summary:[/bold]\n{final_rec.synthesis_summary}\n\n&quot;
+        f&quot;[bold]Identified Opportunities:[/bold]\n* {'\n* '.join(final_rec.identified_opportunities)}\n\n&quot;
+        f&quot;[bold]Identified Risks:[/bold]\n* {'\n* '.join(final_rec.identified_risks)}&quot;,
+        title=&quot;[bold green]Chief Investment Officer's Thesis[/bold green]&quot;,
+        border_style=&quot;green&quot;
+    )
+    console.print(rec_panel)
+</code></pre>
+<h3>Analysis of the Results</h3>
+<p>Phần trình diễn minh họa mạnh mẽ giá trị của kiến trúc phức tạp này:</p>
+<ol>
+<li>
+<p><strong>Sự đa dạng về nhận thức:</strong> Ba nhà phân tích đã đưa ra các báo cáo rất khác nhau, nhưng mỗi báo cáo đều có giá trị riêng. Nhà phân tích Bull tập trung vào tầm nhìn vĩ đại, nhà phân tích Value tập trung vào rủi ro, và nhà phân tích Quant cung cấp các dữ liệu thô. Một agent đơn lẻ, ngay cả với một prompt trung lập, cũng có khả năng nghiêng về một trong những hướng này, mang lại một bức tranh không đầy đủ.</p>
+</li>
+<li>
+<p><strong>Sự tổng hợp mạnh mẽ:</strong> Agent CIO không chỉ đơn thuần "lấy trung bình" các khuyến nghị ('Buy', 'Hold', 'Hold'). Thay vào đó, nó thực hiện một sự tổng hợp thực sự. Nó thừa nhận tính hợp lệ của trường hợp lạc quan nhưng chế ngự nó bằng những lo ngại của các nhà phân tích giá trị và định lượng về định giá. Khuyến nghị cuối cùng là 'Buy' với mức độ tự tin 7.5 phản ánh sắc thái này, thực tế là: "Đây là một công ty tuyệt vời, nhưng cổ phiếu đắt, vì vậy hãy tiến hành thận trọng."</p>
+</li>
+<li>
+<p><strong>Insight có thể thực hiện và giải thích được:</strong> Kết quả đầu ra có cấu trúc cuối cùng, với danh sách rõ ràng các cơ hội và rủi ro, hữu ích hơn nhiều cho một người ra quyết định so với một khối văn bản đơn lẻ, nguyên khối. Nó giải thích <em>tại sao</em> khuyến nghị cuối cùng được đưa ra bằng cách chỉ ra cách các ý kiến chuyên gia khác nhau được cân bằng như thế nào.</p>
+</li>
+</ol>
+<p>Phương pháp hội đồng này đã chuyển đổi thành công một câu hỏi chủ quan và phức tạp thành một phân tích đa chiều, có lập luận chặt chẽ, làm tăng đáng kể tính tin cậy của kết quả cuối cùng so với bất kỳ agent đơn lẻ nào.</p>
+<h2>Conclusion</h2>
+<p>Trong notebook này, chúng ta đã triển khai một agent <strong>Parallel Exploration + Ensemble Decision</strong> toàn diện và phức tạp. Bằng cách giả lập một hội đồng gồm các chuyên gia đa dạng và một người ra quyết định cuối cùng, chúng ta đã xây dựng một hệ thống xuất sắc trong việc giải quyết các vấn đề mơ hồ, có rủi ro cao.</p>
+<p>Các nguyên tắc cốt lõi—<strong>sinh ra các nhà lập luận độc lập, đa dạng</strong> và sau đó <strong>tổng hợp kết quả của họ</strong>—tạo ra một cơ chế mạnh mẽ để giảm thiểu định kiến, giảm sai sót và tăng chiều sâu phân tích. Mặc dù đây là một trong những kiến trúc agentic tốn kém nhất về mặt tính toán, nhưng khả năng đưa ra các kết luận mạnh mẽ, đáng tin cậy và sắc sảo khiến nó trở thành một công cụ không thể thiếu cho bất kỳ ứng dụng nào mà chất lượng và tính tin cậy của quyết định cuối cùng là tối quan trọng.</p>
+</body>
+</html>

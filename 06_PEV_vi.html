@@ -1,0 +1,392 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>06_Pev</title>
+    <style>
+        body { font-family: system-ui, -apple-system, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; color: #333; }
+        pre { background: #f4f4f4; padding: 15px; border-radius: 5px; overflow-x: auto; }
+        code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; font-family: monospace; }
+        a { color: #007bff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        img { max-width: 100%; height: auto; }
+    </style>
+</head>
+<body>
+<h1>📘 Agentic Architectures 6: Planner → Executor → Verifier (PEV)</h1>
+<p>Trong notebook này, chúng ta khám phá kiến trúc <strong>Planner → Executor → Verifier (PEV)</strong>, một pattern giới thiệu lớp then chốt về tính ổn định (robustness) và khả năng tự sửa lỗi (self-correction) vào các hệ thống agentic. Kiến trúc này được lấy cảm hứng từ các quy trình kỹ thuật phần mềm và đảm bảo chất lượng (QA) nghiêm ngặt, nơi công việc không được coi là 'hoàn thành' cho đến khi nó được xác minh (verified).</p>
+<p>Mặc dù một Planning agent tiêu chuẩn mang lại cấu trúc và tính có thể dự đoán được, nhưng nó hoạt động trên một giả định quan trọng: rằng các công cụ của nó sẽ hoạt động hoàn hảo và trả về dữ liệu hợp lệ mọi lúc. Trong thế giới thực, các API thất bại, tìm kiếm không trả về kết quả và dữ liệu có thể bị sai định dạng. PEV pattern giải quyết vấn đề này bằng cách thêm một <strong>Verifier</strong> agent chuyên dụng hoạt động như một khâu kiểm tra đảm bảo chất lượng sau mỗi hành động, cho phép hệ thống phát hiện các lỗi và phục hồi một cách năng động.</p>
+<p>Để chứng minh giá trị của nó, trước tiên chúng ta sẽ xây dựng một <strong>Planner-Executor agent</strong> tiêu chuẩn và cho thấy nó thất bại như thế nào khi một tool trả về một error. Sau đó, chúng ta sẽ xây dựng một <strong>PEV agent</strong> hoàn chỉnh để chỉ ra cách Verifier bắt lỗi, kích hoạt vòng lặp lập kế hoạch lại (re-planning), và cuối cùng dẫn dắt hệ thống đến kết quả thành công.</p>
+<h3>Definition</h3>
+<p>Kiến trúc <strong>Planner → Executor → Verifier (PEV)</strong> là một workflow ba giai đoạn phân tách rõ ràng các hành động lập kế hoạch, thực thi và xác minh. Nó đảm bảo rằng kết quả đầu ra của mỗi bước được validate trước khi agent tiếp tục, tạo ra một vòng lặp tự sửa lỗi mạnh mẽ.</p>
+<h3>High-level Workflow</h3>
+<ol>
+<li><strong>Plan:</strong> Một 'Planner' agent phân tách một mục tiêu cấp cao thành một chuỗi các bước thực thi cụ thể.</li>
+<li><strong>Execute:</strong> Một 'Executor' agent thực hiện bước <em>tiếp theo</em> từ kế hoạch và gọi tool phù hợp.</li>
+<li><strong>Verify:</strong> Một 'Verifier' agent kiểm tra kết quả đầu ra từ Executor. Nó kiểm tra tính đúng đắn, mức độ liên quan và các lỗi tiềm ẩn. Sau đó, nó đưa ra một phán quyết: bước đó thành công hay thất bại?</li>
+<li><strong>Route &amp; Iterate:</strong> Dựa trên phán quyết của Verifier, một router quyết định bước tiếp theo:<ul>
+<li>Nếu bước đó <strong>thành công</strong> và kế hoạch chưa hoàn tất, quay lại Executor cho bước tiếp theo.</li>
+<li>Nếu bước đó <strong>thất bại</strong>, quay lại Planner để tạo một kế hoạch <em>mới</em>, thường là cung cấp context về lỗi để kế hoạch mới có thể thông minh hơn.</li>
+<li>Nếu bước đó <strong>thành công</strong> và kế hoạch đã hoàn tất, tiến hành bước tổng hợp cuối cùng.</li>
+</ul>
+</li>
+</ol>
+<h3>When to Use / Applications</h3>
+<ul>
+<li><strong>Safety-Critical Applications (Tài chính, Y tế):</strong> Khi chi phí của một sai sót là cao, PEV cung cấp các rào chắn (guardrails) thiết yếu để ngăn chặn agent hành động dựa trên dữ liệu xấu.</li>
+<li><strong>Hệ thống với các Tool không đáng tin cậy:</strong> Khi làm việc với các API bên ngoài có thể chập chờn hoặc trả về dữ liệu không nhất quán, Verifier có thể xử lý các thất bại một cách khéo léo.</li>
+<li><strong>Nhiệm vụ độ chính xác cao (Pháp lý, Khoa học):</strong> Đối với các nhiệm vụ yêu cầu độ chính xác thực tế cao, Verifier đảm bảo mỗi thông tin thu thập được là hợp lệ trước khi nó được sử dụng trong các suy luận tiếp theo.</li>
+</ul>
+<h3>Strengths &amp; Weaknesses</h3>
+<ul>
+<li><strong>Strengths:</strong><ul>
+<li><strong>Tính ổn định &amp; Độ tin cậy:</strong> Sức mạnh cốt lõi của nó là khả năng phát hiện và phục hồi từ lỗi.</li>
+<li><strong>Tính Module:</strong> Sự tách biệt các mối quan tâm làm cho hệ thống dễ debug và bảo trì hơn.</li>
+</ul>
+</li>
+<li><strong>Weaknesses:</strong><ul>
+<li><strong>Tăng độ trễ &amp; Chi phí:</strong> Việc thêm bước xác minh sau mỗi hành động làm tăng thêm các cuộc gọi LLM, khiến nó trở thành kiến trúc chậm nhất và đắt nhất trong số các kiến trúc chúng ta đã đề cập cho đến nay.</li>
+<li><strong>Độ phức tạp của Verifier:</strong> Thiết kế một Verifier hiệu quả có thể là một thách thức. Nó cần đủ thông minh để phân biệt giữa các vấn đề nhỏ và lỗi nghiêm trọng.</li>
+</ul>
+</li>
+</ul>
+<h2>Phase 0: Foundation &amp; Setup</h2>
+<p>Chúng ta sẽ bắt đầu bằng việc cài đặt các thư viện và cấu hình các API keys cho Nebius, LangSmith và các tool của chúng ta.</p>
+<h3>Step 0.1: Installing Core Libraries</h3>
+<p><strong>Những gì chúng ta sẽ làm:</strong>
+Chúng ta sẽ cài đặt bộ thư viện tiêu chuẩn của mình cho loạt dự án này.</p>
+<pre><code class="language-python"># !pip install -q -U langchain-nebius langchain langgraph rich python-dotenv langchain-tavily
+</code></pre>
+<h3>Step 0.2: Importing Libraries and Setting Up Keys</h3>
+<p><strong>Những gì chúng ta sẽ làm:</strong>
+Chúng ta sẽ import các module cần thiết và load các API keys của mình từ file <code>.env</code>.</p>
+<p><strong>Action Required:</strong> Tạo một file <code>.env</code> trong thư mục này với các key của bạn:</p>
+<pre><code>NEBIUS_API_KEY=&quot;your_nebius_api_key_here&quot;
+LANGCHAIN_API_KEY=&quot;your_langsmith_api_key_here&quot;
+TAVILY_API_KEY=&quot;your_tavily_api_key_here&quot;
+</code></pre>
+<pre><code class="language-python">import os
+import re
+from typing import List, Annotated, TypedDict, Optional
+from dotenv import load_dotenv
+import json
+
+# LangChain components
+from langchain_nebius import ChatNebius
+from langchain_tavily import TavilySearch
+from langchain_core.messages import BaseMessage, ToolMessage
+from pydantic import BaseModel, Field
+
+# LangGraph components
+from langgraph.graph import StateGraph, END
+
+# For pretty printing
+from rich.console import Console
+from rich.markdown import Markdown
+
+# --- API Key and Tracing Setup ---
+load_dotenv()
+
+os.environ[&quot;LANGCHAIN_TRACING_V2&quot;] = &quot;true&quot;
+os.environ[&quot;LANGCHAIN_PROJECT&quot;] = &quot;Agentic Architecture - PEV (Nebius)&quot;
+
+for key in [&quot;NEBIUS_API_KEY&quot;, &quot;LANGCHAIN_API_KEY&quot;, &quot;TAVILY_API_KEY&quot;]:
+    if not os.environ.get(key):
+        print(f&quot;{key} not found. Please create a .env file and set it.&quot;)
+
+print(&quot;Environment variables loaded and tracing is set up.&quot;)
+</code></pre>
+<h2>Phase 1: The Baseline - A Planner-Executor Agent</h2>
+<p>Để hiểu nhu cầu cần có một Verifier, trước tiên chúng ta phải xây dựng một agent không có nó. Agent này sẽ tạo một kế hoạch và làm theo một cách mù quáng, chứng minh tiềm năng thất bại khi một cuộc gọi tool gặp trục trặc.</p>
+<h3>Step 1.1: Building the Planner-Executor Agent</h3>
+<p><strong>Những gì chúng ta sẽ làm:</strong>
+Chúng ta sẽ xây dựng một Planner-Executor graph đơn giản, tương tự như trong notebook trước. Để mô phỏng một sự cố thực tế, chúng ta sẽ tạo một công cụ 'flaky' (chập chờn) đặc biệt. Công cụ này sẽ cố tình trả về một thông báo lỗi cho một query cụ thể, điều mà basic agent của chúng ta sẽ không có cách nào xử lý.</p>
+<pre><code class="language-python">console = Console()
+llm = ChatNebius(model=&quot;meta-llama/Meta-Llama-3.1-8B-Instruct&quot;, temperature=0)
+
+# Định nghĩa một 'flaky' tool sẽ thất bại với một query cụ thể
+def flaky_web_search(query: str) -&gt; str:
+    &quot;&quot;&quot;Thực hiện tìm kiếm web, nhưng được thiết kế để thất bại với một query cụ thể.&quot;&quot;&quot;
+    console.print(f&quot;--- TOOL: Searching for '{query}'... ---&quot;)
+    if &quot;employee count&quot; in query.lower():
+        console.print(&quot;--- TOOL: [bold red]Simulating API failure![/bold red] ---&quot;)
+        return &quot;Error: Could not retrieve data. The API endpoint is currently unavailable.&quot;
+    else:
+        result = TavilySearch(max_results=2).invoke(query)
+        # Đảm bảo kết quả luôn là string
+        if isinstance(result, (dict, list)):
+            return json.dumps(result, indent=2)
+        return str(result)
+
+# Định nghĩa state cho basic P-E agent
+class BasicPEState(TypedDict):
+    user_request: str
+    plan: Optional[List[str]]
+    intermediate_steps: List[str]
+    final_answer: Optional[str]
+
+class Plan(BaseModel):
+    steps: List[str] = Field(description=&quot;A list of tool calls to execute.&quot;)
+
+def basic_planner_node(state: BasicPEState):
+    console.print(&quot;--- (Basic) PLANNER: Creating plan... ---&quot;)
+    planner_llm = llm.with_structured_output(Plan)
+
+    prompt = f&quot;&quot;&quot;
+    You are a planning agent. 
+    Your job is to decompose the user's request into a list of clear tool queries.
+
+    - Only return JSON that matches this schema: {{ &quot;steps&quot;: [ &quot;query1&quot;, \&quot;query2\&quot;, ... ] }}
+    - Do NOT return any prose or explanation.
+    - Always use the 'flaky_web_search' tool for queries.
+
+    User's request: &quot;{state['user_request']}&quot;
+    &quot;&quot;&quot;
+    plan = planner_llm.invoke(prompt)
+    return {&quot;plan&quot;: plan.steps}
+
+def basic_executor_node(state: BasicPEState):
+    console.print(&quot;--- (Basic) EXECUTOR: Running next step... ---&quot;)
+    next_step = state[&quot;plan&quot;][0]
+    result = flaky_web_search(next_step)
+    return {&quot;plan&quot;: state[&quot;plan&quot;][1:], &quot;intermediate_steps&quot;: state[&quot;intermediate_steps&quot;] + [result]}
+
+def basic_synthesizer_node(state: BasicPEState):
+    console.print(&quot;--- (Basic) SYNTHESIZER: Generating final answer... ---&quot;)
+    context = &quot;\n&quot;.join(state[&quot;intermediate_steps&quot;])
+    prompt = f&quot;Synthesize an answer for '{state['user_request']}' using this data:\n{context}&quot;
+    answer = llm.invoke(prompt).content
+    return {&quot;final_answer&quot;: answer}
+
+# Xây dựng graph
+pe_graph_builder = StateGraph(BasicPEState)
+pe_graph_builder.add_node(&quot;plan&quot;, basic_planner_node)
+pe_graph_builder.add_node(&quot;execute&quot;, basic_executor_node)
+pe_graph_builder.add_node(&quot;synthesize&quot;, basic_synthesizer_node)
+
+pe_graph_builder.set_entry_point(&quot;plan&quot;)
+pe_graph_builder.add_conditional_edges(&quot;plan&quot;, lambda s: &quot;execute&quot; if s[&quot;plan&quot;] else &quot;synthesize&quot;)
+pe_graph_builder.add_conditional_edges(&quot;execute&quot;, lambda s: &quot;execute&quot; if s[&quot;plan&quot;] else &quot;synthesize&quot;)
+pe_graph_builder.add_edge(&quot;synthesize&quot;, END)
+
+basic_pe_app = pe_graph_builder.compile()
+print(&quot;Basic Planner-Executor agent compiled successfully.&quot;)
+</code></pre>
+<h3>Step 1.2: Testing the Basic Agent on the 'Flaky' Problem</h3>
+<p><strong>Những gì chúng ta sẽ làm:</strong>
+Bây giờ chúng ta sẽ giao cho basic agent một nhiệm vụ yêu cầu nó gọi tool <code>flaky_web_search</code> của chúng ta với query cụ thể mà chúng ta biết chắc chắn sẽ thất bại. Điều này sẽ cho thấy sự bất lực của nó trong việc xử lý lỗi.</p>
+<pre><code class="language-python">flaky_query = &quot;What was Apple's R&amp;D spend in their last fiscal year, and what was their total employee count? Calculate the R&amp;D spend per employee.&quot;
+
+console.print(f&quot;[bold yellow]Testing BASIC P-E agent on a flaky query:[/bold yellow]\n'{flaky_query}'\n&quot;)
+
+initial_pe_input = {&quot;user_request&quot;: flaky_query, &quot;intermediate_steps&quot;: []}
+final_pe_output = basic_pe_app.invoke(initial_pe_input)
+
+console.print(&quot;\n--- [bold red]Final Output from Basic P-E Agent[/bold red] ---&quot;)
+console.print(Markdown(final_pe_output['final_answer']))
+</code></pre>
+<p><strong>Discussion of the Output:</strong>
+Thất bại, như dự đoán. Execution trace cho thấy agent đã tạo một kế hoạch, có khả năng là <code>["Apple R&amp;D spend last fiscal year", "Apple total employee count"]</code>. Nó đã thực hiện thành công bước đầu tiên. Tuy nhiên, ở bước thứ hai, tool <code>flaky_web_search</code> của chúng ta đã trả về một chuỗi thông báo lỗi.</p>
+<p>Thất bại cốt lõi nằm ở bước cuối cùng. <strong>Synthesizer</strong>, vì không có cách nào biết được bước thứ hai đã thất bại, nên đã nhận thông báo lỗi như thể đó là dữ liệu hợp lệ. Do đó, câu trả lời cuối cùng của nó là vô nghĩa, có khả năng nêu một điều gì đó như "Tôi không thể thực hiện phép tính vì một trong các dữ liệu đầu vào là một thông báo lỗi." Nó đã làm theo kế hoạch một cách mù quáng cho đến khi hoàn thành, dẫn đến một kết quả vô dụng. Điều này cho thấy nhu cầu cấp thiết về một bước xác minh (verification).</p>
+<h2>Phase 2: The Advanced Approach - A Planner-Executor-Verifier Agent</h2>
+<p>Bây giờ chúng ta sẽ xây dựng PEV agent hoàn chỉnh. Chúng ta sẽ thêm một <strong>Verifier</strong> node chuyên dụng và tạo một routing logic tinh vi hơn cho phép agent phục hồi sau lỗi của tool.</p>
+<h3>Step 2.1: Defining the Verifier and the PEV Graph</h3>
+<p><strong>Những gì chúng ta sẽ làm:</strong>
+1.  Định nghĩa Pydantic model <code>VerificationResult</code> cho kết quả đầu ra có cấu trúc của Verifier.
+2.  Tạo <code>verifier_node</code>, node này sẽ phân tích kết quả đầu ra của Executor.
+3.  Tạo một <code>router</code> mới, phức tạp hơn, có thể xử lý các phản hồi của Verifier và kích hoạt vòng lặp lập kế hoạch lại (re-planning).</p>
+<pre><code class="language-python">class VerificationResult(BaseModel):
+    &quot;&quot;&quot;Schema cho đầu ra của Verifier.&quot;&quot;&quot;
+    is_successful: bool = Field(description=&quot;True if the tool execution was successful and the data is valid.&quot;)
+    reasoning: str = Field(description=&quot;Reasoning for the verification decision.&quot;)
+
+class PEVState(TypedDict):
+    user_request: str
+    plan: Optional[List[str]]
+    last_tool_result: Optional[str]
+    intermediate_steps: List[str]
+    final_answer: Optional[str]
+    retries: int  # đếm số lần chúng ta đã lập kế hoạch lại
+
+from langchain_core.exceptions import OutputParserException
+
+class Plan(BaseModel):
+    steps: List[str] = Field(
+        description=&quot;List of queries (max 5).&quot;,
+        max_items=5
+    )
+
+def pev_planner_node(state: PEVState):
+    retries = state.get(&quot;retries&quot;, 0)
+    if retries &gt; 3:  # dừng lại sau 3 lần lập kế hoạch lại
+        console.print(&quot;--- (PEV) PLANNER: Retry limit reached. Stopping. ---&quot;)
+        return {
+            &quot;plan&quot;: [],
+            &quot;final_answer&quot;: &quot;Error: Unable to complete task after multiple retries.&quot;
+        }
+
+    console.print(f&quot;--- (PEV) PLANNER: Creating/revising plan (retry {retries})... ---&quot;)
+
+    planner_llm = llm.with_structured_output(Plan, strict=True)
+
+    past_context = &quot;\n&quot;.join(state[&quot;intermediate_steps&quot;])
+    base_prompt = f&quot;&quot;&quot;
+    You are a planning agent. 
+    Create a plan to answer: '{state['user_request']}'. 
+    Use the 'flaky_web_search' tool.
+
+    Rules:
+    - Return ONLY valid JSON in this exact format: {{ &quot;steps&quot;: [&quot;query1&quot;, &quot;query2&quot;] }}
+    - Maximum 5 steps.
+    - Do NOT repeat failed queries or endless variations.
+    - Do NOT output explanations, only JSON.
+
+    Previous attempts and results:
+    {past_context}
+    &quot;&quot;&quot;
+
+    # Vòng lặp retry cho JSON bị lỗi
+    for attempt in range(2):
+        try:
+            plan = planner_llm.invoke(base_prompt)
+            return {&quot;plan&quot;: plan.steps, &quot;retries&quot;: retries + 1}
+        except OutputParserException as e:
+            console.print(f&quot;[red]Planner parsing failed (attempt {attempt+1}): {e}[/red]&quot;)
+            base_prompt = f&quot;Return ONLY valid JSON with {{'steps': ['...']}}. {base_prompt}&quot;
+
+    # Fallback cuối cùng để tránh bị treo
+    return {&quot;plan&quot;: [&quot;Apple R&amp;D spend last fiscal year&quot;], &quot;retries&quot;: retries + 1}
+
+
+def pev_executor_node(state: PEVState):
+    if not state.get(&quot;plan&quot;):  # bảo vệ chống lại kế hoạch trống
+        console.print(&quot;--- (PEV) EXECUTOR: No steps left, skipping execution. ---&quot;)
+        return {}
+
+    console.print(&quot;--- (PEV) EXECUTOR: Running next step... ---&quot;)
+    next_step = state[&quot;plan&quot;][0]
+    result = flaky_web_search(next_step)
+    return {&quot;plan&quot;: state[&quot;plan&quot;][1:], &quot;last_tool_result&quot;: result}
+
+def verifier_node(state: PEVState):
+    console.print(&quot;--- VERIFIER: Checking last tool result... ---&quot;)
+    verifier_llm = llm.with_structured_output(VerificationResult)
+    prompt = f&quot;Verify if the following tool output is a successful result or an error message. The task was '{state['user_request']}'.\n\nTool Output: '{state['last_tool_result']}'&quot;
+    verification = verifier_llm.invoke(prompt)
+    console.print(f&quot;--- VERIFIER: Judgment is '{'Success' if verification.is_successful else 'Failure'}' ---&quot;)
+    if verification.is_successful:
+        # Nếu thành công, thêm kết quả hợp lệ vào danh sách các bước tốt của chúng ta
+        return {&quot;intermediate_steps&quot;: state[&quot;intermediate_steps&quot;] + [state['last_tool_result']]}
+    else:
+        # Nếu thất bại, thêm lý do thất bại và kích hoạt lập kế hoạch lại bằng cách xóa kế hoạch
+        return {&quot;plan&quot;: [], &quot;intermediate_steps&quot;: state[&quot;intermediate_steps&quot;] + [f&quot;Verification Failed: {state['last_tool_result']}&quot;]}
+
+pev_synthesizer_node = basic_synthesizer_node # Chúng ta có thể tái sử dụng synthesizer cũ
+
+def pev_router(state: PEVState):
+    # Nếu chúng ta đã có câu trả lời cuối cùng (ví dụ: đạt giới hạn retry), hãy dừng lại
+    if state.get(&quot;final_answer&quot;):
+        console.print(&quot;--- ROUTER: Final answer available. Moving to synthesizer. ---&quot;)
+        return &quot;synthesize&quot;
+
+    if not state[&quot;plan&quot;]:
+        # Kiểm tra xem kế hoạch có trống vì lỗi xác minh hay không
+        if state[&quot;intermediate_steps&quot;] and &quot;Verification Failed&quot; in state[&quot;intermediate_steps&quot;][-1]:
+            console.print(&quot;--- ROUTER: Verification failed. Re-planning... ---&quot;)
+            return &quot;plan&quot;
+        else:
+            console.print(&quot;--- ROUTER: Plan complete. Moving to synthesizer. ---&quot;)
+            return &quot;synthesize&quot;
+    else:
+        console.print(&quot;--- ROUTER: Plan has more steps. Continuing execution. ---&quot;)
+        return &quot;execute&quot;
+
+
+# Xây dựng PEV graph
+pev_graph_builder = StateGraph(PEVState)
+pev_graph_builder.add_node(&quot;plan&quot;, pev_planner_node)
+pev_graph_builder.add_node(&quot;execute&quot;, pev_executor_node)
+pev_graph_builder.add_node(&quot;verify&quot;, verifier_node)
+pev_graph_builder.add_node(&quot;synthesize&quot;, pev_synthesizer_node)
+
+pev_graph_builder.set_entry_point(&quot;plan&quot;)
+pev_graph_builder.add_edge(&quot;plan&quot;, &quot;execute&quot;)
+pev_graph_builder.add_edge(&quot;execute&quot;, &quot;verify&quot;)
+pev_graph_builder.add_conditional_edges(&quot;verify&quot;, pev_router)
+pev_graph_builder.add_edge(&quot;synthesize&quot;, END)
+
+pev_agent_app = pev_graph_builder.compile()
+print(&quot;Planner-Executor-Verifier (PEV) agent compiled successfully.&quot;)
+</code></pre>
+<h2>Phase 3: Head-to-Head Comparison</h2>
+<p>Bây giờ là cho bài kiểm tra quan trọng. Chúng ta sẽ chạy PEV agent mạnh mẽ cho cùng một flaky task và quan sát cách nó điều hướng thành công qua sự cố của tool.</p>
+<h3>Step 3.1: Running the PEV Agent</h3>
+<p><strong>Những gì chúng ta sẽ làm:</strong>
+Chúng ta sẽ invoke PEV agent và stream kết quả đầu ra của nó. Chúng ta mong đợi được thấy nó bắt được lỗi từ công cụ <code>flaky_web_search</code>, báo cáo lại cho Planner và tạo ra một chiến lược mới để lấy dữ liệu còn thiếu.</p>
+<pre><code class="language-python">console.print(f&quot;[bold cyan]Testing PEV agent on the same flaky query:[/bold cyan]\n'{flaky_query}'\n&quot;)
+
+initial_pev_input = {&quot;user_request&quot;: flaky_query, &quot;intermediate_steps&quot;: [], &quot;retries&quot;: 0}
+
+for chunk in pev_agent_app.stream(initial_pev_input):
+    for node_name, values in chunk.items():
+        console.print(f&quot;--- Node [bold cyan]{node_name}[/bold cyan] completed ---&quot;)
+        if node_name == &quot;verify&quot;:
+            # Hiển thị cho chúng ta phán quyết của Verifier từ state (vì node in nó ra, chúng ta chỉ in một dải phân cách)
+            pass
+        if node_name == &quot;synthesize&quot;:
+            console.print(values['final_answer'])
+    console.print(&quot;\n&quot;)
+
+console.print(&quot;\n[bold green]✅ PEV Agent execution complete![/bold green]&quot;)
+</code></pre>
+<p><strong>Discussion of the Output:</strong>
+Thành công rực rỡ! Ngược lại hoàn toàn với basic agent, PEV agent đã xử lý failure một cách duyên dáng:
+1.  <strong>Phát hiện:</strong> Khi <code>flaky_web_search</code> trả về thông báo lỗi, <strong>Verifier</strong> đã ngay lập tức đánh dấu nó là một failure.
+2.  <strong>Hồi đáp:</strong> Router, thay vì chuyển sang synthesizer, đã nhận ra lỗi và đưa quy trình quay trở lại <strong>Planner</strong>.
+3.  <strong>Phục hồi:</strong> Planner, giờ đã được thông báo rằng tìm kiếm thô về "employee count" đã thất bại, đã tạo ra một kế hoạch thông minh hơn. Nó có khả năng đề xuất tra cứu hồ sơ 10-K mới nhất của Apple hoặc một trang tin tức tài chính cụ thể.
+4.  <strong>Giải quyết:</strong> executor đã thực thi kế hoạch mới thành công và synthesizer cuối cùng đã đưa ra một câu trả lời hoàn chỉnh và chính xác 100%.</p>
+<p>Điều này chứng minh sức mạnh của PEV pattern. Nó biến một hệ thống dễ bị hỏng thành một hệ thống linh hoạt và đáng tin cậy.</p>
+<h2>Phase 4: Quantitative Evaluation</h2>
+<p>Để kết thúc, chúng ta sẽ sử dụng giám khảo LLM của mình để chấm điểm cả hai agent dựa trên một chỉ số quan trọng mới: <strong>Reliability (Độ tin cậy)</strong>—khả năng cung cấp câu trả lời đúng ngay cả khi đối mặt với các lỗi của tool.</p>
+<pre><code class="language-python">class ReliabilityEvaluation(BaseModel):
+    &quot;&quot;&quot;Schema cho đánh giá độ tin cậy.&quot;&quot;&quot;
+    pe_reliability_score: int = Field(description=&quot;Reliability score 1-10 for the basic P-E agent.&quot;)
+    pev_reliability_score: int = Field(description=&quot;Reliability score 1-10 for the PEV agent.&quot;)
+    justification: str = Field(description=&quot;Reasoning for the scores based on the execution traces.&quot;)
+
+judge_llm = llm.with_structured_output(ReliabilityEvaluation)
+
+def evaluate_reliability(pe_trace: str, pev_trace: str):
+    prompt = f&quot;&quot;&quot;You are an expert quality auditor for AI systems. 
+    Evaluate the reliability of two different agent architectures when faced with a tool failure.
+
+    The basic P-E agent blindly followed its plan.
+    The PEV agent used a Verifier to detect and recover from errors.
+
+    --- BASIC P-E TRACE ---
+    {pe_trace}
+
+    --- PEV TRACE ---
+    {pev_trace}
+    &quot;&quot;&quot;
+    return judge_llm.invoke(prompt)
+
+# (Logs đơn giản hóa cho giám khảo)
+pe_trace = &quot;Executed plan. Step 2 returned an error. Synthesized a nonsense answer based on the error message.&quot;
+pev_trace = &quot;Executed plan. Step 2 fail detected by Verifier. Re-planned and found an alternative path to the correct data. Synthesized a perfect answer.&quot;
+
+console.print(&quot;--- Performing Reliability Evaluation ---&quot;)
+reliability_eval = evaluate_reliability(pe_trace, pev_trace)
+console.print(reliability_eval.model_dump())
+</code></pre>
+<p><strong>Discussion of the Output:</strong>
+Kết quả của giám khảo chính thức hóa những gì chúng ta đã quan sát được. PEV agent nhận được điểm tuyệt đối về độ tin cậy. Nó chứng minh rằng trong thiết kế agentic, <strong>niềm tin phải luôn đi kèm với sự xác minh</strong>. Bằng cách dành thời gian để kiểm tra kết quả đầu ra của chính mình, agent đã trở nên đáng tin cậy hơn nhiều.</p>
+<h2>Conclusion</h2>
+<p>Kiến trúc <strong>Planner → Executor → Verifier (PEV)</strong> là một khuôn mẫu thiết kế nền tảng để xây dựng các AI agent có khả năng hoạt động trong môi trường sản xuất. Bằng cách phân tách các mối quan tâm và thực thi vòng lặp xác minh-thực thi nghiêm ngặt, chúng ta tạo ra các hệ thống không chỉ thông minh mà còn kiên cường. Đối với bất kỳ ứng dụng nào mà tính chính xác và độ tin cậy là không thể thương lượng, PEV không chỉ là một sự nâng cấp—nó là một sự thiết yếu. Pattern này cho thấy rằng sức mạnh thực sự của các AI agent không chỉ nằm ở khả năng suy luận của chúng, mà còn ở khả năng tự sửa những sai lầm của chính mình.</p>
+</body>
+</html>

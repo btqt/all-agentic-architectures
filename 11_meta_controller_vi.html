@@ -1,0 +1,251 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>11_Meta_Controller</title>
+    <style>
+        body { font-family: system-ui, -apple-system, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; color: #333; }
+        pre { background: #f4f4f4; padding: 15px; border-radius: 5px; overflow-x: auto; }
+        code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; font-family: monospace; }
+        a { color: #007bff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        img { max-width: 100%; height: auto; }
+    </style>
+</head>
+<body>
+<h1>📘 Agentic Architectures 11: Meta-Controller</h1>
+<p>Chào mừng bạn đến với notebook thứ mười một trong loạt bài của chúng ta. Hôm nay, chúng ta sẽ xây dựng một <strong>Meta-Controller</strong>, một kiến trúc agent giám sát điều phối một nhóm các sub-agents chuyên biệt. Pattern này là nền tảng để tạo ra các hệ thống AI đa tài, mạnh mẽ.</p>
+<p>Thay vì xây dựng một agent đơn lẻ, nguyên khối (monolithic) cố gắng làm mọi thứ, Meta-Controller đóng vai trò như một bộ điều phối thông minh. Nó nhận một yêu cầu đầu vào, phân tích bản chất của nó và chuyển hướng (route) nó đến specialist phù hợp nhất từ một nhóm các agent có sẵn. Điều này cho phép mỗi sub-agent được tối ưu hóa cao độ cho nhiệm vụ cụ thể của nó, dẫn đến hiệu suất và tính module tốt hơn.</p>
+<p>Chúng ta sẽ chứng minh điều này bằng cách xây dựng một hệ thống với ba specialist riêng biệt:
+1.  <strong>Generalist Agent:</strong> Xử lý các cuộc hội thoại thông thường và các câu hỏi đơn giản.
+2.  <strong>Research Agent:</strong> Được trang bị search tool để trả lời các câu hỏi về các sự kiện gần đây hoặc các chủ đề phức tạp.
+3.  <strong>Coding Agent:</strong> Một specialist tập trung vào việc tạo các đoạn mã Python.</p>
+<p>Meta-Controller sẽ là "bộ não" của hoạt động, kiểm tra từng truy vấn của người dùng và quyết định agent nào phù hợp nhất để phản hồi. Điều này tạo ra một hệ thống linh hoạt và dễ dàng mở rộng, nơi các khả năng mới có thể được thêm vào đơn giản bằng cách tạo một specialist agent mới và dạy cho controller về nó.</p>
+<h3>Definition</h3>
+<p>Một <strong>Meta-Controller</strong> (hoặc Router) là một agent giám sát trong một hệ thống đa tác vụ (multi-agent system), chịu trách nhiệm phân tích các nhiệm vụ đầu vào và gửi chúng đến sub-agent chuyên biệt hoặc workflow phù hợp. Nó hoạt động như một lớp định tuyến thông minh, quyết định công cụ hoặc chuyên gia nào phù hợp nhất cho công việc hiện tại.</p>
+<h3>High-level Workflow</h3>
+<ol>
+<li><strong>Receive Input:</strong> Hệ thống nhận yêu cầu từ người dùng.</li>
+<li><strong>Meta-Controller Analysis:</strong> Agent Meta-Controller kiểm tra ý định, độ phức tạp và nội dung của yêu cầu.</li>
+<li><strong>Dispatch to Specialist:</strong> Dựa trên phân tích của mình, Meta-Controller chọn specialist agent tốt nhất (ví dụ: 'Researcher', 'Coder', 'Chatbot') từ một nhóm được định nghĩa trước.</li>
+<li><strong>Execute Task:</strong> Specialist agent được chọn sẽ thực thi nhiệm vụ và tạo ra kết quả.</li>
+<li><strong>Return Result:</strong> Kết quả từ specialist được trả về cho người dùng. Trong các workflow phức tạp hơn, quyền kiểm soát có thể quay lại Meta-Controller để thực hiện các bước tiếp theo hoặc giám sát.</li>
+</ol>
+<h3>When to Use / Applications</h3>
+<ul>
+<li><strong>Nền tảng AI đa dịch vụ:</strong> Một điểm truy cập duy nhất cho một nền tảng cung cấp các dịch vụ đa dạng như phân tích tài liệu, trực quan hóa dữ liệu và sáng tác nội dung.</li>
+<li><strong>Trợ lý cá nhân thích ứng:</strong> Một trợ lý có thể chuyển đổi giữa các chế độ hoặc công cụ khác nhau, chẳng hạn như quản lý lịch của bạn, tìm kiếm trên web hoặc điều khiển các thiết bị nhà thông minh.</li>
+<li><strong>Workflow doanh nghiệp:</strong> Định tuyến các ticket hỗ trợ khách hàng đến đúng bộ phận (kỹ thuật, thanh toán, bán hàng) dựa trên nội dung của ticket.</li>
+</ul>
+<h3>Strengths &amp; Weaknesses</h3>
+<ul>
+<li><strong>Strengths:</strong><ul>
+<li><strong>Tính linh hoạt &amp; Tính module:</strong> Cực kỳ dễ dàng để thêm các khả năng mới bằng cách chỉ cần thêm một specialist agent mới và cập nhật logic định tuyến của controller.</li>
+<li><strong>Hiệu suất:</strong> Cho phép sử dụng các agent chuyên gia, được tối ưu hóa cao thay vì một mô hình "vạn năng" nhưng có thể chỉ đạt mức trung bình ở mọi thứ.</li>
+</ul>
+</li>
+<li><strong>Weaknesses:</strong><ul>
+<li><strong>Controller là điểm gây lỗi duy nhất (Single Point of Failure):</strong> Chất lượng của toàn bộ hệ thống phụ thuộc vào khả năng định tuyến chính xác của controller. Một quyết định định tuyến sai lầm sẽ dẫn đến kết quả dưới mức tối ưu hoặc không chính xác.</li>
+<li><strong>Khả năng tăng độ trễ:</strong> Bước định tuyến bổ sung có thể làm tăng một chút độ trễ so với việc gọi trực tiếp đến một agent duy nhất.</li>
+</ul>
+</li>
+</ul>
+<h2>Phase 0: Foundation &amp; Setup</h2>
+<p>Chúng ta sẽ cài đặt các thư viện và thiết lập môi trường. Chúng ta sẽ cần <code>langchain-tavily</code> cho search tool của Research Agent.</p>
+<pre><code class="language-python"># !pip install -q -U langchain-nebius langchain langgraph rich python-dotenv langchain-tavily
+</code></pre>
+<pre><code class="language-python">import os
+from typing import List, Dict, Any, Optional
+from dotenv import load_dotenv
+
+# Pydantic for data modeling
+from pydantic import BaseModel, Field
+
+# LangChain components
+from langchain_nebius import ChatNebius
+from langchain_tavily import TavilySearch
+from langchain_core.prompts import ChatPromptTemplate
+
+# LangGraph components
+from langgraph.graph import StateGraph, END
+from typing_extensions import TypedDict
+
+# For pretty printing
+from rich.console import Console
+from rich.markdown import Markdown
+
+# --- API Key and Tracing Setup ---
+load_dotenv()
+
+os.environ[&quot;LANGCHAIN_TRACING_V2&quot;] = &quot;true&quot;
+os.environ[&quot;LANGCHAIN_PROJECT&quot;] = &quot;Agentic Architecture - Meta-Controller (Nebius)&quot;
+
+required_vars = [&quot;NEBIUS_API_KEY&quot;, &quot;LANGCHAIN_API_KEY&quot;, &quot;TAVILY_API_KEY&quot;]
+for var in required_vars:
+    if var not in os.environ:
+        print(f&quot;Warning: Environment variable {var} not set.&quot;)
+
+print(&quot;Environment variables loaded and tracing is set up.&quot;)
+</code></pre>
+<h2>Phase 1: Building the Specialist Agents</h2>
+<p>Đầu tiên, chúng ta sẽ tạo ra nhóm các agent chuyên gia. Mỗi agent sẽ là một chuỗi (chain) đơn giản với một persona cụ thể và trong trường hợp của Researcher là một công cụ (tool). Chúng ta sẽ bao bọc chúng trong một hàm node để sử dụng trong LangGraph.</p>
+<pre><code class="language-python">console = Console()
+llm = ChatNebius(model=&quot;mistralai/Mixtral-8x22B-Instruct-v0.1&quot;, temperature=0)
+search_tool = TavilySearch(max_results=3)
+
+# Định nghĩa state cho toàn bộ graph
+class MetaAgentState(TypedDict):
+    user_request: str
+    next_agent_to_call: Optional[str]
+    generation: str
+
+# Một hàm factory hỗ trợ để tạo các specialist agent nodes
+def create_specialist_node(persona: str, tools: list = None):
+    &quot;&quot;&quot;Factory để tạo một specialist agent node.&quot;&quot;&quot;
+    system_prompt = f&quot;You are a specialist agent with the following persona: {persona}. Respond directly and concisely to the user's request based on your role.&quot;
+    prompt = ChatPromptTemplate.from_messages([
+        (&quot;system&quot;, system_prompt),
+        (&quot;human&quot;, &quot;{user_request}&quot;)
+    ])
+
+    if tools:
+        chain = prompt | llm.bind_tools(tools)
+    else:
+        chain = prompt | llm
+
+    def specialist_node(state: MetaAgentState) -&gt; Dict[str, Any]:
+        result = chain.invoke({&quot;user_request&quot;: state['user_request']})
+        return {&quot;generation&quot;: result.content}
+
+    return specialist_node
+
+# 1. Generalist Agent Node
+generalist_node = create_specialist_node(
+    &quot;You are a friendly and helpful generalist AI assistant. You handle casual conversation and simple questions.&quot;
+)
+
+# 2. Research Agent Node
+research_agent_node = create_specialist_node(
+    &quot;You are an expert researcher. You must use your search tool to find information to answer the user's question.&quot;,
+    tools=[search_tool]
+)
+
+# 3. Coding Agent Node
+coding_agent_node = create_specialist_node(
+    &quot;You are an expert Python programmer. Your task is to write clean, efficient Python code based on the user's request. Provide only the code, wrapped in markdown code blocks, with minimal explanation.&quot;
+)
+
+print(&quot;Specialist agents defined successfully.&quot;)
+</code></pre>
+<h2>Phase 2: Building the Meta-Controller</h2>
+<p>Đây là bộ não của hệ thống. Meta-Controller là một node được hỗ trợ bởi LLM, công việc duy nhất của nó là quyết định nên định tuyến yêu cầu tới specialist nào. Chất lượng của prompt là yếu tố quyết định hiệu suất của hệ thống.</p>
+<pre><code class="language-python"># Pydantic model cho quyết định định tuyến của controller
+class ControllerDecision(BaseModel):
+    next_agent: str = Field(description=&quot;The name of the specialist agent to call next. Must be one of ['Generalist', 'Researcher', 'Coder'].&quot;)
+    reasoning: str = Field(description=&quot;A brief reason for choosing the next agent.&quot;)
+
+def meta_controller_node(state: MetaAgentState) -&gt; Dict[str, Any]:
+    &quot;&quot;&quot;Controller trung tâm quyết định specialist nào sẽ được gọi.&quot;&quot;&quot;
+    console.print(&quot;--- 🧠 Meta-Controller Analyzing Request ---&quot;)
+
+    # Định nghĩa các specialist và mô tả của chúng cho controller
+    specialists = {
+        &quot;Generalist&quot;: &quot;Handles casual conversation, greetings, and simple questions.&quot;,
+        &quot;Researcher&quot;: &quot;Answers questions about recent events, complex topics, or anything requiring up-to-date information from the web.&quot;,
+        &quot;Coder&quot;: &quot;Writes Python code based on a user's specification.&quot;
+    }
+
+    specialist_descriptions = &quot;\n&quot;.join([f&quot;- {name}: {desc}&quot; for name, desc in specialists.items()])
+
+    prompt = ChatPromptTemplate.from_template(
+        f&quot;&quot;&quot;You are the meta-controller for a multi-agent AI system. Your job is to analyze the user's request and route it to the most appropriate specialist agent.
+
+Here are the available specialists:
+{specialist_descriptions}
+
+Analyze the following user request and choose the best specialist to handle it. Provide your decision in the required format.
+
+User Request: &quot;{{user_request}}&quot; &quot;&quot;&quot;
+    )
+
+    controller_llm = llm.with_structured_output(ControllerDecision)
+    chain = prompt | controller_llm
+
+    decision = chain.invoke({&quot;user_request&quot;: state['user_request']})
+    console.print(f&quot;[yellow]Routing decision:[/yellow] Send to [bold]{decision.next_agent}[/bold]. [italic]Reason: {decision.reasoning}[/italic]&quot;)
+
+    return {&quot;next_agent_to_call&quot;: decision.next_agent}
+
+print(&quot;Meta-Controller node defined successfully.&quot;)
+</code></pre>
+<h2>Phase 3: Assembling and Running the Graph</h2>
+<p>Bây giờ chúng ta sẽ dùng LangGraph để kết nối mọi thứ lại với nhau. Graph sẽ bắt đầu với Meta-Controller, sau đó dựa trên quyết định của nó, một conditional edge sẽ định tuyến state tới specialist node chính xác. Sau khi specialist chạy, graph sẽ kết thúc.</p>
+<pre><code class="language-python"># Xây dựng graph
+workflow = StateGraph(MetaAgentState)
+
+# Thêm các node cho controller và mỗi specialist
+workflow.add_node(&quot;meta_controller&quot;, meta_controller_node)
+workflow.add_node(&quot;Generalist&quot;, generalist_node)
+workflow.add_node(&quot;Researcher&quot;, research_agent_node)
+workflow.add_node(&quot;Coder&quot;, coding_agent_node)
+
+# Thiết lập entry point
+workflow.set_entry_point(&quot;meta_controller&quot;)
+
+# Định nghĩa logic định tuyến có điều kiện
+def route_to_specialist(state: MetaAgentState) -&gt; str:
+    &quot;&quot;&quot;Đọc quyết định của controller và trả về tên của node cần định tuyến tới.&quot;&quot;&quot;
+    return state[&quot;next_agent_to_call&quot;]
+
+workflow.add_conditional_edges(
+    &quot;meta_controller&quot;,
+    route_to_specialist,
+    {
+        &quot;Generalist&quot;: &quot;Generalist&quot;,
+        &quot;Researcher&quot;: &quot;Researcher&quot;,
+        &quot;Coder&quot;: &quot;Coder&quot;
+    }
+)
+
+# Sau khi bất kỳ specialist nào chạy, quy trình kết thúc
+workflow.add_edge(&quot;Generalist&quot;, END)
+workflow.add_edge(&quot;Researcher&quot;, END)
+workflow.add_edge(&quot;Coder&quot;, END)
+
+meta_agent = workflow.compile()
+print(&quot;Meta-Controller agent graph compiled successfully.&quot;)
+</code></pre>
+<h2>Phase 4: Demonstration</h2>
+<p>Hãy kiểm tra Meta-Controller của chúng ta với một loạt các câu lệnh để xem liệu nó có gửi chúng đến đúng specialist hay không.</p>
+<pre><code class="language-python">def run_agent(query: str):
+    result = meta_agent.invoke({&quot;user_request&quot;: query})
+    console.print(&quot;\n[bold]Final Response:[/bold]&quot;)
+    console.print(Markdown(result['generation']))
+
+# Test 1: Nên được định tuyến tới Generalist
+console.print(&quot;--- 💬 Test 1: General Conversation ---&quot;)
+run_agent(&quot;Hello, how are you today?&quot;)
+
+# Test 2: Nên được định tuyến tới Researcher
+console.print(&quot;\n--- 🔬 Test 2: Research Question ---&quot;)
+run_agent(&quot;What were NVIDIA's latest financial results?&quot;)
+
+# Test 3: Nên được định tuyến tới Coder
+console.print(&quot;\n--- 💻 Test 3: Coding Request ---&quot;)
+run_agent(&quot;Can you write me a python function to calculate the nth fibonacci number?&quot;)
+</code></pre>
+<h2>Conclusion</h2>
+<p>Trong notebook này, chúng ta đã triển khai thành công một kiến trúc <strong>Meta-Controller</strong>. Các bài kiểm tra của chúng ta đã chứng minh rõ ràng chức năng chính của nó: hoạt động như một bộ định tuyến thông minh và năng động.</p>
+<ol>
+<li>Lời chào đơn giản được xác định chính xác và gửi tới <strong>Generalist</strong>.</li>
+<li>Truy vấn về tin tức tài chính gần đây được gửi tới <strong>Researcher</strong>, agent này đã sử dụng search tool để lấy thông tin cập nhật.</li>
+<li>Yêu cầu về một đoạn mã đã được định tuyến tới <strong>Coder</strong>, agent này đã cung cấp một hàm được định dạng tốt và chính xác.</li>
+</ol>
+<p>Pattern này đặc biệt mạnh mẽ để xây dựng các hệ thống AI có khả năng mở rộng và bảo trì. Bằng cách tách biệt các mối quan tâm, mỗi specialist có thể được cải thiện độc lập mà không ảnh hưởng đến những agent khác. Trí thông minh tổng thể của hệ thống có thể được nâng cao đơn giản bằng cách thêm các specialist mới, có năng lực hơn và làm cho Meta-Controller nhận thức được chúng. Mặc thân bản thân controller đại diện cho một điểm thắt nút tiềm năng, nhưng vai trò của nó như một bộ điều phối linh hoạt là nền tảng của thiết kế agentic tiên tiến.</p>
+</body>
+</html>

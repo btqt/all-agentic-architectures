@@ -1,0 +1,348 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>16_Cellular_Automata</title>
+    <style>
+        body { font-family: system-ui, -apple-system, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; color: #333; }
+        pre { background: #f4f4f4; padding: 15px; border-radius: 5px; overflow-x: auto; }
+        code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; font-family: monospace; }
+        a { color: #007bff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        img { max-width: 100%; height: auto; }
+    </style>
+</head>
+<body>
+<h1>📘 Agentic Architectures 16: Cellular Automata / Grid-Based Systems</h1>
+<p>Chào mừng bạn đến với bài khám phá một kiến trúc agentic hoàn toàn khác biệt: <strong>Cellular Automata</strong> (Tế bào tự động) và <strong>Grid-Based Agent Systems</strong> (Hệ thống Agent dựa trên lưới). Pattern này được truyền cảm hứng từ các hệ thống phức tạp trong tự nhiên và các khái niệm như Trò chơi Cuộc sống (Game of Life) của Conway. Nó chuyển đổi paradigm từ một vài agent phức tạp, tập trung sang một số lượng lớn các agent đơn giản, phi tập trung hoạt động trên một lưới (grid).</p>
+<p>Trong mô hình này, chính môi trường trở thành agent. Mỗi ô (cell) trong một lưới là một mini-agent với trạng thái riêng và một bộ quy tắc đơn giản để cập nhật trạng thái đó dựa trên các láng giềng (neighbors) trực tiếp của nó. Không có bộ điều khiển trung tâm hay thuật toán tìm đường (pathfinding) phức tạp. Thay vào đó, hành vi thông minh mang tính toàn cục <strong>nảy sinh</strong> (emerge) từ việc áp dụng đồng bộ, lặp đi lặp lại các quy tắc cục bộ đơn giản này. Hệ thống trở thành một "computational fabric" (mạng lưới tính toán) giải quyết các vấn đề thông qua sự lan truyền thông tin dạng sóng.</p>
+<p>Để chứng minh điều này trong một triển khai chi tiết và phức tạp, chúng ta sẽ xây dựng một <strong>Warehouse Logistics Simulator</strong> (Giả lập Logicstic kho hàng). Mục tiêu của chúng ta là hoàn thành một đơn hàng bằng cách di chuyển các mặt hàng từ kệ đến trạm đóng gói. Chúng ta sẽ giải quyết nhiệm vụ lập luận không gian phức tạp này không phải bằng một agent "robot" duy nhất, mà bằng cách lập trình chính các ô lưới để chúng cùng nhau tính toán con đường tối ưu.</p>
+<h3>Definition</h3>
+<p>Một <strong>Grid-Based Agent System</strong> là một kiến trúc nơi một số lượng lớn các agent đơn giản (hoặc các "ô") được sắp xếp trong một lưới không gian. Mỗi agent có một trạng thái và cập nhật nó một cách đồng bộ dựa trên một bộ quy tắc chỉ xem xét trạng thái của các láng giềng trực tiếp. Các pattern cấp cao phức tạp và khả năng giải quyết vấn đề nảy sinh từ những tương tác cục bộ này.</p>
+<h3>High-level Workflow</h3>
+<ol>
+<li><strong>Grid Initialization (Khởi tạo lưới):</strong> Một lưới gồm các cell-agent được tạo ra, mỗi cell được khởi tạo với một loại (ví dụ: vật cản, trống) và một trạng thái (ví dụ: một giá trị).</li>
+<li><strong>Set Boundary Conditions (Thiết lập điều kiện biên):</strong> Một hoặc nhiều ô được cấp một trạng thái đặc biệt để bắt đầu tính toán (ví dụ: giá trị của ô "mục tiêu" được đặt thành 0).</li>
+<li><strong>Synchronous Tick (Nhịp đồng bộ):</strong> Hệ thống "tích tắc" (tick) tiến về phía trước. Trong mỗi nhịp, mọi ô đồng thời tính toán trạng thái tiếp theo của nó dựa trên trạng thái hiện tại của các láng giềng của nó.</li>
+<li><strong>Emergence (Sự nảy sinh):</strong> Khi hệ thống tích tắc, thông tin lan truyền khắp lưới giống như một làn sóng. Điều này có thể tạo ra các độ dốc (gradients), các con đường và các cấu trúc phức tạp khác.</li>
+<li><strong>State Stabilization (Ổn định trạng thái):</strong> Hệ thống chạy cho đến khi trạng thái lưới ổn định (không còn thay đổi nào xảy ra), cho thấy quá trình tính toán đã hoàn tất.</li>
+<li><strong>Readout (Đọc kết quả):</strong> Giải pháp cho vấn đề sau đó được đọc trực tiếp từ trạng thái cuối cùng của lưới (ví dụ: bằng cách đi theo một độ dốc đã được tính toán).</li>
+</ol>
+<h3>When to Use / Applications</h3>
+<ul>
+<li><strong>Lập luận không gian &amp; Logistics:</strong> Tìm đường tối ưu trong môi trường năng động (giống như ví dụ kho hàng của chúng ta).</li>
+<li><strong>Giả lập hệ thống phức tạp:</strong> Mô hình hóa các hiện tượng có hành vi nảy sinh như cháy rừng, sự lây lan của dịch bệnh hoặc sự phát triển đô thị.</li>
+<li><strong>Tính toán song song:</strong> Một số thuật toán có thể được ánh xạ vào mô hình cellular automata để thực thi trên phần cứng song song cao (như GPU).</li>
+</ul>
+<h3>Strengths &amp; Weaknesses</h3>
+<ul>
+<li><strong>Strengths:</strong><ul>
+<li><strong>Tính song song cao:</strong> Logic vốn dĩ là song song, làm cho nó cực kỳ nhanh trên phần cứng thích hợp.</li>
+<li><strong>Khả năng thích ứng:</strong> Hệ thống có thể phản ứng linh hoạt với những thay đổi trong môi trường (ví dụ: một vật cản mới) bằng cách đơn giản là lan truyền lại các làn sóng của nó.</li>
+<li><strong>Sự phức tạp nảy sinh:</strong> Có thể giải quyết các vấn đề rất phức tạp với các quy tắc cực kỳ đơn giản.</li>
+</ul>
+</li>
+<li><strong>Weaknesses:</strong><ul>
+<li><strong>Độ phức tạp trong thiết kế:</strong> Thiết kế các quy tắc cục bộ để tạo ra hành vi toàn cục mong muốn có thể đầy thử thách và không mang tính trực quan.</li>
+<li><strong>Kém tính nội soi:</strong> Khó có thể hỏi một ô duy nhất "tại sao" nó có một trạng thái nhất định; việc lập luận được phân phối trên toàn bộ hệ thống.</li>
+</ul>
+</li>
+</ul>
+<h2>Phase 0: Foundation &amp; Setup</h2>
+<p>Chúng ta cần <code>numpy</code> cho các thao tác lưới hiệu quả và <code>rich</code> cho các hiển thị đầu cuối chất lượng cao.</p>
+<pre><code class="language-python"># !pip install -q -U langchain-nebius rich python-dotenv numpy
+</code></pre>
+<pre><code class="language-python">import os
+import numpy as np
+import time
+from typing import List, Dict, Any, Optional, Tuple
+from dotenv import load_dotenv
+from IPython.display import clear_output
+
+# LangChain for optional final summary
+from langchain_nebius import ChatNebius
+from langchain_core.prompts import ChatPromptTemplate
+
+# For pretty printing and visualization
+from rich.console import Console
+from rich.table import Table
+from rich.panel import Panel
+
+# --- API Key and Tracing Setup ---
+load_dotenv()
+
+os.environ[&quot;LANGCHAIN_TRACING_V2&quot;] = &quot;true&quot;
+os.environ[&quot;LANGCHAIN_PROJECT&quot;] = &quot;Agentic Architecture - Cellular Automata (Nebius)&quot;
+
+required_vars = [&quot;NEBIUS_API_KEY&quot;, &quot;LANGCHAIN_API_KEY&quot;]
+for var in required_vars:
+    if var not in os.environ:
+        print(f&quot;Warning: Environment variable {var} not set.&quot;)
+
+print(&quot;Environment variables loaded and tracing is set up.&quot;)
+</code></pre>
+<h2>Phase 1: Building the Cellular Automata Environment</h2>
+<p>Đây là giai đoạn quan trọng nhất. Chúng ta sẽ định nghĩa hai class cốt lõi cho phần giả lập của mình:
+1.  <code>CellAgent</code>: Đại diện cho một ô duy nhất trong lưới. Nó chứa loại của nó (type), trạng thái của nó (một giá trị tìm đường), và quy tắc cục bộ để cập nhật trạng thái đó.
+2.  <code>WarehouseGrid</code>: Container cho toàn bộ hệ thống. Nó sẽ quản lý mảng 2D gồm các <code>CellAgent</code>, điều phối các cập nhật đồng bộ <code>tick</code> và xử lý việc hiển thị.</p>
+<pre><code class="language-python">console = Console()
+
+class CellAgent:
+    &quot;&quot;&quot;Một agent duy nhất trong lưới của chúng ta. Công việc duy nhất của nó là cập nhật giá trị của mình dựa trên các láng giềng.&quot;&quot;&quot;
+    def __init__(self, cell_type: str, item: Optional[str] = None):
+        self.type = cell_type # 'EMPTY', 'OBSTACLE', 'SHELF', 'PACKING_STATION'
+        self.item = item
+        self.pathfinding_value = float('inf')
+
+    def update_value(self, neighbors: List['CellAgent']):
+        &quot;&quot;&quot;Quy tắc cục bộ cốt lõi: giá trị mới của tôi là 1 + giá trị tối thiểu của các láng giềng không phải vật cản.&quot;&quot;&quot;
+        if self.type == 'OBSTACLE':
+            return float('inf')
+
+        min_neighbor_value = float('inf')
+        for neighbor in neighbors:
+            if neighbor.pathfinding_value &lt; min_neighbor_value:
+                min_neighbor_value = neighbor.pathfinding_value
+
+        # +1 đại diện cho chi phí di chuyển từ một láng giềng đến ô này
+        return min(self.pathfinding_value, min_neighbor_value + 1)
+
+class WarehouseGrid:
+    &quot;&quot;&quot;Quản lý toàn bộ lưới các CellAgents và vòng lặp giả lập.&quot;&quot;&quot;
+    def __init__(self, layout: List[str]):
+        self.height = len(layout)
+        self.width = len(layout[0])
+        self.grid = self._create_grid_from_layout(layout)
+        self.item_locations = self._get_item_locations()
+
+    def _create_grid_from_layout(self, layout):
+        grid = np.empty((self.height, self.width), dtype=object)
+        for r, row_str in enumerate(layout):
+            for c, char in enumerate(row_str):
+                if char == ' ':
+                    grid[r, c] = CellAgent('EMPTY')
+                elif char == '#':
+                    grid[r, c] = CellAgent('OBSTACLE')
+                elif char == 'P':
+                    grid[r, c] = CellAgent('PACKING_STATION')
+                else: # Đó là một mặt hàng
+                    grid[r, c] = CellAgent('SHELF', item=char)
+        return grid
+
+    def _get_item_locations(self) -&gt; Dict[str, Tuple[int, int]]:
+        locations = {}
+        for r in range(self.height):
+            for c in range(self.width):
+                if self.grid[r, c].type == 'SHELF':
+                    locations[self.grid[r, c].item] = (r, c)
+                if self.grid[r, c].type == 'PACKING_STATION':
+                    locations['P'] = (r, c)
+        return locations
+
+    def get_neighbors(self, r: int, c: int) -&gt; List[CellAgent]:
+        neighbors = []
+        for dr, dc in [(0, 1), (0, -1), (1, 0), (-1, 0)]: # N, S, E, W
+            nr, nc = r + dr, c + dc
+            if 0 &lt;= nr &lt; self.height and 0 &lt;= nc &lt; self.width:
+                neighbors.append(self.grid[nr, nc])
+        return neighbors
+
+    def tick(self) -&gt; bool:
+        &quot;&quot;&quot;Thực hiện một bản cập nhật đồng bộ của tất cả các ô. Trả về True nếu có bất kỳ giá trị nào thay đổi.&quot;&quot;&quot;
+        changed = False
+        # Đầu tiên, tính toán tất cả các giá trị mới dựa trên trạng thái hiện tại
+        new_values = np.empty((self.height, self.width))
+        for r in range(self.height):
+            for c in range(self.width):
+                neighbors = self.get_neighbors(r, c)
+                new_values[r, c] = self.grid[r, c].update_value(neighbors)
+
+        # Sau đó, áp dụng tất cả các giá trị mới
+        for r in range(self.height):
+            for c in range(self.width):
+                if self.grid[r, c].pathfinding_value != new_values[r, c]:
+                    self.grid[r, c].pathfinding_value = new_values[r, c]
+                    changed = True
+        return changed
+
+    def visualize(self, show_values: bool = False, title: str = &quot;Warehouse Grid&quot;):
+        &quot;&quot;&quot;Hiển thị trạng thái lưới bằng Rich.&quot;&quot;&quot;
+        table = Table(title=title, show_header=False, show_edge=True, padding=0)
+        for _ in range(self.width):
+            table.add_column(justify=&quot;center&quot;)
+
+        for r in range(self.height):
+            row_renderables = []
+            for c in range(self.width):
+                cell = self.grid[r, c]
+                val = cell.pathfinding_value
+                display_char = ''
+                if cell.type == 'EMPTY': display_char = '[grey70]·[/grey70]'
+                elif cell.type == 'OBSTACLE': display_char = '[red]█[/red]'
+                elif cell.type == 'PACKING_STATION': display_char = '[bold green]P[/bold green]'
+                elif cell.type == 'SHELF': display_char = f'[bold blue]{cell.item}[/bold blue]'
+
+                if show_values and val != float('inf'):
+                    # Mã hóa màu cho các giá trị đường đi
+                    color = int(255 - (val * 5) % 255)
+                    row_renderables.append(f&quot;[rgb({color},{color},{color}) on rgb(30,30,60)]{int(val):^3}[/]&quot;)
+                else:
+                    row_renderables.append(f&quot; {display_char} &quot;)
+            table.add_row(*row_renderables)
+        console.print(table)
+
+print(&quot;Cellular Automata environment defined successfully.&quot;)
+</code></pre>
+<h2>Phase 2: Implementing the Emergent Behaviors</h2>
+<p>Bản thân lưới chỉ là một framework. Chúng ta cần triển khai logic cấp cao sử dụng cellular automata để giải quyết vấn đề của mình. Điều này bao gồm hai hành vi nảy sinh chính:</p>
+<ol>
+<li><strong>Path Wave Propagation (Lan truyền sóng đường đi):</strong> Một hàm thiết lập mục tiêu và để lưới <code>tick</code> cho đến khi một độ dốc tìm đường hoàn chỉnh được hình thành trên toàn bộ sàn kho.</li>
+<li><strong>Gradient Descent Traversal (Duyệt theo độ dốc giảm dần):</strong> Một hàm mô phỏng một agent "người vận chuyển" bắt đầu tại kệ của mặt hàng và đơn giản là đi theo con đường dốc nhất (giá trị <code>pathfinding_value</code> thấp nhất) cho đến khi đạt được mục tiêu.</li>
+</ol>
+<pre><code class="language-python">def propagate_path_wave(grid: WarehouseGrid, target_pos: Tuple[int, int], visualize_steps: bool = False):
+    &quot;&quot;&quot;Đặt lại và sau đó chạy giả lập cho đến khi các giá trị tìm đường ổn định.&quot;&quot;&quot;
+    # Đặt lại tất cả các giá trị tìm đường
+    for r in range(grid.height):
+        for c in range(grid.width):
+            grid.grid[r, c].pathfinding_value = float('inf')
+
+    # Đặt giá trị của mục tiêu là 0 để bắt đầu làn sóng
+    grid.grid[target_pos].pathfinding_value = 0
+
+    tick_count = 0
+    while True:
+        tick_count += 1
+        if visualize_steps:
+            clear_output(wait=True)
+            grid.visualize(show_values=True, title=f&quot;Path Wave Propagation (Tick #{tick_count})&quot;)
+            time.sleep(0.1)
+
+        changed = grid.tick()
+        if not changed:
+            break
+    if visualize_steps:
+        clear_output(wait=True)
+        grid.visualize(show_values=True, title=f&quot;Path Wave Propagation (Stabilized at Tick #{tick_count})&quot;)
+
+def trace_and_move_item(grid: WarehouseGrid, start_pos: Tuple[int, int]) -&gt; List[Tuple[int, int]]:
+    &quot;&quot;&quot;Đi theo độ dốc từ vị trí bắt đầu ngược về mục tiêu (giá trị 0).&quot;&quot;&quot;
+    path = [start_pos]
+    r, c = start_pos
+
+    while grid.grid[r, c].pathfinding_value &gt; 0:
+        neighbors = grid.get_neighbors(r, c)
+        best_neighbor_pos = None
+        min_val = grid.grid[r, c].pathfinding_value
+
+        # Tìm láng giềng có giá trị tìm đường thấp nhất
+        for neighbor_cell in neighbors:
+            # Tìm vị trí của ô láng giềng
+            pos_list = np.where(grid.grid == neighbor_cell)
+            if len(pos_list[0]) &gt; 0:
+                nr, nc = pos_list[0][0], pos_list[1][0]
+                if neighbor_cell.pathfinding_value &lt; min_val:
+                    min_val = neighbor_cell.pathfinding_value
+                    best_neighbor_pos = (nr, nc)
+
+        if best_neighbor_pos:
+            path.append(best_neighbor_pos)
+            r, c = best_neighbor_pos
+        else:
+            console.print(&quot;[red]Error: Path tracing got stuck. No downhill neighbor found.[/red]&quot;)
+            break
+
+    return path
+
+print(&quot;Emergent behavior functions defined successfully.&quot;)
+</code></pre>
+<h2>Phase 3: The Full Orchestration Workflow</h2>
+<p>Bây giờ chúng ta sẽ tạo hàm cấp cao nhất để mô phỏng toàn bộ quy trình hoàn thành đơn hàng. Điều này sẽ chứng minh cách các hành vi nảy sinh có thể được kết hợp để giải quyết một vấn đề nhiều bước.</p>
+<pre><code class="language-python">def fulfill_order(layout: List[str], order: List[str], visualize_waves: bool = False):
+    &quot;&quot;&quot;Hàm điều phối chính.&quot;&quot;&quot;
+    grid = WarehouseGrid(layout)
+    console.print(&quot;--- Initial Warehouse State ---&quot;)
+    grid.visualize()
+
+    packing_station_pos = grid.item_locations['P']
+
+    for i, item_id in enumerate(order):
+        panel_title = f&quot;[bold]Step {i+1}: Fulfill Item '{item_id}'[/bold]&quot;
+        log_messages = []
+
+        item_pos = grid.item_locations.get(item_id)
+        if not item_pos:
+            console.print(Panel(f&quot;[red]Error: Item '{item_id}' not found in warehouse.[/red]&quot;, title=panel_title))
+            continue
+
+        # 1. Tính toán sóng đường đi từ trạm đóng gói
+        log_messages.append(&quot;🌊 Computing path wave from Packing Station...&quot;)
+        propagate_path_wave(grid, packing_station_pos, visualize_steps=visualize_waves)
+
+        # 2. Truy vết con đường cho mặt hàng hiện tại
+        log_messages.append(f&quot;🚚 Found path for item {item_id}. Moving along gradient...&quot;)
+        path = trace_and_move_item(grid, item_pos)
+        path_str = ' -&gt; '.join(map(str, path))
+        log_messages.append(f&quot;Path: {path_str}&quot;)
+
+        # 3. Cập nhật trạng thái lưới (mặt hàng hiện đã ở trạm đóng gói)
+        grid.grid[item_pos].type = 'EMPTY'
+        grid.grid[item_pos].item = None
+        log_messages.append(f&quot;✅ Item '{item_id}' has been moved to the packing station.&quot;)
+        console.print(Panel('\n'.join(log_messages), title=panel_title, border_style=&quot;blue&quot;))
+
+    console.print(Panel(f&quot;The system successfully fulfilled the order for items {order} by emergently computing paths through local cell interactions.&quot;, title=&quot;[bold green]🎉 Order Fulfillment Complete![/bold green]&quot;, border_style=&quot;green&quot;))
+    return grid
+
+# --- Main Execution ---
+warehouse_layout = [
+    &quot;#######&quot;,
+    &quot;# D   #&quot;,
+    &quot;# ### #&quot;,
+    &quot;#A#C# #&quot;,
+    &quot;# # #B#&quot;,
+    &quot;#  P  #&quot;,
+    &quot;#######&quot;,
+]
+order_to_fulfill = ['A', 'B']
+final_grid = fulfill_order(warehouse_layout, order_to_fulfill, visualize_waves=True)
+
+# --- Tùy chọn: LLM Interpretation ---
+console.print(&quot;\n--- 🤖 LLM Interpretation of the Final State ---&quot;)
+llm = ChatNebius(model=&quot;mistralai/Mixtral-8x22B-Instruct-v0.1&quot;)
+summary_prompt = ChatPromptTemplate.from_template(&quot;You are a logistics manager. Briefly summarize the outcome of the following order fulfillment report.\n\nOrder: {order}\nFinal Warehouse State: All items from the order have been moved to the packing station. Items A and B were retrieved. Original locations were {loc_A} and {loc_B}. The floor is now clear.&quot;)
+summary_chain = summary_prompt | llm
+final_summary = summary_chain.invoke({
+    &quot;order&quot;: order_to_fulfill, 
+    &quot;loc_A&quot;: WarehouseGrid(warehouse_layout).item_locations['A'],
+    &quot;loc_B&quot;: WarehouseGrid(warehouse_layout).item_locations['B']
+}).content
+console.print(Markdown(final_summary))
+</code></pre>
+<h3>Analysis of the Results</h3>
+<p>Triển khai chi tiết này thể hiện hoàn hảo bản chất độc đáo của Cellular Automata trong việc giải quyết vấn đề:</p>
+<ol>
+<li>
+<p><strong>Không có người lập kế hoạch trung tâm:</strong> Chúng ta không sử dụng thuật toán tìm đường toàn cục như A<em> vào bất kỳ lúc nào. Chúng ta chưa bao giờ tính toán đường đi theo cách từ trên xuống (top-down). Con đường tối ưu là một </em>đặc tính nảy sinh* của chính lưới đó.</p>
+</li>
+<li>
+<p><strong>Thông tin dưới dạng Sóng:</strong> Hàm <code>propagate_path_wave</code> là chìa khóa. Phần hình ảnh cho thấy 'khoảng cách' từ trạm đóng gói lan tỏa khắp các ô lưới qua từng nhịp tích tắc, uốn lượn quanh các vật cản một cách tự nhiên. Đây chính là "mạng lưới tính toán" đang vận hành. Lưới thực chất đã tính toán đường ngắn nhất từ <em>mọi ô trống</em> đến trạm đóng gói cùng một lúc.</p>
+</li>
+<li>
+<p><strong>Agent đơn giản, Hành vi phức tạp:</strong> "Người vận chuyển" di chuyển mặt hàng cực kỳ đơn giản. Logic duy nhất của nó là "tìm láng giềng nào có con số thấp nhất và di chuyển đến đó." Tất cả các lập luận phức tạp về môi trường đã được mã hóa vào trạng thái của lưới bằng sóng đường đi.</p>
+</li>
+<li>
+<p><strong>Khả năng thích ứng:</strong> Nếu chúng ta thay đổi bố cục nhà kho bằng cách thêm một vật cản mới, chúng ta sẽ không cần viết lại một thuật toán tìm đường phức tạp. Chúng ta chỉ đơn giản là chạy lại quá trình lan truyền sóng, và các giá trị đường đi sẽ tự động và chính xác uốn quanh vật cản mới, minh chứng cho khả năng thích ứng vốn có của hệ thống.</p>
+</li>
+</ol>
+<p>Đây là một sự chuyển dịch cơ bản so với thiết kế agent truyền thống. Thay vì xây dựng một agent thông minh điều hướng trong một môi trường thụ động, chúng ta xây dựng một môi trường thông minh bao gồm nhiều agent đơn giản, cùng nhau giải quyết vấn đề.</p>
+<h2>Conclusion</h2>
+<p>Trong notebook này, chúng ta đã xây dựng một <strong>Cellular Automata / Grid-Based Agent System</strong> hoàn chỉnh. Chúng ta đã đi xa hơn lý thuyết và triển khai một giải pháp thực tế cho một vấn đề lập luận không gian phức tạp: logistics kho hàng.</p>
+<p>Chúng ta đã tận mắt chứng kiến hành vi phức tạp, định hướng mục tiêu có thể nảy sinh như thế nào từ việc thực thi đồng bộ các quy tắc cục bộ đơn giản trên một lưới các mini-agent. Các khái niệm về <strong>lan truyền sóng</strong> và <strong>gradient descent</strong> không được lập trình rõ ràng theo cách từ trên xuống mà là kết quả tự nhiên từ sự tiến hóa của cellular automata.</p>
+<p>Kiến trúc này, mặc dù không phù hợp cho mọi vấn đề, nhưng cực kỳ mạnh mẽ cho các nhiệm vụ liên quan đến lập luận không gian, giả lập và tối ưu hóa trong môi trường năng động. Nó khuyến khích chúng ta nghĩ về các hệ thống agentic ít hơn như những "con bot" riêng lẻ và nhiều hơn như một <strong>môi trường tính toán có thể lập trình</strong>, có thể cấu hình để giải quyết các vấn đề theo cách song song hóa và thích ứng cao.</p>
+</body>
+</html>
