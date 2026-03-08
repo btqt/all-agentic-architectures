@@ -1,8 +1,5 @@
-import os
-import sys
 import json
-import logging
-from datetime import datetime
+import os
 from typing import List, TypedDict, Optional
 from dotenv import load_dotenv
 
@@ -15,23 +12,9 @@ from langchain_ollama import ChatOllama
 from rich.console import Console
 from rich.markdown import Markdown
 from rich.syntax import Syntax
-from rich.logging import RichHandler
+from logger_utils import get_logger
 
-# Setup logging — tạo file log mới mỗi lần chạy với timestamp
-log_filename = datetime.now().strftime("log/app_%Y%m%d_%H%M%S.log")
-file_handler = logging.FileHandler(log_filename, encoding="utf-8")
-file_handler.setFormatter(logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s"))
-
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(message)s",
-    datefmt="[%X]",
-    handlers=[
-        RichHandler(rich_tracebacks=True),
-        file_handler
-    ]
-)
-logger = logging.getLogger("reflection")
+logger = get_logger("reflection")
 
 load_dotenv()
 
