@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -6,15 +5,109 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>04_Planning</title>
     <style>
-        body { font-family: system-ui, -apple-system, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; color: #333; }
-        pre { background: #f4f4f4; padding: 15px; border-radius: 5px; overflow-x: auto; }
-        code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; font-family: monospace; }
+        body { font-family: system-ui, -apple-system, sans-serif; line-height: 1.6; max-width: 1100px; margin: 0 auto; padding: 20px; color: #333; }
+        pre { background: #f4f4f4; padding: 15px; border-radius: 5px; white-space: pre-wrap; word-wrap: break-word; }
+        code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; font-family: 'Operator Mono Lig', monospace; }
         a { color: #007bff; text-decoration: none; }
         a:hover { text-decoration: underline; }
         table { border-collapse: collapse; width: 100%; margin: 20px 0; }
         th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
         th { background-color: #f2f2f2; }
         img { max-width: 100%; height: auto; }
+
+        /* --- Pygments: friendly theme (inline, no CDN) --- */
+        pre { line-height: 125%; }
+td.linenos .normal { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.codehilite .hll { background-color: #ffffcc }
+.codehilite { background: #f0f0f0; }
+.codehilite .c { color: #60A0B0; font-style: italic } /* Comment */
+.codehilite .err { border: 1px solid #F00 } /* Error */
+.codehilite .k { color: #007020; font-weight: bold } /* Keyword */
+.codehilite .o { color: #666 } /* Operator */
+.codehilite .ch { color: #60A0B0; font-style: italic } /* Comment.Hashbang */
+.codehilite .cm { color: #60A0B0; font-style: italic } /* Comment.Multiline */
+.codehilite .cp { color: #007020 } /* Comment.Preproc */
+.codehilite .cpf { color: #60A0B0; font-style: italic } /* Comment.PreprocFile */
+.codehilite .c1 { color: #60A0B0; font-style: italic } /* Comment.Single */
+.codehilite .cs { color: #60A0B0; background-color: #FFF0F0 } /* Comment.Special */
+.codehilite .gd { color: #A00000 } /* Generic.Deleted */
+.codehilite .ge { font-style: italic } /* Generic.Emph */
+.codehilite .ges { font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+.codehilite .gr { color: #F00 } /* Generic.Error */
+.codehilite .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.codehilite .gi { color: #00A000 } /* Generic.Inserted */
+.codehilite .go { color: #888 } /* Generic.Output */
+.codehilite .gp { color: #C65D09; font-weight: bold } /* Generic.Prompt */
+.codehilite .gs { font-weight: bold } /* Generic.Strong */
+.codehilite .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.codehilite .gt { color: #04D } /* Generic.Traceback */
+.codehilite .kc { color: #007020; font-weight: bold } /* Keyword.Constant */
+.codehilite .kd { color: #007020; font-weight: bold } /* Keyword.Declaration */
+.codehilite .kn { color: #007020; font-weight: bold } /* Keyword.Namespace */
+.codehilite .kp { color: #007020 } /* Keyword.Pseudo */
+.codehilite .kr { color: #007020; font-weight: bold } /* Keyword.Reserved */
+.codehilite .kt { color: #902000 } /* Keyword.Type */
+.codehilite .m { color: #40A070 } /* Literal.Number */
+.codehilite .s { color: #4070A0 } /* Literal.String */
+.codehilite .na { color: #4070A0 } /* Name.Attribute */
+.codehilite .nb { color: #007020 } /* Name.Builtin */
+.codehilite .nc { color: #0E84B5; font-weight: bold } /* Name.Class */
+.codehilite .no { color: #60ADD5 } /* Name.Constant */
+.codehilite .nd { color: #555; font-weight: bold } /* Name.Decorator */
+.codehilite .ni { color: #D55537; font-weight: bold } /* Name.Entity */
+.codehilite .ne { color: #007020 } /* Name.Exception */
+.codehilite .nf { color: #06287E } /* Name.Function */
+.codehilite .nl { color: #002070; font-weight: bold } /* Name.Label */
+.codehilite .nn { color: #0E84B5; font-weight: bold } /* Name.Namespace */
+.codehilite .nt { color: #062873; font-weight: bold } /* Name.Tag */
+.codehilite .nv { color: #BB60D5 } /* Name.Variable */
+.codehilite .ow { color: #007020; font-weight: bold } /* Operator.Word */
+.codehilite .w { color: #BBB } /* Text.Whitespace */
+.codehilite .mb { color: #40A070 } /* Literal.Number.Bin */
+.codehilite .mf { color: #40A070 } /* Literal.Number.Float */
+.codehilite .mh { color: #40A070 } /* Literal.Number.Hex */
+.codehilite .mi { color: #40A070 } /* Literal.Number.Integer */
+.codehilite .mo { color: #40A070 } /* Literal.Number.Oct */
+.codehilite .sa { color: #4070A0 } /* Literal.String.Affix */
+.codehilite .sb { color: #4070A0 } /* Literal.String.Backtick */
+.codehilite .sc { color: #4070A0 } /* Literal.String.Char */
+.codehilite .dl { color: #4070A0 } /* Literal.String.Delimiter */
+.codehilite .sd { color: #4070A0; font-style: italic } /* Literal.String.Doc */
+.codehilite .s2 { color: #4070A0 } /* Literal.String.Double */
+.codehilite .se { color: #4070A0; font-weight: bold } /* Literal.String.Escape */
+.codehilite .sh { color: #4070A0 } /* Literal.String.Heredoc */
+.codehilite .si { color: #70A0D0; font-style: italic } /* Literal.String.Interpol */
+.codehilite .sx { color: #C65D09 } /* Literal.String.Other */
+.codehilite .sr { color: #235388 } /* Literal.String.Regex */
+.codehilite .s1 { color: #4070A0 } /* Literal.String.Single */
+.codehilite .ss { color: #517918 } /* Literal.String.Symbol */
+.codehilite .bp { color: #007020 } /* Name.Builtin.Pseudo */
+.codehilite .fm { color: #06287E } /* Name.Function.Magic */
+.codehilite .vc { color: #BB60D5 } /* Name.Variable.Class */
+.codehilite .vg { color: #BB60D5 } /* Name.Variable.Global */
+.codehilite .vi { color: #BB60D5 } /* Name.Variable.Instance */
+.codehilite .vm { color: #BB60D5 } /* Name.Variable.Magic */
+.codehilite .il { color: #40A070 } /* Literal.Number.Integer.Long */
+
+        /* Override: keep gray bg + wrap */
+        .codehilite { background: #f4f4f4 !important; padding: 15px; border-radius: 5px; overflow: visible; }
+        .codehilite pre { background: #f4f4f4 !important; white-space: pre-wrap; word-wrap: break-word; margin: 0; font-family: 'Operator Mono', monospace; }
+
+        /* Operator Mono italic: comments, docstrings, keywords */
+        .codehilite .c,
+        .codehilite .c1,
+        .codehilite .cm,
+        .codehilite .cs,
+        .codehilite .cp  { font-style: italic; }
+        .codehilite .k,
+        .codehilite .kd,
+        .codehilite .kn,
+        .codehilite .kr,
+        .codehilite .kc  { font-style: italic; }
+        .codehilite .sd  { font-style: italic; } /* docstring */
     </style>
 </head>
 <body>
@@ -53,125 +146,130 @@
 <h3>Step 0.1: Installing Core Libraries</h3>
 <p><strong>Những gì chúng ta sẽ làm:</strong>
 Chúng ta sẽ cài đặt bộ thư viện tiêu chuẩn của mình, bao gồm gói <code>langchain-tavily</code> đã được cập nhật để giải quyết cảnh báo không còn sử dụng (deprecation warning).</p>
-<pre><code class="language-python"># !pip install -q -U langchain-nebius langchain langgraph rich python-dotenv langchain-tavily
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="c1"># !pip install -q -U langchain-nebius langchain langgraph rich python-dotenv langchain-tavily</span>
+</code></pre></div>
+
 <h3>Step 0.2: Importing Libraries and Setting Up Keys</h3>
 <p><strong>Những gì chúng ta sẽ làm:</strong>
 Chúng ta sẽ import các module cần thiết và load các API keys của mình từ file <code>.env</code>.</p>
 <p><strong>Action Required:</strong> Tạo một file <code>.env</code> trong thư mục này với các key của bạn:</p>
-<pre><code>NEBIUS_API_KEY=&quot;your_nebius_api_key_here&quot;
+<div class="codehilite"><pre><span></span><code>NEBIUS_API_KEY=&quot;your_nebius_api_key_here&quot;
 LANGCHAIN_API_KEY=&quot;your_langsmith_api_key_here&quot;
 TAVILY_API_KEY=&quot;your_tavily_api_key_here&quot;
-</code></pre>
-<pre><code class="language-python">import os
-import re
-from typing import List, Annotated, TypedDict, Optional
-from dotenv import load_dotenv
+</code></pre></div>
 
-# LangChain components
-from langchain_nebius import ChatNebius
-from langchain_core.messages import BaseMessage, ToolMessage
-from pydantic import BaseModel, Field
-from langchain_core.tools import tool
-from langchain_core.messages import SystemMessage
-from langchain_tavily import TavilySearch
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Annotated</span><span class="p">,</span> <span class="n">TypedDict</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dotenv</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_dotenv</span>
 
-# LangGraph components
-from langgraph.graph import StateGraph, END
-from langgraph.graph.message import AnyMessage, add_messages
-from langgraph.prebuilt import ToolNode, tools_condition
+<span class="c1"># LangChain components</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_nebius</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatNebius</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_core.messages</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseMessage</span><span class="p">,</span> <span class="n">ToolMessage</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_core.tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">tool</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_core.messages</span><span class="w"> </span><span class="kn">import</span> <span class="n">SystemMessage</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_tavily</span><span class="w"> </span><span class="kn">import</span> <span class="n">TavilySearch</span>
 
-# For pretty printing
-from rich.console import Console
-from rich.markdown import Markdown
+<span class="c1"># LangGraph components</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langgraph.graph</span><span class="w"> </span><span class="kn">import</span> <span class="n">StateGraph</span><span class="p">,</span> <span class="n">END</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langgraph.graph.message</span><span class="w"> </span><span class="kn">import</span> <span class="n">AnyMessage</span><span class="p">,</span> <span class="n">add_messages</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langgraph.prebuilt</span><span class="w"> </span><span class="kn">import</span> <span class="n">ToolNode</span><span class="p">,</span> <span class="n">tools_condition</span>
 
-# --- API Key and Tracing Setup ---
-load_dotenv()
+<span class="c1"># For pretty printing</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rich.console</span><span class="w"> </span><span class="kn">import</span> <span class="n">Console</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rich.markdown</span><span class="w"> </span><span class="kn">import</span> <span class="n">Markdown</span>
 
-os.environ[&quot;LANGCHAIN_TRACING_V2&quot;] = &quot;true&quot;
-os.environ[&quot;LANGCHAIN_PROJECT&quot;] = &quot;Agentic Architecture - Planning (Nebius)&quot;
+<span class="c1"># --- API Key and Tracing Setup ---</span>
+<span class="n">load_dotenv</span><span class="p">()</span>
 
-# Kiểm tra xem các key đã được thiết lập chưa
-for key in [&quot;NEBIUS_API_KEY&quot;, &quot;LANGCHAIN_API_KEY&quot;, &quot;TAVILY_API_KEY&quot;]:
-    if not os.environ.get(key):
-        print(f&quot;{key} not found. Please create a .env file and set it.&quot;)
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;LANGCHAIN_TRACING_V2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;true&quot;</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;LANGCHAIN_PROJECT&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Agentic Architecture - Planning (Nebius)&quot;</span>
 
-print(&quot;Environment variables loaded and tracing is set up.&quot;)
-</code></pre>
+<span class="c1"># Kiểm tra xem các key đã được thiết lập chưa</span>
+<span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;NEBIUS_API_KEY&quot;</span><span class="p">,</span> <span class="s2">&quot;LANGCHAIN_API_KEY&quot;</span><span class="p">,</span> <span class="s2">&quot;TAVILY_API_KEY&quot;</span><span class="p">]:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2"> not found. Please create a .env file and set it.&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Environment variables loaded and tracing is set up.&quot;</span><span class="p">)</span>
+</code></pre></div>
+
 <h2>Phase 1: The Baseline - A Reactive Agent (ReAct)</h2>
 <p>Để đánh giá giá trị của planning, trước tiên chúng ta cần một baseline. Chúng ta sẽ sử dụng ReAct agent mà chúng ta đã xây dựng trong notebook trước. Agent này thông minh nhưng bị hạn chế về tầm nhìn—nó tìm ra con đường của mình theo từng bước một.</p>
 <h3>Step 1.1: Re-building the ReAct Agent</h3>
 <p><strong>Những gì chúng ta sẽ làm:</strong>
 Chúng ta sẽ nhanh chóng tái cấu trúc ReAct agent. Tính năng cốt lõi của nó là một vòng lặp nơi kết quả đầu ra của agent được route quay lại chính nó sau mỗi cuộc gọi tool, cho phép nó đánh giá lại và quyết định bước tiếp theo dựa trên thông tin mới nhất.</p>
-<pre><code class="language-python">console = Console()
+<div class="codehilite"><pre><span></span><code><span class="n">console</span> <span class="o">=</span> <span class="n">Console</span><span class="p">()</span>
 
-# Định nghĩa state cho các graph của chúng ta
-class AgentState(TypedDict):
-    messages: Annotated[list[AnyMessage], add_messages]
+<span class="c1"># Định nghĩa state cho các graph của chúng ta</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">AgentState</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+    <span class="n">messages</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="n">AnyMessage</span><span class="p">],</span> <span class="n">add_messages</span><span class="p">]</span>
 
-# 1. Định nghĩa base tool từ gói tavily
-tavily_search_tool = TavilySearch(max_results=2)
+<span class="c1"># 1. Định nghĩa base tool từ gói tavily</span>
+<span class="n">tavily_search_tool</span> <span class="o">=</span> <span class="n">TavilySearch</span><span class="p">(</span><span class="n">max_results</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 
-# 2. THE FIX: Đơn giản hóa custom tool. 
-# Phương thức .invoke() đã trả về một string sạch, vì vậy chúng ta chỉ cần truyền nó qua.
-@tool
-def web_search(query: str) -&gt; str:
-    &quot;&quot;&quot;Thực hiện tìm kiếm web bằng Tavily và trả về kết quả dưới dạng string.&quot;&quot;&quot;
-    console.print(f&quot;--- TOOL: Searching for '{query}'...&quot;)
-    results = tavily_search_tool.invoke(query)
-    return results
+<span class="c1"># 2. THE FIX: Đơn giản hóa custom tool. </span>
+<span class="c1"># Phương thức .invoke() đã trả về một string sạch, vì vậy chúng ta chỉ cần truyền nó qua.</span>
+<span class="nd">@tool</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">web_search</span><span class="p">(</span><span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Thực hiện tìm kiếm web bằng Tavily và trả về kết quả dưới dạng string.&quot;&quot;&quot;</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;--- TOOL: Searching for &#39;</span><span class="si">{</span><span class="n">query</span><span class="si">}</span><span class="s2">&#39;...&quot;</span><span class="p">)</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">tavily_search_tool</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">results</span>
 
-# 3. Định nghĩa LLM và bind nó vào custom tool của chúng ta
-llm = ChatNebius(model=&quot;meta-llama/Meta-Llama-3.1-8B-Instruct&quot;, temperature=0)
-llm_with_tools = llm.bind_tools([web_search])
+<span class="c1"># 3. Định nghĩa LLM và bind nó vào custom tool của chúng ta</span>
+<span class="n">llm</span> <span class="o">=</span> <span class="n">ChatNebius</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;meta-llama/Meta-Llama-3.1-8B-Instruct&quot;</span><span class="p">,</span> <span class="n">temperature</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">llm_with_tools</span> <span class="o">=</span> <span class="n">llm</span><span class="o">.</span><span class="n">bind_tools</span><span class="p">([</span><span class="n">web_search</span><span class="p">])</span>
 
-# 4. Agent node với một system prompt để ép buộc một cuộc gọi tool tại một thời điểm
-def react_agent_node(state: AgentState):
-    console.print(&quot;--- REACTIVE AGENT: Thinking... ---&quot;)
+<span class="c1"># 4. Agent node với một system prompt để ép buộc một cuộc gọi tool tại một thời điểm</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">react_agent_node</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">AgentState</span><span class="p">):</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;--- REACTIVE AGENT: Thinking... ---&quot;</span><span class="p">)</span>
 
-    messages_with_system_prompt = [
-        SystemMessage(content=&quot;You are a helpful research assistant. You must call one and only one tool at a time. Do not call multiple tools in a single turn. After receiving the result from a tool, you will decide on the next step.&quot;)
-    ] + state[&quot;messages&quot;]
+    <span class="n">messages_with_system_prompt</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">SystemMessage</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="s2">&quot;You are a helpful research assistant. You must call one and only one tool at a time. Do not call multiple tools in a single turn. After receiving the result from a tool, you will decide on the next step.&quot;</span><span class="p">)</span>
+    <span class="p">]</span> <span class="o">+</span> <span class="n">state</span><span class="p">[</span><span class="s2">&quot;messages&quot;</span><span class="p">]</span>
 
-    response = llm_with_tools.invoke(messages_with_system_prompt)
+    <span class="n">response</span> <span class="o">=</span> <span class="n">llm_with_tools</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">messages_with_system_prompt</span><span class="p">)</span>
 
-    return {&quot;messages&quot;: [response]}
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;messages&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">response</span><span class="p">]}</span>
 
-# 5. Sử dụng custom tool đã được chỉnh sửa của chúng ta trong ToolNode
-tool_node = ToolNode([web_search])
+<span class="c1"># 5. Sử dụng custom tool đã được chỉnh sửa của chúng ta trong ToolNode</span>
+<span class="n">tool_node</span> <span class="o">=</span> <span class="n">ToolNode</span><span class="p">([</span><span class="n">web_search</span><span class="p">])</span>
 
-# ReAct graph với vòng lặp đặc trưng của nó
-react_graph_builder = StateGraph(AgentState)
-react_graph_builder.add_node(&quot;agent&quot;, react_agent_node)
-react_graph_builder.add_node(&quot;tools&quot;, tool_node)
-react_graph_builder.set_entry_point(&quot;agent&quot;)
-react_graph_builder.add_conditional_edges(&quot;agent&quot;, tools_condition)
-react_graph_builder.add_edge(&quot;tools&quot;, &quot;agent&quot;)
+<span class="c1"># ReAct graph với vòng lặp đặc trưng của nó</span>
+<span class="n">react_graph_builder</span> <span class="o">=</span> <span class="n">StateGraph</span><span class="p">(</span><span class="n">AgentState</span><span class="p">)</span>
+<span class="n">react_graph_builder</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="s2">&quot;agent&quot;</span><span class="p">,</span> <span class="n">react_agent_node</span><span class="p">)</span>
+<span class="n">react_graph_builder</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="s2">&quot;tools&quot;</span><span class="p">,</span> <span class="n">tool_node</span><span class="p">)</span>
+<span class="n">react_graph_builder</span><span class="o">.</span><span class="n">set_entry_point</span><span class="p">(</span><span class="s2">&quot;agent&quot;</span><span class="p">)</span>
+<span class="n">react_graph_builder</span><span class="o">.</span><span class="n">add_conditional_edges</span><span class="p">(</span><span class="s2">&quot;agent&quot;</span><span class="p">,</span> <span class="n">tools_condition</span><span class="p">)</span>
+<span class="n">react_graph_builder</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="s2">&quot;tools&quot;</span><span class="p">,</span> <span class="s2">&quot;agent&quot;</span><span class="p">)</span>
 
-react_agent_app = react_graph_builder.compile()
-print(&quot;Reactive (ReAct) agent compiled successfully.&quot;)
-</code></pre>
+<span class="n">react_agent_app</span> <span class="o">=</span> <span class="n">react_graph_builder</span><span class="o">.</span><span class="n">compile</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Reactive (ReAct) agent compiled successfully.&quot;</span><span class="p">)</span>
+</code></pre></div>
+
 <h3>Step 1.2: Testing the Reactive Agent on a Plan-Centric Problem</h3>
 <p><strong>Những gì chúng ta sẽ làm:</strong>
 Chúng ta sẽ giao cho ReAct agent một nhiệm vụ yêu cầu hai bước thu thập dữ liệu riêng biệt theo sau là một phép tính cuối cùng. Điều này sẽ kiểm tra khả năng quản lý workflow nhiều bước của nó mà không có kế hoạch trả trước.</p>
-<pre><code class="language-python">plan_centric_query = &quot;&quot;&quot;
-Find the population of the capital cities of France, Germany, and Italy. 
-Then calculate their combined total. 
-Finally, compare that combined total to the population of the United States, and say which is larger.
-&quot;&quot;&quot;
+<div class="codehilite"><pre><span></span><code><span class="n">plan_centric_query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">Find the population of the capital cities of France, Germany, and Italy. </span>
+<span class="s2">Then calculate their combined total. </span>
+<span class="s2">Finally, compare that combined total to the population of the United States, and say which is larger.</span>
+<span class="s2">&quot;&quot;&quot;</span>
 
-console.print(f&quot;[bold yellow]Testing REACTIVE agent on a plan-centric query:[/bold yellow] '{plan_centric_query}'\n&quot;)
+<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[bold yellow]Testing REACTIVE agent on a plan-centric query:[/bold yellow] &#39;</span><span class="si">{</span><span class="n">plan_centric_query</span><span class="si">}</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 
-final_react_output = None
-for chunk in react_agent_app.stream({&quot;messages&quot;: [(&quot;user&quot;, plan_centric_query)]}, stream_mode=&quot;values&quot;):
-    final_react_output = chunk
-    console.print(f&quot;--- [bold purple]Current State Update[/bold purple] ---&quot;)
-    chunk['messages'][-1].pretty_print()
-    console.print(&quot;\n&quot;)
+<span class="n">final_react_output</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">react_agent_app</span><span class="o">.</span><span class="n">stream</span><span class="p">({</span><span class="s2">&quot;messages&quot;</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="n">plan_centric_query</span><span class="p">)]},</span> <span class="n">stream_mode</span><span class="o">=</span><span class="s2">&quot;values&quot;</span><span class="p">):</span>
+    <span class="n">final_react_output</span> <span class="o">=</span> <span class="n">chunk</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;--- [bold purple]Current State Update[/bold purple] ---&quot;</span><span class="p">)</span>
+    <span class="n">chunk</span><span class="p">[</span><span class="s1">&#39;messages&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">pretty_print</span><span class="p">()</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 
-console.print(&quot;\n--- [bold red]Final Output from Reactive Agent[/bold red] ---&quot;)
-console.print(Markdown(final_react_output['messages'][-1].content))
-</code></pre>
+<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- [bold red]Final Output from Reactive Agent[/bold red] ---&quot;</span><span class="p">)</span>
+<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">final_react_output</span><span class="p">[</span><span class="s1">&#39;messages&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">content</span><span class="p">))</span>
+</code></pre></div>
+
 <p><strong>Discussion of the Output:</strong>
 ReAct agent đã hoàn thành thành công nhiệm vụ. Bằng cách quan sát kết quả được stream, chúng ta có thể theo dõi quá trình suy luận từng bước của nó:
 1. Trước tiên, nó quyết định tìm kiếm dân số của Paris.
@@ -186,121 +284,123 @@ Chúng ta sẽ tạo các thành phần cốt lõi cho agent mới của mình:
 1.  <strong><code>Planner</code>:</strong> Một node dựa trên LLM nhận yêu cầu của người dùng và xuất ra một kế hoạch có cấu trúc.
 2.  <strong><code>Executor</code>:</strong> Một node nhận kế hoạch, thực hiện bước <em>tiếp theo</em> bằng một tool và ghi lại kết quả.
 3.  <strong><code>Synthesizer</code>:</strong> Một node dựa trên LLM cuối cùng nhận tất cả các kết quả đã thu thập được và tạo ra câu trả lời cuối cùng.</p>
-<pre><code class="language-python"># Pydantic model để đảm bảo kết quả đầu ra của planner là danh sách các bước có cấu trúc
-class Plan(BaseModel):
-    &quot;&quot;&quot;Một kế hoạch gồm các cuộc gọi tool cần thực thi để trả lời truy vấn của người dùng.&quot;&quot;&quot;
-    steps: List[str] = Field(description=&quot;A list of tool calls that, when executed, will answer the query.&quot;)
+<div class="codehilite"><pre><span></span><code><span class="c1"># Pydantic model để đảm bảo kết quả đầu ra của planner là danh sách các bước có cấu trúc</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Plan</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Một kế hoạch gồm các cuộc gọi tool cần thực thi để trả lời truy vấn của người dùng.&quot;&quot;&quot;</span>
+    <span class="n">steps</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;A list of tool calls that, when executed, will answer the query.&quot;</span><span class="p">)</span>
 
-# Định nghĩa state cho planning agent
-class PlanningState(TypedDict):
-    user_request: str
-    plan: Optional[List[str]]
-    intermediate_steps: List[ToolMessage]
-    final_answer: Optional[str]
+<span class="c1"># Định nghĩa state cho planning agent</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">PlanningState</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+    <span class="n">user_request</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">plan</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span>
+    <span class="n">intermediate_steps</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">ToolMessage</span><span class="p">]</span>
+    <span class="n">final_answer</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
 
-def planner_node(state: PlanningState):
-    &quot;&quot;&quot;Tạo một kế hoạch hành động để trả lời yêu cầu của người dùng.&quot;&quot;&quot;
-    console.print(&quot;--- PLANNER: Decomposing task... ---&quot;)
-    planner_llm = llm.with_structured_output(Plan)
+<span class="k">def</span><span class="w"> </span><span class="nf">planner_node</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">PlanningState</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Tạo một kế hoạch hành động để trả lời yêu cầu của người dùng.&quot;&quot;&quot;</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;--- PLANNER: Decomposing task... ---&quot;</span><span class="p">)</span>
+    <span class="n">planner_llm</span> <span class="o">=</span> <span class="n">llm</span><span class="o">.</span><span class="n">with_structured_output</span><span class="p">(</span><span class="n">Plan</span><span class="p">)</span>
 
-    # THE FIX: Một prompt rõ ràng hơn nhiều với ví dụ cụ thể (few-shot prompting)
-    prompt = f&quot;&quot;&quot;You are an expert planner. Your job is to create a step-by-step plan to answer the user's request.
-        Each step in the plan must be a single call to the `web_search` tool.
+    <span class="c1"># THE FIX: Một prompt rõ ràng hơn nhiều với ví dụ cụ thể (few-shot prompting)</span>
+    <span class="n">prompt</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;You are an expert planner. Your job is to create a step-by-step plan to answer the user&#39;s request.</span>
+<span class="s2">        Each step in the plan must be a single call to the `web_search` tool.</span>
 
-        Example:
-        User Request: Find the populations of Tokyo and Seoul and sum them.
-        Plan: 
-        1. web_search(query=&quot;current population of Tokyo&quot;)
-        2. web_search(query=&quot;current population of Seoul&quot;)
+<span class="s2">        Example:</span>
+<span class="s2">        User Request: Find the populations of Tokyo and Seoul and sum them.</span>
+<span class="s2">        Plan: </span>
+<span class="s2">        1. web_search(query=&quot;current population of Tokyo&quot;)</span>
+<span class="s2">        2. web_search(query=&quot;current population of Seoul&quot;)</span>
 
-        User Request: {state['user_request']}
-        Plan:&quot;&quot;&quot;
+<span class="s2">        User Request: </span><span class="si">{</span><span class="n">state</span><span class="p">[</span><span class="s1">&#39;user_request&#39;</span><span class="p">]</span><span class="si">}</span>
+<span class="s2">        Plan:&quot;&quot;&quot;</span>
 
-    plan_output = planner_llm.invoke(prompt)
-    return {&quot;plan&quot;: plan_output.steps}
+    <span class="n">plan_output</span> <span class="o">=</span> <span class="n">planner_llm</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;plan&quot;</span><span class="p">:</span> <span class="n">plan_output</span><span class="o">.</span><span class="n">steps</span><span class="p">}</span>
 
-def executor_node(state: PlanningState):
-    &quot;&quot;&quot;Thực hiện một bước từ kế hoạch bằng cách sử dụng công cụ tìm kiếm.&quot;&quot;&quot;
-    console.print(&quot;--- EXECUTOR: Running the plan... ---&quot;)
+<span class="k">def</span><span class="w"> </span><span class="nf">executor_node</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">PlanningState</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Thực hiện một bước từ kế hoạch bằng cách sử dụng công cụ tìm kiếm.&quot;&quot;&quot;</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;--- EXECUTOR: Running the plan... ---&quot;</span><span class="p">)</span>
 
-    # Tìm bước đầu tiên trong kế hoạch chưa được thực thi
-    executed_steps_count = len(state.get(&quot;intermediate_steps&quot;, []))
-    current_step = state[&quot;plan&quot;][executed_steps_count]
+    <span class="c1"># Tìm bước đầu tiên trong kế hoạch chưa được thực thi</span>
+    <span class="n">executed_steps_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;intermediate_steps&quot;</span><span class="p">,</span> <span class="p">[]))</span>
+    <span class="n">current_step</span> <span class="o">=</span> <span class="n">state</span><span class="p">[</span><span class="s2">&quot;plan&quot;</span><span class="p">][</span><span class="n">executed_steps_count</span><span class="p">]</span>
 
-    # Trích xuất query từ string của bước (XỬ LÝ CHUỖI CẦN THẬN)
-    search_query = re.search(r'query=\&quot;(.*?)\&quot;', current_step).group(1)
+    <span class="c1"># Trích xuất query từ string của bước (XỬ LÝ CHUỖI CẦN THẬN)</span>
+    <span class="n">search_query</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;query=\&quot;(.*?)\&quot;&#39;</span><span class="p">,</span> <span class="n">current_step</span><span class="p">)</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 
-    # Gọi tool thủ công
-    result = web_search.invoke({&quot;query&quot;: search_query})
+    <span class="c1"># Gọi tool thủ công</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">web_search</span><span class="o">.</span><span class="n">invoke</span><span class="p">({</span><span class="s2">&quot;query&quot;</span><span class="p">:</span> <span class="n">search_query</span><span class="p">})</span>
 
-    # Trả về kết quả dưới dạng ToolMessage để giữ tính nhất quán
-    new_message = ToolMessage(content=str(result), tool_call_id=f&quot;step_{executed_steps_count}&quot;)
-    return {&quot;intermediate_steps&quot;: [new_message]}
+    <span class="c1"># Trả về kết quả dưới dạng ToolMessage để giữ tính nhất quán</span>
+    <span class="n">new_message</span> <span class="o">=</span> <span class="n">ToolMessage</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">result</span><span class="p">),</span> <span class="n">tool_call_id</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;step_</span><span class="si">{</span><span class="n">executed_steps_count</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;intermediate_steps&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">new_message</span><span class="p">]}</span>
 
-def synthesizer_node(state: PlanningState):
-    &quot;&quot;&quot;Tổng hợp tất cả các kết quả thu thập được thành câu trả lời cuối cùng.&quot;&quot;&quot;
-    console.print(&quot;--- SYNTHESIZER: Generating final answer... ---&quot;)
+<span class="k">def</span><span class="w"> </span><span class="nf">synthesizer_node</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">PlanningState</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Tổng hợp tất cả các kết quả thu thập được thành câu trả lời cuối cùng.&quot;&quot;&quot;</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;--- SYNTHESIZER: Generating final answer... ---&quot;</span><span class="p">)</span>
 
-    results_summary = &quot;\n&quot;.join([f&quot;Step {i+1}: {msg.content}&quot; for i, msg in enumerate(state[&quot;intermediate_steps&quot;])])
+    <span class="n">results_summary</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;Step </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">msg</span><span class="o">.</span><span class="n">content</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">msg</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">state</span><span class="p">[</span><span class="s2">&quot;intermediate_steps&quot;</span><span class="p">])])</span>
 
-    prompt = f&quot;&quot;&quot;Based on the following collected information, provide a final answer to the user's request:
+    <span class="n">prompt</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;Based on the following collected information, provide a final answer to the user&#39;s request:</span>
 
-        User Request: {state['user_request']}
+<span class="s2">        User Request: </span><span class="si">{</span><span class="n">state</span><span class="p">[</span><span class="s1">&#39;user_request&#39;</span><span class="p">]</span><span class="si">}</span>
 
-        Collected Information:
-        {results_summary}
-        &quot;&quot;&quot;
-    response = llm.invoke(prompt)
-    return {&quot;final_answer&quot;: response.content}
+<span class="s2">        Collected Information:</span>
+<span class="s2">        </span><span class="si">{</span><span class="n">results_summary</span><span class="si">}</span>
+<span class="s2">        &quot;&quot;&quot;</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">llm</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;final_answer&quot;</span><span class="p">:</span> <span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="p">}</span>
 
-print(&quot;Planner, Executor, and Synthesizer nodes defined.&quot;)
-</code></pre>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Planner, Executor, and Synthesizer nodes defined.&quot;</span><span class="p">)</span>
+</code></pre></div>
+
 <h3>Step 2.2: Defining the Graph and Routing Logic</h3>
 <p><strong>Những gì chúng ta sẽ làm:</strong>
 Chúng ta sẽ lắp ráp các node thành một graph. Sự đổi mới quan trọng ở đây nằm ở routing logic. Sau khi <code>Executor</code> chạy một bước, chúng ta kiểm tra xem còn bước nào trong kế hoạch nữa không. Nếu còn, chúng ta lặp lại (<code>executor -&gt; executor</code>). Nếu kế hoạch đã hoàn tất, chúng ta chuyển sang <code>Synthesizer</code>.</p>
-<pre><code class="language-python">def check_plan_status(state: PlanningState):
-    &quot;&quot;&quot;Kiểm tra xem tất cả các bước trong kế hoạch đã được thực thi chưa.&quot;&quot;&quot;
-    if len(state.get(&quot;intermediate_steps&quot;, [])) &lt; len(state[&quot;plan&quot;]):
-        return &quot;continue&quot;
-    return &quot;synthesize&quot;
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">check_plan_status</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">PlanningState</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Kiểm tra xem tất cả các bước trong kế hoạch đã được thực thi chưa.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;intermediate_steps&quot;</span><span class="p">,</span> <span class="p">[]))</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">state</span><span class="p">[</span><span class="s2">&quot;plan&quot;</span><span class="p">]):</span>
+        <span class="k">return</span> <span class="s2">&quot;continue&quot;</span>
+    <span class="k">return</span> <span class="s2">&quot;synthesize&quot;</span>
 
-# Đưa mọi thứ lại với nhau trong graph
-planning_builder = StateGraph(PlanningState)
+<span class="c1"># Đưa mọi thứ lại với nhau trong graph</span>
+<span class="n">planning_builder</span> <span class="o">=</span> <span class="n">StateGraph</span><span class="p">(</span><span class="n">PlanningState</span><span class="p">)</span>
 
-planning_builder.add_node(&quot;planner&quot;, planner_node)
-planning_builder.add_node(&quot;executor&quot;, executor_node)
-planning_builder.add_node(&quot;synthesizer&quot;, synthesizer_node)
+<span class="n">planning_builder</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="s2">&quot;planner&quot;</span><span class="p">,</span> <span class="n">planner_node</span><span class="p">)</span>
+<span class="n">planning_builder</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="s2">&quot;executor&quot;</span><span class="p">,</span> <span class="n">executor_node</span><span class="p">)</span>
+<span class="n">planning_builder</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="s2">&quot;synthesizer&quot;</span><span class="p">,</span> <span class="n">synthesizer_node</span><span class="p">)</span>
 
-planning_builder.set_entry_point(&quot;planner&quot;)
+<span class="n">planning_builder</span><span class="o">.</span><span class="n">set_entry_point</span><span class="p">(</span><span class="s2">&quot;planner&quot;</span><span class="p">)</span>
 
-# Sau khi lập kế hoạch, chúng ta luôn đi đến executor
-planning_builder.add_edge(&quot;planner&quot;, &quot;executor&quot;)
+<span class="c1"># Sau khi lập kế hoạch, chúng ta luôn đi đến executor</span>
+<span class="n">planning_builder</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="s2">&quot;planner&quot;</span><span class="p">,</span> <span class="s2">&quot;executor&quot;</span><span class="p">)</span>
 
-# Vòng lặp quan trọng cho executor
-planning_builder.add_conditional_edges(
-    &quot;executor&quot;,
-    check_plan_status,
-    {
-        &quot;continue&quot;: &quot;executor&quot;,
-        &quot;synthesize&quot;: &quot;synthesizer&quot;
-    }
-)
+<span class="c1"># Vòng lặp quan trọng cho executor</span>
+<span class="n">planning_builder</span><span class="o">.</span><span class="n">add_conditional_edges</span><span class="p">(</span>
+    <span class="s2">&quot;executor&quot;</span><span class="p">,</span>
+    <span class="n">check_plan_status</span><span class="p">,</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;continue&quot;</span><span class="p">:</span> <span class="s2">&quot;executor&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;synthesize&quot;</span><span class="p">:</span> <span class="s2">&quot;synthesizer&quot;</span>
+    <span class="p">}</span>
+<span class="p">)</span>
 
-planning_builder.add_edge(&quot;synthesizer&quot;, END)
+<span class="n">planning_builder</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="s2">&quot;synthesizer&quot;</span><span class="p">,</span> <span class="n">END</span><span class="p">)</span>
 
-# Compile graph
-planning_agent_app = planning_builder.compile()
+<span class="c1"># Compile graph</span>
+<span class="n">planning_agent_app</span> <span class="o">=</span> <span class="n">planning_builder</span><span class="o">.</span><span class="n">compile</span><span class="p">()</span>
 
-print(&quot;Planning Agent graph compiled successfully!&quot;)
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Planning Agent graph compiled successfully!&quot;</span><span class="p">)</span>
 
-# Hình ảnh hóa graph
-try:
-    from IPython.display import Image, display
-    png_image = planning_agent_app.get_graph().draw_png()
-    display(Image(png_image))
-except Exception as e:
-    print(f&quot;Graph visualization failed: {e}. Please ensure pygraphviz is installed.&quot;)
-</code></pre>
+<span class="c1"># Hình ảnh hóa graph</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">Image</span><span class="p">,</span> <span class="n">display</span>
+    <span class="n">png_image</span> <span class="o">=</span> <span class="n">planning_agent_app</span><span class="o">.</span><span class="n">get_graph</span><span class="p">()</span><span class="o">.</span><span class="n">draw_png</span><span class="p">()</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">Image</span><span class="p">(</span><span class="n">png_image</span><span class="p">))</span>
+<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Graph visualization failed: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">. Please ensure pygraphviz is installed.&quot;</span><span class="p">)</span>
+</code></pre></div>
+
 <p><strong>Discussion of the Output:</strong>
 Graph mới thể hiện một triết lý khác biệt rõ rệt. Thay vì flow dựa trên message năng động như ReAct, flow ở đây mang tính định hướng hơn. Workflow bắt đầu tại node <code>planner</code>, node này thiết lập lịch trình. Sau đó, quy trình đi vào một vòng lặp tự quản tại node <code>executor</code>, node này tiếp tục thực thi cho đến khi tất cả các mục trong danh sách nhiệm vụ được đánh dấu là hoàn thành. Cuối cùng, kết quả được chuyển đến node <code>synthesizer</code>.</p>
 <h2>Phase 3: Direct Comparison</h2>
@@ -308,23 +408,24 @@ Graph mới thể hiện một triết lý khác biệt rõ rệt. Thay vì flow
 <h3>Step 3.1: Running the Planning Agent</h3>
 <p><strong>Những gì chúng ta sẽ làm:</strong>
 Chúng ta sẽ invoke planning agent với cùng một truy vấn và quan sát các bước thực thi có cấu trúc của nó.</p>
-<pre><code class="language-python">console.print(f&quot;[bold cyan]Running Planning Agent on query:[/bold cyan] '{plan_centric_query}'\n&quot;)
+<div class="codehilite"><pre><span></span><code><span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[bold cyan]Running Planning Agent on query:[/bold cyan] &#39;</span><span class="si">{</span><span class="n">plan_centric_query</span><span class="si">}</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 
-# Chạy graph và stream results
-initial_state = {&quot;user_request&quot;: plan_centric_query, &quot;intermediate_steps&quot;: []}
+<span class="c1"># Chạy graph và stream results</span>
+<span class="n">initial_state</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;user_request&quot;</span><span class="p">:</span> <span class="n">plan_centric_query</span><span class="p">,</span> <span class="s2">&quot;intermediate_steps&quot;</span><span class="p">:</span> <span class="p">[]}</span>
 
-for chunk in planning_agent_app.stream(initial_state):
-    # Trình bày node hiện tại đang chạy
-    for node_name, values in chunk.items():
-        console.print(f&quot;--- Node [bold cyan]{node_name}[/bold cyan] completed ---&quot;)
-        if node_name == &quot;planner&quot;:
-            console.print(f&quot;[bold]Plan generated:[/bold] {values['plan']}&quot;)
-        elif node_name == &quot;synthesizer&quot;:
-            console.print(values['final_answer'])
-    console.print(&quot;\n&quot;)
+<span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">planning_agent_app</span><span class="o">.</span><span class="n">stream</span><span class="p">(</span><span class="n">initial_state</span><span class="p">):</span>
+    <span class="c1"># Trình bày node hiện tại đang chạy</span>
+    <span class="k">for</span> <span class="n">node_name</span><span class="p">,</span> <span class="n">values</span> <span class="ow">in</span> <span class="n">chunk</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;--- Node [bold cyan]</span><span class="si">{</span><span class="n">node_name</span><span class="si">}</span><span class="s2">[/bold cyan] completed ---&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">node_name</span> <span class="o">==</span> <span class="s2">&quot;planner&quot;</span><span class="p">:</span>
+            <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[bold]Plan generated:[/bold] </span><span class="si">{</span><span class="n">values</span><span class="p">[</span><span class="s1">&#39;plan&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">node_name</span> <span class="o">==</span> <span class="s2">&quot;synthesizer&quot;</span><span class="p">:</span>
+            <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="s1">&#39;final_answer&#39;</span><span class="p">])</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 
-print(&quot;Planning Agent execution complete.&quot;)
-</code></pre>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Planning Agent execution complete.&quot;</span><span class="p">)</span>
+</code></pre></div>
+
 <p><strong>Discussion of the Output:</strong>
 Màn trình diễn của planning agent cực kỳ hiệu quả. Phân tích results cho thấy:
 1.  <strong>Giai đoạn Planner:</strong> Ngay từ đầu, agent đã phân tích chính xác query và tạo ra một kế hoạch rõ ràng gồm ba phần: tra cứu dân số Paris, dân số Berlin, và dân số Rome.
@@ -333,37 +434,38 @@ Màn trình diễn của planning agent cực kỳ hiệu quả. Phân tích res
 <p>So với ReAct agent, quy trình này ít mang tính thăm dò hơn nhưng trực tiếp và có mục đích hơn. Nó cho thấy cách sự rõ ràng của kế hoạch có thể giảm thiểu chi phí tính toán và cải thiện tính minh bạch.</p>
 <h2>Phase 4: Qualitative Evaluation</h2>
 <p>Cuối cùng, chúng ta sẽ sử dụng giám khảo LLM của mình để chấm điểm cả hai agent dựa trên một khía cạnh đo lường mới: Tính trực tiếp (Directness)—khả năng đi đến câu trả lời với ít bước suy luận không cần thiết nhất.</p>
-<pre><code class="language-python">class ComparativeEvaluation(BaseModel):
-    &quot;&quot;&quot;Schema để so sánh trực tiếp hai agent.&quot;&quot;&quot;
-    react_directness_score: int = Field(description=&quot;Score từ 1-10 về mức độ trực tiếp của ReAct agent.&quot;)
-    planning_directness_score: int = Field(description=&quot;Score từ 1-10 về mức độ trực tiếp của Planning agent.&quot;)
-    comparison_justification: str = Field(description=&quot;Giải thích lý do tại sao một agent trực tiếp hơn agent kia.&quot;)
+<div class="codehilite"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">ComparativeEvaluation</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Schema để so sánh trực tiếp hai agent.&quot;&quot;&quot;</span>
+    <span class="n">react_directness_score</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Score từ 1-10 về mức độ trực tiếp của ReAct agent.&quot;</span><span class="p">)</span>
+    <span class="n">planning_directness_score</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Score từ 1-10 về mức độ trực tiếp của Planning agent.&quot;</span><span class="p">)</span>
+    <span class="n">comparison_justification</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Giải thích lý do tại sao một agent trực tiếp hơn agent kia.&quot;</span><span class="p">)</span>
 
-judge_llm = llm.with_structured_output(ComparativeEvaluation)
+<span class="n">judge_llm</span> <span class="o">=</span> <span class="n">llm</span><span class="o">.</span><span class="n">with_structured_output</span><span class="p">(</span><span class="n">ComparativeEvaluation</span><span class="p">)</span>
 
-def comparative_evaluation(react_trace: str, planning_trace: str):
-    prompt = f&quot;&quot;&quot;You are analyzing the efficiency of two different AI agents.
-    One is a Reactive Agent (ReAct) which reasons step-by-step.
-    The other is a Planning Agent which creates an upfront list of tasks.
+<span class="k">def</span><span class="w"> </span><span class="nf">comparative_evaluation</span><span class="p">(</span><span class="n">react_trace</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">planning_trace</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="n">prompt</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;You are analyzing the efficiency of two different AI agents.</span>
+<span class="s2">    One is a Reactive Agent (ReAct) which reasons step-by-step.</span>
+<span class="s2">    The other is a Planning Agent which creates an upfront list of tasks.</span>
 
-    Compare their execution logs for the same task and score their 'Directness' (how efficiently they reached the goal without unnecessary thought steps).
+<span class="s2">    Compare their execution logs for the same task and score their &#39;Directness&#39; (how efficiently they reached the goal without unnecessary thought steps).</span>
 
-    --- REACT AGENT LOG ---
-    {react_trace}
+<span class="s2">    --- REACT AGENT LOG ---</span>
+<span class="s2">    </span><span class="si">{</span><span class="n">react_trace</span><span class="si">}</span>
 
-    --- PLANNING AGENT LOG ---
-    {planning_trace}
-    &quot;&quot;&quot;
-    return judge_llm.invoke(prompt)
+<span class="s2">    --- PLANNING AGENT LOG ---</span>
+<span class="s2">    </span><span class="si">{</span><span class="n">planning_trace</span><span class="si">}</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">judge_llm</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
 
-# (Để đơn giản, chúng ta pass qua logs thô)
-react_log = &quot;Followed an iterative think-act-observe loop for each city.&quot;
-planning_log = &quot;Created a 3-step plan upfront and executed it directly.&quot;
+<span class="c1"># (Để đơn giản, chúng ta pass qua logs thô)</span>
+<span class="n">react_log</span> <span class="o">=</span> <span class="s2">&quot;Followed an iterative think-act-observe loop for each city.&quot;</span>
+<span class="n">planning_log</span> <span class="o">=</span> <span class="s2">&quot;Created a 3-step plan upfront and executed it directly.&quot;</span>
 
-console.print(&quot;--- Performing Comparative Evaluation ---&quot;)
-comparison = comparative_evaluation(react_log, planning_log)
-console.print(comparison.model_dump())
-</code></pre>
+<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;--- Performing Comparative Evaluation ---&quot;</span><span class="p">)</span>
+<span class="n">comparison</span> <span class="o">=</span> <span class="n">comparative_evaluation</span><span class="p">(</span><span class="n">react_log</span><span class="p">,</span> <span class="n">planning_log</span><span class="p">)</span>
+<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">comparison</span><span class="o">.</span><span class="n">model_dump</span><span class="p">())</span>
+</code></pre></div>
+
 <p><strong>Discussion of the Output:</strong>
 Results của giám khảo nêu bật giá trị cốt lõi của Planning. Mặc dù cả hai phương pháp đều dẫn đến kết quả đúng, nhưng Planning agent được đánh giá cao hơn về tính trực tiếp. Bằng cách thực hiện công việc lập bản đồ con đường ngay từ đầu, nó tránh được việc "phát minh lại bánh xe" (reinventing the wheel) về lý trí sau mỗi hành động mới. Nó biết mình đang đi đâu và đã đến đó bằng con đường ngắn nhất có thể.</p>
 <h2>Conclusion</h2>

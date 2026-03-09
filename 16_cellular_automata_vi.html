@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -6,15 +5,109 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>16_Cellular_Automata</title>
     <style>
-        body { font-family: system-ui, -apple-system, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; color: #333; }
-        pre { background: #f4f4f4; padding: 15px; border-radius: 5px; overflow-x: auto; }
-        code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; font-family: monospace; }
+        body { font-family: system-ui, -apple-system, sans-serif; line-height: 1.6; max-width: 1100px; margin: 0 auto; padding: 20px; color: #333; }
+        pre { background: #f4f4f4; padding: 15px; border-radius: 5px; white-space: pre-wrap; word-wrap: break-word; }
+        code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; font-family: 'Operator Mono Lig', monospace; }
         a { color: #007bff; text-decoration: none; }
         a:hover { text-decoration: underline; }
         table { border-collapse: collapse; width: 100%; margin: 20px 0; }
         th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
         th { background-color: #f2f2f2; }
         img { max-width: 100%; height: auto; }
+
+        /* --- Pygments: friendly theme (inline, no CDN) --- */
+        pre { line-height: 125%; }
+td.linenos .normal { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.codehilite .hll { background-color: #ffffcc }
+.codehilite { background: #f0f0f0; }
+.codehilite .c { color: #60A0B0; font-style: italic } /* Comment */
+.codehilite .err { border: 1px solid #F00 } /* Error */
+.codehilite .k { color: #007020; font-weight: bold } /* Keyword */
+.codehilite .o { color: #666 } /* Operator */
+.codehilite .ch { color: #60A0B0; font-style: italic } /* Comment.Hashbang */
+.codehilite .cm { color: #60A0B0; font-style: italic } /* Comment.Multiline */
+.codehilite .cp { color: #007020 } /* Comment.Preproc */
+.codehilite .cpf { color: #60A0B0; font-style: italic } /* Comment.PreprocFile */
+.codehilite .c1 { color: #60A0B0; font-style: italic } /* Comment.Single */
+.codehilite .cs { color: #60A0B0; background-color: #FFF0F0 } /* Comment.Special */
+.codehilite .gd { color: #A00000 } /* Generic.Deleted */
+.codehilite .ge { font-style: italic } /* Generic.Emph */
+.codehilite .ges { font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+.codehilite .gr { color: #F00 } /* Generic.Error */
+.codehilite .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.codehilite .gi { color: #00A000 } /* Generic.Inserted */
+.codehilite .go { color: #888 } /* Generic.Output */
+.codehilite .gp { color: #C65D09; font-weight: bold } /* Generic.Prompt */
+.codehilite .gs { font-weight: bold } /* Generic.Strong */
+.codehilite .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.codehilite .gt { color: #04D } /* Generic.Traceback */
+.codehilite .kc { color: #007020; font-weight: bold } /* Keyword.Constant */
+.codehilite .kd { color: #007020; font-weight: bold } /* Keyword.Declaration */
+.codehilite .kn { color: #007020; font-weight: bold } /* Keyword.Namespace */
+.codehilite .kp { color: #007020 } /* Keyword.Pseudo */
+.codehilite .kr { color: #007020; font-weight: bold } /* Keyword.Reserved */
+.codehilite .kt { color: #902000 } /* Keyword.Type */
+.codehilite .m { color: #40A070 } /* Literal.Number */
+.codehilite .s { color: #4070A0 } /* Literal.String */
+.codehilite .na { color: #4070A0 } /* Name.Attribute */
+.codehilite .nb { color: #007020 } /* Name.Builtin */
+.codehilite .nc { color: #0E84B5; font-weight: bold } /* Name.Class */
+.codehilite .no { color: #60ADD5 } /* Name.Constant */
+.codehilite .nd { color: #555; font-weight: bold } /* Name.Decorator */
+.codehilite .ni { color: #D55537; font-weight: bold } /* Name.Entity */
+.codehilite .ne { color: #007020 } /* Name.Exception */
+.codehilite .nf { color: #06287E } /* Name.Function */
+.codehilite .nl { color: #002070; font-weight: bold } /* Name.Label */
+.codehilite .nn { color: #0E84B5; font-weight: bold } /* Name.Namespace */
+.codehilite .nt { color: #062873; font-weight: bold } /* Name.Tag */
+.codehilite .nv { color: #BB60D5 } /* Name.Variable */
+.codehilite .ow { color: #007020; font-weight: bold } /* Operator.Word */
+.codehilite .w { color: #BBB } /* Text.Whitespace */
+.codehilite .mb { color: #40A070 } /* Literal.Number.Bin */
+.codehilite .mf { color: #40A070 } /* Literal.Number.Float */
+.codehilite .mh { color: #40A070 } /* Literal.Number.Hex */
+.codehilite .mi { color: #40A070 } /* Literal.Number.Integer */
+.codehilite .mo { color: #40A070 } /* Literal.Number.Oct */
+.codehilite .sa { color: #4070A0 } /* Literal.String.Affix */
+.codehilite .sb { color: #4070A0 } /* Literal.String.Backtick */
+.codehilite .sc { color: #4070A0 } /* Literal.String.Char */
+.codehilite .dl { color: #4070A0 } /* Literal.String.Delimiter */
+.codehilite .sd { color: #4070A0; font-style: italic } /* Literal.String.Doc */
+.codehilite .s2 { color: #4070A0 } /* Literal.String.Double */
+.codehilite .se { color: #4070A0; font-weight: bold } /* Literal.String.Escape */
+.codehilite .sh { color: #4070A0 } /* Literal.String.Heredoc */
+.codehilite .si { color: #70A0D0; font-style: italic } /* Literal.String.Interpol */
+.codehilite .sx { color: #C65D09 } /* Literal.String.Other */
+.codehilite .sr { color: #235388 } /* Literal.String.Regex */
+.codehilite .s1 { color: #4070A0 } /* Literal.String.Single */
+.codehilite .ss { color: #517918 } /* Literal.String.Symbol */
+.codehilite .bp { color: #007020 } /* Name.Builtin.Pseudo */
+.codehilite .fm { color: #06287E } /* Name.Function.Magic */
+.codehilite .vc { color: #BB60D5 } /* Name.Variable.Class */
+.codehilite .vg { color: #BB60D5 } /* Name.Variable.Global */
+.codehilite .vi { color: #BB60D5 } /* Name.Variable.Instance */
+.codehilite .vm { color: #BB60D5 } /* Name.Variable.Magic */
+.codehilite .il { color: #40A070 } /* Literal.Number.Integer.Long */
+
+        /* Override: keep gray bg + wrap */
+        .codehilite { background: #f4f4f4 !important; padding: 15px; border-radius: 5px; overflow: visible; }
+        .codehilite pre { background: #f4f4f4 !important; white-space: pre-wrap; word-wrap: break-word; margin: 0; font-family: 'Operator Mono', monospace; }
+
+        /* Operator Mono italic: comments, docstrings, keywords */
+        .codehilite .c,
+        .codehilite .c1,
+        .codehilite .cm,
+        .codehilite .cs,
+        .codehilite .cp  { font-style: italic; }
+        .codehilite .k,
+        .codehilite .kd,
+        .codehilite .kn,
+        .codehilite .kr,
+        .codehilite .kc  { font-style: italic; }
+        .codehilite .sd  { font-style: italic; } /* docstring */
     </style>
 </head>
 <body>
@@ -55,274 +148,279 @@
 </ul>
 <h2>Phase 0: Foundation &amp; Setup</h2>
 <p>Chúng ta cần <code>numpy</code> cho các thao tác lưới hiệu quả và <code>rich</code> cho các hiển thị đầu cuối chất lượng cao.</p>
-<pre><code class="language-python"># !pip install -q -U langchain-nebius rich python-dotenv numpy
-</code></pre>
-<pre><code class="language-python">import os
-import numpy as np
-import time
-from typing import List, Dict, Any, Optional, Tuple
-from dotenv import load_dotenv
-from IPython.display import clear_output
+<div class="codehilite"><pre><span></span><code><span class="c1"># !pip install -q -U langchain-nebius rich python-dotenv numpy</span>
+</code></pre></div>
 
-# LangChain for optional final summary
-from langchain_nebius import ChatNebius
-from langchain_core.prompts import ChatPromptTemplate
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dotenv</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_dotenv</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">clear_output</span>
 
-# For pretty printing and visualization
-from rich.console import Console
-from rich.table import Table
-from rich.panel import Panel
+<span class="c1"># LangChain for optional final summary</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_nebius</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatNebius</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_core.prompts</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatPromptTemplate</span>
 
-# --- API Key and Tracing Setup ---
-load_dotenv()
+<span class="c1"># For pretty printing and visualization</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rich.console</span><span class="w"> </span><span class="kn">import</span> <span class="n">Console</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rich.table</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rich.panel</span><span class="w"> </span><span class="kn">import</span> <span class="n">Panel</span>
 
-os.environ[&quot;LANGCHAIN_TRACING_V2&quot;] = &quot;true&quot;
-os.environ[&quot;LANGCHAIN_PROJECT&quot;] = &quot;Agentic Architecture - Cellular Automata (Nebius)&quot;
+<span class="c1"># --- API Key and Tracing Setup ---</span>
+<span class="n">load_dotenv</span><span class="p">()</span>
 
-required_vars = [&quot;NEBIUS_API_KEY&quot;, &quot;LANGCHAIN_API_KEY&quot;]
-for var in required_vars:
-    if var not in os.environ:
-        print(f&quot;Warning: Environment variable {var} not set.&quot;)
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;LANGCHAIN_TRACING_V2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;true&quot;</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;LANGCHAIN_PROJECT&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Agentic Architecture - Cellular Automata (Nebius)&quot;</span>
 
-print(&quot;Environment variables loaded and tracing is set up.&quot;)
-</code></pre>
+<span class="n">required_vars</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;NEBIUS_API_KEY&quot;</span><span class="p">,</span> <span class="s2">&quot;LANGCHAIN_API_KEY&quot;</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">required_vars</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">var</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Warning: Environment variable </span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s2"> not set.&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Environment variables loaded and tracing is set up.&quot;</span><span class="p">)</span>
+</code></pre></div>
+
 <h2>Phase 1: Building the Cellular Automata Environment</h2>
 <p>Đây là giai đoạn quan trọng nhất. Chúng ta sẽ định nghĩa hai class cốt lõi cho phần giả lập của mình:
 1.  <code>CellAgent</code>: Đại diện cho một ô duy nhất trong lưới. Nó chứa loại của nó (type), trạng thái của nó (một giá trị tìm đường), và quy tắc cục bộ để cập nhật trạng thái đó.
 2.  <code>WarehouseGrid</code>: Container cho toàn bộ hệ thống. Nó sẽ quản lý mảng 2D gồm các <code>CellAgent</code>, điều phối các cập nhật đồng bộ <code>tick</code> và xử lý việc hiển thị.</p>
-<pre><code class="language-python">console = Console()
+<div class="codehilite"><pre><span></span><code><span class="n">console</span> <span class="o">=</span> <span class="n">Console</span><span class="p">()</span>
 
-class CellAgent:
-    &quot;&quot;&quot;Một agent duy nhất trong lưới của chúng ta. Công việc duy nhất của nó là cập nhật giá trị của mình dựa trên các láng giềng.&quot;&quot;&quot;
-    def __init__(self, cell_type: str, item: Optional[str] = None):
-        self.type = cell_type # 'EMPTY', 'OBSTACLE', 'SHELF', 'PACKING_STATION'
-        self.item = item
-        self.pathfinding_value = float('inf')
+<span class="k">class</span><span class="w"> </span><span class="nc">CellAgent</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Một agent duy nhất trong lưới của chúng ta. Công việc duy nhất của nó là cập nhật giá trị của mình dựa trên các láng giềng.&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cell_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="n">cell_type</span> <span class="c1"># &#39;EMPTY&#39;, &#39;OBSTACLE&#39;, &#39;SHELF&#39;, &#39;PACKING_STATION&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">item</span> <span class="o">=</span> <span class="n">item</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pathfinding_value</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;inf&#39;</span><span class="p">)</span>
 
-    def update_value(self, neighbors: List['CellAgent']):
-        &quot;&quot;&quot;Quy tắc cục bộ cốt lõi: giá trị mới của tôi là 1 + giá trị tối thiểu của các láng giềng không phải vật cản.&quot;&quot;&quot;
-        if self.type == 'OBSTACLE':
-            return float('inf')
+    <span class="k">def</span><span class="w"> </span><span class="nf">update_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">neighbors</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;CellAgent&#39;</span><span class="p">]):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Quy tắc cục bộ cốt lõi: giá trị mới của tôi là 1 + giá trị tối thiểu của các láng giềng không phải vật cản.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s1">&#39;OBSTACLE&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;inf&#39;</span><span class="p">)</span>
 
-        min_neighbor_value = float('inf')
-        for neighbor in neighbors:
-            if neighbor.pathfinding_value &lt; min_neighbor_value:
-                min_neighbor_value = neighbor.pathfinding_value
+        <span class="n">min_neighbor_value</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;inf&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">neighbor</span> <span class="ow">in</span> <span class="n">neighbors</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">neighbor</span><span class="o">.</span><span class="n">pathfinding_value</span> <span class="o">&lt;</span> <span class="n">min_neighbor_value</span><span class="p">:</span>
+                <span class="n">min_neighbor_value</span> <span class="o">=</span> <span class="n">neighbor</span><span class="o">.</span><span class="n">pathfinding_value</span>
 
-        # +1 đại diện cho chi phí di chuyển từ một láng giềng đến ô này
-        return min(self.pathfinding_value, min_neighbor_value + 1)
+        <span class="c1"># +1 đại diện cho chi phí di chuyển từ một láng giềng đến ô này</span>
+        <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pathfinding_value</span><span class="p">,</span> <span class="n">min_neighbor_value</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
 
-class WarehouseGrid:
-    &quot;&quot;&quot;Quản lý toàn bộ lưới các CellAgents và vòng lặp giả lập.&quot;&quot;&quot;
-    def __init__(self, layout: List[str]):
-        self.height = len(layout)
-        self.width = len(layout[0])
-        self.grid = self._create_grid_from_layout(layout)
-        self.item_locations = self._get_item_locations()
+<span class="k">class</span><span class="w"> </span><span class="nc">WarehouseGrid</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Quản lý toàn bộ lưới các CellAgents và vòng lặp giả lập.&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">layout</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">layout</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">layout</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">grid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_grid_from_layout</span><span class="p">(</span><span class="n">layout</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">item_locations</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_item_locations</span><span class="p">()</span>
 
-    def _create_grid_from_layout(self, layout):
-        grid = np.empty((self.height, self.width), dtype=object)
-        for r, row_str in enumerate(layout):
-            for c, char in enumerate(row_str):
-                if char == ' ':
-                    grid[r, c] = CellAgent('EMPTY')
-                elif char == '#':
-                    grid[r, c] = CellAgent('OBSTACLE')
-                elif char == 'P':
-                    grid[r, c] = CellAgent('PACKING_STATION')
-                else: # Đó là một mặt hàng
-                    grid[r, c] = CellAgent('SHELF', item=char)
-        return grid
+    <span class="k">def</span><span class="w"> </span><span class="nf">_create_grid_from_layout</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">layout</span><span class="p">):</span>
+        <span class="n">grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">object</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">r</span><span class="p">,</span> <span class="n">row_str</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">layout</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">c</span><span class="p">,</span> <span class="n">char</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">row_str</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">char</span> <span class="o">==</span> <span class="s1">&#39; &#39;</span><span class="p">:</span>
+                    <span class="n">grid</span><span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">CellAgent</span><span class="p">(</span><span class="s1">&#39;EMPTY&#39;</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">char</span> <span class="o">==</span> <span class="s1">&#39;#&#39;</span><span class="p">:</span>
+                    <span class="n">grid</span><span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">CellAgent</span><span class="p">(</span><span class="s1">&#39;OBSTACLE&#39;</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">char</span> <span class="o">==</span> <span class="s1">&#39;P&#39;</span><span class="p">:</span>
+                    <span class="n">grid</span><span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">CellAgent</span><span class="p">(</span><span class="s1">&#39;PACKING_STATION&#39;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span> <span class="c1"># Đó là một mặt hàng</span>
+                    <span class="n">grid</span><span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">CellAgent</span><span class="p">(</span><span class="s1">&#39;SHELF&#39;</span><span class="p">,</span> <span class="n">item</span><span class="o">=</span><span class="n">char</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">grid</span>
 
-    def _get_item_locations(self) -&gt; Dict[str, Tuple[int, int]]:
-        locations = {}
-        for r in range(self.height):
-            for c in range(self.width):
-                if self.grid[r, c].type == 'SHELF':
-                    locations[self.grid[r, c].item] = (r, c)
-                if self.grid[r, c].type == 'PACKING_STATION':
-                    locations['P'] = (r, c)
-        return locations
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_item_locations</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]:</span>
+        <span class="n">locations</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">):</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">]</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s1">&#39;SHELF&#39;</span><span class="p">:</span>
+                    <span class="n">locations</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">]</span><span class="o">.</span><span class="n">item</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">]</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s1">&#39;PACKING_STATION&#39;</span><span class="p">:</span>
+                    <span class="n">locations</span><span class="p">[</span><span class="s1">&#39;P&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">locations</span>
 
-    def get_neighbors(self, r: int, c: int) -&gt; List[CellAgent]:
-        neighbors = []
-        for dr, dc in [(0, 1), (0, -1), (1, 0), (-1, 0)]: # N, S, E, W
-            nr, nc = r + dr, c + dc
-            if 0 &lt;= nr &lt; self.height and 0 &lt;= nc &lt; self.width:
-                neighbors.append(self.grid[nr, nc])
-        return neighbors
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_neighbors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">r</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">c</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">CellAgent</span><span class="p">]:</span>
+        <span class="n">neighbors</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">dr</span><span class="p">,</span> <span class="n">dc</span> <span class="ow">in</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)]:</span> <span class="c1"># N, S, E, W</span>
+            <span class="n">nr</span><span class="p">,</span> <span class="n">nc</span> <span class="o">=</span> <span class="n">r</span> <span class="o">+</span> <span class="n">dr</span><span class="p">,</span> <span class="n">c</span> <span class="o">+</span> <span class="n">dc</span>
+            <span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">nr</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="ow">and</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">nc</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">:</span>
+                <span class="n">neighbors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="p">[</span><span class="n">nr</span><span class="p">,</span> <span class="n">nc</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">neighbors</span>
 
-    def tick(self) -&gt; bool:
-        &quot;&quot;&quot;Thực hiện một bản cập nhật đồng bộ của tất cả các ô. Trả về True nếu có bất kỳ giá trị nào thay đổi.&quot;&quot;&quot;
-        changed = False
-        # Đầu tiên, tính toán tất cả các giá trị mới dựa trên trạng thái hiện tại
-        new_values = np.empty((self.height, self.width))
-        for r in range(self.height):
-            for c in range(self.width):
-                neighbors = self.get_neighbors(r, c)
-                new_values[r, c] = self.grid[r, c].update_value(neighbors)
+    <span class="k">def</span><span class="w"> </span><span class="nf">tick</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Thực hiện một bản cập nhật đồng bộ của tất cả các ô. Trả về True nếu có bất kỳ giá trị nào thay đổi.&quot;&quot;&quot;</span>
+        <span class="n">changed</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="c1"># Đầu tiên, tính toán tất cả các giá trị mới dựa trên trạng thái hiện tại</span>
+        <span class="n">new_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">):</span>
+                <span class="n">neighbors</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_neighbors</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+                <span class="n">new_values</span><span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">]</span><span class="o">.</span><span class="n">update_value</span><span class="p">(</span><span class="n">neighbors</span><span class="p">)</span>
 
-        # Sau đó, áp dụng tất cả các giá trị mới
-        for r in range(self.height):
-            for c in range(self.width):
-                if self.grid[r, c].pathfinding_value != new_values[r, c]:
-                    self.grid[r, c].pathfinding_value = new_values[r, c]
-                    changed = True
-        return changed
+        <span class="c1"># Sau đó, áp dụng tất cả các giá trị mới</span>
+        <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">):</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">]</span><span class="o">.</span><span class="n">pathfinding_value</span> <span class="o">!=</span> <span class="n">new_values</span><span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">]:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">]</span><span class="o">.</span><span class="n">pathfinding_value</span> <span class="o">=</span> <span class="n">new_values</span><span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">]</span>
+                    <span class="n">changed</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="n">changed</span>
 
-    def visualize(self, show_values: bool = False, title: str = &quot;Warehouse Grid&quot;):
-        &quot;&quot;&quot;Hiển thị trạng thái lưới bằng Rich.&quot;&quot;&quot;
-        table = Table(title=title, show_header=False, show_edge=True, padding=0)
-        for _ in range(self.width):
-            table.add_column(justify=&quot;center&quot;)
+    <span class="k">def</span><span class="w"> </span><span class="nf">visualize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">show_values</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Warehouse Grid&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Hiển thị trạng thái lưới bằng Rich.&quot;&quot;&quot;</span>
+        <span class="n">table</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span> <span class="n">show_header</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">show_edge</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">):</span>
+            <span class="n">table</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="n">justify</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">)</span>
 
-        for r in range(self.height):
-            row_renderables = []
-            for c in range(self.width):
-                cell = self.grid[r, c]
-                val = cell.pathfinding_value
-                display_char = ''
-                if cell.type == 'EMPTY': display_char = '[grey70]·[/grey70]'
-                elif cell.type == 'OBSTACLE': display_char = '[red]█[/red]'
-                elif cell.type == 'PACKING_STATION': display_char = '[bold green]P[/bold green]'
-                elif cell.type == 'SHELF': display_char = f'[bold blue]{cell.item}[/bold blue]'
+        <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">):</span>
+            <span class="n">row_renderables</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">):</span>
+                <span class="n">cell</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">]</span>
+                <span class="n">val</span> <span class="o">=</span> <span class="n">cell</span><span class="o">.</span><span class="n">pathfinding_value</span>
+                <span class="n">display_char</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+                <span class="k">if</span> <span class="n">cell</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s1">&#39;EMPTY&#39;</span><span class="p">:</span> <span class="n">display_char</span> <span class="o">=</span> <span class="s1">&#39;[grey70]·[/grey70]&#39;</span>
+                <span class="k">elif</span> <span class="n">cell</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s1">&#39;OBSTACLE&#39;</span><span class="p">:</span> <span class="n">display_char</span> <span class="o">=</span> <span class="s1">&#39;[red]█[/red]&#39;</span>
+                <span class="k">elif</span> <span class="n">cell</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s1">&#39;PACKING_STATION&#39;</span><span class="p">:</span> <span class="n">display_char</span> <span class="o">=</span> <span class="s1">&#39;[bold green]P[/bold green]&#39;</span>
+                <span class="k">elif</span> <span class="n">cell</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s1">&#39;SHELF&#39;</span><span class="p">:</span> <span class="n">display_char</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;[bold blue]</span><span class="si">{</span><span class="n">cell</span><span class="o">.</span><span class="n">item</span><span class="si">}</span><span class="s1">[/bold blue]&#39;</span>
 
-                if show_values and val != float('inf'):
-                    # Mã hóa màu cho các giá trị đường đi
-                    color = int(255 - (val * 5) % 255)
-                    row_renderables.append(f&quot;[rgb({color},{color},{color}) on rgb(30,30,60)]{int(val):^3}[/]&quot;)
-                else:
-                    row_renderables.append(f&quot; {display_char} &quot;)
-            table.add_row(*row_renderables)
-        console.print(table)
+                <span class="k">if</span> <span class="n">show_values</span> <span class="ow">and</span> <span class="n">val</span> <span class="o">!=</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;inf&#39;</span><span class="p">):</span>
+                    <span class="c1"># Mã hóa màu cho các giá trị đường đi</span>
+                    <span class="n">color</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">255</span> <span class="o">-</span> <span class="p">(</span><span class="n">val</span> <span class="o">*</span> <span class="mi">5</span><span class="p">)</span> <span class="o">%</span> <span class="mi">255</span><span class="p">)</span>
+                    <span class="n">row_renderables</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[rgb(</span><span class="si">{</span><span class="n">color</span><span class="si">}</span><span class="s2">,</span><span class="si">{</span><span class="n">color</span><span class="si">}</span><span class="s2">,</span><span class="si">{</span><span class="n">color</span><span class="si">}</span><span class="s2">) on rgb(30,30,60)]</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="si">:</span><span class="s2">^3</span><span class="si">}</span><span class="s2">[/]&quot;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">row_renderables</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="n">display_char</span><span class="si">}</span><span class="s2"> &quot;</span><span class="p">)</span>
+            <span class="n">table</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="o">*</span><span class="n">row_renderables</span><span class="p">)</span>
+        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>
 
-print(&quot;Cellular Automata environment defined successfully.&quot;)
-</code></pre>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Cellular Automata environment defined successfully.&quot;</span><span class="p">)</span>
+</code></pre></div>
+
 <h2>Phase 2: Implementing the Emergent Behaviors</h2>
 <p>Bản thân lưới chỉ là một framework. Chúng ta cần triển khai logic cấp cao sử dụng cellular automata để giải quyết vấn đề của mình. Điều này bao gồm hai hành vi nảy sinh chính:</p>
 <ol>
 <li><strong>Path Wave Propagation (Lan truyền sóng đường đi):</strong> Một hàm thiết lập mục tiêu và để lưới <code>tick</code> cho đến khi một độ dốc tìm đường hoàn chỉnh được hình thành trên toàn bộ sàn kho.</li>
 <li><strong>Gradient Descent Traversal (Duyệt theo độ dốc giảm dần):</strong> Một hàm mô phỏng một agent "người vận chuyển" bắt đầu tại kệ của mặt hàng và đơn giản là đi theo con đường dốc nhất (giá trị <code>pathfinding_value</code> thấp nhất) cho đến khi đạt được mục tiêu.</li>
 </ol>
-<pre><code class="language-python">def propagate_path_wave(grid: WarehouseGrid, target_pos: Tuple[int, int], visualize_steps: bool = False):
-    &quot;&quot;&quot;Đặt lại và sau đó chạy giả lập cho đến khi các giá trị tìm đường ổn định.&quot;&quot;&quot;
-    # Đặt lại tất cả các giá trị tìm đường
-    for r in range(grid.height):
-        for c in range(grid.width):
-            grid.grid[r, c].pathfinding_value = float('inf')
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">propagate_path_wave</span><span class="p">(</span><span class="n">grid</span><span class="p">:</span> <span class="n">WarehouseGrid</span><span class="p">,</span> <span class="n">target_pos</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">visualize_steps</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Đặt lại và sau đó chạy giả lập cho đến khi các giá trị tìm đường ổn định.&quot;&quot;&quot;</span>
+    <span class="c1"># Đặt lại tất cả các giá trị tìm đường</span>
+    <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">height</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">width</span><span class="p">):</span>
+            <span class="n">grid</span><span class="o">.</span><span class="n">grid</span><span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">]</span><span class="o">.</span><span class="n">pathfinding_value</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;inf&#39;</span><span class="p">)</span>
 
-    # Đặt giá trị của mục tiêu là 0 để bắt đầu làn sóng
-    grid.grid[target_pos].pathfinding_value = 0
+    <span class="c1"># Đặt giá trị của mục tiêu là 0 để bắt đầu làn sóng</span>
+    <span class="n">grid</span><span class="o">.</span><span class="n">grid</span><span class="p">[</span><span class="n">target_pos</span><span class="p">]</span><span class="o">.</span><span class="n">pathfinding_value</span> <span class="o">=</span> <span class="mi">0</span>
 
-    tick_count = 0
-    while True:
-        tick_count += 1
-        if visualize_steps:
-            clear_output(wait=True)
-            grid.visualize(show_values=True, title=f&quot;Path Wave Propagation (Tick #{tick_count})&quot;)
-            time.sleep(0.1)
+    <span class="n">tick_count</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">tick_count</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">visualize_steps</span><span class="p">:</span>
+            <span class="n">clear_output</span><span class="p">(</span><span class="n">wait</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">grid</span><span class="o">.</span><span class="n">visualize</span><span class="p">(</span><span class="n">show_values</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Path Wave Propagation (Tick #</span><span class="si">{</span><span class="n">tick_count</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
 
-        changed = grid.tick()
-        if not changed:
-            break
-    if visualize_steps:
-        clear_output(wait=True)
-        grid.visualize(show_values=True, title=f&quot;Path Wave Propagation (Stabilized at Tick #{tick_count})&quot;)
+        <span class="n">changed</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">tick</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">changed</span><span class="p">:</span>
+            <span class="k">break</span>
+    <span class="k">if</span> <span class="n">visualize_steps</span><span class="p">:</span>
+        <span class="n">clear_output</span><span class="p">(</span><span class="n">wait</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">grid</span><span class="o">.</span><span class="n">visualize</span><span class="p">(</span><span class="n">show_values</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Path Wave Propagation (Stabilized at Tick #</span><span class="si">{</span><span class="n">tick_count</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
 
-def trace_and_move_item(grid: WarehouseGrid, start_pos: Tuple[int, int]) -&gt; List[Tuple[int, int]]:
-    &quot;&quot;&quot;Đi theo độ dốc từ vị trí bắt đầu ngược về mục tiêu (giá trị 0).&quot;&quot;&quot;
-    path = [start_pos]
-    r, c = start_pos
+<span class="k">def</span><span class="w"> </span><span class="nf">trace_and_move_item</span><span class="p">(</span><span class="n">grid</span><span class="p">:</span> <span class="n">WarehouseGrid</span><span class="p">,</span> <span class="n">start_pos</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Đi theo độ dốc từ vị trí bắt đầu ngược về mục tiêu (giá trị 0).&quot;&quot;&quot;</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="p">[</span><span class="n">start_pos</span><span class="p">]</span>
+    <span class="n">r</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="n">start_pos</span>
 
-    while grid.grid[r, c].pathfinding_value &gt; 0:
-        neighbors = grid.get_neighbors(r, c)
-        best_neighbor_pos = None
-        min_val = grid.grid[r, c].pathfinding_value
+    <span class="k">while</span> <span class="n">grid</span><span class="o">.</span><span class="n">grid</span><span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">]</span><span class="o">.</span><span class="n">pathfinding_value</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">neighbors</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">get_neighbors</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+        <span class="n">best_neighbor_pos</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">min_val</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">grid</span><span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">]</span><span class="o">.</span><span class="n">pathfinding_value</span>
 
-        # Tìm láng giềng có giá trị tìm đường thấp nhất
-        for neighbor_cell in neighbors:
-            # Tìm vị trí của ô láng giềng
-            pos_list = np.where(grid.grid == neighbor_cell)
-            if len(pos_list[0]) &gt; 0:
-                nr, nc = pos_list[0][0], pos_list[1][0]
-                if neighbor_cell.pathfinding_value &lt; min_val:
-                    min_val = neighbor_cell.pathfinding_value
-                    best_neighbor_pos = (nr, nc)
+        <span class="c1"># Tìm láng giềng có giá trị tìm đường thấp nhất</span>
+        <span class="k">for</span> <span class="n">neighbor_cell</span> <span class="ow">in</span> <span class="n">neighbors</span><span class="p">:</span>
+            <span class="c1"># Tìm vị trí của ô láng giềng</span>
+            <span class="n">pos_list</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">grid</span> <span class="o">==</span> <span class="n">neighbor_cell</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">pos_list</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">nr</span><span class="p">,</span> <span class="n">nc</span> <span class="o">=</span> <span class="n">pos_list</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">pos_list</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">neighbor_cell</span><span class="o">.</span><span class="n">pathfinding_value</span> <span class="o">&lt;</span> <span class="n">min_val</span><span class="p">:</span>
+                    <span class="n">min_val</span> <span class="o">=</span> <span class="n">neighbor_cell</span><span class="o">.</span><span class="n">pathfinding_value</span>
+                    <span class="n">best_neighbor_pos</span> <span class="o">=</span> <span class="p">(</span><span class="n">nr</span><span class="p">,</span> <span class="n">nc</span><span class="p">)</span>
 
-        if best_neighbor_pos:
-            path.append(best_neighbor_pos)
-            r, c = best_neighbor_pos
-        else:
-            console.print(&quot;[red]Error: Path tracing got stuck. No downhill neighbor found.[/red]&quot;)
-            break
+        <span class="k">if</span> <span class="n">best_neighbor_pos</span><span class="p">:</span>
+            <span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">best_neighbor_pos</span><span class="p">)</span>
+            <span class="n">r</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="n">best_neighbor_pos</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;[red]Error: Path tracing got stuck. No downhill neighbor found.[/red]&quot;</span><span class="p">)</span>
+            <span class="k">break</span>
 
-    return path
+    <span class="k">return</span> <span class="n">path</span>
 
-print(&quot;Emergent behavior functions defined successfully.&quot;)
-</code></pre>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Emergent behavior functions defined successfully.&quot;</span><span class="p">)</span>
+</code></pre></div>
+
 <h2>Phase 3: The Full Orchestration Workflow</h2>
 <p>Bây giờ chúng ta sẽ tạo hàm cấp cao nhất để mô phỏng toàn bộ quy trình hoàn thành đơn hàng. Điều này sẽ chứng minh cách các hành vi nảy sinh có thể được kết hợp để giải quyết một vấn đề nhiều bước.</p>
-<pre><code class="language-python">def fulfill_order(layout: List[str], order: List[str], visualize_waves: bool = False):
-    &quot;&quot;&quot;Hàm điều phối chính.&quot;&quot;&quot;
-    grid = WarehouseGrid(layout)
-    console.print(&quot;--- Initial Warehouse State ---&quot;)
-    grid.visualize()
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">fulfill_order</span><span class="p">(</span><span class="n">layout</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">order</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">visualize_waves</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Hàm điều phối chính.&quot;&quot;&quot;</span>
+    <span class="n">grid</span> <span class="o">=</span> <span class="n">WarehouseGrid</span><span class="p">(</span><span class="n">layout</span><span class="p">)</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;--- Initial Warehouse State ---&quot;</span><span class="p">)</span>
+    <span class="n">grid</span><span class="o">.</span><span class="n">visualize</span><span class="p">()</span>
 
-    packing_station_pos = grid.item_locations['P']
+    <span class="n">packing_station_pos</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">item_locations</span><span class="p">[</span><span class="s1">&#39;P&#39;</span><span class="p">]</span>
 
-    for i, item_id in enumerate(order):
-        panel_title = f&quot;[bold]Step {i+1}: Fulfill Item '{item_id}'[/bold]&quot;
-        log_messages = []
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">item_id</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">order</span><span class="p">):</span>
+        <span class="n">panel_title</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;[bold]Step </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">: Fulfill Item &#39;</span><span class="si">{</span><span class="n">item_id</span><span class="si">}</span><span class="s2">&#39;[/bold]&quot;</span>
+        <span class="n">log_messages</span> <span class="o">=</span> <span class="p">[]</span>
 
-        item_pos = grid.item_locations.get(item_id)
-        if not item_pos:
-            console.print(Panel(f&quot;[red]Error: Item '{item_id}' not found in warehouse.[/red]&quot;, title=panel_title))
-            continue
+        <span class="n">item_pos</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">item_locations</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">item_id</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">item_pos</span><span class="p">:</span>
+            <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">Panel</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[red]Error: Item &#39;</span><span class="si">{</span><span class="n">item_id</span><span class="si">}</span><span class="s2">&#39; not found in warehouse.[/red]&quot;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">panel_title</span><span class="p">))</span>
+            <span class="k">continue</span>
 
-        # 1. Tính toán sóng đường đi từ trạm đóng gói
-        log_messages.append(&quot;🌊 Computing path wave from Packing Station...&quot;)
-        propagate_path_wave(grid, packing_station_pos, visualize_steps=visualize_waves)
+        <span class="c1"># 1. Tính toán sóng đường đi từ trạm đóng gói</span>
+        <span class="n">log_messages</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;🌊 Computing path wave from Packing Station...&quot;</span><span class="p">)</span>
+        <span class="n">propagate_path_wave</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">packing_station_pos</span><span class="p">,</span> <span class="n">visualize_steps</span><span class="o">=</span><span class="n">visualize_waves</span><span class="p">)</span>
 
-        # 2. Truy vết con đường cho mặt hàng hiện tại
-        log_messages.append(f&quot;🚚 Found path for item {item_id}. Moving along gradient...&quot;)
-        path = trace_and_move_item(grid, item_pos)
-        path_str = ' -&gt; '.join(map(str, path))
-        log_messages.append(f&quot;Path: {path_str}&quot;)
+        <span class="c1"># 2. Truy vết con đường cho mặt hàng hiện tại</span>
+        <span class="n">log_messages</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;🚚 Found path for item </span><span class="si">{</span><span class="n">item_id</span><span class="si">}</span><span class="s2">. Moving along gradient...&quot;</span><span class="p">)</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">trace_and_move_item</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">item_pos</span><span class="p">)</span>
+        <span class="n">path_str</span> <span class="o">=</span> <span class="s1">&#39; -&gt; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">path</span><span class="p">))</span>
+        <span class="n">log_messages</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Path: </span><span class="si">{</span><span class="n">path_str</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-        # 3. Cập nhật trạng thái lưới (mặt hàng hiện đã ở trạm đóng gói)
-        grid.grid[item_pos].type = 'EMPTY'
-        grid.grid[item_pos].item = None
-        log_messages.append(f&quot;✅ Item '{item_id}' has been moved to the packing station.&quot;)
-        console.print(Panel('\n'.join(log_messages), title=panel_title, border_style=&quot;blue&quot;))
+        <span class="c1"># 3. Cập nhật trạng thái lưới (mặt hàng hiện đã ở trạm đóng gói)</span>
+        <span class="n">grid</span><span class="o">.</span><span class="n">grid</span><span class="p">[</span><span class="n">item_pos</span><span class="p">]</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="s1">&#39;EMPTY&#39;</span>
+        <span class="n">grid</span><span class="o">.</span><span class="n">grid</span><span class="p">[</span><span class="n">item_pos</span><span class="p">]</span><span class="o">.</span><span class="n">item</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">log_messages</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;✅ Item &#39;</span><span class="si">{</span><span class="n">item_id</span><span class="si">}</span><span class="s2">&#39; has been moved to the packing station.&quot;</span><span class="p">)</span>
+        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">Panel</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">log_messages</span><span class="p">),</span> <span class="n">title</span><span class="o">=</span><span class="n">panel_title</span><span class="p">,</span> <span class="n">border_style</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">))</span>
 
-    console.print(Panel(f&quot;The system successfully fulfilled the order for items {order} by emergently computing paths through local cell interactions.&quot;, title=&quot;[bold green]🎉 Order Fulfillment Complete![/bold green]&quot;, border_style=&quot;green&quot;))
-    return grid
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">Panel</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The system successfully fulfilled the order for items </span><span class="si">{</span><span class="n">order</span><span class="si">}</span><span class="s2"> by emergently computing paths through local cell interactions.&quot;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;[bold green]🎉 Order Fulfillment Complete![/bold green]&quot;</span><span class="p">,</span> <span class="n">border_style</span><span class="o">=</span><span class="s2">&quot;green&quot;</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">grid</span>
 
-# --- Main Execution ---
-warehouse_layout = [
-    &quot;#######&quot;,
-    &quot;# D   #&quot;,
-    &quot;# ### #&quot;,
-    &quot;#A#C# #&quot;,
-    &quot;# # #B#&quot;,
-    &quot;#  P  #&quot;,
-    &quot;#######&quot;,
-]
-order_to_fulfill = ['A', 'B']
-final_grid = fulfill_order(warehouse_layout, order_to_fulfill, visualize_waves=True)
+<span class="c1"># --- Main Execution ---</span>
+<span class="n">warehouse_layout</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;#######&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;# D   #&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;# ### #&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;#A#C# #&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;# # #B#&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;#  P  #&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;#######&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+<span class="n">order_to_fulfill</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">]</span>
+<span class="n">final_grid</span> <span class="o">=</span> <span class="n">fulfill_order</span><span class="p">(</span><span class="n">warehouse_layout</span><span class="p">,</span> <span class="n">order_to_fulfill</span><span class="p">,</span> <span class="n">visualize_waves</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-# --- Tùy chọn: LLM Interpretation ---
-console.print(&quot;\n--- 🤖 LLM Interpretation of the Final State ---&quot;)
-llm = ChatNebius(model=&quot;mistralai/Mixtral-8x22B-Instruct-v0.1&quot;)
-summary_prompt = ChatPromptTemplate.from_template(&quot;You are a logistics manager. Briefly summarize the outcome of the following order fulfillment report.\n\nOrder: {order}\nFinal Warehouse State: All items from the order have been moved to the packing station. Items A and B were retrieved. Original locations were {loc_A} and {loc_B}. The floor is now clear.&quot;)
-summary_chain = summary_prompt | llm
-final_summary = summary_chain.invoke({
-    &quot;order&quot;: order_to_fulfill, 
-    &quot;loc_A&quot;: WarehouseGrid(warehouse_layout).item_locations['A'],
-    &quot;loc_B&quot;: WarehouseGrid(warehouse_layout).item_locations['B']
-}).content
-console.print(Markdown(final_summary))
-</code></pre>
+<span class="c1"># --- Tùy chọn: LLM Interpretation ---</span>
+<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- 🤖 LLM Interpretation of the Final State ---&quot;</span><span class="p">)</span>
+<span class="n">llm</span> <span class="o">=</span> <span class="n">ChatNebius</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;mistralai/Mixtral-8x22B-Instruct-v0.1&quot;</span><span class="p">)</span>
+<span class="n">summary_prompt</span> <span class="o">=</span> <span class="n">ChatPromptTemplate</span><span class="o">.</span><span class="n">from_template</span><span class="p">(</span><span class="s2">&quot;You are a logistics manager. Briefly summarize the outcome of the following order fulfillment report.</span><span class="se">\n\n</span><span class="s2">Order: </span><span class="si">{order}</span><span class="se">\n</span><span class="s2">Final Warehouse State: All items from the order have been moved to the packing station. Items A and B were retrieved. Original locations were </span><span class="si">{loc_A}</span><span class="s2"> and </span><span class="si">{loc_B}</span><span class="s2">. The floor is now clear.&quot;</span><span class="p">)</span>
+<span class="n">summary_chain</span> <span class="o">=</span> <span class="n">summary_prompt</span> <span class="o">|</span> <span class="n">llm</span>
+<span class="n">final_summary</span> <span class="o">=</span> <span class="n">summary_chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">({</span>
+    <span class="s2">&quot;order&quot;</span><span class="p">:</span> <span class="n">order_to_fulfill</span><span class="p">,</span> 
+    <span class="s2">&quot;loc_A&quot;</span><span class="p">:</span> <span class="n">WarehouseGrid</span><span class="p">(</span><span class="n">warehouse_layout</span><span class="p">)</span><span class="o">.</span><span class="n">item_locations</span><span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">],</span>
+    <span class="s2">&quot;loc_B&quot;</span><span class="p">:</span> <span class="n">WarehouseGrid</span><span class="p">(</span><span class="n">warehouse_layout</span><span class="p">)</span><span class="o">.</span><span class="n">item_locations</span><span class="p">[</span><span class="s1">&#39;B&#39;</span><span class="p">]</span>
+<span class="p">})</span><span class="o">.</span><span class="n">content</span>
+<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">final_summary</span><span class="p">))</span>
+</code></pre></div>
+
 <h3>Analysis of the Results</h3>
 <p>Triển khai chi tiết này thể hiện hoàn hảo bản chất độc đáo của Cellular Automata trong việc giải quyết vấn đề:</p>
 <ol>

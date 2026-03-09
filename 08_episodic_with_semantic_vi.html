@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -6,15 +5,109 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>08_Episodic_With_Semantic</title>
     <style>
-        body { font-family: system-ui, -apple-system, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; color: #333; }
-        pre { background: #f4f4f4; padding: 15px; border-radius: 5px; overflow-x: auto; }
-        code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; font-family: monospace; }
+        body { font-family: system-ui, -apple-system, sans-serif; line-height: 1.6; max-width: 1100px; margin: 0 auto; padding: 20px; color: #333; }
+        pre { background: #f4f4f4; padding: 15px; border-radius: 5px; white-space: pre-wrap; word-wrap: break-word; }
+        code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; font-family: 'Operator Mono Lig', monospace; }
         a { color: #007bff; text-decoration: none; }
         a:hover { text-decoration: underline; }
         table { border-collapse: collapse; width: 100%; margin: 20px 0; }
         th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
         th { background-color: #f2f2f2; }
         img { max-width: 100%; height: auto; }
+
+        /* --- Pygments: friendly theme (inline, no CDN) --- */
+        pre { line-height: 125%; }
+td.linenos .normal { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.codehilite .hll { background-color: #ffffcc }
+.codehilite { background: #f0f0f0; }
+.codehilite .c { color: #60A0B0; font-style: italic } /* Comment */
+.codehilite .err { border: 1px solid #F00 } /* Error */
+.codehilite .k { color: #007020; font-weight: bold } /* Keyword */
+.codehilite .o { color: #666 } /* Operator */
+.codehilite .ch { color: #60A0B0; font-style: italic } /* Comment.Hashbang */
+.codehilite .cm { color: #60A0B0; font-style: italic } /* Comment.Multiline */
+.codehilite .cp { color: #007020 } /* Comment.Preproc */
+.codehilite .cpf { color: #60A0B0; font-style: italic } /* Comment.PreprocFile */
+.codehilite .c1 { color: #60A0B0; font-style: italic } /* Comment.Single */
+.codehilite .cs { color: #60A0B0; background-color: #FFF0F0 } /* Comment.Special */
+.codehilite .gd { color: #A00000 } /* Generic.Deleted */
+.codehilite .ge { font-style: italic } /* Generic.Emph */
+.codehilite .ges { font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+.codehilite .gr { color: #F00 } /* Generic.Error */
+.codehilite .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.codehilite .gi { color: #00A000 } /* Generic.Inserted */
+.codehilite .go { color: #888 } /* Generic.Output */
+.codehilite .gp { color: #C65D09; font-weight: bold } /* Generic.Prompt */
+.codehilite .gs { font-weight: bold } /* Generic.Strong */
+.codehilite .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.codehilite .gt { color: #04D } /* Generic.Traceback */
+.codehilite .kc { color: #007020; font-weight: bold } /* Keyword.Constant */
+.codehilite .kd { color: #007020; font-weight: bold } /* Keyword.Declaration */
+.codehilite .kn { color: #007020; font-weight: bold } /* Keyword.Namespace */
+.codehilite .kp { color: #007020 } /* Keyword.Pseudo */
+.codehilite .kr { color: #007020; font-weight: bold } /* Keyword.Reserved */
+.codehilite .kt { color: #902000 } /* Keyword.Type */
+.codehilite .m { color: #40A070 } /* Literal.Number */
+.codehilite .s { color: #4070A0 } /* Literal.String */
+.codehilite .na { color: #4070A0 } /* Name.Attribute */
+.codehilite .nb { color: #007020 } /* Name.Builtin */
+.codehilite .nc { color: #0E84B5; font-weight: bold } /* Name.Class */
+.codehilite .no { color: #60ADD5 } /* Name.Constant */
+.codehilite .nd { color: #555; font-weight: bold } /* Name.Decorator */
+.codehilite .ni { color: #D55537; font-weight: bold } /* Name.Entity */
+.codehilite .ne { color: #007020 } /* Name.Exception */
+.codehilite .nf { color: #06287E } /* Name.Function */
+.codehilite .nl { color: #002070; font-weight: bold } /* Name.Label */
+.codehilite .nn { color: #0E84B5; font-weight: bold } /* Name.Namespace */
+.codehilite .nt { color: #062873; font-weight: bold } /* Name.Tag */
+.codehilite .nv { color: #BB60D5 } /* Name.Variable */
+.codehilite .ow { color: #007020; font-weight: bold } /* Operator.Word */
+.codehilite .w { color: #BBB } /* Text.Whitespace */
+.codehilite .mb { color: #40A070 } /* Literal.Number.Bin */
+.codehilite .mf { color: #40A070 } /* Literal.Number.Float */
+.codehilite .mh { color: #40A070 } /* Literal.Number.Hex */
+.codehilite .mi { color: #40A070 } /* Literal.Number.Integer */
+.codehilite .mo { color: #40A070 } /* Literal.Number.Oct */
+.codehilite .sa { color: #4070A0 } /* Literal.String.Affix */
+.codehilite .sb { color: #4070A0 } /* Literal.String.Backtick */
+.codehilite .sc { color: #4070A0 } /* Literal.String.Char */
+.codehilite .dl { color: #4070A0 } /* Literal.String.Delimiter */
+.codehilite .sd { color: #4070A0; font-style: italic } /* Literal.String.Doc */
+.codehilite .s2 { color: #4070A0 } /* Literal.String.Double */
+.codehilite .se { color: #4070A0; font-weight: bold } /* Literal.String.Escape */
+.codehilite .sh { color: #4070A0 } /* Literal.String.Heredoc */
+.codehilite .si { color: #70A0D0; font-style: italic } /* Literal.String.Interpol */
+.codehilite .sx { color: #C65D09 } /* Literal.String.Other */
+.codehilite .sr { color: #235388 } /* Literal.String.Regex */
+.codehilite .s1 { color: #4070A0 } /* Literal.String.Single */
+.codehilite .ss { color: #517918 } /* Literal.String.Symbol */
+.codehilite .bp { color: #007020 } /* Name.Builtin.Pseudo */
+.codehilite .fm { color: #06287E } /* Name.Function.Magic */
+.codehilite .vc { color: #BB60D5 } /* Name.Variable.Class */
+.codehilite .vg { color: #BB60D5 } /* Name.Variable.Global */
+.codehilite .vi { color: #BB60D5 } /* Name.Variable.Instance */
+.codehilite .vm { color: #BB60D5 } /* Name.Variable.Magic */
+.codehilite .il { color: #40A070 } /* Literal.Number.Integer.Long */
+
+        /* Override: keep gray bg + wrap */
+        .codehilite { background: #f4f4f4 !important; padding: 15px; border-radius: 5px; overflow: visible; }
+        .codehilite pre { background: #f4f4f4 !important; white-space: pre-wrap; word-wrap: break-word; margin: 0; font-family: 'Operator Mono', monospace; }
+
+        /* Operator Mono italic: comments, docstrings, keywords */
+        .codehilite .c,
+        .codehilite .c1,
+        .codehilite .cm,
+        .codehilite .cs,
+        .codehilite .cp  { font-style: italic; }
+        .codehilite .k,
+        .codehilite .kd,
+        .codehilite .kn,
+        .codehilite .kr,
+        .codehilite .kc  { font-style: italic; }
+        .codehilite .sd  { font-style: italic; } /* docstring */
     </style>
 </head>
 <body>
@@ -61,227 +154,233 @@
 </ul>
 <h2>Phase 0: Foundation &amp; Setup</h2>
 <p>Chúng ta sẽ cài đặt tất cả các thư viện cần thiết, bao gồm driver cho các vector và graph databases, đồng thời cấu hình các API keys của mình.</p>
-<pre><code class="language-python"># !pip install -q -U langchain-nebius langchain langgraph rich python-dotenv langchain_community langchain-openai neo4j faiss-cpu tiktoken
-</code></pre>
-<pre><code class="language-python">import os
-import uuid
-from typing import List, Dict, Any, Optional, Tuple
-from dotenv import load_dotenv
+<div class="codehilite"><pre><span></span><code><span class="c1"># !pip install -q -U langchain-nebius langchain langgraph rich python-dotenv langchain_community langchain-openai neo4j faiss-cpu tiktoken</span>
+</code></pre></div>
 
-# Pydantic for data modeling
-from pydantic import BaseModel, Field
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">uuid</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dotenv</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_dotenv</span>
 
-# LangChain components
-from langchain_nebius import ChatNebius, NebiusEmbeddings
-from langchain_community.graphs import Neo4jGraph
-from langchain_community.vectorstores import FAISS
-from langchain.docstore.document import Document
-from langchain_core.prompts import ChatPromptTemplate
+<span class="c1"># Pydantic for data modeling</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span>
 
-# LangGraph components
-from langgraph.graph import StateGraph, END
-from typing_extensions import TypedDict
+<span class="c1"># LangChain components</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_nebius</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatNebius</span><span class="p">,</span> <span class="n">NebiusEmbeddings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_community.graphs</span><span class="w"> </span><span class="kn">import</span> <span class="n">Neo4jGraph</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_community.vectorstores</span><span class="w"> </span><span class="kn">import</span> <span class="n">FAISS</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain.docstore.document</span><span class="w"> </span><span class="kn">import</span> <span class="n">Document</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_core.prompts</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatPromptTemplate</span>
 
-# For pretty printing
-from rich.console import Console
-from rich.markdown import Markdown
+<span class="c1"># LangGraph components</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langgraph.graph</span><span class="w"> </span><span class="kn">import</span> <span class="n">StateGraph</span><span class="p">,</span> <span class="n">END</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing_extensions</span><span class="w"> </span><span class="kn">import</span> <span class="n">TypedDict</span>
 
-# --- API Key and Tracing Setup ---
-load_dotenv()
+<span class="c1"># For pretty printing</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rich.console</span><span class="w"> </span><span class="kn">import</span> <span class="n">Console</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rich.markdown</span><span class="w"> </span><span class="kn">import</span> <span class="n">Markdown</span>
 
-os.environ[&quot;LANGCHAIN_TRACING_V2&quot;] = &quot;true&quot;
-os.environ[&quot;LANGCHAIN_PROJECT&quot;] = &quot;Agentic Architecture - Memory Stack (Nebius)&quot;
+<span class="c1"># --- API Key and Tracing Setup ---</span>
+<span class="n">load_dotenv</span><span class="p">()</span>
 
-# Kiểm tra các biến môi trường bắt buộc
-required_vars = [&quot;NEBIUS_API_KEY&quot;, &quot;LANGCHAIN_API_KEY&quot;, &quot;NEO4J_URI&quot;, &quot;NEO4J_USERNAME&quot;, &quot;NEO4J_PASSWORD&quot;]
-for var in required_vars:
-    if var not in os.environ:
-        print(f&quot;Warning: Environment variable {var} not set.&quot;)
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;LANGCHAIN_TRACING_V2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;true&quot;</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;LANGCHAIN_PROJECT&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Agentic Architecture - Memory Stack (Nebius)&quot;</span>
 
-print(&quot;Environment variables loaded and tracing is set up.&quot;)
-</code></pre>
+<span class="c1"># Kiểm tra các biến môi trường bắt buộc</span>
+<span class="n">required_vars</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;NEBIUS_API_KEY&quot;</span><span class="p">,</span> <span class="s2">&quot;LANGCHAIN_API_KEY&quot;</span><span class="p">,</span> <span class="s2">&quot;NEO4J_URI&quot;</span><span class="p">,</span> <span class="s2">&quot;NEO4J_USERNAME&quot;</span><span class="p">,</span> <span class="s2">&quot;NEO4J_PASSWORD&quot;</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">required_vars</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">var</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Warning: Environment variable </span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s2"> not set.&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Environment variables loaded and tracing is set up.&quot;</span><span class="p">)</span>
+</code></pre></div>
+
 <h2>Phase 1: Building the Memory Components</h2>
 <p>Đây là cốt lõi trong kiến trúc của chúng ta. Chúng ta sẽ định nghĩa các cấu trúc cho bộ nhớ và thiết lập kết nối tới các database. Chúng ta cũng sẽ tạo agent "Memory Maker" chịu trách nhiệm xử lý các cuộc hội thoại và tạo ra các bộ nhớ mới.</p>
-<pre><code class="language-python">console = Console()
-llm = ChatNebius(model=&quot;mistralai/Mixtral-8x22B-Instruct-v0.1&quot;, temperature=0)
-embeddings = NebiusEmbeddings()
+<div class="codehilite"><pre><span></span><code><span class="n">console</span> <span class="o">=</span> <span class="n">Console</span><span class="p">()</span>
+<span class="n">llm</span> <span class="o">=</span> <span class="n">ChatNebius</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;mistralai/Mixtral-8x22B-Instruct-v0.1&quot;</span><span class="p">,</span> <span class="n">temperature</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">embeddings</span> <span class="o">=</span> <span class="n">NebiusEmbeddings</span><span class="p">()</span>
 
-# --- 1. Vector Store cho Episodic Memory ---
-# Trong một ứng dụng thực tế, bạn sẽ cần lưu trữ lâu dài cái này. Trong ví dụ này, nó nằm trong bộ nhớ (in-memory).
-try:
-    episodic_vector_store = FAISS.from_texts([&quot;Initial document to bootstrap the store&quot;], embeddings)
-except ImportError:
-    console.print(&quot;[bold red]FAISS not installed. Please run `pip install faiss-cpu`.[/bold red]&quot;)
-    episodic_vector_store = None
+<span class="c1"># --- 1. Vector Store cho Episodic Memory ---</span>
+<span class="c1"># Trong một ứng dụng thực tế, bạn sẽ cần lưu trữ lâu dài cái này. Trong ví dụ này, nó nằm trong bộ nhớ (in-memory).</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">episodic_vector_store</span> <span class="o">=</span> <span class="n">FAISS</span><span class="o">.</span><span class="n">from_texts</span><span class="p">([</span><span class="s2">&quot;Initial document to bootstrap the store&quot;</span><span class="p">],</span> <span class="n">embeddings</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;[bold red]FAISS not installed. Please run `pip install faiss-cpu`.[/bold red]&quot;</span><span class="p">)</span>
+    <span class="n">episodic_vector_store</span> <span class="o">=</span> <span class="kc">None</span>
 
-# --- 2. Graph DB cho Semantic Memory ---
-try:
-    graph = Neo4jGraph(
-        url=os.environ.get(&quot;NEO4J_URI&quot;),
-        username=os.environ.get(&quot;NEO4J_USERNAME&quot;),
-        password=os.environ.get(&quot;NEO4J_PASSWORD&quot;)
-    )
-    # Xóa graph để bắt đầu một lượt chạy sạch
-    graph.query(&quot;MATCH (n) DETACH DELETE n&quot;)
-except Exception as e:
-    console.print(f&quot;[bold red]Failed to connect to Neo4j: {e}. Please check your credentials and connection.[/bold red]&quot;)
-    graph = None
+<span class="c1"># --- 2. Graph DB cho Semantic Memory ---</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">graph</span> <span class="o">=</span> <span class="n">Neo4jGraph</span><span class="p">(</span>
+        <span class="n">url</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;NEO4J_URI&quot;</span><span class="p">),</span>
+        <span class="n">username</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;NEO4J_USERNAME&quot;</span><span class="p">),</span>
+        <span class="n">password</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;NEO4J_PASSWORD&quot;</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="c1"># Xóa graph để bắt đầu một lượt chạy sạch</span>
+    <span class="n">graph</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;MATCH (n) DETACH DELETE n&quot;</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[bold red]Failed to connect to Neo4j: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">. Please check your credentials and connection.[/bold red]&quot;</span><span class="p">)</span>
+    <span class="n">graph</span> <span class="o">=</span> <span class="kc">None</span>
 
-# --- 3. Pydantic Models cho \&quot;Memory Maker\&quot; ---
-# Định nghĩa cấu trúc kiến thức chúng ta muốn trích xuất.
-class Node(BaseModel):
-    id: str = Field(description=&quot;Unique identifier for the node, which can be a person's name, a company ticker, or a concept.&quot;)
-    type: str = Field(description=&quot;The type of the node (e.g., 'User', 'Company', 'InvestmentPhilosophy').&quot;)
-    properties: Dict[str, Any] = Field(description=&quot;A dictionary of properties for the node.&quot;)
+<span class="c1"># --- 3. Pydantic Models cho \&quot;Memory Maker\&quot; ---</span>
+<span class="c1"># Định nghĩa cấu trúc kiến thức chúng ta muốn trích xuất.</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Node</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Unique identifier for the node, which can be a person&#39;s name, a company ticker, or a concept.&quot;</span><span class="p">)</span>
+    <span class="nb">type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;The type of the node (e.g., &#39;User&#39;, &#39;Company&#39;, &#39;InvestmentPhilosophy&#39;).&quot;</span><span class="p">)</span>
+    <span class="n">properties</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;A dictionary of properties for the node.&quot;</span><span class="p">)</span>
 
-class Relationship(BaseModel):
-    source: Node = Field(description=&quot;The source node of the relationship.&quot;)
-    target: Node = Field(description=&quot;The target node of the relationship.&quot;)
-    type: str = Field(description=&quot;The type of the relationship (e.g., 'IS_A', 'INTERESTED_IN').&quot;)
-    properties: Dict[str, Any] = Field(description=&quot;A dictionary of properties for the relationship.&quot;)
+<span class="k">class</span><span class="w"> </span><span class="nc">Relationship</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">source</span><span class="p">:</span> <span class="n">Node</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;The source node of the relationship.&quot;</span><span class="p">)</span>
+    <span class="n">target</span><span class="p">:</span> <span class="n">Node</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;The target node of the relationship.&quot;</span><span class="p">)</span>
+    <span class="nb">type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;The type of the relationship (e.g., &#39;IS_A&#39;, &#39;INTERESTED_IN&#39;).&quot;</span><span class="p">)</span>
+    <span class="n">properties</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;A dictionary of properties for the relationship.&quot;</span><span class="p">)</span>
 
-class KnowledgeGraph(BaseModel):
-    &quot;&quot;&quot;Đại diện cho kiến thức có cấu trúc được trích xuất từ một cuộc hội thoại.&quot;&quot;&quot;
-    relationships: List[Relationship] = Field(description=&quot;A list of relationships to be added to the knowledge graph.&quot;)
+<span class="k">class</span><span class="w"> </span><span class="nc">KnowledgeGraph</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Đại diện cho kiến thức có cấu trúc được trích xuất từ một cuộc hội thoại.&quot;&quot;&quot;</span>
+    <span class="n">relationships</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Relationship</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;A list of relationships to be added to the knowledge graph.&quot;</span><span class="p">)</span>
 
-# --- 4. The \&quot;Memory Maker\&quot; Agent ---
-def create_memories(user_input: str, assistant_output: str):
-    conversation = f&quot;User: {user_input}\nAssistant: {assistant_output}&quot;
+<span class="c1"># --- 4. The \&quot;Memory Maker\&quot; Agent ---</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">create_memories</span><span class="p">(</span><span class="n">user_input</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">assistant_output</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="n">conversation</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;User: </span><span class="si">{</span><span class="n">user_input</span><span class="si">}</span><span class="se">\n</span><span class="s2">Assistant: </span><span class="si">{</span><span class="n">assistant_output</span><span class="si">}</span><span class="s2">&quot;</span>
 
-    # 4a. Tạo Episodic Memory (Tóm tắt)
-    console.print(&quot;--- Creating Episodic Memory (Summary) ---&quot;)
-    summary_prompt = ChatPromptTemplate.from_messages([
-        (&quot;system&quot;, &quot;You are a summarization expert. Create a concise, one-sentence summary of the following user-assistant interaction. This summary will be used as a memory for future recall.&quot;),
-        (&quot;human&quot;, &quot;Interaction:\n{interaction}&quot;)
-    ])
-    summarizer = summary_prompt | llm
-    episodic_summary = summarizer.invoke({&quot;interaction&quot;: conversation}).content
+    <span class="c1"># 4a. Tạo Episodic Memory (Tóm tắt)</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;--- Creating Episodic Memory (Summary) ---&quot;</span><span class="p">)</span>
+    <span class="n">summary_prompt</span> <span class="o">=</span> <span class="n">ChatPromptTemplate</span><span class="o">.</span><span class="n">from_messages</span><span class="p">([</span>
+        <span class="p">(</span><span class="s2">&quot;system&quot;</span><span class="p">,</span> <span class="s2">&quot;You are a summarization expert. Create a concise, one-sentence summary of the following user-assistant interaction. This summary will be used as a memory for future recall.&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;human&quot;</span><span class="p">,</span> <span class="s2">&quot;Interaction:</span><span class="se">\n</span><span class="si">{interaction}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="p">])</span>
+    <span class="n">summarizer</span> <span class="o">=</span> <span class="n">summary_prompt</span> <span class="o">|</span> <span class="n">llm</span>
+    <span class="n">episodic_summary</span> <span class="o">=</span> <span class="n">summarizer</span><span class="o">.</span><span class="n">invoke</span><span class="p">({</span><span class="s2">&quot;interaction&quot;</span><span class="p">:</span> <span class="n">conversation</span><span class="p">})</span><span class="o">.</span><span class="n">content</span>
 
-    new_doc = Document(page_content=episodic_summary, metadata={&quot;created_at&quot;: uuid.uuid4().hex})
-    episodic_vector_store.add_documents([new_doc])
-    console.print(f&quot;[green]Episodic memory created:[/green] '{episodic_summary}'&quot;)
+    <span class="n">new_doc</span> <span class="o">=</span> <span class="n">Document</span><span class="p">(</span><span class="n">page_content</span><span class="o">=</span><span class="n">episodic_summary</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;created_at&quot;</span><span class="p">:</span> <span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()</span><span class="o">.</span><span class="n">hex</span><span class="p">})</span>
+    <span class="n">episodic_vector_store</span><span class="o">.</span><span class="n">add_documents</span><span class="p">([</span><span class="n">new_doc</span><span class="p">])</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[green]Episodic memory created:[/green] &#39;</span><span class="si">{</span><span class="n">episodic_summary</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
 
-    # 4b. Tạo Semantic Memory (Trích xuất sự thật)
-    console.print(&quot;--- Creating Semantic Memory (Graph) ---&quot;)
-    extraction_llm = llm.with_structured_output(KnowledgeGraph)
-    extraction_prompt = ChatPromptTemplate.from_messages([
-        (&quot;system&quot;, &quot;You are a knowledge extraction expert. Your task is to identify key entities and their relationships from a conversation and model them as a graph. Focus on user preferences, goals, and stated facts.&quot;),
-        (&quot;human&quot;, &quot;Extract all relationships from this interaction:\n{interaction}&quot;)
-    ])
-    extractor = extraction_prompt | extraction_llm
-    try:
-        kg_data = extractor.invoke({&quot;interaction&quot;: conversation})
-        if kg_data.relationships:
-            for rel in kg_data.relationships:
-                graph.add_graph_documents([rel], include_source=True)
-            console.print(f&quot;[green]Semantic memory created:[/green] Added {len(kg_data.relationships)} relationships to the graph.&quot;)
-        else:
-            console.print(&quot;[yellow]No new semantic memories identified in this interaction.[/yellow]&quot;)
-    except Exception as e:
-        console.print(f&quot;[red]Could not extract or save semantic memory: {e}[/red]&quot;)
+    <span class="c1"># 4b. Tạo Semantic Memory (Trích xuất sự thật)</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;--- Creating Semantic Memory (Graph) ---&quot;</span><span class="p">)</span>
+    <span class="n">extraction_llm</span> <span class="o">=</span> <span class="n">llm</span><span class="o">.</span><span class="n">with_structured_output</span><span class="p">(</span><span class="n">KnowledgeGraph</span><span class="p">)</span>
+    <span class="n">extraction_prompt</span> <span class="o">=</span> <span class="n">ChatPromptTemplate</span><span class="o">.</span><span class="n">from_messages</span><span class="p">([</span>
+        <span class="p">(</span><span class="s2">&quot;system&quot;</span><span class="p">,</span> <span class="s2">&quot;You are a knowledge extraction expert. Your task is to identify key entities and their relationships from a conversation and model them as a graph. Focus on user preferences, goals, and stated facts.&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;human&quot;</span><span class="p">,</span> <span class="s2">&quot;Extract all relationships from this interaction:</span><span class="se">\n</span><span class="si">{interaction}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="p">])</span>
+    <span class="n">extractor</span> <span class="o">=</span> <span class="n">extraction_prompt</span> <span class="o">|</span> <span class="n">extraction_llm</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">kg_data</span> <span class="o">=</span> <span class="n">extractor</span><span class="o">.</span><span class="n">invoke</span><span class="p">({</span><span class="s2">&quot;interaction&quot;</span><span class="p">:</span> <span class="n">conversation</span><span class="p">})</span>
+        <span class="k">if</span> <span class="n">kg_data</span><span class="o">.</span><span class="n">relationships</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">rel</span> <span class="ow">in</span> <span class="n">kg_data</span><span class="o">.</span><span class="n">relationships</span><span class="p">:</span>
+                <span class="n">graph</span><span class="o">.</span><span class="n">add_graph_documents</span><span class="p">([</span><span class="n">rel</span><span class="p">],</span> <span class="n">include_source</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[green]Semantic memory created:[/green] Added </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">kg_data</span><span class="o">.</span><span class="n">relationships</span><span class="p">)</span><span class="si">}</span><span class="s2"> relationships to the graph.&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;[yellow]No new semantic memories identified in this interaction.[/yellow]&quot;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[red]Could not extract or save semantic memory: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">[/red]&quot;</span><span class="p">)</span>
 
-if episodic_vector_store and graph:
-    print(&quot;Memory components initialized successfully.&quot;)
-</code></pre>
+<span class="k">if</span> <span class="n">episodic_vector_store</span> <span class="ow">and</span> <span class="n">graph</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Memory components initialized successfully.&quot;</span><span class="p">)</span>
+</code></pre></div>
+
 <h2>Phase 2: The Memory-Augmented Agent</h2>
 <p>Bây giờ chúng ta sẽ xây dựng agent sử dụng hệ thống bộ nhớ này. Chúng ta sẽ sử dụng LangGraph để định nghĩa một workflow có trạng thái, rõ ràng: truy xuất bộ nhớ, tạo một phản hồi sử dụng các bộ nhớ đó và cuối cùng là cập nhật bộ nhớ với tương tác mới nhất.</p>
-<pre><code class="language-python"># Định nghĩa state cho LangGraph agent của chúng ta
-class AgentState(TypedDict):
-    user_input: str
-    retrieved_memories: Optional[str]
-    generation: str
+<div class="codehilite"><pre><span></span><code><span class="c1"># Định nghĩa state cho LangGraph agent của chúng ta</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">AgentState</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+    <span class="n">user_input</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">retrieved_memories</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">generation</span><span class="p">:</span> <span class="nb">str</span>
 
-# Định nghĩa các node trong graph
+<span class="c1"># Định nghĩa các node trong graph</span>
 
-def retrieve_memory(state: AgentState) -&gt; Dict[str, Any]:
-    &quot;&quot;&quot;Node truy xuất bộ nhớ từ cả episodic store và semantic store.&quot;&quot;&quot;
-    console.print(&quot;--- Retrieving Memories ---&quot;)
-    user_input = state['user_input']
+<span class="k">def</span><span class="w"> </span><span class="nf">retrieve_memory</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">AgentState</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Node truy xuất bộ nhớ từ cả episodic store và semantic store.&quot;&quot;&quot;</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;--- Retrieving Memories ---&quot;</span><span class="p">)</span>
+    <span class="n">user_input</span> <span class="o">=</span> <span class="n">state</span><span class="p">[</span><span class="s1">&#39;user_input&#39;</span><span class="p">]</span>
 
-    # Truy xuất từ episodic memory
-    retrieved_docs = episodic_vector_store.similarity_search(user_input, k=2)
-    episodic_memories = &quot;\n&quot;.join([doc.page_content for doc in retrieved_docs])
+    <span class="c1"># Truy xuất từ episodic memory</span>
+    <span class="n">retrieved_docs</span> <span class="o">=</span> <span class="n">episodic_vector_store</span><span class="o">.</span><span class="n">similarity_search</span><span class="p">(</span><span class="n">user_input</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">episodic_memories</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">doc</span><span class="o">.</span><span class="n">page_content</span> <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">retrieved_docs</span><span class="p">])</span>
 
-    # Truy xuất từ semantic memory
-    try:
-        graph_schema = graph.get_schema
-        semantic_memories = str(graph.query(&quot;&quot;&quot;
-            UNWIND $keywords AS keyword
-            CALL db.index.fulltext.queryNodes(&quot;entity&quot;, keyword) YIELD node, score
-            MATCH (node)-[r]-(related_node)
-            RETURN node, r, related_node LIMIT 5
-            &quot;&quot;&quot;, {'keywords': user_input.split()}))
-    except Exception as e:
-        semantic_memories = f&quot;Could not query graph: {e}&quot;
+    <span class="c1"># Truy xuất từ semantic memory</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">graph_schema</span> <span class="o">=</span> <span class="n">graph</span><span class="o">.</span><span class="n">get_schema</span>
+        <span class="n">semantic_memories</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">            UNWIND $keywords AS keyword</span>
+<span class="s2">            CALL db.index.fulltext.queryNodes(&quot;entity&quot;, keyword) YIELD node, score</span>
+<span class="s2">            MATCH (node)-[r]-(related_node)</span>
+<span class="s2">            RETURN node, r, related_node LIMIT 5</span>
+<span class="s2">            &quot;&quot;&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;keywords&#39;</span><span class="p">:</span> <span class="n">user_input</span><span class="o">.</span><span class="n">split</span><span class="p">()}))</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">semantic_memories</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Could not query graph: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span>
 
-    retrieved_content = f&quot;Relevant Past Conversations (Episodic Memory):\n{episodic_memories}\n\nRelevant Facts (Semantic Memory):\n{semantic_memories}&quot;
-    console.print(f&quot;[cyan]Retrieved Context:\n{retrieved_content}[/cyan]&quot;)
+    <span class="n">retrieved_content</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Relevant Past Conversations (Episodic Memory):</span><span class="se">\n</span><span class="si">{</span><span class="n">episodic_memories</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">Relevant Facts (Semantic Memory):</span><span class="se">\n</span><span class="si">{</span><span class="n">semantic_memories</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[cyan]Retrieved Context:</span><span class="se">\n</span><span class="si">{</span><span class="n">retrieved_content</span><span class="si">}</span><span class="s2">[/cyan]&quot;</span><span class="p">)</span>
 
-    return {&quot;retrieved_memories&quot;: retrieved_content}
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;retrieved_memories&quot;</span><span class="p">:</span> <span class="n">retrieved_content</span><span class="p">}</span>
 
-def generate_response(state: AgentState) -&gt; Dict[str, Any]:
-    &quot;&quot;&quot;Node tạo phản hồi sử dụng các bộ nhớ đã truy xuất.&quot;&quot;&quot;
-    console.print(&quot;--- Generating Response ---&quot;)
-    prompt = ChatPromptTemplate.from_messages([
-        (&quot;system&quot;, &quot;You are a helpful and personalized financial assistant. Use the retrieved memories to inform your response and tailor it to the user. If the memories indicate a user's preference (e.g., they are a conservative investor), you MUST respect it.&quot;),
-        (&quot;human&quot;, &quot;My question is: {user_input}\n\nHere are some memories that might be relevant:\n{retrieved_memories}&quot;)
-    ])
-    generator = prompt | llm
-    generation = generator.invoke(state).content
-    console.print(f&quot;[green]Generated Response:\n{generation}[/green]&quot;)
-    return {&quot;generation&quot;: generation}
+<span class="k">def</span><span class="w"> </span><span class="nf">generate_response</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">AgentState</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Node tạo phản hồi sử dụng các bộ nhớ đã truy xuất.&quot;&quot;&quot;</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;--- Generating Response ---&quot;</span><span class="p">)</span>
+    <span class="n">prompt</span> <span class="o">=</span> <span class="n">ChatPromptTemplate</span><span class="o">.</span><span class="n">from_messages</span><span class="p">([</span>
+        <span class="p">(</span><span class="s2">&quot;system&quot;</span><span class="p">,</span> <span class="s2">&quot;You are a helpful and personalized financial assistant. Use the retrieved memories to inform your response and tailor it to the user. If the memories indicate a user&#39;s preference (e.g., they are a conservative investor), you MUST respect it.&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;human&quot;</span><span class="p">,</span> <span class="s2">&quot;My question is: </span><span class="si">{user_input}</span><span class="se">\n\n</span><span class="s2">Here are some memories that might be relevant:</span><span class="se">\n</span><span class="si">{retrieved_memories}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="p">])</span>
+    <span class="n">generator</span> <span class="o">=</span> <span class="n">prompt</span> <span class="o">|</span> <span class="n">llm</span>
+    <span class="n">generation</span> <span class="o">=</span> <span class="n">generator</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">state</span><span class="p">)</span><span class="o">.</span><span class="n">content</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[green]Generated Response:</span><span class="se">\n</span><span class="si">{</span><span class="n">generation</span><span class="si">}</span><span class="s2">[/green]&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;generation&quot;</span><span class="p">:</span> <span class="n">generation</span><span class="p">}</span>
 
-def update_memory(state: AgentState) -&gt; Dict[str, Any]:
-    &quot;&quot;&quot;Node cập nhật bộ nhớ với tương tác mới nhất.&quot;&quot;&quot;
-    console.print(&quot;--- Updating Memory ---&quot;)
-    create_memories(state['user_input'], state['generation'])
-    return {}
+<span class="k">def</span><span class="w"> </span><span class="nf">update_memory</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">AgentState</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Node cập nhật bộ nhớ với tương tác mới nhất.&quot;&quot;&quot;</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;--- Updating Memory ---&quot;</span><span class="p">)</span>
+    <span class="n">create_memories</span><span class="p">(</span><span class="n">state</span><span class="p">[</span><span class="s1">&#39;user_input&#39;</span><span class="p">],</span> <span class="n">state</span><span class="p">[</span><span class="s1">&#39;generation&#39;</span><span class="p">])</span>
+    <span class="k">return</span> <span class="p">{}</span>
 
-# Xây dựng graph
-workflow = StateGraph(AgentState)
+<span class="c1"># Xây dựng graph</span>
+<span class="n">workflow</span> <span class="o">=</span> <span class="n">StateGraph</span><span class="p">(</span><span class="n">AgentState</span><span class="p">)</span>
 
-workflow.add_node(&quot;retrieve&quot;, retrieve_memory)
-workflow.add_node(&quot;generate&quot;, generate_response)
-workflow.add_node(&quot;update&quot;, update_memory)
+<span class="n">workflow</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="s2">&quot;retrieve&quot;</span><span class="p">,</span> <span class="n">retrieve_memory</span><span class="p">)</span>
+<span class="n">workflow</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="s2">&quot;generate&quot;</span><span class="p">,</span> <span class="n">generate_response</span><span class="p">)</span>
+<span class="n">workflow</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="s2">&quot;update&quot;</span><span class="p">,</span> <span class="n">update_memory</span><span class="p">)</span>
 
-workflow.set_entry_point(&quot;retrieve&quot;)
-workflow.add_edge(&quot;retrieve&quot;, &quot;generate&quot;)
-workflow.add_edge(&quot;generate&quot;, &quot;update&quot;)
-workflow.add_edge(&quot;update&quot;, END)
+<span class="n">workflow</span><span class="o">.</span><span class="n">set_entry_point</span><span class="p">(</span><span class="s2">&quot;retrieve&quot;</span><span class="p">)</span>
+<span class="n">workflow</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="s2">&quot;retrieve&quot;</span><span class="p">,</span> <span class="s2">&quot;generate&quot;</span><span class="p">)</span>
+<span class="n">workflow</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="s2">&quot;generate&quot;</span><span class="p">,</span> <span class="s2">&quot;update&quot;</span><span class="p">)</span>
+<span class="n">workflow</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="s2">&quot;update&quot;</span><span class="p">,</span> <span class="n">END</span><span class="p">)</span>
 
-memory_agent = workflow.compile()
-print(&quot;Memory-augmented agent graph compiled successfully.&quot;)
-</code></pre>
+<span class="n">memory_agent</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">compile</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Memory-augmented agent graph compiled successfully.&quot;</span><span class="p">)</span>
+</code></pre></div>
+
 <h2>Phase 3: Demonstration &amp; Inspection</h2>
 <p>Hãy cùng xem agent hoạt động. Chúng ta sẽ mô phỏng một cuộc hội thoại nhiều lượt. Hai lượt đầu tiên sẽ gieo mầm cho bộ nhớ. Lượt thứ ba sẽ kiểm tra xem agent có thể sử dụng bộ nhớ đó để đưa ra phản hồi cá nhân hóa hay không. Cuối cùng, chúng ta sẽ trực tiếp kiểm tra các database để xem các bộ nhớ đã được tạo ra.</p>
-<pre><code class="language-python">def run_interaction(query: str):
-    result = memory_agent.invoke({&quot;user_input&quot;: query})
-    return result['generation']
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">run_interaction</span><span class="p">(</span><span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">memory_agent</span><span class="o">.</span><span class="n">invoke</span><span class="p">({</span><span class="s2">&quot;user_input&quot;</span><span class="p">:</span> <span class="n">query</span><span class="p">})</span>
+    <span class="k">return</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;generation&#39;</span><span class="p">]</span>
 
-console.print(&quot;\n--- 💬 INTERACTION 1: Seeding Memory ---&quot;)
-run_interaction(&quot;Hi, my name is Alex. I'm a conservative investor, and I'm mainly interested in established tech companies.&quot;)
+<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- 💬 INTERACTION 1: Seeding Memory ---&quot;</span><span class="p">)</span>
+<span class="n">run_interaction</span><span class="p">(</span><span class="s2">&quot;Hi, my name is Alex. I&#39;m a conservative investor, and I&#39;m mainly interested in established tech companies.&quot;</span><span class="p">)</span>
 
-console.print(&quot;\n--- 💬 INTERACTION 2: Asking a specific question ---&quot;)
-run_interaction(&quot;What do you think about Apple (AAPL)?&quot;)
+<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- 💬 INTERACTION 2: Asking a specific question ---&quot;</span><span class="p">)</span>
+<span class="n">run_interaction</span><span class="p">(</span><span class="s2">&quot;What do you think about Apple (AAPL)?&quot;</span><span class="p">)</span>
 
-console.print(&quot;\n--- 🧠 INTERACTION 3: THE MEMORY TEST ---&quot;)
-run_interaction(&quot;Based on my goals, what's a good alternative to that stock?&quot;)
-</code></pre>
+<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- 🧠 INTERACTION 3: THE MEMORY TEST ---&quot;</span><span class="p">)</span>
+<span class="n">run_interaction</span><span class="p">(</span><span class="s2">&quot;Based on my goals, what&#39;s a good alternative to that stock?&quot;</span><span class="p">)</span>
+</code></pre></div>
+
 <h3>Inspecting the Memory Stores</h3>
 <p>Chúng ta hãy cùng nhìn sâu hơn. Chúng ta có thể truy vấn trực tiếp database để xem các bộ nhớ mà agent đã tạo ra.</p>
-<pre><code class="language-python">console.print(&quot;--- 🔍 Inspecting Episodic Memory (Vector Store) ---&quot;)
-# Thực hiện tìm kiếm theo sự tương đồng cho một khái niệm chung để xem kết quả trả về
-retrieved_docs = episodic_vector_store.similarity_search(&quot;User's investment strategy&quot;, k=3)
-for i, doc in enumerate(retrieved_docs):
-    print(f&quot;{i+1}. {doc.page_content}&quot;)
+<div class="codehilite"><pre><span></span><code><span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;--- 🔍 Inspecting Episodic Memory (Vector Store) ---&quot;</span><span class="p">)</span>
+<span class="c1"># Thực hiện tìm kiếm theo sự tương đồng cho một khái niệm chung để xem kết quả trả về</span>
+<span class="n">retrieved_docs</span> <span class="o">=</span> <span class="n">episodic_vector_store</span><span class="o">.</span><span class="n">similarity_search</span><span class="p">(</span><span class="s2">&quot;User&#39;s investment strategy&quot;</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">doc</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">retrieved_docs</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">. </span><span class="si">{</span><span class="n">doc</span><span class="o">.</span><span class="n">page_content</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-console.print(&quot;\n--- 🕸️ Inspecting Semantic Memory (Graph Database) ---&quot;)
-print(f&quot;Graph Schema:\n{graph.get_schema}&quot;)
+<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- 🕸️ Inspecting Semantic Memory (Graph Database) ---&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Graph Schema:</span><span class="se">\n</span><span class="si">{</span><span class="n">graph</span><span class="o">.</span><span class="n">get_schema</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-# Truy vấn Cypher để xem ai quan tâm đến cái gì
-query_result = graph.query(&quot;MATCH (n:User)-[r:INTERESTED_IN|HAS_GOAL]-&gt;(m) RETURN n, r, m&quot;)
-print(f&quot;Relationships in Graph:\n{query_result}&quot;)
-</code></pre>
+<span class="c1"># Truy vấn Cypher để xem ai quan tâm đến cái gì</span>
+<span class="n">query_result</span> <span class="o">=</span> <span class="n">graph</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;MATCH (n:User)-[r:INTERESTED_IN|HAS_GOAL]-&gt;(m) RETURN n, r, m&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Relationships in Graph:</span><span class="se">\n</span><span class="si">{</span><span class="n">query_result</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+
 <h2>Conclusion</h2>
 <p>Trong notebook này, chúng ta đã xây dựng thành công một agent với hệ thống bộ nhớ dài hạn, tinh vi. Bản demo đã cho thấy rõ sức mạnh của kiến trúc này:</p>
 <ul>

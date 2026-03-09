@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -6,15 +5,109 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>07_Blackboard</title>
     <style>
-        body { font-family: system-ui, -apple-system, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; color: #333; }
-        pre { background: #f4f4f4; padding: 15px; border-radius: 5px; overflow-x: auto; }
-        code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; font-family: monospace; }
+        body { font-family: system-ui, -apple-system, sans-serif; line-height: 1.6; max-width: 1100px; margin: 0 auto; padding: 20px; color: #333; }
+        pre { background: #f4f4f4; padding: 15px; border-radius: 5px; white-space: pre-wrap; word-wrap: break-word; }
+        code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; font-family: 'Operator Mono Lig', monospace; }
         a { color: #007bff; text-decoration: none; }
         a:hover { text-decoration: underline; }
         table { border-collapse: collapse; width: 100%; margin: 20px 0; }
         th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
         th { background-color: #f2f2f2; }
         img { max-width: 100%; height: auto; }
+
+        /* --- Pygments: friendly theme (inline, no CDN) --- */
+        pre { line-height: 125%; }
+td.linenos .normal { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.codehilite .hll { background-color: #ffffcc }
+.codehilite { background: #f0f0f0; }
+.codehilite .c { color: #60A0B0; font-style: italic } /* Comment */
+.codehilite .err { border: 1px solid #F00 } /* Error */
+.codehilite .k { color: #007020; font-weight: bold } /* Keyword */
+.codehilite .o { color: #666 } /* Operator */
+.codehilite .ch { color: #60A0B0; font-style: italic } /* Comment.Hashbang */
+.codehilite .cm { color: #60A0B0; font-style: italic } /* Comment.Multiline */
+.codehilite .cp { color: #007020 } /* Comment.Preproc */
+.codehilite .cpf { color: #60A0B0; font-style: italic } /* Comment.PreprocFile */
+.codehilite .c1 { color: #60A0B0; font-style: italic } /* Comment.Single */
+.codehilite .cs { color: #60A0B0; background-color: #FFF0F0 } /* Comment.Special */
+.codehilite .gd { color: #A00000 } /* Generic.Deleted */
+.codehilite .ge { font-style: italic } /* Generic.Emph */
+.codehilite .ges { font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+.codehilite .gr { color: #F00 } /* Generic.Error */
+.codehilite .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.codehilite .gi { color: #00A000 } /* Generic.Inserted */
+.codehilite .go { color: #888 } /* Generic.Output */
+.codehilite .gp { color: #C65D09; font-weight: bold } /* Generic.Prompt */
+.codehilite .gs { font-weight: bold } /* Generic.Strong */
+.codehilite .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.codehilite .gt { color: #04D } /* Generic.Traceback */
+.codehilite .kc { color: #007020; font-weight: bold } /* Keyword.Constant */
+.codehilite .kd { color: #007020; font-weight: bold } /* Keyword.Declaration */
+.codehilite .kn { color: #007020; font-weight: bold } /* Keyword.Namespace */
+.codehilite .kp { color: #007020 } /* Keyword.Pseudo */
+.codehilite .kr { color: #007020; font-weight: bold } /* Keyword.Reserved */
+.codehilite .kt { color: #902000 } /* Keyword.Type */
+.codehilite .m { color: #40A070 } /* Literal.Number */
+.codehilite .s { color: #4070A0 } /* Literal.String */
+.codehilite .na { color: #4070A0 } /* Name.Attribute */
+.codehilite .nb { color: #007020 } /* Name.Builtin */
+.codehilite .nc { color: #0E84B5; font-weight: bold } /* Name.Class */
+.codehilite .no { color: #60ADD5 } /* Name.Constant */
+.codehilite .nd { color: #555; font-weight: bold } /* Name.Decorator */
+.codehilite .ni { color: #D55537; font-weight: bold } /* Name.Entity */
+.codehilite .ne { color: #007020 } /* Name.Exception */
+.codehilite .nf { color: #06287E } /* Name.Function */
+.codehilite .nl { color: #002070; font-weight: bold } /* Name.Label */
+.codehilite .nn { color: #0E84B5; font-weight: bold } /* Name.Namespace */
+.codehilite .nt { color: #062873; font-weight: bold } /* Name.Tag */
+.codehilite .nv { color: #BB60D5 } /* Name.Variable */
+.codehilite .ow { color: #007020; font-weight: bold } /* Operator.Word */
+.codehilite .w { color: #BBB } /* Text.Whitespace */
+.codehilite .mb { color: #40A070 } /* Literal.Number.Bin */
+.codehilite .mf { color: #40A070 } /* Literal.Number.Float */
+.codehilite .mh { color: #40A070 } /* Literal.Number.Hex */
+.codehilite .mi { color: #40A070 } /* Literal.Number.Integer */
+.codehilite .mo { color: #40A070 } /* Literal.Number.Oct */
+.codehilite .sa { color: #4070A0 } /* Literal.String.Affix */
+.codehilite .sb { color: #4070A0 } /* Literal.String.Backtick */
+.codehilite .sc { color: #4070A0 } /* Literal.String.Char */
+.codehilite .dl { color: #4070A0 } /* Literal.String.Delimiter */
+.codehilite .sd { color: #4070A0; font-style: italic } /* Literal.String.Doc */
+.codehilite .s2 { color: #4070A0 } /* Literal.String.Double */
+.codehilite .se { color: #4070A0; font-weight: bold } /* Literal.String.Escape */
+.codehilite .sh { color: #4070A0 } /* Literal.String.Heredoc */
+.codehilite .si { color: #70A0D0; font-style: italic } /* Literal.String.Interpol */
+.codehilite .sx { color: #C65D09 } /* Literal.String.Other */
+.codehilite .sr { color: #235388 } /* Literal.String.Regex */
+.codehilite .s1 { color: #4070A0 } /* Literal.String.Single */
+.codehilite .ss { color: #517918 } /* Literal.String.Symbol */
+.codehilite .bp { color: #007020 } /* Name.Builtin.Pseudo */
+.codehilite .fm { color: #06287E } /* Name.Function.Magic */
+.codehilite .vc { color: #BB60D5 } /* Name.Variable.Class */
+.codehilite .vg { color: #BB60D5 } /* Name.Variable.Global */
+.codehilite .vi { color: #BB60D5 } /* Name.Variable.Instance */
+.codehilite .vm { color: #BB60D5 } /* Name.Variable.Magic */
+.codehilite .il { color: #40A070 } /* Literal.Number.Integer.Long */
+
+        /* Override: keep gray bg + wrap */
+        .codehilite { background: #f4f4f4 !important; padding: 15px; border-radius: 5px; overflow: visible; }
+        .codehilite pre { background: #f4f4f4 !important; white-space: pre-wrap; word-wrap: break-word; margin: 0; font-family: 'Operator Mono', monospace; }
+
+        /* Operator Mono italic: comments, docstrings, keywords */
+        .codehilite .c,
+        .codehilite .c1,
+        .codehilite .cm,
+        .codehilite .cs,
+        .codehilite .cp  { font-style: italic; }
+        .codehilite .k,
+        .codehilite .kd,
+        .codehilite .kn,
+        .codehilite .kr,
+        .codehilite .kc  { font-style: italic; }
+        .codehilite .sd  { font-style: italic; } /* docstring */
     </style>
 </head>
 <body>
@@ -56,137 +149,142 @@
 <h3>Step 0.1: Installing Core Libraries</h3>
 <p><strong>Những gì chúng ta sẽ làm:</strong>
 Chúng ta sẽ cài đặt bộ thư viện tiêu chuẩn của mình cho loạt dự án này.</p>
-<pre><code class="language-python"># !pip install -q -U langchain-nebius langchain langgraph rich python-dotenv langchain-tavily
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="c1"># !pip install -q -U langchain-nebius langchain langgraph rich python-dotenv langchain-tavily</span>
+</code></pre></div>
+
 <h3>Step 0.2: Importing Libraries and Setting Up Keys</h3>
 <p><strong>Những gì chúng ta sẽ làm:</strong>
 Chúng ta sẽ import các module cần thiết và load các API keys của mình từ file <code>.env</code>.</p>
 <p><strong>Action Required:</strong> Tạo một file <code>.env</code> trong thư mục này với các key của bạn:</p>
-<pre><code>NEBIUS_API_KEY=&quot;your_nebius_api_key_here&quot;
+<div class="codehilite"><pre><span></span><code>NEBIUS_API_KEY=&quot;your_nebius_api_key_here&quot;
 LANGCHAIN_API_KEY=&quot;your_langsmith_api_key_here&quot;
 TAVILY_API_KEY=&quot;your_tavily_api_key_here&quot;
-</code></pre>
-<pre><code class="language-python">import os
-from typing import List, Annotated, TypedDict, Optional
-from dotenv import load_dotenv
+</code></pre></div>
 
-# LangChain components
-from langchain_nebius import ChatNebius
-from langchain_tavily import TavilySearch
-from langchain_core.messages import BaseMessage, SystemMessage, HumanMessage
-from pydantic import BaseModel, Field
-from langchain_core.prompts import ChatPromptTemplate
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Annotated</span><span class="p">,</span> <span class="n">TypedDict</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dotenv</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_dotenv</span>
 
-# LangGraph components
-from langgraph.graph import StateGraph, END
+<span class="c1"># LangChain components</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_nebius</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatNebius</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_tavily</span><span class="w"> </span><span class="kn">import</span> <span class="n">TavilySearch</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_core.messages</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseMessage</span><span class="p">,</span> <span class="n">SystemMessage</span><span class="p">,</span> <span class="n">HumanMessage</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_core.prompts</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatPromptTemplate</span>
 
-# For pretty printing
-from rich.console import Console
-from rich.markdown import Markdown
+<span class="c1"># LangGraph components</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langgraph.graph</span><span class="w"> </span><span class="kn">import</span> <span class="n">StateGraph</span><span class="p">,</span> <span class="n">END</span>
 
-# --- API Key and Tracing Setup ---
-load_dotenv()
+<span class="c1"># For pretty printing</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rich.console</span><span class="w"> </span><span class="kn">import</span> <span class="n">Console</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rich.markdown</span><span class="w"> </span><span class="kn">import</span> <span class="n">Markdown</span>
 
-os.environ[&quot;LANGCHAIN_TRACING_V2&quot;] = &quot;true&quot;
-os.environ[&quot;LANGCHAIN_PROJECT&quot;] = &quot;Agentic Architecture - Blackboard (Nebius)&quot;
+<span class="c1"># --- API Key and Tracing Setup ---</span>
+<span class="n">load_dotenv</span><span class="p">()</span>
 
-for key in [&quot;NEBIUS_API_KEY&quot;, &quot;LANGCHAIN_API_KEY&quot;, &quot;TAVILY_API_KEY&quot;]:
-    if not os.environ.get(key):
-        print(f&quot;{key} not found. Please create a .env file and set it.&quot;)
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;LANGCHAIN_TRACING_V2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;true&quot;</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;LANGCHAIN_PROJECT&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Agentic Architecture - Blackboard (Nebius)&quot;</span>
 
-print(&quot;Environment variables loaded and tracing is set up.&quot;)
-</code></pre>
+<span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;NEBIUS_API_KEY&quot;</span><span class="p">,</span> <span class="s2">&quot;LANGCHAIN_API_KEY&quot;</span><span class="p">,</span> <span class="s2">&quot;TAVILY_API_KEY&quot;</span><span class="p">]:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2"> not found. Please create a .env file and set it.&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Environment variables loaded and tracing is set up.&quot;</span><span class="p">)</span>
+</code></pre></div>
+
 <h2>Phase 1: The Baseline - A Sequential Multi-Agent System (Corrected)</h2>
 <p>Để hiểu tính linh hoạt của blackboard, trước tiên chúng ta cần một hệ thống tuần tự hoạt động đúng đắn. Phiên bản gốc đã thất bại vì các chuyên gia không sử dụng kết quả đầu ra của các bước trước đó. Chúng ta sẽ sửa lỗi này bằng cách đảm bảo mỗi agent nhận được context cần thiết từ state.</p>
 <h3>Step 1.1: Building the (Corrected) Sequential Team</h3>
 <p><strong>Những gì chúng ta sẽ làm:</strong>
 Chúng ta sẽ định nghĩa các specialist agents mà rõ ràng sử dụng kết quả đầu ra của những người tiền nhiệm, sau đó kết nối chúng theo một trình tự cố định, tuyến tính.</p>
-<pre><code class="language-python">console = Console()
-# Sử dụng một mô hình có khả năng cao hơn để xử lý các hướng dẫn phức tạp tốt hơn
-llm = ChatNebius(model=&quot;mistralai/Mixtral-8x22B-Instruct-v0.1&quot;, temperature=0)
-search_tool = TavilySearch(max_results=2)
+<div class="codehilite"><pre><span></span><code><span class="n">console</span> <span class="o">=</span> <span class="n">Console</span><span class="p">()</span>
+<span class="c1"># Sử dụng một mô hình có khả năng cao hơn để xử lý các hướng dẫn phức tạp tốt hơn</span>
+<span class="n">llm</span> <span class="o">=</span> <span class="n">ChatNebius</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;mistralai/Mixtral-8x22B-Instruct-v0.1&quot;</span><span class="p">,</span> <span class="n">temperature</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">search_tool</span> <span class="o">=</span> <span class="n">TavilySearch</span><span class="p">(</span><span class="n">max_results</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 
-# State cho sequential agent
-class SequentialState(TypedDict):
-    user_request: str
-    news_report: Optional[str]
-    technical_report: Optional[str]
-    financial_report: Optional[str]
-    final_report: Optional[str]
+<span class="c1"># State cho sequential agent</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">SequentialState</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+    <span class="n">user_request</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">news_report</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">technical_report</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">financial_report</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">final_report</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
 
-# --- CORRECTED SPECIALIST NODES FOR SEQUENTIAL AGENT ---
-# Thay đổi quan trọng là mỗi agent hiện nhận được context từ các bước trước đó, không chỉ là yêu cầu ban đầu.
+<span class="c1"># --- CORRECTED SPECIALIST NODES FOR SEQUENTIAL AGENT ---</span>
+<span class="c1"># Thay đổi quan trọng là mỗi agent hiện nhận được context từ các bước trước đó, không chỉ là yêu cầu ban đầu.</span>
 
-def news_analyst_node_seq(state: SequentialState):
-    console.print(&quot;--- (Sequential) CALLING NEWS ANALYST ---&quot;)
-    prompt = f&quot;Your task is to act as an expert News Analyst. Find the latest major news about the topic in the user's request and provide a concise summary.\n\nUser Request: {state['user_request']}&quot;
-    agent = llm.bind_tools([search_tool])
-    result = agent.invoke(prompt)
-    return {&quot;news_report&quot;: result.content}
+<span class="k">def</span><span class="w"> </span><span class="nf">news_analyst_node_seq</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">SequentialState</span><span class="p">):</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;--- (Sequential) CALLING NEWS ANALYST ---&quot;</span><span class="p">)</span>
+    <span class="n">prompt</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Your task is to act as an expert News Analyst. Find the latest major news about the topic in the user&#39;s request and provide a concise summary.</span><span class="se">\n\n</span><span class="s2">User Request: </span><span class="si">{</span><span class="n">state</span><span class="p">[</span><span class="s1">&#39;user_request&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="n">agent</span> <span class="o">=</span> <span class="n">llm</span><span class="o">.</span><span class="n">bind_tools</span><span class="p">([</span><span class="n">search_tool</span><span class="p">])</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;news_report&quot;</span><span class="p">:</span> <span class="n">result</span><span class="o">.</span><span class="n">content</span><span class="p">}</span>
 
-def technical_analyst_node_seq(state: SequentialState):
-    console.print(&quot;--- (Sequential) CALLING TECHNICAL ANALYST ---&quot;)
-    # Agent này hiện sử dụng news report làm context.
-    prompt = f&quot;Your task is to act as an expert Technical Analyst. Based on the following news report, conduct a technical analysis of the company's stock.\n\nNews Report:\n{state['news_report']}&quot;
-    agent = llm.bind_tools([search_tool])
-    result = agent.invoke(prompt)
-    return {&quot;technical_report&quot;: result.content}
+<span class="k">def</span><span class="w"> </span><span class="nf">technical_analyst_node_seq</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">SequentialState</span><span class="p">):</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;--- (Sequential) CALLING TECHNICAL ANALYST ---&quot;</span><span class="p">)</span>
+    <span class="c1"># Agent này hiện sử dụng news report làm context.</span>
+    <span class="n">prompt</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Your task is to act as an expert Technical Analyst. Based on the following news report, conduct a technical analysis of the company&#39;s stock.</span><span class="se">\n\n</span><span class="s2">News Report:</span><span class="se">\n</span><span class="si">{</span><span class="n">state</span><span class="p">[</span><span class="s1">&#39;news_report&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="n">agent</span> <span class="o">=</span> <span class="n">llm</span><span class="o">.</span><span class="n">bind_tools</span><span class="p">([</span><span class="n">search_tool</span><span class="p">])</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;technical_report&quot;</span><span class="p">:</span> <span class="n">result</span><span class="o">.</span><span class="n">content</span><span class="p">}</span>
 
-def financial_analyst_node_seq(state: SequentialState):
-    console.print(&quot;--- (Sequential) CALLING FINANCIAL ANALYST ---&quot;)
-    # Agent này cũng sử dụng news report làm context.
-    prompt = f&quot;Your task is to act as an expert Financial Analyst. Based on the following news report, analyze the company's recent financial performance.\n\nNews Report:\n{state['news_report']}&quot;
-    agent = llm.bind_tools([search_tool])
-    result = agent.invoke(prompt)
-    return {&quot;financial_report&quot;: result.content}
+<span class="k">def</span><span class="w"> </span><span class="nf">financial_analyst_node_seq</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">SequentialState</span><span class="p">):</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;--- (Sequential) CALLING FINANCIAL ANALYST ---&quot;</span><span class="p">)</span>
+    <span class="c1"># Agent này cũng sử dụng news report làm context.</span>
+    <span class="n">prompt</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Your task is to act as an expert Financial Analyst. Based on the following news report, analyze the company&#39;s recent financial performance.</span><span class="se">\n\n</span><span class="s2">News Report:</span><span class="se">\n</span><span class="si">{</span><span class="n">state</span><span class="p">[</span><span class="s1">&#39;news_report&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="n">agent</span> <span class="o">=</span> <span class="n">llm</span><span class="o">.</span><span class="n">bind_tools</span><span class="p">([</span><span class="n">search_tool</span><span class="p">])</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;financial_report&quot;</span><span class="p">:</span> <span class="n">result</span><span class="o">.</span><span class="n">content</span><span class="p">}</span>
 
 
-def report_writer_node_seq(state: SequentialState):
-    console.print(&quot;--- (Sequential) CALLING REPORT WRITER ---&quot;)
-    prompt = f&quot;&quot;&quot;You are an expert report writer. Your task is to synthesize the information from the News, Technical, and Financial analysts into a single, cohesive report that directly answers the user's original request.
+<span class="k">def</span><span class="w"> </span><span class="nf">report_writer_node_seq</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">SequentialState</span><span class="p">):</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;--- (Sequential) CALLING REPORT WRITER ---&quot;</span><span class="p">)</span>
+    <span class="n">prompt</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;You are an expert report writer. Your task is to synthesize the information from the News, Technical, and Financial analysts into a single, cohesive report that directly answers the user&#39;s original request.</span>
 
-User Request: {state['user_request']}
+<span class="s2">User Request: </span><span class="si">{</span><span class="n">state</span><span class="p">[</span><span class="s1">&#39;user_request&#39;</span><span class="p">]</span><span class="si">}</span>
 
-Here are the reports to combine:
----
-News Report: {state['news_report']}
----
-Technical Report: {state['technical_report']}
----
-Financial Report: {state['financial_report']}
-&quot;&quot;&quot;
-    report = llm.invoke(prompt).content
-    return {&quot;final_report&quot;: report}
+<span class="s2">Here are the reports to combine:</span>
+<span class="s2">---</span>
+<span class="s2">News Report: </span><span class="si">{</span><span class="n">state</span><span class="p">[</span><span class="s1">&#39;news_report&#39;</span><span class="p">]</span><span class="si">}</span>
+<span class="s2">---</span>
+<span class="s2">Technical Report: </span><span class="si">{</span><span class="n">state</span><span class="p">[</span><span class="s1">&#39;technical_report&#39;</span><span class="p">]</span><span class="si">}</span>
+<span class="s2">---</span>
+<span class="s2">Financial Report: </span><span class="si">{</span><span class="n">state</span><span class="p">[</span><span class="s1">&#39;financial_report&#39;</span><span class="p">]</span><span class="si">}</span>
+<span class="s2">&quot;&quot;&quot;</span>
+    <span class="n">report</span> <span class="o">=</span> <span class="n">llm</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span><span class="o">.</span><span class="n">content</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;final_report&quot;</span><span class="p">:</span> <span class="n">report</span><span class="p">}</span>
 
-# Xây dựng sequential graph
-seq_graph_builder = StateGraph(SequentialState)
-seq_graph_builder.add_node(&quot;news&quot;, news_analyst_node_seq)
-seq_graph_builder.add_node(&quot;tech&quot;, technical_analyst_node_seq)
-seq_graph_builder.add_node(&quot;finance&quot;, financial_analyst_node_seq)
-seq_graph_builder.add_node(&quot;writer&quot;, report_writer_node_seq)
+<span class="c1"># Xây dựng sequential graph</span>
+<span class="n">seq_graph_builder</span> <span class="o">=</span> <span class="n">StateGraph</span><span class="p">(</span><span class="n">SequentialState</span><span class="p">)</span>
+<span class="n">seq_graph_builder</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="s2">&quot;news&quot;</span><span class="p">,</span> <span class="n">news_analyst_node_seq</span><span class="p">)</span>
+<span class="n">seq_graph_builder</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="s2">&quot;tech&quot;</span><span class="p">,</span> <span class="n">technical_analyst_node_seq</span><span class="p">)</span>
+<span class="n">seq_graph_builder</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="s2">&quot;finance&quot;</span><span class="p">,</span> <span class="n">financial_analyst_node_seq</span><span class="p">)</span>
+<span class="n">seq_graph_builder</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="s2">&quot;writer&quot;</span><span class="p">,</span> <span class="n">report_writer_node_seq</span><span class="p">)</span>
 
-# Trình tự cố định
-seq_graph_builder.set_entry_point(&quot;news&quot;)
-seq_graph_builder.add_edge(&quot;news&quot;, &quot;tech&quot;)
-seq_graph_builder.add_edge(&quot;tech&quot;, &quot;finance&quot;)
-seq_graph_builder.add_edge(&quot;finance&quot;, &quot;writer&quot;)
-seq_graph_builder.add_edge(&quot;writer&quot;, END)
+<span class="c1"># Trình tự cố định</span>
+<span class="n">seq_graph_builder</span><span class="o">.</span><span class="n">set_entry_point</span><span class="p">(</span><span class="s2">&quot;news&quot;</span><span class="p">)</span>
+<span class="n">seq_graph_builder</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="s2">&quot;news&quot;</span><span class="p">,</span> <span class="s2">&quot;tech&quot;</span><span class="p">)</span>
+<span class="n">seq_graph_builder</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="s2">&quot;tech&quot;</span><span class="p">,</span> <span class="s2">&quot;finance&quot;</span><span class="p">)</span>
+<span class="n">seq_graph_builder</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="s2">&quot;finance&quot;</span><span class="p">,</span> <span class="s2">&quot;writer&quot;</span><span class="p">)</span>
+<span class="n">seq_graph_builder</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="s2">&quot;writer&quot;</span><span class="p">,</span> <span class="n">END</span><span class="p">)</span>
 
-sequential_app = seq_graph_builder.compile()
-print(&quot;Corrected sequential multi-agent system compiled successfully.&quot;)
-</code></pre>
+<span class="n">sequential_app</span> <span class="o">=</span> <span class="n">seq_graph_builder</span><span class="o">.</span><span class="n">compile</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Corrected sequential multi-agent system compiled successfully.&quot;</span><span class="p">)</span>
+</code></pre></div>
+
 <h3>Step 1.2: Testing the Sequential Agent on a Dynamic Problem</h3>
 <p>Bây giờ sequential agent đã truyền context một cách chính xác, hãy quan sát hành vi của nó. Nó sẽ tạo ra một báo cáo mạch lạc hơn, nhưng <em>quy trình</em> của nó vẫn không hiệu quả và thất bại trong việc tuân theo logic điều kiện.</p>
-<pre><code class="language-python">dynamic_query = &quot;Find the latest major news about Nvidia. Based on the sentiment of that news, conduct either a technical analysis (if the news is neutral or positive) or a financial analysis of their recent performance (if the news is negative).&quot;
+<div class="codehilite"><pre><span></span><code><span class="n">dynamic_query</span> <span class="o">=</span> <span class="s2">&quot;Find the latest major news about Nvidia. Based on the sentiment of that news, conduct either a technical analysis (if the news is neutral or positive) or a financial analysis of their recent performance (if the news is negative).&quot;</span>
 
-console.print(f&quot;[bold yellow]Testing CORRECTED SEQUENTIAL agent on a dynamic query:[/bold yellow]\n'{dynamic_query}'\n&quot;)
+<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[bold yellow]Testing CORRECTED SEQUENTIAL agent on a dynamic query:[/bold yellow]</span><span class="se">\n</span><span class="s2">&#39;</span><span class="si">{</span><span class="n">dynamic_query</span><span class="si">}</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 
-# Chạy graph
-final_seq_output = sequential_app.invoke({&quot;user_request&quot;: dynamic_query})
+<span class="c1"># Chạy graph</span>
+<span class="n">final_seq_output</span> <span class="o">=</span> <span class="n">sequential_app</span><span class="o">.</span><span class="n">invoke</span><span class="p">({</span><span class="s2">&quot;user_request&quot;</span><span class="p">:</span> <span class="n">dynamic_query</span><span class="p">})</span>
 
-console.print(&quot;\n--- [bold red]Final Report from Sequential Agent[/bold red] ---&quot;)
-console.print(Markdown(final_seq_output['final_report']))
-</code></pre>
+<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- [bold red]Final Report from Sequential Agent[/bold red] ---&quot;</span><span class="p">)</span>
+<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">final_seq_output</span><span class="p">[</span><span class="s1">&#39;final_report&#39;</span><span class="p">]))</span>
+</code></pre></div>
+
 <p><strong>Discussion of the (Corrected) Output:</strong>
 Agent hiện tạo ra một báo cáo đầy đủ, logic. Tuy nhiên, execution trace <code>News → Technical → Financial</code> để lộ lỗ hổng cơ bản của nó. Nó đã thực hiện <strong>cả hai</strong> phân tích kỹ thuật và tài chính, hoàn toàn bỏ qua yêu cầu có điều kiện của người dùng ("either... or..."). Điều này không hiệu quả và chứng minh tính cứng nhắc mà chúng ta hướng tới giải quyết bằng kiến trúc Blackboard.</p>
 <h2>Phase 2: The Advanced Approach - A Blackboard System (Corrected)</h2>
@@ -196,154 +294,157 @@ Agent hiện tạo ra một báo cáo đầy đủ, logic. Tuy nhiên, execution
 1.  <strong>Blackboard State:</strong> Định nghĩa một <code>BlackboardState</code> cho bộ nhớ chung.
 2.  <strong>Specialist Agents:</strong> Định nghĩa các specialist nodes. Chúng sẽ tương tự như các agent trước đây của chúng ta.
 3.  <strong>Controller (Corrected):</strong> Tạo một <code>controller_node</code> mạnh mẽ với prompt rõ ràng suy luận về các bước đã hoàn thành và các mục tiêu còn lại. Đây là thay đổi quan trọng nhất.</p>
-<pre><code class="language-python"># Blackboard State giữ tất cả thông tin
-class BlackboardState(TypedDict):
-    user_request: str
-    # Bảng đen trung tâm nơi các agent đăng các phát hiện của họ dưới dạng chuỗi
-    blackboard: List[str]
-    # Danh sách các agent có sẵn để controller lựa chọn
-    available_agents: List[str]
-    # Quyết định tiếp theo của controller
-    next_agent: Optional[str]
+<div class="codehilite"><pre><span></span><code><span class="c1"># Blackboard State giữ tất cả thông tin</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">BlackboardState</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+    <span class="n">user_request</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="c1"># Bảng đen trung tâm nơi các agent đăng các phát hiện của họ dưới dạng chuỗi</span>
+    <span class="n">blackboard</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="c1"># Danh sách các agent có sẵn để controller lựa chọn</span>
+    <span class="n">available_agents</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="c1"># Quyết định tiếp theo của controller</span>
+    <span class="n">next_agent</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
 
-# Pydantic model cho quyết định của Controller
-class ControllerDecision(BaseModel):
-    next_agent: str = Field(description=&quot;The name of the next agent to call. Must be one of ['News Analyst', 'Technical Analyst', 'Financial Analyst', 'Report Writer'] or 'FINISH'.&quot;)
-    reasoning: str = Field(description=&quot;A brief reason for choosing the next agent.&quot;)
+<span class="c1"># Pydantic model cho quyết định của Controller</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ControllerDecision</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">next_agent</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;The name of the next agent to call. Must be one of [&#39;News Analyst&#39;, &#39;Technical Analyst&#39;, &#39;Financial Analyst&#39;, &#39;Report Writer&#39;] or &#39;FINISH&#39;.&quot;</span><span class="p">)</span>
+    <span class="n">reasoning</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;A brief reason for choosing the next agent.&quot;</span><span class="p">)</span>
 
-# Reusable factory để tạo specialist agents cho blackboard
-def create_blackboard_specialist(persona: str, agent_name: str):
-    system_prompt = f&quot;&quot;&quot;You are an expert specialist agent: a {persona}.
-Your task is to contribute to a larger goal by performing your specific function.
-Read the initial User Request and the current Blackboard for context.
-Use your tools to find the required information.
-Finally, post your concise markdown report back to the blackboard. Your report should be signed with your name '{agent_name}'.
-&quot;&quot;&quot;
-    prompt_template = ChatPromptTemplate.from_messages([
-        (&quot;system&quot;, system_prompt),
-        (&quot;human&quot;, &quot;User Request: {user_request}\n\nBlackboard (previous reports):\n{blackboard_str}&quot;)
-    ])
-    agent = prompt_template | llm.bind_tools([search_tool])
+<span class="c1"># Reusable factory để tạo specialist agents cho blackboard</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">create_blackboard_specialist</span><span class="p">(</span><span class="n">persona</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">agent_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="n">system_prompt</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;You are an expert specialist agent: a </span><span class="si">{</span><span class="n">persona</span><span class="si">}</span><span class="s2">.</span>
+<span class="s2">Your task is to contribute to a larger goal by performing your specific function.</span>
+<span class="s2">Read the initial User Request and the current Blackboard for context.</span>
+<span class="s2">Use your tools to find the required information.</span>
+<span class="s2">Finally, post your concise markdown report back to the blackboard. Your report should be signed with your name &#39;</span><span class="si">{</span><span class="n">agent_name</span><span class="si">}</span><span class="s2">&#39;.</span>
+<span class="s2">&quot;&quot;&quot;</span>
+    <span class="n">prompt_template</span> <span class="o">=</span> <span class="n">ChatPromptTemplate</span><span class="o">.</span><span class="n">from_messages</span><span class="p">([</span>
+        <span class="p">(</span><span class="s2">&quot;system&quot;</span><span class="p">,</span> <span class="n">system_prompt</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;human&quot;</span><span class="p">,</span> <span class="s2">&quot;User Request: </span><span class="si">{user_request}</span><span class="se">\n\n</span><span class="s2">Blackboard (previous reports):</span><span class="se">\n</span><span class="si">{blackboard_str}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="p">])</span>
+    <span class="n">agent</span> <span class="o">=</span> <span class="n">prompt_template</span> <span class="o">|</span> <span class="n">llm</span><span class="o">.</span><span class="n">bind_tools</span><span class="p">([</span><span class="n">search_tool</span><span class="p">])</span>
 
-    def specialist_node(state: BlackboardState):
-        console.print(f&quot;--- (Blackboard) AGENT '{agent_name}' is working... ---&quot;)
-        blackboard_str = &quot;\n---\n&quot;.join(state[&quot;blackboard&quot;])
-        result = agent.invoke({&quot;user_request&quot;: state[&quot;user_request&quot;], &quot;blackboard_str&quot;: blackboard_str})
-        report = f&quot;**Report from {agent_name}:**\n{result.content}&quot;
-        # Thêm report mới vào danh sách các mục trên bảng đen
-        return {&quot;blackboard&quot;: state[&quot;blackboard&quot;] + [report]}
-    return specialist_node
+    <span class="k">def</span><span class="w"> </span><span class="nf">specialist_node</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">BlackboardState</span><span class="p">):</span>
+        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;--- (Blackboard) AGENT &#39;</span><span class="si">{</span><span class="n">agent_name</span><span class="si">}</span><span class="s2">&#39; is working... ---&quot;</span><span class="p">)</span>
+        <span class="n">blackboard_str</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">---</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">state</span><span class="p">[</span><span class="s2">&quot;blackboard&quot;</span><span class="p">])</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="n">invoke</span><span class="p">({</span><span class="s2">&quot;user_request&quot;</span><span class="p">:</span> <span class="n">state</span><span class="p">[</span><span class="s2">&quot;user_request&quot;</span><span class="p">],</span> <span class="s2">&quot;blackboard_str&quot;</span><span class="p">:</span> <span class="n">blackboard_str</span><span class="p">})</span>
+        <span class="n">report</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;**Report from </span><span class="si">{</span><span class="n">agent_name</span><span class="si">}</span><span class="s2">:**</span><span class="se">\n</span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">content</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="c1"># Thêm report mới vào danh sách các mục trên bảng đen</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;blackboard&quot;</span><span class="p">:</span> <span class="n">state</span><span class="p">[</span><span class="s2">&quot;blackboard&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">report</span><span class="p">]}</span>
+    <span class="k">return</span> <span class="n">specialist_node</span>
 
-# Tạo các specialist agent nodes
-news_analyst_bb = create_blackboard_specialist(&quot;News Analyst&quot;, &quot;News Analyst&quot;)
-technical_analyst_bb = create_blackboard_specialist(&quot;Technical Analyst&quot;, &quot;Technical Analyst&quot;)
-financial_analyst_bb = create_blackboard_specialist(&quot;Financial Analyst&quot;, &quot;Financial Analyst&quot;)
-report_writer_bb = create_blackboard_specialist(&quot;Report Writer who synthesizes a final answer from the blackboard&quot;, &quot;Report Writer&quot;)
+<span class="c1"># Tạo các specialist agent nodes</span>
+<span class="n">news_analyst_bb</span> <span class="o">=</span> <span class="n">create_blackboard_specialist</span><span class="p">(</span><span class="s2">&quot;News Analyst&quot;</span><span class="p">,</span> <span class="s2">&quot;News Analyst&quot;</span><span class="p">)</span>
+<span class="n">technical_analyst_bb</span> <span class="o">=</span> <span class="n">create_blackboard_specialist</span><span class="p">(</span><span class="s2">&quot;Technical Analyst&quot;</span><span class="p">,</span> <span class="s2">&quot;Technical Analyst&quot;</span><span class="p">)</span>
+<span class="n">financial_analyst_bb</span> <span class="o">=</span> <span class="n">create_blackboard_specialist</span><span class="p">(</span><span class="s2">&quot;Financial Analyst&quot;</span><span class="p">,</span> <span class="s2">&quot;Financial Analyst&quot;</span><span class="p">)</span>
+<span class="n">report_writer_bb</span> <span class="o">=</span> <span class="n">create_blackboard_specialist</span><span class="p">(</span><span class="s2">&quot;Report Writer who synthesizes a final answer from the blackboard&quot;</span><span class="p">,</span> <span class="s2">&quot;Report Writer&quot;</span><span class="p">)</span>
 
-# --- THE CORRECTED, INTELLIGENT CONTROLLER NODE ---
-# Đây là bản sửa lỗi quan trọng nhất. Prompt hiện đã phức tạp hơn nhiều.
-def controller_node(state: BlackboardState):
-    console.print(&quot;--- CONTROLLER: Analyzing blackboard... ---&quot;)
+<span class="c1"># --- THE CORRECTED, INTELLIGENT CONTROLLER NODE ---</span>
+<span class="c1"># Đây là bản sửa lỗi quan trọng nhất. Prompt hiện đã phức tạp hơn nhiều.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">controller_node</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">BlackboardState</span><span class="p">):</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;--- CONTROLLER: Analyzing blackboard... ---&quot;</span><span class="p">)</span>
 
-    # Sử dụng một LLM có đầu ra cấu trúc để đưa ra quyết định
-    controller_llm = llm.with_structured_output(ControllerDecision)
+    <span class="c1"># Sử dụng một LLM có đầu ra cấu trúc để đưa ra quyết định</span>
+    <span class="n">controller_llm</span> <span class="o">=</span> <span class="n">llm</span><span class="o">.</span><span class="n">with_structured_output</span><span class="p">(</span><span class="n">ControllerDecision</span><span class="p">)</span>
 
-    blackboard_content = &quot;\n\n&quot;.join(state['blackboard'])
-    agent_list = state['available_agents']
+    <span class="n">blackboard_content</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">state</span><span class="p">[</span><span class="s1">&#39;blackboard&#39;</span><span class="p">])</span>
+    <span class="n">agent_list</span> <span class="o">=</span> <span class="n">state</span><span class="p">[</span><span class="s1">&#39;available_agents&#39;</span><span class="p">]</span>
 
-    # Prompt mới nhận thức được trạng thái và hướng tới mục tiêu.
-    prompt = f&quot;&quot;&quot;You are the central controller of a multi-agent system. Your job is to analyze the shared blackboard and the original user request to decide which specialist agent should run next.
+    <span class="c1"># Prompt mới nhận thức được trạng thái và hướng tới mục tiêu.</span>
+    <span class="n">prompt</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;You are the central controller of a multi-agent system. Your job is to analyze the shared blackboard and the original user request to decide which specialist agent should run next.</span>
 
-**Original User Request:**
-{state['user_request']}
+<span class="s2">**Original User Request:**</span>
+<span class="si">{</span><span class="n">state</span><span class="p">[</span><span class="s1">&#39;user_request&#39;</span><span class="p">]</span><span class="si">}</span>
 
-**Current Blackboard Content:**
----
-{blackboard_content if blackboard_content else &quot;The blackboard is currently empty.&quot;}
----
+<span class="s2">**Current Blackboard Content:**</span>
+<span class="s2">---</span>
+<span class="si">{</span><span class="n">blackboard_content</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">blackboard_content</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s2">&quot;The blackboard is currently empty.&quot;</span><span class="si">}</span>
+<span class="s2">---</span>
 
-**Available Specialist Agents:**
-{', '.join(agent_list)}
+<span class="s2">**Available Specialist Agents:**</span>
+<span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">agent_list</span><span class="p">)</span><span class="si">}</span>
 
-**Your Task:**
-1.  Read the user request and the current blackboard content carefully.
-2.  Determine what the *next logical step* is to move closer to a complete answer.
-3.  Choose the single best agent to perform that step from the list of available agents.
-4.  If the user's request has been fully addressed and a final report has been written, choose 'FINISH'. Do not finish until a \&quot;Report Writer\&quot; has provided a final, synthesized answer.
+<span class="s2">**Your Task:**</span>
+<span class="s2">1.  Read the user request and the current blackboard content carefully.</span>
+<span class="s2">2.  Determine what the *next logical step* is to move closer to a complete answer.</span>
+<span class="s2">3.  Choose the single best agent to perform that step from the list of available agents.</span>
+<span class="s2">4.  If the user&#39;s request has been fully addressed and a final report has been written, choose &#39;FINISH&#39;. Do not finish until a </span><span class="se">\&quot;</span><span class="s2">Report Writer</span><span class="se">\&quot;</span><span class="s2"> has provided a final, synthesized answer.</span>
 
-Provide your decision in the required format.
-&quot;&quot;&quot;
-    decision_result = controller_llm.invoke(prompt)
-    console.print(f&quot;--- CONTROLLER: Decision is to call '{decision_result.next_agent}'. Reason: {decision_result.reasoning} ---&quot;)
+<span class="s2">Provide your decision in the required format.</span>
+<span class="s2">&quot;&quot;&quot;</span>
+    <span class="n">decision_result</span> <span class="o">=</span> <span class="n">controller_llm</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;--- CONTROLLER: Decision is to call &#39;</span><span class="si">{</span><span class="n">decision_result</span><span class="o">.</span><span class="n">next_agent</span><span class="si">}</span><span class="s2">&#39;. Reason: </span><span class="si">{</span><span class="n">decision_result</span><span class="o">.</span><span class="n">reasoning</span><span class="si">}</span><span class="s2"> ---&quot;</span><span class="p">)</span>
 
-    # Từ điển được trả về ở đây sẽ cập nhật khóa 'next_agent' trong state của graph
-    return {&quot;next_agent&quot;: decision_result.next_agent}
+    <span class="c1"># Từ điển được trả về ở đây sẽ cập nhật khóa &#39;next_agent&#39; trong state của graph</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;next_agent&quot;</span><span class="p">:</span> <span class="n">decision_result</span><span class="o">.</span><span class="n">next_agent</span><span class="p">}</span>
 
-print(&quot;Blackboard components and corrected Controller node defined.&quot;)
-</code></pre>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Blackboard components and corrected Controller node defined.&quot;</span><span class="p">)</span>
+</code></pre></div>
+
 <h3>Step 2.2: Building the Blackboard Graph</h3>
 <p>Bây giờ chúng ta kết nối các thành phần vào một graph năng động. Controller đóng vai trò như một router trung tâm. Sau khi bất kỳ specialist nào chạy, quyền kiểm soát luôn quay lại Controller để quyết định bước tiếp theo.</p>
-<pre><code class="language-python">bb_graph_builder = StateGraph(BlackboardState)
+<div class="codehilite"><pre><span></span><code><span class="n">bb_graph_builder</span> <span class="o">=</span> <span class="n">StateGraph</span><span class="p">(</span><span class="n">BlackboardState</span><span class="p">)</span>
 
-# Thêm tất cả các node vào graph
-bb_graph_builder.add_node(&quot;Controller&quot;, controller_node)
-bb_graph_builder.add_node(&quot;News Analyst&quot;, news_analyst_bb)
-bb_graph_builder.add_node(&quot;Technical Analyst&quot;, technical_analyst_bb)
-bb_graph_builder.add_node(&quot;Financial Analyst&quot;, financial_analyst_bb)
-bb_graph_builder.add_node(&quot;Report Writer&quot;, report_writer_bb)
+<span class="c1"># Thêm tất cả các node vào graph</span>
+<span class="n">bb_graph_builder</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="s2">&quot;Controller&quot;</span><span class="p">,</span> <span class="n">controller_node</span><span class="p">)</span>
+<span class="n">bb_graph_builder</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="s2">&quot;News Analyst&quot;</span><span class="p">,</span> <span class="n">news_analyst_bb</span><span class="p">)</span>
+<span class="n">bb_graph_builder</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="s2">&quot;Technical Analyst&quot;</span><span class="p">,</span> <span class="n">technical_analyst_bb</span><span class="p">)</span>
+<span class="n">bb_graph_builder</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="s2">&quot;Financial Analyst&quot;</span><span class="p">,</span> <span class="n">financial_analyst_bb</span><span class="p">)</span>
+<span class="n">bb_graph_builder</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="s2">&quot;Report Writer&quot;</span><span class="p">,</span> <span class="n">report_writer_bb</span><span class="p">)</span>
 
-bb_graph_builder.set_entry_point(&quot;Controller&quot;)
+<span class="n">bb_graph_builder</span><span class="o">.</span><span class="n">set_entry_point</span><span class="p">(</span><span class="s2">&quot;Controller&quot;</span><span class="p">)</span>
 
-# Hàm này định nghĩa logic routing năng động dựa trên quyết định của Controller
-def route_to_agent(state: BlackboardState):
-    return state[&quot;next_agent&quot;]
+<span class="c1"># Hàm này định nghĩa logic routing năng động dựa trên quyết định của Controller</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">route_to_agent</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">BlackboardState</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">state</span><span class="p">[</span><span class="s2">&quot;next_agent&quot;</span><span class="p">]</span>
 
-# Các conditional edges route từ Controller đến specialist được chọn hoặc đến phần kết thúc
-bb_graph_builder.add_conditional_edges(
-    &quot;Controller&quot;,
-    route_to_agent,
-    {
-        &quot;News Analyst&quot;: &quot;News Analyst&quot;,
-        &quot;Technical Analyst&quot;: &quot;Technical Analyst&quot;,
-        &quot;Financial Analyst&quot;: &quot;Financial Analyst&quot;,
-        &quot;Report Writer&quot;: &quot;Report Writer&quot;,
-        &quot;FINISH&quot;: END
-    }
-)
+<span class="c1"># Các conditional edges route từ Controller đến specialist được chọn hoặc đến phần kết thúc</span>
+<span class="n">bb_graph_builder</span><span class="o">.</span><span class="n">add_conditional_edges</span><span class="p">(</span>
+    <span class="s2">&quot;Controller&quot;</span><span class="p">,</span>
+    <span class="n">route_to_agent</span><span class="p">,</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;News Analyst&quot;</span><span class="p">:</span> <span class="s2">&quot;News Analyst&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Technical Analyst&quot;</span><span class="p">:</span> <span class="s2">&quot;Technical Analyst&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Financial Analyst&quot;</span><span class="p">:</span> <span class="s2">&quot;Financial Analyst&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Report Writer&quot;</span><span class="p">:</span> <span class="s2">&quot;Report Writer&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;FINISH&quot;</span><span class="p">:</span> <span class="n">END</span>
+    <span class="p">}</span>
+<span class="p">)</span>
 
-# Sau khi bất kỳ specialist nào chạy, quyền kiểm soát luôn quay lại Controller cho quyết định tiếp theo
-bb_graph_builder.add_edge(&quot;News Analyst&quot;, &quot;Controller&quot;)
-bb_graph_builder.add_edge(&quot;Technical Analyst&quot;, &quot;Controller&quot;)
-bb_graph_builder.add_edge(&quot;Financial Analyst&quot;, &quot;Controller&quot;)
-bb_graph_builder.add_edge(&quot;Report Writer&quot;, &quot;Controller&quot;)
+<span class="c1"># Sau khi bất kỳ specialist nào chạy, quyền kiểm soát luôn quay lại Controller cho quyết định tiếp theo</span>
+<span class="n">bb_graph_builder</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="s2">&quot;News Analyst&quot;</span><span class="p">,</span> <span class="s2">&quot;Controller&quot;</span><span class="p">)</span>
+<span class="n">bb_graph_builder</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="s2">&quot;Technical Analyst&quot;</span><span class="p">,</span> <span class="s2">&quot;Controller&quot;</span><span class="p">)</span>
+<span class="n">bb_graph_builder</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="s2">&quot;Financial Analyst&quot;</span><span class="p">,</span> <span class="s2">&quot;Controller&quot;</span><span class="p">)</span>
+<span class="n">bb_graph_builder</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="s2">&quot;Report Writer&quot;</span><span class="p">,</span> <span class="s2">&quot;Controller&quot;</span><span class="p">)</span>
 
-blackboard_app = bb_graph_builder.compile()
-print(&quot;Blackboard system compiled successfully.&quot;)
-</code></pre>
+<span class="n">blackboard_app</span> <span class="o">=</span> <span class="n">bb_graph_builder</span><span class="o">.</span><span class="n">compile</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Blackboard system compiled successfully.&quot;</span><span class="p">)</span>
+</code></pre></div>
+
 <h2>Phase 3: Head-to-Head Comparison</h2>
 <p>Hãy chạy hệ thống Blackboard mới của chúng ta cho cùng một nhiệm vụ năng động và quan sát workflow thông minh của nó.</p>
-<pre><code class="language-python">console.print(f&quot;[bold cyan]Testing BLACKBOARD system on the same dynamic query:[/bold cyan]\n'{dynamic_query}'\n&quot;)
+<div class="codehilite"><pre><span></span><code><span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[bold cyan]Testing BLACKBOARD system on the same dynamic query:[/bold cyan]</span><span class="se">\n</span><span class="s2">&#39;</span><span class="si">{</span><span class="n">dynamic_query</span><span class="si">}</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 
-initial_bb_state = {
-    &quot;user_request&quot;: dynamic_query,
-    &quot;blackboard&quot;: [],
-    &quot;available_agents&quot;: [&quot;News Analyst&quot;, &quot;Technical Analyst&quot;, &quot;Financial Analyst&quot;, &quot;Report Writer&quot;]
-}
+<span class="n">initial_bb_state</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;user_request&quot;</span><span class="p">:</span> <span class="n">dynamic_query</span><span class="p">,</span>
+    <span class="s2">&quot;blackboard&quot;</span><span class="p">:</span> <span class="p">[],</span>
+    <span class="s2">&quot;available_agents&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;News Analyst&quot;</span><span class="p">,</span> <span class="s2">&quot;Technical Analyst&quot;</span><span class="p">,</span> <span class="s2">&quot;Financial Analyst&quot;</span><span class="p">,</span> <span class="s2">&quot;Report Writer&quot;</span><span class="p">]</span>
+<span class="p">}</span>
 
-# Chạy graph và stream các cập nhật state
-for chunk in blackboard_app.stream(initial_bb_state):
-    for node_name, values in chunk.items():
-        if node_name == &quot;Controller&quot;:
-            pass # Controller đã in rồi
-        else:
-            console.print(f&quot;\n--- [bold green]Current Blackboard State[/bold green] ---&quot;)
-            for i, report in enumerate(values.get(&quot;blackboard&quot;, [])):
-                console.print(f&quot;--- Report {i+1} ---&quot;)
-                console.print(Markdown(report))
-                console.print(&quot;\n&quot;)
+<span class="c1"># Chạy graph và stream các cập nhật state</span>
+<span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">blackboard_app</span><span class="o">.</span><span class="n">stream</span><span class="p">(</span><span class="n">initial_bb_state</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">node_name</span><span class="p">,</span> <span class="n">values</span> <span class="ow">in</span> <span class="n">chunk</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">node_name</span> <span class="o">==</span> <span class="s2">&quot;Controller&quot;</span><span class="p">:</span>
+            <span class="k">pass</span> <span class="c1"># Controller đã in rồi</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- [bold green]Current Blackboard State[/bold green] ---&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">report</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;blackboard&quot;</span><span class="p">,</span> <span class="p">[])):</span>
+                <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;--- Report </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2"> ---&quot;</span><span class="p">)</span>
+                <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">report</span><span class="p">))</span>
+                <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 
-print(&quot;Blackboard system execution complete.&quot;)
-</code></pre>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Blackboard system execution complete.&quot;</span><span class="p">)</span>
+</code></pre></div>
+
 <p><strong>Discussion of the Output:</strong>
 Hệ thống Blackboard đã chứng minh sự vượt trội rõ rệt về hiệu quả và trí thông minh:
 1.  <strong>Opportunistic Workflow:</strong> Sau khi News Analyst cung cấp báo cáo (có sentiment tích cực rõ rệt), <strong>Controller</strong> đã phân tích trạng thái này và đưa ra quyết định thông minh là <em>chỉ</em> gọi Technical Analyst.
@@ -352,36 +453,37 @@ Hệ thống Blackboard đã chứng minh sự vượt trội rõ rệt về hi�
 <p>Trình tự nảy sinh (<code>News → Tech → Writer</code>) trực tiếp và thông minh hơn nhiều so với trình tự tuần tự cứng nhắc (<code>News → Tech → Finance → Writer</code>). Điều này cho thấy cách kiến trúc Blackboard cho phép các hệ thống AI xử lý các vấn đề cấu trúc kém với mức độ linh hoạt tương đương chuyên gia con người.</p>
 <h2>Phase 4: Qualitative Evaluation</h2>
 <p>Cuối cùng, chúng ta sẽ sử dụng giám khảo LLM của mình để đánh giá cả hai hệ thống dựa trên tiêu chí <strong>Process Logic (Logic Quy trình)</strong>—khả năng tuân thủ các hướng dẫn có điều kiện và tránh các công việc dư thừa.</p>
-<pre><code class="language-python">class ProcessEvaluation(BaseModel):
-    &quot;&quot;&quot;Schema cho đánh giá logic quy trình.&quot;&quot;&quot;
-    sequential_logic_score: int = Field(description=&quot;Score từ 1-10 cho logic quy trình của sequential agent.&quot;)
-    blackboard_logic_score: int = Field(description=&quot;Score từ 1-10 cho logic quy trình của Blackboard system.&quot;)
-    justification: str = Field(description=&quot;Giải thích tại sao một hệ thống có logic quy trình tốt hơn hệ thống kia.&quot;)
+<div class="codehilite"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">ProcessEvaluation</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Schema cho đánh giá logic quy trình.&quot;&quot;&quot;</span>
+    <span class="n">sequential_logic_score</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Score từ 1-10 cho logic quy trình của sequential agent.&quot;</span><span class="p">)</span>
+    <span class="n">blackboard_logic_score</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Score từ 1-10 cho logic quy trình của Blackboard system.&quot;</span><span class="p">)</span>
+    <span class="n">justification</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Giải thích tại sao một hệ thống có logic quy trình tốt hơn hệ thống kia.&quot;</span><span class="p">)</span>
 
-judge_llm = llm.with_structured_output(ProcessEvaluation)
+<span class="n">judge_llm</span> <span class="o">=</span> <span class="n">llm</span><span class="o">.</span><span class="n">with_structured_output</span><span class="p">(</span><span class="n">ProcessEvaluation</span><span class="p">)</span>
 
-def evaluate_process_logic(seq_trace: str, bb_trace: str):
-    prompt = f&quot;&quot;&quot;You are an expert auditor of AI workflows. 
-    Evaluate the process logic of two different agent architectures in response to a conditional query.
+<span class="k">def</span><span class="w"> </span><span class="nf">evaluate_process_logic</span><span class="p">(</span><span class="n">seq_trace</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">bb_trace</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="n">prompt</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;You are an expert auditor of AI workflows. </span>
+<span class="s2">    Evaluate the process logic of two different agent architectures in response to a conditional query.</span>
 
-    The user asked for: 'Find news. IF positive/neutral, do Technical. IF negative, do Financial.'
+<span class="s2">    The user asked for: &#39;Find news. IF positive/neutral, do Technical. IF negative, do Financial.&#39;</span>
 
-    --- SEQUENTIAL AGENT TRACE ---
-    {seq_trace}
+<span class="s2">    --- SEQUENTIAL AGENT TRACE ---</span>
+<span class="s2">    </span><span class="si">{</span><span class="n">seq_trace</span><span class="si">}</span>
 
-    --- BLACKBOARD SYSTEM TRACE ---
-    {bb_trace}
-    &quot;&quot;&quot;
-    return judge_llm.invoke(prompt)
+<span class="s2">    --- BLACKBOARD SYSTEM TRACE ---</span>
+<span class="s2">    </span><span class="si">{</span><span class="n">bb_trace</span><span class="si">}</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">judge_llm</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
 
-# (Logs đơn giản hóa cho giám khảo)
-seq_trace = &quot;Found positive news. Ran Technical Analyst. THEN ran Financial Analyst (redundant). Finally wrote report.&quot;
-bb_trace = &quot;Found positive news. Controller decided to run ONLY Technical Analyst based on the news. Finally wrote report.&quot;
+<span class="c1"># (Logs đơn giản hóa cho giám khảo)</span>
+<span class="n">seq_trace</span> <span class="o">=</span> <span class="s2">&quot;Found positive news. Ran Technical Analyst. THEN ran Financial Analyst (redundant). Finally wrote report.&quot;</span>
+<span class="n">bb_trace</span> <span class="o">=</span> <span class="s2">&quot;Found positive news. Controller decided to run ONLY Technical Analyst based on the news. Finally wrote report.&quot;</span>
 
-console.print(&quot;--- Performing Process Logic Evaluation ---&quot;)
-process_eval = evaluate_process_logic(seq_trace, bb_trace)
-console.print(process_eval.model_dump())
-</code></pre>
+<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;--- Performing Process Logic Evaluation ---&quot;</span><span class="p">)</span>
+<span class="n">process_eval</span> <span class="o">=</span> <span class="n">evaluate_process_logic</span><span class="p">(</span><span class="n">seq_trace</span><span class="p">,</span> <span class="n">bb_trace</span><span class="p">)</span>
+<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">process_eval</span><span class="o">.</span><span class="n">model_dump</span><span class="p">())</span>
+</code></pre></div>
+
 <p><strong>Discussion of the Output:</strong>
 Kết quả của giám khảo xác nhận giá trị chiến lược của kiến trúc Blackboard. Trong khi cả hai agent đều cung cấp câu trả lời đúng, hệ thống Blackboard nhận được điểm cao về Process Logic vì nó có khả năng đưa ra các quyết định hành động sáng suốt dựa trên dữ liệu. Nó tránh được sự dư thừa bằng cách tự động thích ứng workflow của mình phù hợp với tin tức cụ thể mà nó tìm thấy. Giai đoạn lập kế hoạch năng động này là đặc điểm nổi bật của các hệ thống agentic thực sự tinh vi.</p>
 <h2>Conclusion</h2>

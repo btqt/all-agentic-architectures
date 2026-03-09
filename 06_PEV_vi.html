@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -6,15 +5,109 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>06_Pev</title>
     <style>
-        body { font-family: system-ui, -apple-system, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; color: #333; }
-        pre { background: #f4f4f4; padding: 15px; border-radius: 5px; overflow-x: auto; }
-        code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; font-family: monospace; }
+        body { font-family: system-ui, -apple-system, sans-serif; line-height: 1.6; max-width: 1100px; margin: 0 auto; padding: 20px; color: #333; }
+        pre { background: #f4f4f4; padding: 15px; border-radius: 5px; white-space: pre-wrap; word-wrap: break-word; }
+        code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; font-family: 'Operator Mono Lig', monospace; }
         a { color: #007bff; text-decoration: none; }
         a:hover { text-decoration: underline; }
         table { border-collapse: collapse; width: 100%; margin: 20px 0; }
         th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
         th { background-color: #f2f2f2; }
         img { max-width: 100%; height: auto; }
+
+        /* --- Pygments: friendly theme (inline, no CDN) --- */
+        pre { line-height: 125%; }
+td.linenos .normal { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.codehilite .hll { background-color: #ffffcc }
+.codehilite { background: #f0f0f0; }
+.codehilite .c { color: #60A0B0; font-style: italic } /* Comment */
+.codehilite .err { border: 1px solid #F00 } /* Error */
+.codehilite .k { color: #007020; font-weight: bold } /* Keyword */
+.codehilite .o { color: #666 } /* Operator */
+.codehilite .ch { color: #60A0B0; font-style: italic } /* Comment.Hashbang */
+.codehilite .cm { color: #60A0B0; font-style: italic } /* Comment.Multiline */
+.codehilite .cp { color: #007020 } /* Comment.Preproc */
+.codehilite .cpf { color: #60A0B0; font-style: italic } /* Comment.PreprocFile */
+.codehilite .c1 { color: #60A0B0; font-style: italic } /* Comment.Single */
+.codehilite .cs { color: #60A0B0; background-color: #FFF0F0 } /* Comment.Special */
+.codehilite .gd { color: #A00000 } /* Generic.Deleted */
+.codehilite .ge { font-style: italic } /* Generic.Emph */
+.codehilite .ges { font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+.codehilite .gr { color: #F00 } /* Generic.Error */
+.codehilite .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.codehilite .gi { color: #00A000 } /* Generic.Inserted */
+.codehilite .go { color: #888 } /* Generic.Output */
+.codehilite .gp { color: #C65D09; font-weight: bold } /* Generic.Prompt */
+.codehilite .gs { font-weight: bold } /* Generic.Strong */
+.codehilite .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.codehilite .gt { color: #04D } /* Generic.Traceback */
+.codehilite .kc { color: #007020; font-weight: bold } /* Keyword.Constant */
+.codehilite .kd { color: #007020; font-weight: bold } /* Keyword.Declaration */
+.codehilite .kn { color: #007020; font-weight: bold } /* Keyword.Namespace */
+.codehilite .kp { color: #007020 } /* Keyword.Pseudo */
+.codehilite .kr { color: #007020; font-weight: bold } /* Keyword.Reserved */
+.codehilite .kt { color: #902000 } /* Keyword.Type */
+.codehilite .m { color: #40A070 } /* Literal.Number */
+.codehilite .s { color: #4070A0 } /* Literal.String */
+.codehilite .na { color: #4070A0 } /* Name.Attribute */
+.codehilite .nb { color: #007020 } /* Name.Builtin */
+.codehilite .nc { color: #0E84B5; font-weight: bold } /* Name.Class */
+.codehilite .no { color: #60ADD5 } /* Name.Constant */
+.codehilite .nd { color: #555; font-weight: bold } /* Name.Decorator */
+.codehilite .ni { color: #D55537; font-weight: bold } /* Name.Entity */
+.codehilite .ne { color: #007020 } /* Name.Exception */
+.codehilite .nf { color: #06287E } /* Name.Function */
+.codehilite .nl { color: #002070; font-weight: bold } /* Name.Label */
+.codehilite .nn { color: #0E84B5; font-weight: bold } /* Name.Namespace */
+.codehilite .nt { color: #062873; font-weight: bold } /* Name.Tag */
+.codehilite .nv { color: #BB60D5 } /* Name.Variable */
+.codehilite .ow { color: #007020; font-weight: bold } /* Operator.Word */
+.codehilite .w { color: #BBB } /* Text.Whitespace */
+.codehilite .mb { color: #40A070 } /* Literal.Number.Bin */
+.codehilite .mf { color: #40A070 } /* Literal.Number.Float */
+.codehilite .mh { color: #40A070 } /* Literal.Number.Hex */
+.codehilite .mi { color: #40A070 } /* Literal.Number.Integer */
+.codehilite .mo { color: #40A070 } /* Literal.Number.Oct */
+.codehilite .sa { color: #4070A0 } /* Literal.String.Affix */
+.codehilite .sb { color: #4070A0 } /* Literal.String.Backtick */
+.codehilite .sc { color: #4070A0 } /* Literal.String.Char */
+.codehilite .dl { color: #4070A0 } /* Literal.String.Delimiter */
+.codehilite .sd { color: #4070A0; font-style: italic } /* Literal.String.Doc */
+.codehilite .s2 { color: #4070A0 } /* Literal.String.Double */
+.codehilite .se { color: #4070A0; font-weight: bold } /* Literal.String.Escape */
+.codehilite .sh { color: #4070A0 } /* Literal.String.Heredoc */
+.codehilite .si { color: #70A0D0; font-style: italic } /* Literal.String.Interpol */
+.codehilite .sx { color: #C65D09 } /* Literal.String.Other */
+.codehilite .sr { color: #235388 } /* Literal.String.Regex */
+.codehilite .s1 { color: #4070A0 } /* Literal.String.Single */
+.codehilite .ss { color: #517918 } /* Literal.String.Symbol */
+.codehilite .bp { color: #007020 } /* Name.Builtin.Pseudo */
+.codehilite .fm { color: #06287E } /* Name.Function.Magic */
+.codehilite .vc { color: #BB60D5 } /* Name.Variable.Class */
+.codehilite .vg { color: #BB60D5 } /* Name.Variable.Global */
+.codehilite .vi { color: #BB60D5 } /* Name.Variable.Instance */
+.codehilite .vm { color: #BB60D5 } /* Name.Variable.Magic */
+.codehilite .il { color: #40A070 } /* Literal.Number.Integer.Long */
+
+        /* Override: keep gray bg + wrap */
+        .codehilite { background: #f4f4f4 !important; padding: 15px; border-radius: 5px; overflow: visible; }
+        .codehilite pre { background: #f4f4f4 !important; white-space: pre-wrap; word-wrap: break-word; margin: 0; font-family: 'Operator Mono', monospace; }
+
+        /* Operator Mono italic: comments, docstrings, keywords */
+        .codehilite .c,
+        .codehilite .c1,
+        .codehilite .cm,
+        .codehilite .cs,
+        .codehilite .cp  { font-style: italic; }
+        .codehilite .k,
+        .codehilite .kd,
+        .codehilite .kn,
+        .codehilite .kr,
+        .codehilite .kc  { font-style: italic; }
+        .codehilite .sd  { font-style: italic; } /* docstring */
     </style>
 </head>
 <body>
@@ -60,136 +153,141 @@
 <h3>Step 0.1: Installing Core Libraries</h3>
 <p><strong>Những gì chúng ta sẽ làm:</strong>
 Chúng ta sẽ cài đặt bộ thư viện tiêu chuẩn của mình cho loạt dự án này.</p>
-<pre><code class="language-python"># !pip install -q -U langchain-nebius langchain langgraph rich python-dotenv langchain-tavily
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="c1"># !pip install -q -U langchain-nebius langchain langgraph rich python-dotenv langchain-tavily</span>
+</code></pre></div>
+
 <h3>Step 0.2: Importing Libraries and Setting Up Keys</h3>
 <p><strong>Những gì chúng ta sẽ làm:</strong>
 Chúng ta sẽ import các module cần thiết và load các API keys của mình từ file <code>.env</code>.</p>
 <p><strong>Action Required:</strong> Tạo một file <code>.env</code> trong thư mục này với các key của bạn:</p>
-<pre><code>NEBIUS_API_KEY=&quot;your_nebius_api_key_here&quot;
+<div class="codehilite"><pre><span></span><code>NEBIUS_API_KEY=&quot;your_nebius_api_key_here&quot;
 LANGCHAIN_API_KEY=&quot;your_langsmith_api_key_here&quot;
 TAVILY_API_KEY=&quot;your_tavily_api_key_here&quot;
-</code></pre>
-<pre><code class="language-python">import os
-import re
-from typing import List, Annotated, TypedDict, Optional
-from dotenv import load_dotenv
-import json
+</code></pre></div>
 
-# LangChain components
-from langchain_nebius import ChatNebius
-from langchain_tavily import TavilySearch
-from langchain_core.messages import BaseMessage, ToolMessage
-from pydantic import BaseModel, Field
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Annotated</span><span class="p">,</span> <span class="n">TypedDict</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dotenv</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_dotenv</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
 
-# LangGraph components
-from langgraph.graph import StateGraph, END
+<span class="c1"># LangChain components</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_nebius</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatNebius</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_tavily</span><span class="w"> </span><span class="kn">import</span> <span class="n">TavilySearch</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_core.messages</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseMessage</span><span class="p">,</span> <span class="n">ToolMessage</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span>
 
-# For pretty printing
-from rich.console import Console
-from rich.markdown import Markdown
+<span class="c1"># LangGraph components</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langgraph.graph</span><span class="w"> </span><span class="kn">import</span> <span class="n">StateGraph</span><span class="p">,</span> <span class="n">END</span>
 
-# --- API Key and Tracing Setup ---
-load_dotenv()
+<span class="c1"># For pretty printing</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rich.console</span><span class="w"> </span><span class="kn">import</span> <span class="n">Console</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rich.markdown</span><span class="w"> </span><span class="kn">import</span> <span class="n">Markdown</span>
 
-os.environ[&quot;LANGCHAIN_TRACING_V2&quot;] = &quot;true&quot;
-os.environ[&quot;LANGCHAIN_PROJECT&quot;] = &quot;Agentic Architecture - PEV (Nebius)&quot;
+<span class="c1"># --- API Key and Tracing Setup ---</span>
+<span class="n">load_dotenv</span><span class="p">()</span>
 
-for key in [&quot;NEBIUS_API_KEY&quot;, &quot;LANGCHAIN_API_KEY&quot;, &quot;TAVILY_API_KEY&quot;]:
-    if not os.environ.get(key):
-        print(f&quot;{key} not found. Please create a .env file and set it.&quot;)
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;LANGCHAIN_TRACING_V2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;true&quot;</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;LANGCHAIN_PROJECT&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Agentic Architecture - PEV (Nebius)&quot;</span>
 
-print(&quot;Environment variables loaded and tracing is set up.&quot;)
-</code></pre>
+<span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;NEBIUS_API_KEY&quot;</span><span class="p">,</span> <span class="s2">&quot;LANGCHAIN_API_KEY&quot;</span><span class="p">,</span> <span class="s2">&quot;TAVILY_API_KEY&quot;</span><span class="p">]:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2"> not found. Please create a .env file and set it.&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Environment variables loaded and tracing is set up.&quot;</span><span class="p">)</span>
+</code></pre></div>
+
 <h2>Phase 1: The Baseline - A Planner-Executor Agent</h2>
 <p>Để hiểu nhu cầu cần có một Verifier, trước tiên chúng ta phải xây dựng một agent không có nó. Agent này sẽ tạo một kế hoạch và làm theo một cách mù quáng, chứng minh tiềm năng thất bại khi một cuộc gọi tool gặp trục trặc.</p>
 <h3>Step 1.1: Building the Planner-Executor Agent</h3>
 <p><strong>Những gì chúng ta sẽ làm:</strong>
 Chúng ta sẽ xây dựng một Planner-Executor graph đơn giản, tương tự như trong notebook trước. Để mô phỏng một sự cố thực tế, chúng ta sẽ tạo một công cụ 'flaky' (chập chờn) đặc biệt. Công cụ này sẽ cố tình trả về một thông báo lỗi cho một query cụ thể, điều mà basic agent của chúng ta sẽ không có cách nào xử lý.</p>
-<pre><code class="language-python">console = Console()
-llm = ChatNebius(model=&quot;meta-llama/Meta-Llama-3.1-8B-Instruct&quot;, temperature=0)
+<div class="codehilite"><pre><span></span><code><span class="n">console</span> <span class="o">=</span> <span class="n">Console</span><span class="p">()</span>
+<span class="n">llm</span> <span class="o">=</span> <span class="n">ChatNebius</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;meta-llama/Meta-Llama-3.1-8B-Instruct&quot;</span><span class="p">,</span> <span class="n">temperature</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
-# Định nghĩa một 'flaky' tool sẽ thất bại với một query cụ thể
-def flaky_web_search(query: str) -&gt; str:
-    &quot;&quot;&quot;Thực hiện tìm kiếm web, nhưng được thiết kế để thất bại với một query cụ thể.&quot;&quot;&quot;
-    console.print(f&quot;--- TOOL: Searching for '{query}'... ---&quot;)
-    if &quot;employee count&quot; in query.lower():
-        console.print(&quot;--- TOOL: [bold red]Simulating API failure![/bold red] ---&quot;)
-        return &quot;Error: Could not retrieve data. The API endpoint is currently unavailable.&quot;
-    else:
-        result = TavilySearch(max_results=2).invoke(query)
-        # Đảm bảo kết quả luôn là string
-        if isinstance(result, (dict, list)):
-            return json.dumps(result, indent=2)
-        return str(result)
+<span class="c1"># Định nghĩa một &#39;flaky&#39; tool sẽ thất bại với một query cụ thể</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">flaky_web_search</span><span class="p">(</span><span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Thực hiện tìm kiếm web, nhưng được thiết kế để thất bại với một query cụ thể.&quot;&quot;&quot;</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;--- TOOL: Searching for &#39;</span><span class="si">{</span><span class="n">query</span><span class="si">}</span><span class="s2">&#39;... ---&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s2">&quot;employee count&quot;</span> <span class="ow">in</span> <span class="n">query</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;--- TOOL: [bold red]Simulating API failure![/bold red] ---&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s2">&quot;Error: Could not retrieve data. The API endpoint is currently unavailable.&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">TavilySearch</span><span class="p">(</span><span class="n">max_results</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+        <span class="c1"># Đảm bảo kết quả luôn là string</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="p">(</span><span class="nb">dict</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
+            <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
 
-# Định nghĩa state cho basic P-E agent
-class BasicPEState(TypedDict):
-    user_request: str
-    plan: Optional[List[str]]
-    intermediate_steps: List[str]
-    final_answer: Optional[str]
+<span class="c1"># Định nghĩa state cho basic P-E agent</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">BasicPEState</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+    <span class="n">user_request</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">plan</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span>
+    <span class="n">intermediate_steps</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">final_answer</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
 
-class Plan(BaseModel):
-    steps: List[str] = Field(description=&quot;A list of tool calls to execute.&quot;)
+<span class="k">class</span><span class="w"> </span><span class="nc">Plan</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">steps</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;A list of tool calls to execute.&quot;</span><span class="p">)</span>
 
-def basic_planner_node(state: BasicPEState):
-    console.print(&quot;--- (Basic) PLANNER: Creating plan... ---&quot;)
-    planner_llm = llm.with_structured_output(Plan)
+<span class="k">def</span><span class="w"> </span><span class="nf">basic_planner_node</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">BasicPEState</span><span class="p">):</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;--- (Basic) PLANNER: Creating plan... ---&quot;</span><span class="p">)</span>
+    <span class="n">planner_llm</span> <span class="o">=</span> <span class="n">llm</span><span class="o">.</span><span class="n">with_structured_output</span><span class="p">(</span><span class="n">Plan</span><span class="p">)</span>
 
-    prompt = f&quot;&quot;&quot;
-    You are a planning agent. 
-    Your job is to decompose the user's request into a list of clear tool queries.
+    <span class="n">prompt</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    You are a planning agent. </span>
+<span class="s2">    Your job is to decompose the user&#39;s request into a list of clear tool queries.</span>
 
-    - Only return JSON that matches this schema: {{ &quot;steps&quot;: [ &quot;query1&quot;, \&quot;query2\&quot;, ... ] }}
-    - Do NOT return any prose or explanation.
-    - Always use the 'flaky_web_search' tool for queries.
+<span class="s2">    - Only return JSON that matches this schema: </span><span class="se">{{</span><span class="s2"> &quot;steps&quot;: [ &quot;query1&quot;, </span><span class="se">\&quot;</span><span class="s2">query2</span><span class="se">\&quot;</span><span class="s2">, ... ] </span><span class="se">}}</span>
+<span class="s2">    - Do NOT return any prose or explanation.</span>
+<span class="s2">    - Always use the &#39;flaky_web_search&#39; tool for queries.</span>
 
-    User's request: &quot;{state['user_request']}&quot;
-    &quot;&quot;&quot;
-    plan = planner_llm.invoke(prompt)
-    return {&quot;plan&quot;: plan.steps}
+<span class="s2">    User&#39;s request: &quot;</span><span class="si">{</span><span class="n">state</span><span class="p">[</span><span class="s1">&#39;user_request&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+    <span class="n">plan</span> <span class="o">=</span> <span class="n">planner_llm</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;plan&quot;</span><span class="p">:</span> <span class="n">plan</span><span class="o">.</span><span class="n">steps</span><span class="p">}</span>
 
-def basic_executor_node(state: BasicPEState):
-    console.print(&quot;--- (Basic) EXECUTOR: Running next step... ---&quot;)
-    next_step = state[&quot;plan&quot;][0]
-    result = flaky_web_search(next_step)
-    return {&quot;plan&quot;: state[&quot;plan&quot;][1:], &quot;intermediate_steps&quot;: state[&quot;intermediate_steps&quot;] + [result]}
+<span class="k">def</span><span class="w"> </span><span class="nf">basic_executor_node</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">BasicPEState</span><span class="p">):</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;--- (Basic) EXECUTOR: Running next step... ---&quot;</span><span class="p">)</span>
+    <span class="n">next_step</span> <span class="o">=</span> <span class="n">state</span><span class="p">[</span><span class="s2">&quot;plan&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">flaky_web_search</span><span class="p">(</span><span class="n">next_step</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;plan&quot;</span><span class="p">:</span> <span class="n">state</span><span class="p">[</span><span class="s2">&quot;plan&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">:],</span> <span class="s2">&quot;intermediate_steps&quot;</span><span class="p">:</span> <span class="n">state</span><span class="p">[</span><span class="s2">&quot;intermediate_steps&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">result</span><span class="p">]}</span>
 
-def basic_synthesizer_node(state: BasicPEState):
-    console.print(&quot;--- (Basic) SYNTHESIZER: Generating final answer... ---&quot;)
-    context = &quot;\n&quot;.join(state[&quot;intermediate_steps&quot;])
-    prompt = f&quot;Synthesize an answer for '{state['user_request']}' using this data:\n{context}&quot;
-    answer = llm.invoke(prompt).content
-    return {&quot;final_answer&quot;: answer}
+<span class="k">def</span><span class="w"> </span><span class="nf">basic_synthesizer_node</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">BasicPEState</span><span class="p">):</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;--- (Basic) SYNTHESIZER: Generating final answer... ---&quot;</span><span class="p">)</span>
+    <span class="n">context</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">state</span><span class="p">[</span><span class="s2">&quot;intermediate_steps&quot;</span><span class="p">])</span>
+    <span class="n">prompt</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Synthesize an answer for &#39;</span><span class="si">{</span><span class="n">state</span><span class="p">[</span><span class="s1">&#39;user_request&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39; using this data:</span><span class="se">\n</span><span class="si">{</span><span class="n">context</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="n">answer</span> <span class="o">=</span> <span class="n">llm</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span><span class="o">.</span><span class="n">content</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;final_answer&quot;</span><span class="p">:</span> <span class="n">answer</span><span class="p">}</span>
 
-# Xây dựng graph
-pe_graph_builder = StateGraph(BasicPEState)
-pe_graph_builder.add_node(&quot;plan&quot;, basic_planner_node)
-pe_graph_builder.add_node(&quot;execute&quot;, basic_executor_node)
-pe_graph_builder.add_node(&quot;synthesize&quot;, basic_synthesizer_node)
+<span class="c1"># Xây dựng graph</span>
+<span class="n">pe_graph_builder</span> <span class="o">=</span> <span class="n">StateGraph</span><span class="p">(</span><span class="n">BasicPEState</span><span class="p">)</span>
+<span class="n">pe_graph_builder</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="s2">&quot;plan&quot;</span><span class="p">,</span> <span class="n">basic_planner_node</span><span class="p">)</span>
+<span class="n">pe_graph_builder</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="s2">&quot;execute&quot;</span><span class="p">,</span> <span class="n">basic_executor_node</span><span class="p">)</span>
+<span class="n">pe_graph_builder</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="s2">&quot;synthesize&quot;</span><span class="p">,</span> <span class="n">basic_synthesizer_node</span><span class="p">)</span>
 
-pe_graph_builder.set_entry_point(&quot;plan&quot;)
-pe_graph_builder.add_conditional_edges(&quot;plan&quot;, lambda s: &quot;execute&quot; if s[&quot;plan&quot;] else &quot;synthesize&quot;)
-pe_graph_builder.add_conditional_edges(&quot;execute&quot;, lambda s: &quot;execute&quot; if s[&quot;plan&quot;] else &quot;synthesize&quot;)
-pe_graph_builder.add_edge(&quot;synthesize&quot;, END)
+<span class="n">pe_graph_builder</span><span class="o">.</span><span class="n">set_entry_point</span><span class="p">(</span><span class="s2">&quot;plan&quot;</span><span class="p">)</span>
+<span class="n">pe_graph_builder</span><span class="o">.</span><span class="n">add_conditional_edges</span><span class="p">(</span><span class="s2">&quot;plan&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="s2">&quot;execute&quot;</span> <span class="k">if</span> <span class="n">s</span><span class="p">[</span><span class="s2">&quot;plan&quot;</span><span class="p">]</span> <span class="k">else</span> <span class="s2">&quot;synthesize&quot;</span><span class="p">)</span>
+<span class="n">pe_graph_builder</span><span class="o">.</span><span class="n">add_conditional_edges</span><span class="p">(</span><span class="s2">&quot;execute&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="s2">&quot;execute&quot;</span> <span class="k">if</span> <span class="n">s</span><span class="p">[</span><span class="s2">&quot;plan&quot;</span><span class="p">]</span> <span class="k">else</span> <span class="s2">&quot;synthesize&quot;</span><span class="p">)</span>
+<span class="n">pe_graph_builder</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="s2">&quot;synthesize&quot;</span><span class="p">,</span> <span class="n">END</span><span class="p">)</span>
 
-basic_pe_app = pe_graph_builder.compile()
-print(&quot;Basic Planner-Executor agent compiled successfully.&quot;)
-</code></pre>
+<span class="n">basic_pe_app</span> <span class="o">=</span> <span class="n">pe_graph_builder</span><span class="o">.</span><span class="n">compile</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Basic Planner-Executor agent compiled successfully.&quot;</span><span class="p">)</span>
+</code></pre></div>
+
 <h3>Step 1.2: Testing the Basic Agent on the 'Flaky' Problem</h3>
 <p><strong>Những gì chúng ta sẽ làm:</strong>
 Bây giờ chúng ta sẽ giao cho basic agent một nhiệm vụ yêu cầu nó gọi tool <code>flaky_web_search</code> của chúng ta với query cụ thể mà chúng ta biết chắc chắn sẽ thất bại. Điều này sẽ cho thấy sự bất lực của nó trong việc xử lý lỗi.</p>
-<pre><code class="language-python">flaky_query = &quot;What was Apple's R&amp;D spend in their last fiscal year, and what was their total employee count? Calculate the R&amp;D spend per employee.&quot;
+<div class="codehilite"><pre><span></span><code><span class="n">flaky_query</span> <span class="o">=</span> <span class="s2">&quot;What was Apple&#39;s R&amp;D spend in their last fiscal year, and what was their total employee count? Calculate the R&amp;D spend per employee.&quot;</span>
 
-console.print(f&quot;[bold yellow]Testing BASIC P-E agent on a flaky query:[/bold yellow]\n'{flaky_query}'\n&quot;)
+<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[bold yellow]Testing BASIC P-E agent on a flaky query:[/bold yellow]</span><span class="se">\n</span><span class="s2">&#39;</span><span class="si">{</span><span class="n">flaky_query</span><span class="si">}</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 
-initial_pe_input = {&quot;user_request&quot;: flaky_query, &quot;intermediate_steps&quot;: []}
-final_pe_output = basic_pe_app.invoke(initial_pe_input)
+<span class="n">initial_pe_input</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;user_request&quot;</span><span class="p">:</span> <span class="n">flaky_query</span><span class="p">,</span> <span class="s2">&quot;intermediate_steps&quot;</span><span class="p">:</span> <span class="p">[]}</span>
+<span class="n">final_pe_output</span> <span class="o">=</span> <span class="n">basic_pe_app</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">initial_pe_input</span><span class="p">)</span>
 
-console.print(&quot;\n--- [bold red]Final Output from Basic P-E Agent[/bold red] ---&quot;)
-console.print(Markdown(final_pe_output['final_answer']))
-</code></pre>
+<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- [bold red]Final Output from Basic P-E Agent[/bold red] ---&quot;</span><span class="p">)</span>
+<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">final_pe_output</span><span class="p">[</span><span class="s1">&#39;final_answer&#39;</span><span class="p">]))</span>
+</code></pre></div>
+
 <p><strong>Discussion of the Output:</strong>
 Thất bại, như dự đoán. Execution trace cho thấy agent đã tạo một kế hoạch, có khả năng là <code>["Apple R&amp;D spend last fiscal year", "Apple total employee count"]</code>. Nó đã thực hiện thành công bước đầu tiên. Tuy nhiên, ở bước thứ hai, tool <code>flaky_web_search</code> của chúng ta đã trả về một chuỗi thông báo lỗi.</p>
 <p>Thất bại cốt lõi nằm ở bước cuối cùng. <strong>Synthesizer</strong>, vì không có cách nào biết được bước thứ hai đã thất bại, nên đã nhận thông báo lỗi như thể đó là dữ liệu hợp lệ. Do đó, câu trả lời cuối cùng của nó là vô nghĩa, có khả năng nêu một điều gì đó như "Tôi không thể thực hiện phép tính vì một trong các dữ liệu đầu vào là một thông báo lỗi." Nó đã làm theo kế hoạch một cách mù quáng cho đến khi hoàn thành, dẫn đến một kết quả vô dụng. Điều này cho thấy nhu cầu cấp thiết về một bước xác minh (verification).</p>
@@ -200,150 +298,152 @@ Thất bại, như dự đoán. Execution trace cho thấy agent đã tạo mộ
 1.  Định nghĩa Pydantic model <code>VerificationResult</code> cho kết quả đầu ra có cấu trúc của Verifier.
 2.  Tạo <code>verifier_node</code>, node này sẽ phân tích kết quả đầu ra của Executor.
 3.  Tạo một <code>router</code> mới, phức tạp hơn, có thể xử lý các phản hồi của Verifier và kích hoạt vòng lặp lập kế hoạch lại (re-planning).</p>
-<pre><code class="language-python">class VerificationResult(BaseModel):
-    &quot;&quot;&quot;Schema cho đầu ra của Verifier.&quot;&quot;&quot;
-    is_successful: bool = Field(description=&quot;True if the tool execution was successful and the data is valid.&quot;)
-    reasoning: str = Field(description=&quot;Reasoning for the verification decision.&quot;)
+<div class="codehilite"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">VerificationResult</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Schema cho đầu ra của Verifier.&quot;&quot;&quot;</span>
+    <span class="n">is_successful</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;True if the tool execution was successful and the data is valid.&quot;</span><span class="p">)</span>
+    <span class="n">reasoning</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Reasoning for the verification decision.&quot;</span><span class="p">)</span>
 
-class PEVState(TypedDict):
-    user_request: str
-    plan: Optional[List[str]]
-    last_tool_result: Optional[str]
-    intermediate_steps: List[str]
-    final_answer: Optional[str]
-    retries: int  # đếm số lần chúng ta đã lập kế hoạch lại
+<span class="k">class</span><span class="w"> </span><span class="nc">PEVState</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+    <span class="n">user_request</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">plan</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span>
+    <span class="n">last_tool_result</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">intermediate_steps</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">final_answer</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">retries</span><span class="p">:</span> <span class="nb">int</span>  <span class="c1"># đếm số lần chúng ta đã lập kế hoạch lại</span>
 
-from langchain_core.exceptions import OutputParserException
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_core.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">OutputParserException</span>
 
-class Plan(BaseModel):
-    steps: List[str] = Field(
-        description=&quot;List of queries (max 5).&quot;,
-        max_items=5
-    )
+<span class="k">class</span><span class="w"> </span><span class="nc">Plan</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">steps</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;List of queries (max 5).&quot;</span><span class="p">,</span>
+        <span class="n">max_items</span><span class="o">=</span><span class="mi">5</span>
+    <span class="p">)</span>
 
-def pev_planner_node(state: PEVState):
-    retries = state.get(&quot;retries&quot;, 0)
-    if retries &gt; 3:  # dừng lại sau 3 lần lập kế hoạch lại
-        console.print(&quot;--- (PEV) PLANNER: Retry limit reached. Stopping. ---&quot;)
-        return {
-            &quot;plan&quot;: [],
-            &quot;final_answer&quot;: &quot;Error: Unable to complete task after multiple retries.&quot;
-        }
+<span class="k">def</span><span class="w"> </span><span class="nf">pev_planner_node</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">PEVState</span><span class="p">):</span>
+    <span class="n">retries</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;retries&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">retries</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span>  <span class="c1"># dừng lại sau 3 lần lập kế hoạch lại</span>
+        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;--- (PEV) PLANNER: Retry limit reached. Stopping. ---&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;plan&quot;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="s2">&quot;final_answer&quot;</span><span class="p">:</span> <span class="s2">&quot;Error: Unable to complete task after multiple retries.&quot;</span>
+        <span class="p">}</span>
 
-    console.print(f&quot;--- (PEV) PLANNER: Creating/revising plan (retry {retries})... ---&quot;)
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;--- (PEV) PLANNER: Creating/revising plan (retry </span><span class="si">{</span><span class="n">retries</span><span class="si">}</span><span class="s2">)... ---&quot;</span><span class="p">)</span>
 
-    planner_llm = llm.with_structured_output(Plan, strict=True)
+    <span class="n">planner_llm</span> <span class="o">=</span> <span class="n">llm</span><span class="o">.</span><span class="n">with_structured_output</span><span class="p">(</span><span class="n">Plan</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-    past_context = &quot;\n&quot;.join(state[&quot;intermediate_steps&quot;])
-    base_prompt = f&quot;&quot;&quot;
-    You are a planning agent. 
-    Create a plan to answer: '{state['user_request']}'. 
-    Use the 'flaky_web_search' tool.
+    <span class="n">past_context</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">state</span><span class="p">[</span><span class="s2">&quot;intermediate_steps&quot;</span><span class="p">])</span>
+    <span class="n">base_prompt</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    You are a planning agent. </span>
+<span class="s2">    Create a plan to answer: &#39;</span><span class="si">{</span><span class="n">state</span><span class="p">[</span><span class="s1">&#39;user_request&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;. </span>
+<span class="s2">    Use the &#39;flaky_web_search&#39; tool.</span>
 
-    Rules:
-    - Return ONLY valid JSON in this exact format: {{ &quot;steps&quot;: [&quot;query1&quot;, &quot;query2&quot;] }}
-    - Maximum 5 steps.
-    - Do NOT repeat failed queries or endless variations.
-    - Do NOT output explanations, only JSON.
+<span class="s2">    Rules:</span>
+<span class="s2">    - Return ONLY valid JSON in this exact format: </span><span class="se">{{</span><span class="s2"> &quot;steps&quot;: [&quot;query1&quot;, &quot;query2&quot;] </span><span class="se">}}</span>
+<span class="s2">    - Maximum 5 steps.</span>
+<span class="s2">    - Do NOT repeat failed queries or endless variations.</span>
+<span class="s2">    - Do NOT output explanations, only JSON.</span>
 
-    Previous attempts and results:
-    {past_context}
-    &quot;&quot;&quot;
+<span class="s2">    Previous attempts and results:</span>
+<span class="s2">    </span><span class="si">{</span><span class="n">past_context</span><span class="si">}</span>
+<span class="s2">    &quot;&quot;&quot;</span>
 
-    # Vòng lặp retry cho JSON bị lỗi
-    for attempt in range(2):
-        try:
-            plan = planner_llm.invoke(base_prompt)
-            return {&quot;plan&quot;: plan.steps, &quot;retries&quot;: retries + 1}
-        except OutputParserException as e:
-            console.print(f&quot;[red]Planner parsing failed (attempt {attempt+1}): {e}[/red]&quot;)
-            base_prompt = f&quot;Return ONLY valid JSON with {{'steps': ['...']}}. {base_prompt}&quot;
+    <span class="c1"># Vòng lặp retry cho JSON bị lỗi</span>
+    <span class="k">for</span> <span class="n">attempt</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">plan</span> <span class="o">=</span> <span class="n">planner_llm</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">base_prompt</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;plan&quot;</span><span class="p">:</span> <span class="n">plan</span><span class="o">.</span><span class="n">steps</span><span class="p">,</span> <span class="s2">&quot;retries&quot;</span><span class="p">:</span> <span class="n">retries</span> <span class="o">+</span> <span class="mi">1</span><span class="p">}</span>
+        <span class="k">except</span> <span class="n">OutputParserException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[red]Planner parsing failed (attempt </span><span class="si">{</span><span class="n">attempt</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">): </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">[/red]&quot;</span><span class="p">)</span>
+            <span class="n">base_prompt</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Return ONLY valid JSON with </span><span class="se">{{</span><span class="s2">&#39;steps&#39;: [&#39;...&#39;]</span><span class="se">}}</span><span class="s2">. </span><span class="si">{</span><span class="n">base_prompt</span><span class="si">}</span><span class="s2">&quot;</span>
 
-    # Fallback cuối cùng để tránh bị treo
-    return {&quot;plan&quot;: [&quot;Apple R&amp;D spend last fiscal year&quot;], &quot;retries&quot;: retries + 1}
-
-
-def pev_executor_node(state: PEVState):
-    if not state.get(&quot;plan&quot;):  # bảo vệ chống lại kế hoạch trống
-        console.print(&quot;--- (PEV) EXECUTOR: No steps left, skipping execution. ---&quot;)
-        return {}
-
-    console.print(&quot;--- (PEV) EXECUTOR: Running next step... ---&quot;)
-    next_step = state[&quot;plan&quot;][0]
-    result = flaky_web_search(next_step)
-    return {&quot;plan&quot;: state[&quot;plan&quot;][1:], &quot;last_tool_result&quot;: result}
-
-def verifier_node(state: PEVState):
-    console.print(&quot;--- VERIFIER: Checking last tool result... ---&quot;)
-    verifier_llm = llm.with_structured_output(VerificationResult)
-    prompt = f&quot;Verify if the following tool output is a successful result or an error message. The task was '{state['user_request']}'.\n\nTool Output: '{state['last_tool_result']}'&quot;
-    verification = verifier_llm.invoke(prompt)
-    console.print(f&quot;--- VERIFIER: Judgment is '{'Success' if verification.is_successful else 'Failure'}' ---&quot;)
-    if verification.is_successful:
-        # Nếu thành công, thêm kết quả hợp lệ vào danh sách các bước tốt của chúng ta
-        return {&quot;intermediate_steps&quot;: state[&quot;intermediate_steps&quot;] + [state['last_tool_result']]}
-    else:
-        # Nếu thất bại, thêm lý do thất bại và kích hoạt lập kế hoạch lại bằng cách xóa kế hoạch
-        return {&quot;plan&quot;: [], &quot;intermediate_steps&quot;: state[&quot;intermediate_steps&quot;] + [f&quot;Verification Failed: {state['last_tool_result']}&quot;]}
-
-pev_synthesizer_node = basic_synthesizer_node # Chúng ta có thể tái sử dụng synthesizer cũ
-
-def pev_router(state: PEVState):
-    # Nếu chúng ta đã có câu trả lời cuối cùng (ví dụ: đạt giới hạn retry), hãy dừng lại
-    if state.get(&quot;final_answer&quot;):
-        console.print(&quot;--- ROUTER: Final answer available. Moving to synthesizer. ---&quot;)
-        return &quot;synthesize&quot;
-
-    if not state[&quot;plan&quot;]:
-        # Kiểm tra xem kế hoạch có trống vì lỗi xác minh hay không
-        if state[&quot;intermediate_steps&quot;] and &quot;Verification Failed&quot; in state[&quot;intermediate_steps&quot;][-1]:
-            console.print(&quot;--- ROUTER: Verification failed. Re-planning... ---&quot;)
-            return &quot;plan&quot;
-        else:
-            console.print(&quot;--- ROUTER: Plan complete. Moving to synthesizer. ---&quot;)
-            return &quot;synthesize&quot;
-    else:
-        console.print(&quot;--- ROUTER: Plan has more steps. Continuing execution. ---&quot;)
-        return &quot;execute&quot;
+    <span class="c1"># Fallback cuối cùng để tránh bị treo</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;plan&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Apple R&amp;D spend last fiscal year&quot;</span><span class="p">],</span> <span class="s2">&quot;retries&quot;</span><span class="p">:</span> <span class="n">retries</span> <span class="o">+</span> <span class="mi">1</span><span class="p">}</span>
 
 
-# Xây dựng PEV graph
-pev_graph_builder = StateGraph(PEVState)
-pev_graph_builder.add_node(&quot;plan&quot;, pev_planner_node)
-pev_graph_builder.add_node(&quot;execute&quot;, pev_executor_node)
-pev_graph_builder.add_node(&quot;verify&quot;, verifier_node)
-pev_graph_builder.add_node(&quot;synthesize&quot;, pev_synthesizer_node)
+<span class="k">def</span><span class="w"> </span><span class="nf">pev_executor_node</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">PEVState</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">state</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;plan&quot;</span><span class="p">):</span>  <span class="c1"># bảo vệ chống lại kế hoạch trống</span>
+        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;--- (PEV) EXECUTOR: No steps left, skipping execution. ---&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">{}</span>
 
-pev_graph_builder.set_entry_point(&quot;plan&quot;)
-pev_graph_builder.add_edge(&quot;plan&quot;, &quot;execute&quot;)
-pev_graph_builder.add_edge(&quot;execute&quot;, &quot;verify&quot;)
-pev_graph_builder.add_conditional_edges(&quot;verify&quot;, pev_router)
-pev_graph_builder.add_edge(&quot;synthesize&quot;, END)
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;--- (PEV) EXECUTOR: Running next step... ---&quot;</span><span class="p">)</span>
+    <span class="n">next_step</span> <span class="o">=</span> <span class="n">state</span><span class="p">[</span><span class="s2">&quot;plan&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">flaky_web_search</span><span class="p">(</span><span class="n">next_step</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;plan&quot;</span><span class="p">:</span> <span class="n">state</span><span class="p">[</span><span class="s2">&quot;plan&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">:],</span> <span class="s2">&quot;last_tool_result&quot;</span><span class="p">:</span> <span class="n">result</span><span class="p">}</span>
 
-pev_agent_app = pev_graph_builder.compile()
-print(&quot;Planner-Executor-Verifier (PEV) agent compiled successfully.&quot;)
-</code></pre>
+<span class="k">def</span><span class="w"> </span><span class="nf">verifier_node</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">PEVState</span><span class="p">):</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;--- VERIFIER: Checking last tool result... ---&quot;</span><span class="p">)</span>
+    <span class="n">verifier_llm</span> <span class="o">=</span> <span class="n">llm</span><span class="o">.</span><span class="n">with_structured_output</span><span class="p">(</span><span class="n">VerificationResult</span><span class="p">)</span>
+    <span class="n">prompt</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Verify if the following tool output is a successful result or an error message. The task was &#39;</span><span class="si">{</span><span class="n">state</span><span class="p">[</span><span class="s1">&#39;user_request&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;.</span><span class="se">\n\n</span><span class="s2">Tool Output: &#39;</span><span class="si">{</span><span class="n">state</span><span class="p">[</span><span class="s1">&#39;last_tool_result&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+    <span class="n">verification</span> <span class="o">=</span> <span class="n">verifier_llm</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;--- VERIFIER: Judgment is &#39;</span><span class="si">{</span><span class="s1">&#39;Success&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">verification</span><span class="o">.</span><span class="n">is_successful</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;Failure&#39;</span><span class="si">}</span><span class="s2">&#39; ---&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">verification</span><span class="o">.</span><span class="n">is_successful</span><span class="p">:</span>
+        <span class="c1"># Nếu thành công, thêm kết quả hợp lệ vào danh sách các bước tốt của chúng ta</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;intermediate_steps&quot;</span><span class="p">:</span> <span class="n">state</span><span class="p">[</span><span class="s2">&quot;intermediate_steps&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">state</span><span class="p">[</span><span class="s1">&#39;last_tool_result&#39;</span><span class="p">]]}</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Nếu thất bại, thêm lý do thất bại và kích hoạt lập kế hoạch lại bằng cách xóa kế hoạch</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;plan&quot;</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">&quot;intermediate_steps&quot;</span><span class="p">:</span> <span class="n">state</span><span class="p">[</span><span class="s2">&quot;intermediate_steps&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;Verification Failed: </span><span class="si">{</span><span class="n">state</span><span class="p">[</span><span class="s1">&#39;last_tool_result&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]}</span>
+
+<span class="n">pev_synthesizer_node</span> <span class="o">=</span> <span class="n">basic_synthesizer_node</span> <span class="c1"># Chúng ta có thể tái sử dụng synthesizer cũ</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">pev_router</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">PEVState</span><span class="p">):</span>
+    <span class="c1"># Nếu chúng ta đã có câu trả lời cuối cùng (ví dụ: đạt giới hạn retry), hãy dừng lại</span>
+    <span class="k">if</span> <span class="n">state</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;final_answer&quot;</span><span class="p">):</span>
+        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;--- ROUTER: Final answer available. Moving to synthesizer. ---&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s2">&quot;synthesize&quot;</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">state</span><span class="p">[</span><span class="s2">&quot;plan&quot;</span><span class="p">]:</span>
+        <span class="c1"># Kiểm tra xem kế hoạch có trống vì lỗi xác minh hay không</span>
+        <span class="k">if</span> <span class="n">state</span><span class="p">[</span><span class="s2">&quot;intermediate_steps&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="s2">&quot;Verification Failed&quot;</span> <span class="ow">in</span> <span class="n">state</span><span class="p">[</span><span class="s2">&quot;intermediate_steps&quot;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;--- ROUTER: Verification failed. Re-planning... ---&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="s2">&quot;plan&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;--- ROUTER: Plan complete. Moving to synthesizer. ---&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="s2">&quot;synthesize&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;--- ROUTER: Plan has more steps. Continuing execution. ---&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s2">&quot;execute&quot;</span>
+
+
+<span class="c1"># Xây dựng PEV graph</span>
+<span class="n">pev_graph_builder</span> <span class="o">=</span> <span class="n">StateGraph</span><span class="p">(</span><span class="n">PEVState</span><span class="p">)</span>
+<span class="n">pev_graph_builder</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="s2">&quot;plan&quot;</span><span class="p">,</span> <span class="n">pev_planner_node</span><span class="p">)</span>
+<span class="n">pev_graph_builder</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="s2">&quot;execute&quot;</span><span class="p">,</span> <span class="n">pev_executor_node</span><span class="p">)</span>
+<span class="n">pev_graph_builder</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="s2">&quot;verify&quot;</span><span class="p">,</span> <span class="n">verifier_node</span><span class="p">)</span>
+<span class="n">pev_graph_builder</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="s2">&quot;synthesize&quot;</span><span class="p">,</span> <span class="n">pev_synthesizer_node</span><span class="p">)</span>
+
+<span class="n">pev_graph_builder</span><span class="o">.</span><span class="n">set_entry_point</span><span class="p">(</span><span class="s2">&quot;plan&quot;</span><span class="p">)</span>
+<span class="n">pev_graph_builder</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="s2">&quot;plan&quot;</span><span class="p">,</span> <span class="s2">&quot;execute&quot;</span><span class="p">)</span>
+<span class="n">pev_graph_builder</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="s2">&quot;execute&quot;</span><span class="p">,</span> <span class="s2">&quot;verify&quot;</span><span class="p">)</span>
+<span class="n">pev_graph_builder</span><span class="o">.</span><span class="n">add_conditional_edges</span><span class="p">(</span><span class="s2">&quot;verify&quot;</span><span class="p">,</span> <span class="n">pev_router</span><span class="p">)</span>
+<span class="n">pev_graph_builder</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="s2">&quot;synthesize&quot;</span><span class="p">,</span> <span class="n">END</span><span class="p">)</span>
+
+<span class="n">pev_agent_app</span> <span class="o">=</span> <span class="n">pev_graph_builder</span><span class="o">.</span><span class="n">compile</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Planner-Executor-Verifier (PEV) agent compiled successfully.&quot;</span><span class="p">)</span>
+</code></pre></div>
+
 <h2>Phase 3: Head-to-Head Comparison</h2>
 <p>Bây giờ là cho bài kiểm tra quan trọng. Chúng ta sẽ chạy PEV agent mạnh mẽ cho cùng một flaky task và quan sát cách nó điều hướng thành công qua sự cố của tool.</p>
 <h3>Step 3.1: Running the PEV Agent</h3>
 <p><strong>Những gì chúng ta sẽ làm:</strong>
 Chúng ta sẽ invoke PEV agent và stream kết quả đầu ra của nó. Chúng ta mong đợi được thấy nó bắt được lỗi từ công cụ <code>flaky_web_search</code>, báo cáo lại cho Planner và tạo ra một chiến lược mới để lấy dữ liệu còn thiếu.</p>
-<pre><code class="language-python">console.print(f&quot;[bold cyan]Testing PEV agent on the same flaky query:[/bold cyan]\n'{flaky_query}'\n&quot;)
+<div class="codehilite"><pre><span></span><code><span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[bold cyan]Testing PEV agent on the same flaky query:[/bold cyan]</span><span class="se">\n</span><span class="s2">&#39;</span><span class="si">{</span><span class="n">flaky_query</span><span class="si">}</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 
-initial_pev_input = {&quot;user_request&quot;: flaky_query, &quot;intermediate_steps&quot;: [], &quot;retries&quot;: 0}
+<span class="n">initial_pev_input</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;user_request&quot;</span><span class="p">:</span> <span class="n">flaky_query</span><span class="p">,</span> <span class="s2">&quot;intermediate_steps&quot;</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">&quot;retries&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
 
-for chunk in pev_agent_app.stream(initial_pev_input):
-    for node_name, values in chunk.items():
-        console.print(f&quot;--- Node [bold cyan]{node_name}[/bold cyan] completed ---&quot;)
-        if node_name == &quot;verify&quot;:
-            # Hiển thị cho chúng ta phán quyết của Verifier từ state (vì node in nó ra, chúng ta chỉ in một dải phân cách)
-            pass
-        if node_name == &quot;synthesize&quot;:
-            console.print(values['final_answer'])
-    console.print(&quot;\n&quot;)
+<span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">pev_agent_app</span><span class="o">.</span><span class="n">stream</span><span class="p">(</span><span class="n">initial_pev_input</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">node_name</span><span class="p">,</span> <span class="n">values</span> <span class="ow">in</span> <span class="n">chunk</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;--- Node [bold cyan]</span><span class="si">{</span><span class="n">node_name</span><span class="si">}</span><span class="s2">[/bold cyan] completed ---&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">node_name</span> <span class="o">==</span> <span class="s2">&quot;verify&quot;</span><span class="p">:</span>
+            <span class="c1"># Hiển thị cho chúng ta phán quyết của Verifier từ state (vì node in nó ra, chúng ta chỉ in một dải phân cách)</span>
+            <span class="k">pass</span>
+        <span class="k">if</span> <span class="n">node_name</span> <span class="o">==</span> <span class="s2">&quot;synthesize&quot;</span><span class="p">:</span>
+            <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="s1">&#39;final_answer&#39;</span><span class="p">])</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 
-console.print(&quot;\n[bold green]✅ PEV Agent execution complete![/bold green]&quot;)
-</code></pre>
+<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">[bold green]✅ PEV Agent execution complete![/bold green]&quot;</span><span class="p">)</span>
+</code></pre></div>
+
 <p><strong>Discussion of the Output:</strong>
 Thành công rực rỡ! Ngược lại hoàn toàn với basic agent, PEV agent đã xử lý failure một cách duyên dáng:
 1.  <strong>Phát hiện:</strong> Khi <code>flaky_web_search</code> trả về thông báo lỗi, <strong>Verifier</strong> đã ngay lập tức đánh dấu nó là một failure.
@@ -353,37 +453,38 @@ Thành công rực rỡ! Ngược lại hoàn toàn với basic agent, PEV agent
 <p>Điều này chứng minh sức mạnh của PEV pattern. Nó biến một hệ thống dễ bị hỏng thành một hệ thống linh hoạt và đáng tin cậy.</p>
 <h2>Phase 4: Quantitative Evaluation</h2>
 <p>Để kết thúc, chúng ta sẽ sử dụng giám khảo LLM của mình để chấm điểm cả hai agent dựa trên một chỉ số quan trọng mới: <strong>Reliability (Độ tin cậy)</strong>—khả năng cung cấp câu trả lời đúng ngay cả khi đối mặt với các lỗi của tool.</p>
-<pre><code class="language-python">class ReliabilityEvaluation(BaseModel):
-    &quot;&quot;&quot;Schema cho đánh giá độ tin cậy.&quot;&quot;&quot;
-    pe_reliability_score: int = Field(description=&quot;Reliability score 1-10 for the basic P-E agent.&quot;)
-    pev_reliability_score: int = Field(description=&quot;Reliability score 1-10 for the PEV agent.&quot;)
-    justification: str = Field(description=&quot;Reasoning for the scores based on the execution traces.&quot;)
+<div class="codehilite"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">ReliabilityEvaluation</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Schema cho đánh giá độ tin cậy.&quot;&quot;&quot;</span>
+    <span class="n">pe_reliability_score</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Reliability score 1-10 for the basic P-E agent.&quot;</span><span class="p">)</span>
+    <span class="n">pev_reliability_score</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Reliability score 1-10 for the PEV agent.&quot;</span><span class="p">)</span>
+    <span class="n">justification</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Reasoning for the scores based on the execution traces.&quot;</span><span class="p">)</span>
 
-judge_llm = llm.with_structured_output(ReliabilityEvaluation)
+<span class="n">judge_llm</span> <span class="o">=</span> <span class="n">llm</span><span class="o">.</span><span class="n">with_structured_output</span><span class="p">(</span><span class="n">ReliabilityEvaluation</span><span class="p">)</span>
 
-def evaluate_reliability(pe_trace: str, pev_trace: str):
-    prompt = f&quot;&quot;&quot;You are an expert quality auditor for AI systems. 
-    Evaluate the reliability of two different agent architectures when faced with a tool failure.
+<span class="k">def</span><span class="w"> </span><span class="nf">evaluate_reliability</span><span class="p">(</span><span class="n">pe_trace</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">pev_trace</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="n">prompt</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;You are an expert quality auditor for AI systems. </span>
+<span class="s2">    Evaluate the reliability of two different agent architectures when faced with a tool failure.</span>
 
-    The basic P-E agent blindly followed its plan.
-    The PEV agent used a Verifier to detect and recover from errors.
+<span class="s2">    The basic P-E agent blindly followed its plan.</span>
+<span class="s2">    The PEV agent used a Verifier to detect and recover from errors.</span>
 
-    --- BASIC P-E TRACE ---
-    {pe_trace}
+<span class="s2">    --- BASIC P-E TRACE ---</span>
+<span class="s2">    </span><span class="si">{</span><span class="n">pe_trace</span><span class="si">}</span>
 
-    --- PEV TRACE ---
-    {pev_trace}
-    &quot;&quot;&quot;
-    return judge_llm.invoke(prompt)
+<span class="s2">    --- PEV TRACE ---</span>
+<span class="s2">    </span><span class="si">{</span><span class="n">pev_trace</span><span class="si">}</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">judge_llm</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
 
-# (Logs đơn giản hóa cho giám khảo)
-pe_trace = &quot;Executed plan. Step 2 returned an error. Synthesized a nonsense answer based on the error message.&quot;
-pev_trace = &quot;Executed plan. Step 2 fail detected by Verifier. Re-planned and found an alternative path to the correct data. Synthesized a perfect answer.&quot;
+<span class="c1"># (Logs đơn giản hóa cho giám khảo)</span>
+<span class="n">pe_trace</span> <span class="o">=</span> <span class="s2">&quot;Executed plan. Step 2 returned an error. Synthesized a nonsense answer based on the error message.&quot;</span>
+<span class="n">pev_trace</span> <span class="o">=</span> <span class="s2">&quot;Executed plan. Step 2 fail detected by Verifier. Re-planned and found an alternative path to the correct data. Synthesized a perfect answer.&quot;</span>
 
-console.print(&quot;--- Performing Reliability Evaluation ---&quot;)
-reliability_eval = evaluate_reliability(pe_trace, pev_trace)
-console.print(reliability_eval.model_dump())
-</code></pre>
+<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;--- Performing Reliability Evaluation ---&quot;</span><span class="p">)</span>
+<span class="n">reliability_eval</span> <span class="o">=</span> <span class="n">evaluate_reliability</span><span class="p">(</span><span class="n">pe_trace</span><span class="p">,</span> <span class="n">pev_trace</span><span class="p">)</span>
+<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">reliability_eval</span><span class="o">.</span><span class="n">model_dump</span><span class="p">())</span>
+</code></pre></div>
+
 <p><strong>Discussion of the Output:</strong>
 Kết quả của giám khảo chính thức hóa những gì chúng ta đã quan sát được. PEV agent nhận được điểm tuyệt đối về độ tin cậy. Nó chứng minh rằng trong thiết kế agentic, <strong>niềm tin phải luôn đi kèm với sự xác minh</strong>. Bằng cách dành thời gian để kiểm tra kết quả đầu ra của chính mình, agent đã trở nên đáng tin cậy hơn nhiều.</p>
 <h2>Conclusion</h2>

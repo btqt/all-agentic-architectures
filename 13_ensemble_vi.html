@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -6,15 +5,109 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>13_Ensemble</title>
     <style>
-        body { font-family: system-ui, -apple-system, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; color: #333; }
-        pre { background: #f4f4f4; padding: 15px; border-radius: 5px; overflow-x: auto; }
-        code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; font-family: monospace; }
+        body { font-family: system-ui, -apple-system, sans-serif; line-height: 1.6; max-width: 1100px; margin: 0 auto; padding: 20px; color: #333; }
+        pre { background: #f4f4f4; padding: 15px; border-radius: 5px; white-space: pre-wrap; word-wrap: break-word; }
+        code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; font-family: 'Operator Mono Lig', monospace; }
         a { color: #007bff; text-decoration: none; }
         a:hover { text-decoration: underline; }
         table { border-collapse: collapse; width: 100%; margin: 20px 0; }
         th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
         th { background-color: #f2f2f2; }
         img { max-width: 100%; height: auto; }
+
+        /* --- Pygments: friendly theme (inline, no CDN) --- */
+        pre { line-height: 125%; }
+td.linenos .normal { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.codehilite .hll { background-color: #ffffcc }
+.codehilite { background: #f0f0f0; }
+.codehilite .c { color: #60A0B0; font-style: italic } /* Comment */
+.codehilite .err { border: 1px solid #F00 } /* Error */
+.codehilite .k { color: #007020; font-weight: bold } /* Keyword */
+.codehilite .o { color: #666 } /* Operator */
+.codehilite .ch { color: #60A0B0; font-style: italic } /* Comment.Hashbang */
+.codehilite .cm { color: #60A0B0; font-style: italic } /* Comment.Multiline */
+.codehilite .cp { color: #007020 } /* Comment.Preproc */
+.codehilite .cpf { color: #60A0B0; font-style: italic } /* Comment.PreprocFile */
+.codehilite .c1 { color: #60A0B0; font-style: italic } /* Comment.Single */
+.codehilite .cs { color: #60A0B0; background-color: #FFF0F0 } /* Comment.Special */
+.codehilite .gd { color: #A00000 } /* Generic.Deleted */
+.codehilite .ge { font-style: italic } /* Generic.Emph */
+.codehilite .ges { font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+.codehilite .gr { color: #F00 } /* Generic.Error */
+.codehilite .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.codehilite .gi { color: #00A000 } /* Generic.Inserted */
+.codehilite .go { color: #888 } /* Generic.Output */
+.codehilite .gp { color: #C65D09; font-weight: bold } /* Generic.Prompt */
+.codehilite .gs { font-weight: bold } /* Generic.Strong */
+.codehilite .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.codehilite .gt { color: #04D } /* Generic.Traceback */
+.codehilite .kc { color: #007020; font-weight: bold } /* Keyword.Constant */
+.codehilite .kd { color: #007020; font-weight: bold } /* Keyword.Declaration */
+.codehilite .kn { color: #007020; font-weight: bold } /* Keyword.Namespace */
+.codehilite .kp { color: #007020 } /* Keyword.Pseudo */
+.codehilite .kr { color: #007020; font-weight: bold } /* Keyword.Reserved */
+.codehilite .kt { color: #902000 } /* Keyword.Type */
+.codehilite .m { color: #40A070 } /* Literal.Number */
+.codehilite .s { color: #4070A0 } /* Literal.String */
+.codehilite .na { color: #4070A0 } /* Name.Attribute */
+.codehilite .nb { color: #007020 } /* Name.Builtin */
+.codehilite .nc { color: #0E84B5; font-weight: bold } /* Name.Class */
+.codehilite .no { color: #60ADD5 } /* Name.Constant */
+.codehilite .nd { color: #555; font-weight: bold } /* Name.Decorator */
+.codehilite .ni { color: #D55537; font-weight: bold } /* Name.Entity */
+.codehilite .ne { color: #007020 } /* Name.Exception */
+.codehilite .nf { color: #06287E } /* Name.Function */
+.codehilite .nl { color: #002070; font-weight: bold } /* Name.Label */
+.codehilite .nn { color: #0E84B5; font-weight: bold } /* Name.Namespace */
+.codehilite .nt { color: #062873; font-weight: bold } /* Name.Tag */
+.codehilite .nv { color: #BB60D5 } /* Name.Variable */
+.codehilite .ow { color: #007020; font-weight: bold } /* Operator.Word */
+.codehilite .w { color: #BBB } /* Text.Whitespace */
+.codehilite .mb { color: #40A070 } /* Literal.Number.Bin */
+.codehilite .mf { color: #40A070 } /* Literal.Number.Float */
+.codehilite .mh { color: #40A070 } /* Literal.Number.Hex */
+.codehilite .mi { color: #40A070 } /* Literal.Number.Integer */
+.codehilite .mo { color: #40A070 } /* Literal.Number.Oct */
+.codehilite .sa { color: #4070A0 } /* Literal.String.Affix */
+.codehilite .sb { color: #4070A0 } /* Literal.String.Backtick */
+.codehilite .sc { color: #4070A0 } /* Literal.String.Char */
+.codehilite .dl { color: #4070A0 } /* Literal.String.Delimiter */
+.codehilite .sd { color: #4070A0; font-style: italic } /* Literal.String.Doc */
+.codehilite .s2 { color: #4070A0 } /* Literal.String.Double */
+.codehilite .se { color: #4070A0; font-weight: bold } /* Literal.String.Escape */
+.codehilite .sh { color: #4070A0 } /* Literal.String.Heredoc */
+.codehilite .si { color: #70A0D0; font-style: italic } /* Literal.String.Interpol */
+.codehilite .sx { color: #C65D09 } /* Literal.String.Other */
+.codehilite .sr { color: #235388 } /* Literal.String.Regex */
+.codehilite .s1 { color: #4070A0 } /* Literal.String.Single */
+.codehilite .ss { color: #517918 } /* Literal.String.Symbol */
+.codehilite .bp { color: #007020 } /* Name.Builtin.Pseudo */
+.codehilite .fm { color: #06287E } /* Name.Function.Magic */
+.codehilite .vc { color: #BB60D5 } /* Name.Variable.Class */
+.codehilite .vg { color: #BB60D5 } /* Name.Variable.Global */
+.codehilite .vi { color: #BB60D5 } /* Name.Variable.Instance */
+.codehilite .vm { color: #BB60D5 } /* Name.Variable.Magic */
+.codehilite .il { color: #40A070 } /* Literal.Number.Integer.Long */
+
+        /* Override: keep gray bg + wrap */
+        .codehilite { background: #f4f4f4 !important; padding: 15px; border-radius: 5px; overflow: visible; }
+        .codehilite pre { background: #f4f4f4 !important; white-space: pre-wrap; word-wrap: break-word; margin: 0; font-family: 'Operator Mono', monospace; }
+
+        /* Operator Mono italic: comments, docstrings, keywords */
+        .codehilite .c,
+        .codehilite .c1,
+        .codehilite .cm,
+        .codehilite .cs,
+        .codehilite .cp  { font-style: italic; }
+        .codehilite .k,
+        .codehilite .kd,
+        .codehilite .kn,
+        .codehilite .kr,
+        .codehilite .kc  { font-style: italic; }
+        .codehilite .sd  { font-style: italic; } /* docstring */
     </style>
 </head>
 <body>
@@ -57,188 +150,194 @@
 </ul>
 <h2>Phase 0: Foundation &amp; Setup</h2>
 <p>Chúng ta sẽ cài đặt các thư viện và thiết lập môi trường. Chúng ta sẽ cần <code>langchain-tavily</code> cho các công cụ nghiên cứu của các nhà phân tích.</p>
-<pre><code class="language-python"># !pip install -q -U langchain-nebius langchain langgraph rich python-dotenv langchain-tavily
-</code></pre>
-<pre><code class="language-python">import os
-from typing import List, Dict, Any, Optional
-from dotenv import load_dotenv
+<div class="codehilite"><pre><span></span><code><span class="c1"># !pip install -q -U langchain-nebius langchain langgraph rich python-dotenv langchain-tavily</span>
+</code></pre></div>
 
-# Pydantic for data modeling
-from pydantic import BaseModel, Field
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dotenv</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_dotenv</span>
 
-# LangChain components
-from langchain_nebius import ChatNebius
-from langchain_tavily import TavilySearch
-from langchain_core.prompts import ChatPromptTemplate
+<span class="c1"># Pydantic for data modeling</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span>
 
-# LangGraph components
-from langgraph.graph import StateGraph, END
-from typing_extensions import TypedDict
+<span class="c1"># LangChain components</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_nebius</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatNebius</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_tavily</span><span class="w"> </span><span class="kn">import</span> <span class="n">TavilySearch</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_core.prompts</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatPromptTemplate</span>
 
-# For pretty printing
-from rich.console import Console
-from rich.markdown import Markdown
-from rich.panel import Panel
+<span class="c1"># LangGraph components</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langgraph.graph</span><span class="w"> </span><span class="kn">import</span> <span class="n">StateGraph</span><span class="p">,</span> <span class="n">END</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing_extensions</span><span class="w"> </span><span class="kn">import</span> <span class="n">TypedDict</span>
 
-# --- API Key and Tracing Setup ---
-load_dotenv()
+<span class="c1"># For pretty printing</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rich.console</span><span class="w"> </span><span class="kn">import</span> <span class="n">Console</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rich.markdown</span><span class="w"> </span><span class="kn">import</span> <span class="n">Markdown</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rich.panel</span><span class="w"> </span><span class="kn">import</span> <span class="n">Panel</span>
 
-os.environ[&quot;LANGCHAIN_TRACING_V2&quot;] = &quot;true&quot;
-os.environ[&quot;LANGCHAIN_PROJECT&quot;] = &quot;Agentic Architecture - Parallel Ensemble (Nebius)&quot;
+<span class="c1"># --- API Key and Tracing Setup ---</span>
+<span class="n">load_dotenv</span><span class="p">()</span>
 
-required_vars = [&quot;NEBIUS_API_KEY&quot;, &quot;LANGCHAIN_API_KEY&quot;, &quot;TAVILY_API_KEY&quot;]
-for var in required_vars:
-    if var not in os.environ:
-        print(f&quot;Warning: Environment variable {var} not set.&quot;)
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;LANGCHAIN_TRACING_V2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;true&quot;</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;LANGCHAIN_PROJECT&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Agentic Architecture - Parallel Ensemble (Nebius)&quot;</span>
 
-print(&quot;Environment variables loaded and tracing is set up.&quot;)
-</code></pre>
+<span class="n">required_vars</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;NEBIUS_API_KEY&quot;</span><span class="p">,</span> <span class="s2">&quot;LANGCHAIN_API_KEY&quot;</span><span class="p">,</span> <span class="s2">&quot;TAVILY_API_KEY&quot;</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">required_vars</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">var</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Warning: Environment variable </span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s2"> not set.&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Environment variables loaded and tracing is set up.&quot;</span><span class="p">)</span>
+</code></pre></div>
+
 <h2>Phase 1: Creating the Diverse Specialist Analysts</h2>
 <p>Chìa khóa của một nhóm (ensemble) thành công là sự đa dạng về nhận thức. Chúng ta sẽ tạo ra ba agent nhà phân tích riêng biệt, mỗi agent có một persona chi tiết được thiết kế để tạo ra một loại phân tích khác nhau. Tất cả đều có quyền truy cập vào search tool.</p>
-<pre><code class="language-python">console = Console()
-# Cần một model mạnh mẽ cho nhiệm vụ phức tạp này
-llm = ChatNebius(model=&quot;mistralai/Mixtral-8x22B-Instruct-v0.1&quot;, temperature=0.3)
-search_tool = TavilySearch(max_results=5)
+<div class="codehilite"><pre><span></span><code><span class="n">console</span> <span class="o">=</span> <span class="n">Console</span><span class="p">()</span>
+<span class="c1"># Cần một model mạnh mẽ cho nhiệm vụ phức tạp này</span>
+<span class="n">llm</span> <span class="o">=</span> <span class="n">ChatNebius</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;mistralai/Mixtral-8x22B-Instruct-v0.1&quot;</span><span class="p">,</span> <span class="n">temperature</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">search_tool</span> <span class="o">=</span> <span class="n">TavilySearch</span><span class="p">(</span><span class="n">max_results</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 
-# LangGraph State
-class EnsembleState(TypedDict):
-    query: str
-    # Dict 'analyses' sẽ lưu trữ đầu ra từ mỗi agent song song
-    analyses: Dict[str, str]
-    final_recommendation: Optional[Any] # Sẽ lưu trữ đầu ra có cấu trúc từ CIO
+<span class="c1"># LangGraph State</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">EnsembleState</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+    <span class="n">query</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="c1"># Dict &#39;analyses&#39; sẽ lưu trữ đầu ra từ mỗi agent song song</span>
+    <span class="n">analyses</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span>
+    <span class="n">final_recommendation</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="c1"># Sẽ lưu trữ đầu ra có cấu trúc từ CIO</span>
 
-# Helper factory để tạo các analyst nodes của chúng ta
-def create_analyst_node(persona: str, agent_name: str):
-    &quot;&quot;&quot;Factory để tạo một specialist analyst node với persona độc nhất.&quot;&quot;&quot;
-    system_prompt = f&quot;You are an expert financial analyst. Your persona is '{persona}'. You must use your search tool to gather up-to-date information. Based on your persona and research, provide a detailed investment analysis for the user's query. Conclude with a clear 'Recommendation' (e.g., Buy, Hold, Sell) and a 'Confidence Score' (1-10).&quot;
+<span class="c1"># Helper factory để tạo các analyst nodes của chúng ta</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">create_analyst_node</span><span class="p">(</span><span class="n">persona</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">agent_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Factory để tạo một specialist analyst node với persona độc nhất.&quot;&quot;&quot;</span>
+    <span class="n">system_prompt</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;You are an expert financial analyst. Your persona is &#39;</span><span class="si">{</span><span class="n">persona</span><span class="si">}</span><span class="s2">&#39;. You must use your search tool to gather up-to-date information. Based on your persona and research, provide a detailed investment analysis for the user&#39;s query. Conclude with a clear &#39;Recommendation&#39; (e.g., Buy, Hold, Sell) and a &#39;Confidence Score&#39; (1-10).&quot;</span>
 
-    prompt = ChatPromptTemplate.from_messages([
-        (&quot;system&quot;, system_prompt),
-        (&quot;human&quot;, &quot;{query}&quot;)
-    ])
-    chain = prompt | llm.bind_tools([search_tool])
+    <span class="n">prompt</span> <span class="o">=</span> <span class="n">ChatPromptTemplate</span><span class="o">.</span><span class="n">from_messages</span><span class="p">([</span>
+        <span class="p">(</span><span class="s2">&quot;system&quot;</span><span class="p">,</span> <span class="n">system_prompt</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;human&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{query}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="p">])</span>
+    <span class="n">chain</span> <span class="o">=</span> <span class="n">prompt</span> <span class="o">|</span> <span class="n">llm</span><span class="o">.</span><span class="n">bind_tools</span><span class="p">([</span><span class="n">search_tool</span><span class="p">])</span>
 
-    def analyst_node(state: EnsembleState) -&gt; Dict[str, Any]:
-        console.print(f&quot;--- 👨‍💻 Calling {agent_name} --- &quot;)
-        result = chain.invoke({&quot;query&quot;: state['query']})
-        # Việc cập nhật state được thiết kế cẩn thận để thêm vào dict 'analyses'
-        # mà không ghi đè lên các bản khác. Đây là chìa khóa cho việc thực thi song song.
-        current_analyses = state.get('analyses', {})
-        current_analyses[agent_name] = result.content
-        return {&quot;analyses&quot;: current_analyses}
+    <span class="k">def</span><span class="w"> </span><span class="nf">analyst_node</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">EnsembleState</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;--- 👨‍💻 Calling </span><span class="si">{</span><span class="n">agent_name</span><span class="si">}</span><span class="s2"> --- &quot;</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">({</span><span class="s2">&quot;query&quot;</span><span class="p">:</span> <span class="n">state</span><span class="p">[</span><span class="s1">&#39;query&#39;</span><span class="p">]})</span>
+        <span class="c1"># Việc cập nhật state được thiết kế cẩn thận để thêm vào dict &#39;analyses&#39;</span>
+        <span class="c1"># mà không ghi đè lên các bản khác. Đây là chìa khóa cho việc thực thi song song.</span>
+        <span class="n">current_analyses</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;analyses&#39;</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="n">current_analyses</span><span class="p">[</span><span class="n">agent_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">content</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;analyses&quot;</span><span class="p">:</span> <span class="n">current_analyses</span><span class="p">}</span>
 
-    return analyst_node
+    <span class="k">return</span> <span class="n">analyst_node</span>
 
-# 1. The Bullish Growth Analyst
-bullish_persona = &quot;The Bullish Growth Analyst: You are extremely optimistic about technology and innovation. You focus on Total Addressable Market (TAM), visionary leadership, technological moats, and future growth potential. Downplay short-term volatility and valuation concerns in favor of the long-term disruptive story.&quot;
-bullish_analyst_node = create_analyst_node(bullish_persona, &quot;BullishAnalyst&quot;)
+<span class="c1"># 1. The Bullish Growth Analyst</span>
+<span class="n">bullish_persona</span> <span class="o">=</span> <span class="s2">&quot;The Bullish Growth Analyst: You are extremely optimistic about technology and innovation. You focus on Total Addressable Market (TAM), visionary leadership, technological moats, and future growth potential. Downplay short-term volatility and valuation concerns in favor of the long-term disruptive story.&quot;</span>
+<span class="n">bullish_analyst_node</span> <span class="o">=</span> <span class="n">create_analyst_node</span><span class="p">(</span><span class="n">bullish_persona</span><span class="p">,</span> <span class="s2">&quot;BullishAnalyst&quot;</span><span class="p">)</span>
 
-# 2. The Cautious Value Analyst
-value_persona = &quot;The Cautious Value Analyst: You are a skeptical investor focused on fundamentals and risk. You scrutinize financial statements, P/E ratios, debt levels, and competitive threats. You are wary of hype and market bubbles. Highlight potential risks, downside scenarios, and reasons for caution.&quot;
-value_analyst_node = create_analyst_node(value_persona, &quot;ValueAnalyst&quot;)
+<span class="c1"># 2. The Cautious Value Analyst</span>
+<span class="n">value_persona</span> <span class="o">=</span> <span class="s2">&quot;The Cautious Value Analyst: You are a skeptical investor focused on fundamentals and risk. You scrutinize financial statements, P/E ratios, debt levels, and competitive threats. You are wary of hype and market bubbles. Highlight potential risks, downside scenarios, and reasons for caution.&quot;</span>
+<span class="n">value_analyst_node</span> <span class="o">=</span> <span class="n">create_analyst_node</span><span class="p">(</span><span class="n">value_persona</span><span class="p">,</span> <span class="s2">&quot;ValueAnalyst&quot;</span><span class="p">)</span>
 
-# 3. The Quantitative Analyst
-quant_persona = &quot;The Quantitative Analyst (Quant): You are purely data-driven. You ignore narratives and focus on hard numbers. Report on key financial metrics (YoY revenue growth, EPS, margins), valuation multiples (P/E, P/S), and technical indicators (RSI, moving averages). Your analysis must be objective and based on the data you find.&quot;
-quant_analyst_node = create_analyst_node(quant_persona, &quot;QuantAnalyst&quot;)
+<span class="c1"># 3. The Quantitative Analyst</span>
+<span class="n">quant_persona</span> <span class="o">=</span> <span class="s2">&quot;The Quantitative Analyst (Quant): You are purely data-driven. You ignore narratives and focus on hard numbers. Report on key financial metrics (YoY revenue growth, EPS, margins), valuation multiples (P/E, P/S), and technical indicators (RSI, moving averages). Your analysis must be objective and based on the data you find.&quot;</span>
+<span class="n">quant_analyst_node</span> <span class="o">=</span> <span class="n">create_analyst_node</span><span class="p">(</span><span class="n">quant_persona</span><span class="p">,</span> <span class="s2">&quot;QuantAnalyst&quot;</span><span class="p">)</span>
 
-print(&quot;Specialist analyst agents defined successfully.&quot;)
-</code></pre>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Specialist analyst agents defined successfully.&quot;</span><span class="p">)</span>
+</code></pre></div>
+
 <h2>Phase 2: Building the CIO Aggregator Agent</h2>
 <p>Đây là bước <strong>Ensemble Decision</strong>. Chúng ta sẽ tạo ra một agent cuối cùng, Chief Investment Officer (CIO), người có nhiệm vụ tổng hợp các báo cáo từ ba nhà phân tích. Agent này cần một prompt tinh vi và một model đầu ra có cấu trúc để đảm bảo nó tạo ra một luận điểm đầu tư cuối cùng chất lượng cao và cân bằng.</p>
-<pre><code class="language-python"># Pydantic model cho khuyến nghị cuối cùng có cấu trúc
-class FinalRecommendation(BaseModel):
-    &quot;&quot;&quot;Luận điểm đầu tư cuối cùng, được tổng hợp từ CIO.&quot;&quot;&quot;
-    final_recommendation: str = Field(description=&quot;The final investment decision, must be one of 'Strong Buy', 'Buy', 'Hold', 'Sell', 'Strong Sell'.&quot;)
-    confidence_score: float = Field(description=&quot;The CIO's confidence in this recommendation, from 1.0 to 10.0.&quot;)
-    synthesis_summary: str = Field(description=&quot;A detailed summary synthesizing the analysts' viewpoints, highlighting points of agreement and contention.&quot;)
-    identified_opportunities: List[str] = Field(description=&quot;A bulleted list of the primary opportunities or bullish points.&quot;)
-    identified_risks: List[str] = Field(description=&quot;A bulleted list of the primary risks or bearish points.&quot;)
+<div class="codehilite"><pre><span></span><code><span class="c1"># Pydantic model cho khuyến nghị cuối cùng có cấu trúc</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">FinalRecommendation</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Luận điểm đầu tư cuối cùng, được tổng hợp từ CIO.&quot;&quot;&quot;</span>
+    <span class="n">final_recommendation</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;The final investment decision, must be one of &#39;Strong Buy&#39;, &#39;Buy&#39;, &#39;Hold&#39;, &#39;Sell&#39;, &#39;Strong Sell&#39;.&quot;</span><span class="p">)</span>
+    <span class="n">confidence_score</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;The CIO&#39;s confidence in this recommendation, from 1.0 to 10.0.&quot;</span><span class="p">)</span>
+    <span class="n">synthesis_summary</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;A detailed summary synthesizing the analysts&#39; viewpoints, highlighting points of agreement and contention.&quot;</span><span class="p">)</span>
+    <span class="n">identified_opportunities</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;A bulleted list of the primary opportunities or bullish points.&quot;</span><span class="p">)</span>
+    <span class="n">identified_risks</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;A bulleted list of the primary risks or bearish points.&quot;</span><span class="p">)</span>
 
-def cio_synthesizer_node(state: EnsembleState) -&gt; Dict[str, Any]:
-    &quot;&quot;&quot;Node cuối cùng tổng hợp tất cả các phân tích thành một khuyến nghị duy nhất.&quot;&quot;&quot;
-    console.print(&quot;--- 🏛️ Calling Chief Investment Officer for Final Decision ---&quot;)
+<span class="k">def</span><span class="w"> </span><span class="nf">cio_synthesizer_node</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">EnsembleState</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Node cuối cùng tổng hợp tất cả các phân tích thành một khuyến nghị duy nhất.&quot;&quot;&quot;</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;--- 🏛️ Calling Chief Investment Officer for Final Decision ---&quot;</span><span class="p">)</span>
 
-    # Kết hợp tất cả các phân tích cá nhân thành một chuỗi duy nhất cho prompt
-    all_analyses = &quot;\n\n---\n\n&quot;.join(
-        f&quot;**Analysis from {name}:**\n{analysis}&quot;
-        for name, analysis in state['analyses'].items()
-    )
+    <span class="c1"># Kết hợp tất cả các phân tích cá nhân thành một chuỗi duy nhất cho prompt</span>
+    <span class="n">all_analyses</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">---</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;**Analysis from </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">:**</span><span class="se">\n</span><span class="si">{</span><span class="n">analysis</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">analysis</span> <span class="ow">in</span> <span class="n">state</span><span class="p">[</span><span class="s1">&#39;analyses&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+    <span class="p">)</span>
 
-    cio_prompt = ChatPromptTemplate.from_messages([
-        (&quot;system&quot;, &quot;You are the Chief Investment Officer (CIO) of a major investment fund. You have received reports from your team of specialist analysts. Your task is to synthesize these diverse and often conflicting viewpoints into a single, final, and actionable investment thesis. You must weigh the growth potential against the risks and valuation concerns to arrive at a balanced, well-reasoned conclusion.&quot;),
-        (&quot;human&quot;, &quot;Here are the reports from your team regarding the query: '{query}'\n\n{analyses}\n\nBased on all these perspectives, provide your final, synthesized investment thesis.&quot;)
-    ])
+    <span class="n">cio_prompt</span> <span class="o">=</span> <span class="n">ChatPromptTemplate</span><span class="o">.</span><span class="n">from_messages</span><span class="p">([</span>
+        <span class="p">(</span><span class="s2">&quot;system&quot;</span><span class="p">,</span> <span class="s2">&quot;You are the Chief Investment Officer (CIO) of a major investment fund. You have received reports from your team of specialist analysts. Your task is to synthesize these diverse and often conflicting viewpoints into a single, final, and actionable investment thesis. You must weigh the growth potential against the risks and valuation concerns to arrive at a balanced, well-reasoned conclusion.&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;human&quot;</span><span class="p">,</span> <span class="s2">&quot;Here are the reports from your team regarding the query: &#39;</span><span class="si">{query}</span><span class="s2">&#39;</span><span class="se">\n\n</span><span class="si">{analyses}</span><span class="se">\n\n</span><span class="s2">Based on all these perspectives, provide your final, synthesized investment thesis.&quot;</span><span class="p">)</span>
+    <span class="p">])</span>
 
-    cio_llm = llm.with_structured_output(FinalRecommendation)
-    chain = cio_prompt | cio_llm
+    <span class="n">cio_llm</span> <span class="o">=</span> <span class="n">llm</span><span class="o">.</span><span class="n">with_structured_output</span><span class="p">(</span><span class="n">FinalRecommendation</span><span class="p">)</span>
+    <span class="n">chain</span> <span class="o">=</span> <span class="n">cio_prompt</span> <span class="o">|</span> <span class="n">cio_llm</span>
 
-    final_decision = chain.invoke({&quot;query&quot;: state['query'], &quot;analyses&quot;: all_analyses})
+    <span class="n">final_decision</span> <span class="o">=</span> <span class="n">chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">({</span><span class="s2">&quot;query&quot;</span><span class="p">:</span> <span class="n">state</span><span class="p">[</span><span class="s1">&#39;query&#39;</span><span class="p">],</span> <span class="s2">&quot;analyses&quot;</span><span class="p">:</span> <span class="n">all_analyses</span><span class="p">})</span>
 
-    return {&quot;final_recommendation&quot;: final_decision}
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;final_recommendation&quot;</span><span class="p">:</span> <span class="n">final_decision</span><span class="p">}</span>
 
-print(&quot;CIO Aggregator agent defined successfully.&quot;)
-</code></pre>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;CIO Aggregator agent defined successfully.&quot;</span><span class="p">)</span>
+</code></pre></div>
+
 <h2>Phase 3: Assembling the LangGraph Workflow</h2>
 <p>Bây giờ chúng ta kết nối mọi thứ lại với nhau. Graph sẽ có một entry point duy nhất rẽ nhánh (fan-out) tới ba analyst node song song của chúng ta. Khi tất cả các nhà phân tích đã hoàn thành công việc, graph sẽ tụ lại (fan-in) tới node cio_synthesizer duy nhất để tạo ra kết quả cuối cùng.</p>
-<pre><code class="language-python"># Node bắt đầu đơn giản là nhận truy vấn và chuẩn bị state.
-def start_analysis_node(state: EnsembleState) -&gt; Dict[str, Any]:
-    # Khởi tạo dictionary analyses
-    return {&quot;analyses&quot;: {}}
+<div class="codehilite"><pre><span></span><code><span class="c1"># Node bắt đầu đơn giản là nhận truy vấn và chuẩn bị state.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">start_analysis_node</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">EnsembleState</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+    <span class="c1"># Khởi tạo dictionary analyses</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;analyses&quot;</span><span class="p">:</span> <span class="p">{}}</span>
 
-# Xây dựng graph
-workflow = StateGraph(EnsembleState)
+<span class="c1"># Xây dựng graph</span>
+<span class="n">workflow</span> <span class="o">=</span> <span class="n">StateGraph</span><span class="p">(</span><span class="n">EnsembleState</span><span class="p">)</span>
 
-workflow.add_node(&quot;start_analysis&quot;, start_analysis_node)
+<span class="n">workflow</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="s2">&quot;start_analysis&quot;</span><span class="p">,</span> <span class="n">start_analysis_node</span><span class="p">)</span>
 
-# Thêm các analyst node song song
-workflow.add_node(&quot;bullish_analyst&quot;, bullish_analyst_node)
-workflow.add_node(&quot;value_analyst&quot;, value_analyst_node)
-workflow.add_node(&quot;quant_analyst&quot;, quant_analyst_node)
+<span class="c1"># Thêm các analyst node song song</span>
+<span class="n">workflow</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="s2">&quot;bullish_analyst&quot;</span><span class="p">,</span> <span class="n">bullish_analyst_node</span><span class="p">)</span>
+<span class="n">workflow</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="s2">&quot;value_analyst&quot;</span><span class="p">,</span> <span class="n">value_analyst_node</span><span class="p">)</span>
+<span class="n">workflow</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="s2">&quot;quant_analyst&quot;</span><span class="p">,</span> <span class="n">quant_analyst_node</span><span class="p">)</span>
 
-# Thêm node synthesizer cuối cùng
-workflow.add_node(&quot;cio_synthesizer&quot;, cio_synthesizer_node)
+<span class="c1"># Thêm node synthesizer cuối cùng</span>
+<span class="n">workflow</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="s2">&quot;cio_synthesizer&quot;</span><span class="p">,</span> <span class="n">cio_synthesizer_node</span><span class="p">)</span>
 
-# Thiết lập entry point
-workflow.set_entry_point(&quot;start_analysis&quot;)
+<span class="c1"># Thiết lập entry point</span>
+<span class="n">workflow</span><span class="o">.</span><span class="n">set_entry_point</span><span class="p">(</span><span class="s2">&quot;start_analysis&quot;</span><span class="p">)</span>
 
-# FAN-OUT: Từ lúc bắt đầu, chạy cả ba analyst song song
-workflow.add_edge(&quot;start_analysis&quot;, [&quot;bullish_analyst&quot;, &quot;value_analyst&quot;, &quot;quant_analyst&quot;])
+<span class="c1"># FAN-OUT: Từ lúc bắt đầu, chạy cả ba analyst song song</span>
+<span class="n">workflow</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="s2">&quot;start_analysis&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;bullish_analyst&quot;</span><span class="p">,</span> <span class="s2">&quot;value_analyst&quot;</span><span class="p">,</span> <span class="s2">&quot;quant_analyst&quot;</span><span class="p">])</span>
 
-# FAN-IN: Sau khi tất cả analyst xong, gọi CIO synthesizer
-workflow.add_edge([&quot;bullish_analyst&quot;, &quot;value_analyst&quot;, &quot;quant_analyst&quot;], &quot;cio_synthesizer&quot;)
+<span class="c1"># FAN-IN: Sau khi tất cả analyst xong, gọi CIO synthesizer</span>
+<span class="n">workflow</span><span class="o">.</span><span class="n">add_edge</span><span class="p">([</span><span class="s2">&quot;bullish_analyst&quot;</span><span class="p">,</span> <span class="s2">&quot;value_analyst&quot;</span><span class="p">,</span> <span class="s2">&quot;quant_analyst&quot;</span><span class="p">],</span> <span class="s2">&quot;cio_synthesizer&quot;</span><span class="p">)</span>
 
-workflow.add_edge(&quot;cio_synthesizer&quot;, END)
+<span class="n">workflow</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="s2">&quot;cio_synthesizer&quot;</span><span class="p">,</span> <span class="n">END</span><span class="p">)</span>
 
-ensemble_agent = workflow.compile()
-print(&quot;Parallel Ensemble agent graph compiled successfully.&quot;)
-</code></pre>
+<span class="n">ensemble_agent</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">compile</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Parallel Ensemble agent graph compiled successfully.&quot;</span><span class="p">)</span>
+</code></pre></div>
+
 <h2>Phase 3: Demonstration &amp; Analysis</h2>
 <p>Hãy chạy toàn bộ hội đồng đầu tư cho câu hỏi phức tạp của chúng ta. Chúng ta sẽ in các báo cáo cá nhân trước để thấy sự đa dạng của các ý kiến, sau đó là khuyến nghị tổng hợp cuối cùng của CIO.</p>
-<pre><code class="language-python">query = &quot;Based on recent news, financial performance, and future outlook, is NVIDIA (NVDA) a good long-term investment in mid-2024?&quot;
-console.print(f&quot;--- 📈 Running Investment Committee for: {query} ---&quot;)
+<div class="codehilite"><pre><span></span><code><span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;Based on recent news, financial performance, and future outlook, is NVIDIA (NVDA) a good long-term investment in mid-2024?&quot;</span>
+<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;--- 📈 Running Investment Committee for: </span><span class="si">{</span><span class="n">query</span><span class="si">}</span><span class="s2"> ---&quot;</span><span class="p">)</span>
 
-result = ensemble_agent.invoke({&quot;query&quot;: query})
+<span class="n">result</span> <span class="o">=</span> <span class="n">ensemble_agent</span><span class="o">.</span><span class="n">invoke</span><span class="p">({</span><span class="s2">&quot;query&quot;</span><span class="p">:</span> <span class="n">query</span><span class="p">})</span>
 
-# Hiển thị các báo cáo cá nhân
-console.print(&quot;\n--- Individual Analyst Reports ---&quot;)
-for name, analysis in result['analyses'].items():
-    console.print(Panel(Markdown(analysis), title=f&quot;[bold yellow]{name}[/bold yellow]&quot;, border_style=&quot;yellow&quot;))
+<span class="c1"># Hiển thị các báo cáo cá nhân</span>
+<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- Individual Analyst Reports ---&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">analysis</span> <span class="ow">in</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;analyses&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">Panel</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">analysis</span><span class="p">),</span> <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;[bold yellow]</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">[/bold yellow]&quot;</span><span class="p">,</span> <span class="n">border_style</span><span class="o">=</span><span class="s2">&quot;yellow&quot;</span><span class="p">))</span>
 
-# Hiển thị khuyến nghị tổng hợp cuối cùng
-console.print(&quot;\n--- Final CIO Recommendation ---&quot;)
-final_rec = result['final_recommendation']
-if final_rec:
-    rec_panel = Panel(
-        f&quot;[bold]Final Recommendation:[/bold] {final_rec.final_recommendation}\n&quot;
-        f&quot;[bold]Confidence Score:[/bold] {final_rec.confidence_score}/10\n\n&quot;
-        f&quot;[bold]Synthesis Summary:[/bold]\n{final_rec.synthesis_summary}\n\n&quot;
-        f&quot;[bold]Identified Opportunities:[/bold]\n* {'\n* '.join(final_rec.identified_opportunities)}\n\n&quot;
-        f&quot;[bold]Identified Risks:[/bold]\n* {'\n* '.join(final_rec.identified_risks)}&quot;,
-        title=&quot;[bold green]Chief Investment Officer's Thesis[/bold green]&quot;,
-        border_style=&quot;green&quot;
-    )
-    console.print(rec_panel)
-</code></pre>
+<span class="c1"># Hiển thị khuyến nghị tổng hợp cuối cùng</span>
+<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- Final CIO Recommendation ---&quot;</span><span class="p">)</span>
+<span class="n">final_rec</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;final_recommendation&#39;</span><span class="p">]</span>
+<span class="k">if</span> <span class="n">final_rec</span><span class="p">:</span>
+    <span class="n">rec_panel</span> <span class="o">=</span> <span class="n">Panel</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;[bold]Final Recommendation:[/bold] </span><span class="si">{</span><span class="n">final_rec</span><span class="o">.</span><span class="n">final_recommendation</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;[bold]Confidence Score:[/bold] </span><span class="si">{</span><span class="n">final_rec</span><span class="o">.</span><span class="n">confidence_score</span><span class="si">}</span><span class="s2">/10</span><span class="se">\n\n</span><span class="s2">&quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;[bold]Synthesis Summary:[/bold]</span><span class="se">\n</span><span class="si">{</span><span class="n">final_rec</span><span class="o">.</span><span class="n">synthesis_summary</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">&quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;[bold]Identified Opportunities:[/bold]</span><span class="se">\n</span><span class="s2">* </span><span class="si">{</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">* &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">final_rec</span><span class="o">.</span><span class="n">identified_opportunities</span><span class="p">)</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">&quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;[bold]Identified Risks:[/bold]</span><span class="se">\n</span><span class="s2">* </span><span class="si">{</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">* &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">final_rec</span><span class="o">.</span><span class="n">identified_risks</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;[bold green]Chief Investment Officer&#39;s Thesis[/bold green]&quot;</span><span class="p">,</span>
+        <span class="n">border_style</span><span class="o">=</span><span class="s2">&quot;green&quot;</span>
+    <span class="p">)</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">rec_panel</span><span class="p">)</span>
+</code></pre></div>
+
 <h3>Analysis of the Results</h3>
 <p>Phần trình diễn minh họa mạnh mẽ giá trị của kiến trúc phức tạp này:</p>
 <ol>

@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -6,15 +5,109 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>10_Mental_Loop</title>
     <style>
-        body { font-family: system-ui, -apple-system, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; color: #333; }
-        pre { background: #f4f4f4; padding: 15px; border-radius: 5px; overflow-x: auto; }
-        code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; font-family: monospace; }
+        body { font-family: system-ui, -apple-system, sans-serif; line-height: 1.6; max-width: 1100px; margin: 0 auto; padding: 20px; color: #333; }
+        pre { background: #f4f4f4; padding: 15px; border-radius: 5px; white-space: pre-wrap; word-wrap: break-word; }
+        code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; font-family: 'Operator Mono Lig', monospace; }
         a { color: #007bff; text-decoration: none; }
         a:hover { text-decoration: underline; }
         table { border-collapse: collapse; width: 100%; margin: 20px 0; }
         th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
         th { background-color: #f2f2f2; }
         img { max-width: 100%; height: auto; }
+
+        /* --- Pygments: friendly theme (inline, no CDN) --- */
+        pre { line-height: 125%; }
+td.linenos .normal { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.codehilite .hll { background-color: #ffffcc }
+.codehilite { background: #f0f0f0; }
+.codehilite .c { color: #60A0B0; font-style: italic } /* Comment */
+.codehilite .err { border: 1px solid #F00 } /* Error */
+.codehilite .k { color: #007020; font-weight: bold } /* Keyword */
+.codehilite .o { color: #666 } /* Operator */
+.codehilite .ch { color: #60A0B0; font-style: italic } /* Comment.Hashbang */
+.codehilite .cm { color: #60A0B0; font-style: italic } /* Comment.Multiline */
+.codehilite .cp { color: #007020 } /* Comment.Preproc */
+.codehilite .cpf { color: #60A0B0; font-style: italic } /* Comment.PreprocFile */
+.codehilite .c1 { color: #60A0B0; font-style: italic } /* Comment.Single */
+.codehilite .cs { color: #60A0B0; background-color: #FFF0F0 } /* Comment.Special */
+.codehilite .gd { color: #A00000 } /* Generic.Deleted */
+.codehilite .ge { font-style: italic } /* Generic.Emph */
+.codehilite .ges { font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+.codehilite .gr { color: #F00 } /* Generic.Error */
+.codehilite .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.codehilite .gi { color: #00A000 } /* Generic.Inserted */
+.codehilite .go { color: #888 } /* Generic.Output */
+.codehilite .gp { color: #C65D09; font-weight: bold } /* Generic.Prompt */
+.codehilite .gs { font-weight: bold } /* Generic.Strong */
+.codehilite .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.codehilite .gt { color: #04D } /* Generic.Traceback */
+.codehilite .kc { color: #007020; font-weight: bold } /* Keyword.Constant */
+.codehilite .kd { color: #007020; font-weight: bold } /* Keyword.Declaration */
+.codehilite .kn { color: #007020; font-weight: bold } /* Keyword.Namespace */
+.codehilite .kp { color: #007020 } /* Keyword.Pseudo */
+.codehilite .kr { color: #007020; font-weight: bold } /* Keyword.Reserved */
+.codehilite .kt { color: #902000 } /* Keyword.Type */
+.codehilite .m { color: #40A070 } /* Literal.Number */
+.codehilite .s { color: #4070A0 } /* Literal.String */
+.codehilite .na { color: #4070A0 } /* Name.Attribute */
+.codehilite .nb { color: #007020 } /* Name.Builtin */
+.codehilite .nc { color: #0E84B5; font-weight: bold } /* Name.Class */
+.codehilite .no { color: #60ADD5 } /* Name.Constant */
+.codehilite .nd { color: #555; font-weight: bold } /* Name.Decorator */
+.codehilite .ni { color: #D55537; font-weight: bold } /* Name.Entity */
+.codehilite .ne { color: #007020 } /* Name.Exception */
+.codehilite .nf { color: #06287E } /* Name.Function */
+.codehilite .nl { color: #002070; font-weight: bold } /* Name.Label */
+.codehilite .nn { color: #0E84B5; font-weight: bold } /* Name.Namespace */
+.codehilite .nt { color: #062873; font-weight: bold } /* Name.Tag */
+.codehilite .nv { color: #BB60D5 } /* Name.Variable */
+.codehilite .ow { color: #007020; font-weight: bold } /* Operator.Word */
+.codehilite .w { color: #BBB } /* Text.Whitespace */
+.codehilite .mb { color: #40A070 } /* Literal.Number.Bin */
+.codehilite .mf { color: #40A070 } /* Literal.Number.Float */
+.codehilite .mh { color: #40A070 } /* Literal.Number.Hex */
+.codehilite .mi { color: #40A070 } /* Literal.Number.Integer */
+.codehilite .mo { color: #40A070 } /* Literal.Number.Oct */
+.codehilite .sa { color: #4070A0 } /* Literal.String.Affix */
+.codehilite .sb { color: #4070A0 } /* Literal.String.Backtick */
+.codehilite .sc { color: #4070A0 } /* Literal.String.Char */
+.codehilite .dl { color: #4070A0 } /* Literal.String.Delimiter */
+.codehilite .sd { color: #4070A0; font-style: italic } /* Literal.String.Doc */
+.codehilite .s2 { color: #4070A0 } /* Literal.String.Double */
+.codehilite .se { color: #4070A0; font-weight: bold } /* Literal.String.Escape */
+.codehilite .sh { color: #4070A0 } /* Literal.String.Heredoc */
+.codehilite .si { color: #70A0D0; font-style: italic } /* Literal.String.Interpol */
+.codehilite .sx { color: #C65D09 } /* Literal.String.Other */
+.codehilite .sr { color: #235388 } /* Literal.String.Regex */
+.codehilite .s1 { color: #4070A0 } /* Literal.String.Single */
+.codehilite .ss { color: #517918 } /* Literal.String.Symbol */
+.codehilite .bp { color: #007020 } /* Name.Builtin.Pseudo */
+.codehilite .fm { color: #06287E } /* Name.Function.Magic */
+.codehilite .vc { color: #BB60D5 } /* Name.Variable.Class */
+.codehilite .vg { color: #BB60D5 } /* Name.Variable.Global */
+.codehilite .vi { color: #BB60D5 } /* Name.Variable.Instance */
+.codehilite .vm { color: #BB60D5 } /* Name.Variable.Magic */
+.codehilite .il { color: #40A070 } /* Literal.Number.Integer.Long */
+
+        /* Override: keep gray bg + wrap */
+        .codehilite { background: #f4f4f4 !important; padding: 15px; border-radius: 5px; overflow: visible; }
+        .codehilite pre { background: #f4f4f4 !important; white-space: pre-wrap; word-wrap: break-word; margin: 0; font-family: 'Operator Mono', monospace; }
+
+        /* Operator Mono italic: comments, docstrings, keywords */
+        .codehilite .c,
+        .codehilite .c1,
+        .codehilite .cm,
+        .codehilite .cs,
+        .codehilite .cp  { font-style: italic; }
+        .codehilite .k,
+        .codehilite .kd,
+        .codehilite .kn,
+        .codehilite .kr,
+        .codehilite .kc  { font-style: italic; }
+        .codehilite .sd  { font-style: italic; } /* docstring */
     </style>
 </head>
 <body>
@@ -60,239 +153,244 @@
 </ul>
 <h2>Phase 0: Foundation &amp; Setup</h2>
 <p>Chúng ta sẽ cài đặt các thư viện và thiết lập môi trường.</p>
-<pre><code class="language-python"># !pip install -q -U langchain-nebius langchain langgraph rich python-dotenv numpy
-</code></pre>
-<pre><code class="language-python">import os
-import random
-import numpy as np
-from typing import List, Dict, Any, Optional
-from dotenv import load_dotenv
+<div class="codehilite"><pre><span></span><code><span class="c1"># !pip install -q -U langchain-nebius langchain langgraph rich python-dotenv numpy</span>
+</code></pre></div>
 
-# Pydantic for data modeling
-from pydantic import BaseModel, Field
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dotenv</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_dotenv</span>
 
-# LangChain components
-from langchain_nebius import ChatNebius
-from langchain_core.prompts import ChatPromptTemplate
+<span class="c1"># Pydantic for data modeling</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span>
 
-# LangGraph components
-from langgraph.graph import StateGraph, END
-from typing_extensions import TypedDict
+<span class="c1"># LangChain components</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_nebius</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatNebius</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_core.prompts</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatPromptTemplate</span>
 
-# For pretty printing
-from rich.console import Console
-from rich.markdown import Markdown
-from rich.table import Table
+<span class="c1"># LangGraph components</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langgraph.graph</span><span class="w"> </span><span class="kn">import</span> <span class="n">StateGraph</span><span class="p">,</span> <span class="n">END</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing_extensions</span><span class="w"> </span><span class="kn">import</span> <span class="n">TypedDict</span>
 
-# --- API Key and Tracing Setup ---
-load_dotenv()
+<span class="c1"># For pretty printing</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rich.console</span><span class="w"> </span><span class="kn">import</span> <span class="n">Console</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rich.markdown</span><span class="w"> </span><span class="kn">import</span> <span class="n">Markdown</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rich.table</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
 
-os.environ[&quot;LANGCHAIN_TRACING_V2&quot;] = &quot;true&quot;
-os.environ[&quot;LANGCHAIN_PROJECT&quot;] = &quot;Agentic Architecture - Simulator (Nebius)&quot;
+<span class="c1"># --- API Key and Tracing Setup ---</span>
+<span class="n">load_dotenv</span><span class="p">()</span>
 
-required_vars = [&quot;NEBIUS_API_KEY&quot;, &quot;LANGCHAIN_API_KEY&quot;]
-for var in required_vars:
-    if var not in os.environ:
-        print(f&quot;Warning: Environment variable {var} not set.&quot;)
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;LANGCHAIN_TRACING_V2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;true&quot;</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;LANGCHAIN_PROJECT&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Agentic Architecture - Simulator (Nebius)&quot;</span>
 
-print(&quot;Environment variables loaded and tracing is set up.&quot;)
-</code></pre>
+<span class="n">required_vars</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;NEBIUS_API_KEY&quot;</span><span class="p">,</span> <span class="s2">&quot;LANGCHAIN_API_KEY&quot;</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">required_vars</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">var</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Warning: Environment variable </span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s2"> not set.&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Environment variables loaded and tracing is set up.&quot;</span><span class="p">)</span>
+</code></pre></div>
+
 <h2>Phase 1: Building the Simulator Environment</h2>
 <p>Đầu tiên, chúng ta cần tạo ra "thế giới" mà agent sẽ tương tác. Chúng ta sẽ xây dựng một class <code>MarketSimulator</code> quản lý trạng thái của một cổ phiếu, một danh mục đầu tư và bao gồm một hàm <code>step</code> để tiến triển thời gian. Đây sẽ đóng vai trò là cả "thế giới thực" và hộp cát cho các mô phỏng của agent.</p>
-<pre><code class="language-python">console = Console()
+<div class="codehilite"><pre><span></span><code><span class="n">console</span> <span class="o">=</span> <span class="n">Console</span><span class="p">()</span>
 
-class Portfolio(BaseModel):
-    cash: float = 10000.0
-    shares: int = 0
+<span class="k">class</span><span class="w"> </span><span class="nc">Portfolio</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">cash</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">10000.0</span>
+    <span class="n">shares</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
 
-    def value(self, current_price: float) -&gt; float:
-        return self.cash + self.shares * current_price
+    <span class="k">def</span><span class="w"> </span><span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">current_price</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cash</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">shares</span> <span class="o">*</span> <span class="n">current_price</span>
 
-class MarketSimulator(BaseModel):
-    &quot;&quot;&quot;Một mô phỏng đơn giản về thị trường chứng khoán cho một tài sản.&quot;&quot;&quot;
-    day: int = 0
-    price: float = 100.0
-    volatility: float = 0.1 # Độ lệch chuẩn cho thay đổi giá
-    drift: float = 0.01 # Xu hướng chung
-    market_news: str = &quot;Market is stable.&quot;
-    portfolio: Portfolio = Field(default_factory=Portfolio)
+<span class="k">class</span><span class="w"> </span><span class="nc">MarketSimulator</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Một mô phỏng đơn giản về thị trường chứng khoán cho một tài sản.&quot;&quot;&quot;</span>
+    <span class="n">day</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">price</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">100.0</span>
+    <span class="n">volatility</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span> <span class="c1"># Độ lệch chuẩn cho thay đổi giá</span>
+    <span class="n">drift</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.01</span> <span class="c1"># Xu hướng chung</span>
+    <span class="n">market_news</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Market is stable.&quot;</span>
+    <span class="n">portfolio</span><span class="p">:</span> <span class="n">Portfolio</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="n">Portfolio</span><span class="p">)</span>
 
-    def step(self, action: str, amount: float = 0.0):
-        &quot;&quot;&quot;Tiến triển mô phỏng thêm một ngày, thực hiện giao dịch trước.&quot;&quot;&quot;
-        # 1. Thực thi giao dịch
-        if action == &quot;buy&quot;: # amount là số lượng cổ phiếu
-            shares_to_buy = int(amount)
-            cost = shares_to_buy * self.price
-            if self.portfolio.cash &gt;= cost:
-                self.portfolio.shares += shares_to_buy
-                self.portfolio.cash -= cost
-        elif action == &quot;sell&quot;: # amount là số lượng cổ phiếu
-            shares_to_sell = int(amount)
-            if self.portfolio.shares &gt;= shares_to_sell:
-                self.portfolio.shares -= shares_to_sell
-                self.portfolio.cash += shares_to_sell * self.price
+    <span class="k">def</span><span class="w"> </span><span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">amount</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Tiến triển mô phỏng thêm một ngày, thực hiện giao dịch trước.&quot;&quot;&quot;</span>
+        <span class="c1"># 1. Thực thi giao dịch</span>
+        <span class="k">if</span> <span class="n">action</span> <span class="o">==</span> <span class="s2">&quot;buy&quot;</span><span class="p">:</span> <span class="c1"># amount là số lượng cổ phiếu</span>
+            <span class="n">shares_to_buy</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">amount</span><span class="p">)</span>
+            <span class="n">cost</span> <span class="o">=</span> <span class="n">shares_to_buy</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">price</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">portfolio</span><span class="o">.</span><span class="n">cash</span> <span class="o">&gt;=</span> <span class="n">cost</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">portfolio</span><span class="o">.</span><span class="n">shares</span> <span class="o">+=</span> <span class="n">shares_to_buy</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">portfolio</span><span class="o">.</span><span class="n">cash</span> <span class="o">-=</span> <span class="n">cost</span>
+        <span class="k">elif</span> <span class="n">action</span> <span class="o">==</span> <span class="s2">&quot;sell&quot;</span><span class="p">:</span> <span class="c1"># amount là số lượng cổ phiếu</span>
+            <span class="n">shares_to_sell</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">amount</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">portfolio</span><span class="o">.</span><span class="n">shares</span> <span class="o">&gt;=</span> <span class="n">shares_to_sell</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">portfolio</span><span class="o">.</span><span class="n">shares</span> <span class="o">-=</span> <span class="n">shares_to_sell</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">portfolio</span><span class="o">.</span><span class="n">cash</span> <span class="o">+=</span> <span class="n">shares_to_sell</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">price</span>
 
-        # 2. Cập nhật giá thị trường (Geometric Brownian Motion)
-        daily_return = np.random.normal(self.drift, self.volatility)
-        self.price *= (1 + daily_return)
+        <span class="c1"># 2. Cập nhật giá thị trường (Geometric Brownian Motion)</span>
+        <span class="n">daily_return</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">drift</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">volatility</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">price</span> <span class="o">*=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">daily_return</span><span class="p">)</span>
 
-        # 3. Tiến triển thời gian
-        self.day += 1
+        <span class="c1"># 3. Tiến triển thời gian</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">day</span> <span class="o">+=</span> <span class="mi">1</span>
 
-        # 4. Có khả năng cập nhật tin tức
-        if random.random() &lt; 0.1: # 10% cơ hội có tin tức mới
-            self.market_news = random.choice([&quot;Positive earnings report expected.&quot;, &quot;New competitor enters the market.&quot;, &quot;Macroeconomic outlook is strong.&quot;, &quot;Regulatory concerns are growing.&quot;])
-            # Tin tức ảnh hưởng đến drift
-            if &quot;Positive&quot; in self.market_news or &quot;strong&quot; in self.market_news:
-                self.drift = 0.05
-            else:
-                self.drift = -0.05
-        else:
-             self.drift = 0.01 # Trở lại drift bình thường
+        <span class="c1"># 4. Có khả năng cập nhật tin tức</span>
+        <span class="k">if</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mf">0.1</span><span class="p">:</span> <span class="c1"># 10% cơ hội có tin tức mới</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">market_news</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="s2">&quot;Positive earnings report expected.&quot;</span><span class="p">,</span> <span class="s2">&quot;New competitor enters the market.&quot;</span><span class="p">,</span> <span class="s2">&quot;Macroeconomic outlook is strong.&quot;</span><span class="p">,</span> <span class="s2">&quot;Regulatory concerns are growing.&quot;</span><span class="p">])</span>
+            <span class="c1"># Tin tức ảnh hưởng đến drift</span>
+            <span class="k">if</span> <span class="s2">&quot;Positive&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">market_news</span> <span class="ow">or</span> <span class="s2">&quot;strong&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">market_news</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">drift</span> <span class="o">=</span> <span class="mf">0.05</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">drift</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.05</span>
+        <span class="k">else</span><span class="p">:</span>
+             <span class="bp">self</span><span class="o">.</span><span class="n">drift</span> <span class="o">=</span> <span class="mf">0.01</span> <span class="c1"># Trở lại drift bình thường</span>
 
-    def get_state_string(self) -&gt; str:
-        return f&quot;Day {self.day}: Price=${self.price:.2f}, News: {self.market_news}\nPortfolio: ${self.portfolio.value(self.price):.2f} ({self.portfolio.shares} shares, ${self.portfolio.cash:.2f} cash)&quot;
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_state_string</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Day </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">day</span><span class="si">}</span><span class="s2">: Price=$</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">price</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">, News: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">market_news</span><span class="si">}</span><span class="se">\n</span><span class="s2">Portfolio: $</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">portfolio</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">price</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">portfolio</span><span class="o">.</span><span class="n">shares</span><span class="si">}</span><span class="s2"> shares, $</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">portfolio</span><span class="o">.</span><span class="n">cash</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> cash)&quot;</span>
 
-print(&quot;Market simulator environment defined successfully.&quot;)
-</code></pre>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Market simulator environment defined successfully.&quot;</span><span class="p">)</span>
+</code></pre></div>
+
 <h2>Phase 2: Building the Simulator Agent</h2>
 <p>Bây giờ chúng ta sẽ dùng LangGraph để điều phối workflow <code>Observe -&gt; Propose -&gt; Simulate -&gt; Refine -&gt; Execute</code>. Chúng ta sẽ định nghĩa các Pydantic models cho kết quả đầu ra của LLM để đảm bảo giao tiếp có cấu trúc giữa các bước.</p>
-<pre><code class="language-python">llm = ChatNebius(model=&quot;mistralai/Mixtral-8x22B-Instruct-v0.1&quot;, temperature=0.4)
+<div class="codehilite"><pre><span></span><code><span class="n">llm</span> <span class="o">=</span> <span class="n">ChatNebius</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;mistralai/Mixtral-8x22B-Instruct-v0.1&quot;</span><span class="p">,</span> <span class="n">temperature</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
 
-# Pydantic models cho structured LLM outputs
-class ProposedAction(BaseModel):
-    &quot;&quot;&quot;Chiến lược cấp cao được đề xuất bởi nhà phân tích.&quot;&quot;&quot; 
-    strategy: str = Field(description=&quot;A high-level trading strategy, e.g., 'buy aggressively', 'sell cautiously', 'hold'.&quot;)
-    reasoning: str = Field(description=&quot;Brief reasoning for the proposed strategy.&quot;)
+<span class="c1"># Pydantic models cho structured LLM outputs</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ProposedAction</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Chiến lược cấp cao được đề xuất bởi nhà phân tích.&quot;&quot;&quot;</span> 
+    <span class="n">strategy</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;A high-level trading strategy, e.g., &#39;buy aggressively&#39;, &#39;sell cautiously&#39;, &#39;hold&#39;.&quot;</span><span class="p">)</span>
+    <span class="n">reasoning</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Brief reasoning for the proposed strategy.&quot;</span><span class="p">)</span>
 
-class FinalDecision(BaseModel):
-    &quot;&quot;&quot;Hành động cụ thể, cuối cùng được thực thi.&quot;&quot;&quot;
-    action: str = Field(description=&quot;The final action to take: 'buy', 'sell', or 'hold'.&quot;)
-    amount: float = Field(description=&quot;The number of shares to buy or sell. Should be 0 if holding.&quot;)
-    reasoning: str = Field(description=&quot;Final reasoning, referencing the simulation results.&quot;)
+<span class="k">class</span><span class="w"> </span><span class="nc">FinalDecision</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Hành động cụ thể, cuối cùng được thực thi.&quot;&quot;&quot;</span>
+    <span class="n">action</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;The final action to take: &#39;buy&#39;, &#39;sell&#39;, or &#39;hold&#39;.&quot;</span><span class="p">)</span>
+    <span class="n">amount</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;The number of shares to buy or sell. Should be 0 if holding.&quot;</span><span class="p">)</span>
+    <span class="n">reasoning</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Final reasoning, referencing the simulation results.&quot;</span><span class="p">)</span>
 
-# LangGraph State
-class AgentState(TypedDict):
-    real_market: MarketSimulator
-    proposed_action: Optional[ProposedAction]
-    simulation_results: Optional[List[Dict]]
-    final_decision: Optional[FinalDecision]
+<span class="c1"># LangGraph State</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">AgentState</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+    <span class="n">real_market</span><span class="p">:</span> <span class="n">MarketSimulator</span>
+    <span class="n">proposed_action</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ProposedAction</span><span class="p">]</span>
+    <span class="n">simulation_results</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">]]</span>
+    <span class="n">final_decision</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">FinalDecision</span><span class="p">]</span>
 
-# Graph Nodes
-def propose_action_node(state: AgentState) -&gt; Dict[str, Any]:
-    &quot;&quot;&quot;Quan sát thị trường và đề xuất một chiến lược cấp cao.&quot;&quot;&quot;
-    console.print(&quot;--- 🧐 Analyst Proposing Action ---&quot;)
-    prompt = ChatPromptTemplate.from_template(
-        &quot;You are a sharp financial analyst. Based on the current market state, propose a trading strategy.\n\nMarket State:\n{market_state}&quot;
-    )
-    proposer_llm = llm.with_structured_output(ProposedAction)
-    chain = prompt | proposer_llm
-    proposal = chain.invoke({&quot;market_state&quot;: state['real_market'].get_state_string()})
-    console.print(f&quot;[yellow]Proposal:[/yellow] {proposal.strategy}. [italic]Reason: {proposal.reasoning}[/italic]&quot;)
-    return {&quot;proposed_action&quot;: proposal}
+<span class="c1"># Graph Nodes</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">propose_action_node</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">AgentState</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Quan sát thị trường và đề xuất một chiến lược cấp cao.&quot;&quot;&quot;</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;--- 🧐 Analyst Proposing Action ---&quot;</span><span class="p">)</span>
+    <span class="n">prompt</span> <span class="o">=</span> <span class="n">ChatPromptTemplate</span><span class="o">.</span><span class="n">from_template</span><span class="p">(</span>
+        <span class="s2">&quot;You are a sharp financial analyst. Based on the current market state, propose a trading strategy.</span><span class="se">\n\n</span><span class="s2">Market State:</span><span class="se">\n</span><span class="si">{market_state}</span><span class="s2">&quot;</span>
+    <span class="p">)</span>
+    <span class="n">proposer_llm</span> <span class="o">=</span> <span class="n">llm</span><span class="o">.</span><span class="n">with_structured_output</span><span class="p">(</span><span class="n">ProposedAction</span><span class="p">)</span>
+    <span class="n">chain</span> <span class="o">=</span> <span class="n">prompt</span> <span class="o">|</span> <span class="n">proposer_llm</span>
+    <span class="n">proposal</span> <span class="o">=</span> <span class="n">chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">({</span><span class="s2">&quot;market_state&quot;</span><span class="p">:</span> <span class="n">state</span><span class="p">[</span><span class="s1">&#39;real_market&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get_state_string</span><span class="p">()})</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[yellow]Proposal:[/yellow] </span><span class="si">{</span><span class="n">proposal</span><span class="o">.</span><span class="n">strategy</span><span class="si">}</span><span class="s2">. [italic]Reason: </span><span class="si">{</span><span class="n">proposal</span><span class="o">.</span><span class="n">reasoning</span><span class="si">}</span><span class="s2">[/italic]&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;proposed_action&quot;</span><span class="p">:</span> <span class="n">proposal</span><span class="p">}</span>
 
-def run_simulation_node(state: AgentState) -&gt; Dict[str, Any]:
-    &quot;&quot;&quot;Chạy chiến lược đề xuất trong một mô phỏng hộp cát.&quot;&quot;&quot;
-    console.print(&quot;--- 🤖 Running Simulations ---&quot;)
-    strategy = state['proposed_action'].strategy
-    num_simulations = 5
-    simulation_horizon = 10 # ngày
-    results = []
+<span class="k">def</span><span class="w"> </span><span class="nf">run_simulation_node</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">AgentState</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Chạy chiến lược đề xuất trong một mô phỏng hộp cát.&quot;&quot;&quot;</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;--- 🤖 Running Simulations ---&quot;</span><span class="p">)</span>
+    <span class="n">strategy</span> <span class="o">=</span> <span class="n">state</span><span class="p">[</span><span class="s1">&#39;proposed_action&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">strategy</span>
+    <span class="n">num_simulations</span> <span class="o">=</span> <span class="mi">5</span>
+    <span class="n">simulation_horizon</span> <span class="o">=</span> <span class="mi">10</span> <span class="c1"># ngày</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
 
-    for i in range(num_simulations):
-        # QUAN TRỌNG: Tạo một bản copy sâu để không ảnh hưởng đến trạng thái thị trường thực
-        simulated_market = state['real_market'].model_copy(deep=True)
-        initial_value = simulated_market.portfolio.value(simulated_market.price)
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_simulations</span><span class="p">):</span>
+        <span class="c1"># QUAN TRỌNG: Tạo một bản copy sâu để không ảnh hưởng đến trạng thái thị trường thực</span>
+        <span class="n">simulated_market</span> <span class="o">=</span> <span class="n">state</span><span class="p">[</span><span class="s1">&#39;real_market&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">model_copy</span><span class="p">(</span><span class="n">deep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">initial_value</span> <span class="o">=</span> <span class="n">simulated_market</span><span class="o">.</span><span class="n">portfolio</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">simulated_market</span><span class="o">.</span><span class="n">price</span><span class="p">)</span>
 
-        # Chuyển đổi chiến lược thành một hành động cụ thể cho mô phỏng
-        if &quot;buy&quot; in strategy:
-            action = &quot;buy&quot;
-            # Quyết đoán = 25% tiền mặt, Thận trọng = 10%
-            amount = (simulated_market.portfolio.cash * (0.25 if &quot;aggressively&quot; in strategy else 0.1)) / simulated_market.price
-        elif &quot;sell&quot; in strategy:
-            action = &quot;sell&quot;
-            # Quyết đoán = 25% số lượng cổ phiếu, Thận trọng = 10%
-            amount = simulated_market.portfolio.shares * (0.25 if &quot;aggressively&quot; in strategy else 0.1)
-        else:
-            action = &quot;hold&quot;
-            amount = 0
+        <span class="c1"># Chuyển đổi chiến lược thành một hành động cụ thể cho mô phỏng</span>
+        <span class="k">if</span> <span class="s2">&quot;buy&quot;</span> <span class="ow">in</span> <span class="n">strategy</span><span class="p">:</span>
+            <span class="n">action</span> <span class="o">=</span> <span class="s2">&quot;buy&quot;</span>
+            <span class="c1"># Quyết đoán = 25% tiền mặt, Thận trọng = 10%</span>
+            <span class="n">amount</span> <span class="o">=</span> <span class="p">(</span><span class="n">simulated_market</span><span class="o">.</span><span class="n">portfolio</span><span class="o">.</span><span class="n">cash</span> <span class="o">*</span> <span class="p">(</span><span class="mf">0.25</span> <span class="k">if</span> <span class="s2">&quot;aggressively&quot;</span> <span class="ow">in</span> <span class="n">strategy</span> <span class="k">else</span> <span class="mf">0.1</span><span class="p">))</span> <span class="o">/</span> <span class="n">simulated_market</span><span class="o">.</span><span class="n">price</span>
+        <span class="k">elif</span> <span class="s2">&quot;sell&quot;</span> <span class="ow">in</span> <span class="n">strategy</span><span class="p">:</span>
+            <span class="n">action</span> <span class="o">=</span> <span class="s2">&quot;sell&quot;</span>
+            <span class="c1"># Quyết đoán = 25% số lượng cổ phiếu, Thận trọng = 10%</span>
+            <span class="n">amount</span> <span class="o">=</span> <span class="n">simulated_market</span><span class="o">.</span><span class="n">portfolio</span><span class="o">.</span><span class="n">shares</span> <span class="o">*</span> <span class="p">(</span><span class="mf">0.25</span> <span class="k">if</span> <span class="s2">&quot;aggressively&quot;</span> <span class="ow">in</span> <span class="n">strategy</span> <span class="k">else</span> <span class="mf">0.1</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">action</span> <span class="o">=</span> <span class="s2">&quot;hold&quot;</span>
+            <span class="n">amount</span> <span class="o">=</span> <span class="mi">0</span>
 
-        # Chạy mô phỏng về phía trước
-        simulated_market.step(action, amount)
-        for _ in range(simulation_horizon - 1):
-            simulated_market.step(&quot;hold&quot;) # Chỉ giữ sau hành động ban đầu
+        <span class="c1"># Chạy mô phỏng về phía trước</span>
+        <span class="n">simulated_market</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">action</span><span class="p">,</span> <span class="n">amount</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">simulation_horizon</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">simulated_market</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="s2">&quot;hold&quot;</span><span class="p">)</span> <span class="c1"># Chỉ giữ sau hành động ban đầu</span>
 
-        final_value = simulated_market.portfolio.value(simulated_market.price)
-        results.append({&quot;sim_num&quot;: i+1, &quot;initial_value&quot;: initial_value, &quot;final_value&quot;: final_value, &quot;return_pct&quot;: (final_value - initial_value) / initial_value * 100})
+        <span class="n">final_value</span> <span class="o">=</span> <span class="n">simulated_market</span><span class="o">.</span><span class="n">portfolio</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">simulated_market</span><span class="o">.</span><span class="n">price</span><span class="p">)</span>
+        <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;sim_num&quot;</span><span class="p">:</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;initial_value&quot;</span><span class="p">:</span> <span class="n">initial_value</span><span class="p">,</span> <span class="s2">&quot;final_value&quot;</span><span class="p">:</span> <span class="n">final_value</span><span class="p">,</span> <span class="s2">&quot;return_pct&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">final_value</span> <span class="o">-</span> <span class="n">initial_value</span><span class="p">)</span> <span class="o">/</span> <span class="n">initial_value</span> <span class="o">*</span> <span class="mi">100</span><span class="p">})</span>
 
-    console.print(&quot;[cyan]Simulation complete. Results will be passed to the risk manager.[/cyan]&quot;)
-    return {&quot;simulation_results&quot;: results}
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;[cyan]Simulation complete. Results will be passed to the risk manager.[/cyan]&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;simulation_results&quot;</span><span class="p">:</span> <span class="n">results</span><span class="p">}</span>
 
-def refine_and_decide_node(state: AgentState) -&gt; Dict[str, Any]:
-    &quot;&quot;&quot;Phân tích kết quả mô phỏng và đưa ra quyết định cuối cùng, đã được tinh chỉnh.&quot;&quot;&quot;
-    console.print(&quot;--- 🧠 Risk Manager Refining Decision ---&quot;)
-    results_summary = &quot;\n&quot;.join([f&quot;Sim {r['sim_num']}: Initial=${r['initial_value']:.2f}, Final=${r['final_value']:.2f}, Return={r['return_pct']:.2f}%&quot; for r in state['simulation_results']])
+<span class="k">def</span><span class="w"> </span><span class="nf">refine_and_decide_node</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">AgentState</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Phân tích kết quả mô phỏng và đưa ra quyết định cuối cùng, đã được tinh chỉnh.&quot;&quot;&quot;</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;--- 🧠 Risk Manager Refining Decision ---&quot;</span><span class="p">)</span>
+    <span class="n">results_summary</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;Sim </span><span class="si">{</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;sim_num&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">: Initial=$</span><span class="si">{</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;initial_value&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">, Final=$</span><span class="si">{</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;final_value&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">, Return=</span><span class="si">{</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;return_pct&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%&quot;</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">state</span><span class="p">[</span><span class="s1">&#39;simulation_results&#39;</span><span class="p">]])</span>
 
-    prompt = ChatPromptTemplate.from_template(
-        &quot;You are a cautious risk manager. Your analyst proposed a strategy. You have run simulations to test it. Based on the potential outcomes, make a final, concrete decision. If results are highly variable or negative, reduce risk (e.g., buy/sell fewer shares, or hold).\n\nInitial Proposal: {proposal}\n\nSimulation Results:\n{results}\n\nReal Market State:\n{market_state}&quot;
-    )
-    decider_llm = llm.with_structured_output(FinalDecision)
-    chain = prompt | decider_llm
-    final_decision = chain.invoke({
-        &quot;proposal&quot;: state['proposed_action'].strategy,
-        &quot;results&quot;: results_summary,
-        &quot;market_state&quot;: state['real_market'].get_state_string()
-    })
-    console.print(f&quot;[green]Final Decision:[/green] {final_decision.action} {final_decision.amount:.0f} shares. [italic]Reason: {final_decision.reasoning}[/italic]&quot;)
-    return {&quot;final_decision&quot;: final_decision}
+    <span class="n">prompt</span> <span class="o">=</span> <span class="n">ChatPromptTemplate</span><span class="o">.</span><span class="n">from_template</span><span class="p">(</span>
+        <span class="s2">&quot;You are a cautious risk manager. Your analyst proposed a strategy. You have run simulations to test it. Based on the potential outcomes, make a final, concrete decision. If results are highly variable or negative, reduce risk (e.g., buy/sell fewer shares, or hold).</span><span class="se">\n\n</span><span class="s2">Initial Proposal: </span><span class="si">{proposal}</span><span class="se">\n\n</span><span class="s2">Simulation Results:</span><span class="se">\n</span><span class="si">{results}</span><span class="se">\n\n</span><span class="s2">Real Market State:</span><span class="se">\n</span><span class="si">{market_state}</span><span class="s2">&quot;</span>
+    <span class="p">)</span>
+    <span class="n">decider_llm</span> <span class="o">=</span> <span class="n">llm</span><span class="o">.</span><span class="n">with_structured_output</span><span class="p">(</span><span class="n">FinalDecision</span><span class="p">)</span>
+    <span class="n">chain</span> <span class="o">=</span> <span class="n">prompt</span> <span class="o">|</span> <span class="n">decider_llm</span>
+    <span class="n">final_decision</span> <span class="o">=</span> <span class="n">chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">({</span>
+        <span class="s2">&quot;proposal&quot;</span><span class="p">:</span> <span class="n">state</span><span class="p">[</span><span class="s1">&#39;proposed_action&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">strategy</span><span class="p">,</span>
+        <span class="s2">&quot;results&quot;</span><span class="p">:</span> <span class="n">results_summary</span><span class="p">,</span>
+        <span class="s2">&quot;market_state&quot;</span><span class="p">:</span> <span class="n">state</span><span class="p">[</span><span class="s1">&#39;real_market&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get_state_string</span><span class="p">()</span>
+    <span class="p">})</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[green]Final Decision:[/green] </span><span class="si">{</span><span class="n">final_decision</span><span class="o">.</span><span class="n">action</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">final_decision</span><span class="o">.</span><span class="n">amount</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> shares. [italic]Reason: </span><span class="si">{</span><span class="n">final_decision</span><span class="o">.</span><span class="n">reasoning</span><span class="si">}</span><span class="s2">[/italic]&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;final_decision&quot;</span><span class="p">:</span> <span class="n">final_decision</span><span class="p">}</span>
 
-def execute_in_real_world_node(state: AgentState) -&gt; Dict[str, Any]:
-    &quot;&quot;&quot;Thực thi quyết định cuối cùng trong môi trường thị trường thực.&quot;&quot;&quot;
-    console.print(&quot;--- 🚀 Executing in Real World ---&quot;)
-    decision = state['final_decision']
-    real_market = state['real_market']
-    real_market.step(decision.action, decision.amount)
-    console.print(f&quot;[bold]Execution complete. New market state:[/bold]\n{real_market.get_state_string()}&quot;)
-    return {&quot;real_market&quot;: real_market}
+<span class="k">def</span><span class="w"> </span><span class="nf">execute_in_real_world_node</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">AgentState</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Thực thi quyết định cuối cùng trong môi trường thị trường thực.&quot;&quot;&quot;</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;--- 🚀 Executing in Real World ---&quot;</span><span class="p">)</span>
+    <span class="n">decision</span> <span class="o">=</span> <span class="n">state</span><span class="p">[</span><span class="s1">&#39;final_decision&#39;</span><span class="p">]</span>
+    <span class="n">real_market</span> <span class="o">=</span> <span class="n">state</span><span class="p">[</span><span class="s1">&#39;real_market&#39;</span><span class="p">]</span>
+    <span class="n">real_market</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">decision</span><span class="o">.</span><span class="n">action</span><span class="p">,</span> <span class="n">decision</span><span class="o">.</span><span class="n">amount</span><span class="p">)</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[bold]Execution complete. New market state:[/bold]</span><span class="se">\n</span><span class="si">{</span><span class="n">real_market</span><span class="o">.</span><span class="n">get_state_string</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;real_market&quot;</span><span class="p">:</span> <span class="n">real_market</span><span class="p">}</span>
 
-# Xây dựng graph
-workflow = StateGraph(AgentState)
-workflow.add_node(&quot;propose&quot;, propose_action_node)
-workflow.add_node(&quot;simulate&quot;, run_simulation_node)
-workflow.add_node(&quot;refine&quot;, refine_and_decide_node)
-workflow.add_node(&quot;execute&quot;, execute_in_real_world_node)
+<span class="c1"># Xây dựng graph</span>
+<span class="n">workflow</span> <span class="o">=</span> <span class="n">StateGraph</span><span class="p">(</span><span class="n">AgentState</span><span class="p">)</span>
+<span class="n">workflow</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="s2">&quot;propose&quot;</span><span class="p">,</span> <span class="n">propose_action_node</span><span class="p">)</span>
+<span class="n">workflow</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="s2">&quot;simulate&quot;</span><span class="p">,</span> <span class="n">run_simulation_node</span><span class="p">)</span>
+<span class="n">workflow</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="s2">&quot;refine&quot;</span><span class="p">,</span> <span class="n">refine_and_decide_node</span><span class="p">)</span>
+<span class="n">workflow</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="s2">&quot;execute&quot;</span><span class="p">,</span> <span class="n">execute_in_real_world_node</span><span class="p">)</span>
 
-workflow.set_entry_point(&quot;propose&quot;)
-workflow.add_edge(&quot;propose&quot;, &quot;simulate&quot;)
-workflow.add_edge(&quot;simulate&quot;, &quot;refine&quot;)
-workflow.add_edge(&quot;refine&quot;, &quot;execute&quot;)
-workflow.add_edge(&quot;execute&quot;, END)
+<span class="n">workflow</span><span class="o">.</span><span class="n">set_entry_point</span><span class="p">(</span><span class="s2">&quot;propose&quot;</span><span class="p">)</span>
+<span class="n">workflow</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="s2">&quot;propose&quot;</span><span class="p">,</span> <span class="s2">&quot;simulate&quot;</span><span class="p">)</span>
+<span class="n">workflow</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="s2">&quot;simulate&quot;</span><span class="p">,</span> <span class="s2">&quot;refine&quot;</span><span class="p">)</span>
+<span class="n">workflow</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="s2">&quot;refine&quot;</span><span class="p">,</span> <span class="s2">&quot;execute&quot;</span><span class="p">)</span>
+<span class="n">workflow</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="s2">&quot;execute&quot;</span><span class="p">,</span> <span class="n">END</span><span class="p">)</span>
 
-simulator_agent = workflow.compile()
-print(&quot;Simulator-in-the-loop agent graph compiled successfully.&quot;)
-</code></pre>
+<span class="n">simulator_agent</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">compile</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Simulator-in-the-loop agent graph compiled successfully.&quot;</span><span class="p">)</span>
+</code></pre></div>
+
 <h2>Phase 3: Demonstration</h2>
 <p>Hãy để agent của chúng ta chạy vài ngày trên thị trường. Chúng ta sẽ bắt đầu với một số tin tốt và xem nó phản ứng thế nào, sau đó đưa vào một số tin xấu.</p>
-<pre><code class="language-python">real_market = MarketSimulator()
-console.print(&quot;--- Initial Market State ---&quot;)
-console.print(real_market.get_state_string())
+<div class="codehilite"><pre><span></span><code><span class="n">real_market</span> <span class="o">=</span> <span class="n">MarketSimulator</span><span class="p">()</span>
+<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;--- Initial Market State ---&quot;</span><span class="p">)</span>
+<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">real_market</span><span class="o">.</span><span class="n">get_state_string</span><span class="p">())</span>
 
-# --- Chạy Ngày 1 ---
-console.print(&quot;\n--- Day 1: Good News Hits! ---&quot;)
-real_market.market_news = &quot;Positive earnings report expected.&quot;
-real_market.drift = 0.05
-initial_state = {&quot;real_market&quot;: real_market}
-final_state = simulator_agent.invoke(initial_state)
-real_market = final_state['real_market']
+<span class="c1"># --- Chạy Ngày 1 ---</span>
+<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- Day 1: Good News Hits! ---&quot;</span><span class="p">)</span>
+<span class="n">real_market</span><span class="o">.</span><span class="n">market_news</span> <span class="o">=</span> <span class="s2">&quot;Positive earnings report expected.&quot;</span>
+<span class="n">real_market</span><span class="o">.</span><span class="n">drift</span> <span class="o">=</span> <span class="mf">0.05</span>
+<span class="n">initial_state</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;real_market&quot;</span><span class="p">:</span> <span class="n">real_market</span><span class="p">}</span>
+<span class="n">final_state</span> <span class="o">=</span> <span class="n">simulator_agent</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">initial_state</span><span class="p">)</span>
+<span class="n">real_market</span> <span class="o">=</span> <span class="n">final_state</span><span class="p">[</span><span class="s1">&#39;real_market&#39;</span><span class="p">]</span>
 
-# --- Chạy Ngày 2 ---
-console.print(&quot;\n--- Day 2: Bad News Hits! ---&quot;)
-real_market.market_news = &quot;New competitor enters the market.&quot;
-real_market.drift = -0.05
-initial_state = {&quot;real_market&quot;: real_market}
-final_state = simulator_agent.invoke(initial_state)
-real_market = final_state['real_market']
-</code></pre>
+<span class="c1"># --- Chạy Ngày 2 ---</span>
+<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- Day 2: Bad News Hits! ---&quot;</span><span class="p">)</span>
+<span class="n">real_market</span><span class="o">.</span><span class="n">market_news</span> <span class="o">=</span> <span class="s2">&quot;New competitor enters the market.&quot;</span>
+<span class="n">real_market</span><span class="o">.</span><span class="n">drift</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.05</span>
+<span class="n">initial_state</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;real_market&quot;</span><span class="p">:</span> <span class="n">real_market</span><span class="p">}</span>
+<span class="n">final_state</span> <span class="o">=</span> <span class="n">simulator_agent</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">initial_state</span><span class="p">)</span>
+<span class="n">real_market</span> <span class="o">=</span> <span class="n">final_state</span><span class="p">[</span><span class="s1">&#39;real_market&#39;</span><span class="p">]</span>
+</code></pre></div>
+
 <h3>Analysis of the Results</h3>
 <p>Hành vi của agent chứng minh giá trị của vòng lặp mô phỏng:</p>
 <ul>

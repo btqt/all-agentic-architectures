@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -6,15 +5,109 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>02_Tool_Use</title>
     <style>
-        body { font-family: system-ui, -apple-system, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; color: #333; }
-        pre { background: #f4f4f4; padding: 15px; border-radius: 5px; overflow-x: auto; }
-        code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; font-family: monospace; }
+        body { font-family: system-ui, -apple-system, sans-serif; line-height: 1.6; max-width: 1100px; margin: 0 auto; padding: 20px; color: #333; }
+        pre { background: #f4f4f4; padding: 15px; border-radius: 5px; white-space: pre-wrap; word-wrap: break-word; }
+        code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; font-family: 'Operator Mono Lig', monospace; }
         a { color: #007bff; text-decoration: none; }
         a:hover { text-decoration: underline; }
         table { border-collapse: collapse; width: 100%; margin: 20px 0; }
         th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
         th { background-color: #f2f2f2; }
         img { max-width: 100%; height: auto; }
+
+        /* --- Pygments: friendly theme (inline, no CDN) --- */
+        pre { line-height: 125%; }
+td.linenos .normal { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.codehilite .hll { background-color: #ffffcc }
+.codehilite { background: #f0f0f0; }
+.codehilite .c { color: #60A0B0; font-style: italic } /* Comment */
+.codehilite .err { border: 1px solid #F00 } /* Error */
+.codehilite .k { color: #007020; font-weight: bold } /* Keyword */
+.codehilite .o { color: #666 } /* Operator */
+.codehilite .ch { color: #60A0B0; font-style: italic } /* Comment.Hashbang */
+.codehilite .cm { color: #60A0B0; font-style: italic } /* Comment.Multiline */
+.codehilite .cp { color: #007020 } /* Comment.Preproc */
+.codehilite .cpf { color: #60A0B0; font-style: italic } /* Comment.PreprocFile */
+.codehilite .c1 { color: #60A0B0; font-style: italic } /* Comment.Single */
+.codehilite .cs { color: #60A0B0; background-color: #FFF0F0 } /* Comment.Special */
+.codehilite .gd { color: #A00000 } /* Generic.Deleted */
+.codehilite .ge { font-style: italic } /* Generic.Emph */
+.codehilite .ges { font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+.codehilite .gr { color: #F00 } /* Generic.Error */
+.codehilite .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.codehilite .gi { color: #00A000 } /* Generic.Inserted */
+.codehilite .go { color: #888 } /* Generic.Output */
+.codehilite .gp { color: #C65D09; font-weight: bold } /* Generic.Prompt */
+.codehilite .gs { font-weight: bold } /* Generic.Strong */
+.codehilite .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.codehilite .gt { color: #04D } /* Generic.Traceback */
+.codehilite .kc { color: #007020; font-weight: bold } /* Keyword.Constant */
+.codehilite .kd { color: #007020; font-weight: bold } /* Keyword.Declaration */
+.codehilite .kn { color: #007020; font-weight: bold } /* Keyword.Namespace */
+.codehilite .kp { color: #007020 } /* Keyword.Pseudo */
+.codehilite .kr { color: #007020; font-weight: bold } /* Keyword.Reserved */
+.codehilite .kt { color: #902000 } /* Keyword.Type */
+.codehilite .m { color: #40A070 } /* Literal.Number */
+.codehilite .s { color: #4070A0 } /* Literal.String */
+.codehilite .na { color: #4070A0 } /* Name.Attribute */
+.codehilite .nb { color: #007020 } /* Name.Builtin */
+.codehilite .nc { color: #0E84B5; font-weight: bold } /* Name.Class */
+.codehilite .no { color: #60ADD5 } /* Name.Constant */
+.codehilite .nd { color: #555; font-weight: bold } /* Name.Decorator */
+.codehilite .ni { color: #D55537; font-weight: bold } /* Name.Entity */
+.codehilite .ne { color: #007020 } /* Name.Exception */
+.codehilite .nf { color: #06287E } /* Name.Function */
+.codehilite .nl { color: #002070; font-weight: bold } /* Name.Label */
+.codehilite .nn { color: #0E84B5; font-weight: bold } /* Name.Namespace */
+.codehilite .nt { color: #062873; font-weight: bold } /* Name.Tag */
+.codehilite .nv { color: #BB60D5 } /* Name.Variable */
+.codehilite .ow { color: #007020; font-weight: bold } /* Operator.Word */
+.codehilite .w { color: #BBB } /* Text.Whitespace */
+.codehilite .mb { color: #40A070 } /* Literal.Number.Bin */
+.codehilite .mf { color: #40A070 } /* Literal.Number.Float */
+.codehilite .mh { color: #40A070 } /* Literal.Number.Hex */
+.codehilite .mi { color: #40A070 } /* Literal.Number.Integer */
+.codehilite .mo { color: #40A070 } /* Literal.Number.Oct */
+.codehilite .sa { color: #4070A0 } /* Literal.String.Affix */
+.codehilite .sb { color: #4070A0 } /* Literal.String.Backtick */
+.codehilite .sc { color: #4070A0 } /* Literal.String.Char */
+.codehilite .dl { color: #4070A0 } /* Literal.String.Delimiter */
+.codehilite .sd { color: #4070A0; font-style: italic } /* Literal.String.Doc */
+.codehilite .s2 { color: #4070A0 } /* Literal.String.Double */
+.codehilite .se { color: #4070A0; font-weight: bold } /* Literal.String.Escape */
+.codehilite .sh { color: #4070A0 } /* Literal.String.Heredoc */
+.codehilite .si { color: #70A0D0; font-style: italic } /* Literal.String.Interpol */
+.codehilite .sx { color: #C65D09 } /* Literal.String.Other */
+.codehilite .sr { color: #235388 } /* Literal.String.Regex */
+.codehilite .s1 { color: #4070A0 } /* Literal.String.Single */
+.codehilite .ss { color: #517918 } /* Literal.String.Symbol */
+.codehilite .bp { color: #007020 } /* Name.Builtin.Pseudo */
+.codehilite .fm { color: #06287E } /* Name.Function.Magic */
+.codehilite .vc { color: #BB60D5 } /* Name.Variable.Class */
+.codehilite .vg { color: #BB60D5 } /* Name.Variable.Global */
+.codehilite .vi { color: #BB60D5 } /* Name.Variable.Instance */
+.codehilite .vm { color: #BB60D5 } /* Name.Variable.Magic */
+.codehilite .il { color: #40A070 } /* Literal.Number.Integer.Long */
+
+        /* Override: keep gray bg + wrap */
+        .codehilite { background: #f4f4f4 !important; padding: 15px; border-radius: 5px; overflow: visible; }
+        .codehilite pre { background: #f4f4f4 !important; white-space: pre-wrap; word-wrap: break-word; margin: 0; font-family: 'Operator Mono', monospace; }
+
+        /* Operator Mono italic: comments, docstrings, keywords */
+        .codehilite .c,
+        .codehilite .c1,
+        .codehilite .cm,
+        .codehilite .cs,
+        .codehilite .cp  { font-style: italic; }
+        .codehilite .k,
+        .codehilite .kd,
+        .codehilite .kn,
+        .codehilite .kr,
+        .codehilite .kc  { font-style: italic; }
+        .codehilite .sd  { font-style: italic; } /* docstring */
     </style>
 </head>
 <body>
@@ -55,74 +148,78 @@
 <h3>Step 0.1: Installing Core Libraries</h3>
 <p><strong>Những gì chúng ta sẽ làm:</strong>
 Chúng ta sẽ cài đặt bộ thư viện tiêu chuẩn để thực hiện orchestration (<code>langchain-nebius</code>, <code>langgraph</code>), quản lý môi trường (<code>python-dotenv</code>), và in ấn (<code>rich</code>). Quan trọng nhất, chúng ta cũng sẽ cài đặt <code>tavily-python</code>, thư viện cung cấp một API dễ sử dụng cho một công cụ tìm kiếm web mạnh mẽ mà chúng ta sẽ cung cấp cho agent của mình.</p>
-<pre><code class="language-python"># !pip install -q -U langchain-nebius langchain langgraph rich python-dotenv tavily-python
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="c1"># !pip install -q -U langchain-nebius langchain langgraph rich python-dotenv tavily-python</span>
+</code></pre></div>
+
 <h3>Step 0.2: Importing Libraries and Setting Up Keys</h3>
 <p><strong>Những gì chúng ta sẽ làm:</strong>
 Chúng ta sẽ import các module cần thiết và sử dụng <code>python-dotenv</code> để load các API keys. Đối với notebook này, chúng ta cần các key cho Nebius (cho LLM), LangSmith (để thực hiện tracing), và Tavily (cho công cụ tìm kiếm web).</p>
 <p><strong>Action Required:</strong> Tạo một file <code>.env</code> trong thư mục này với các key của bạn:</p>
-<pre><code>NEBIUS_API_KEY=&quot;your_nebius_api_key_here&quot;
+<div class="codehilite"><pre><span></span><code>NEBIUS_API_KEY=&quot;your_nebius_api_key_here&quot;
 LANGCHAIN_API_KEY=&quot;your_langsmith_api_key_here&quot;
 TAVILY_API_KEY=&quot;your_tavily_api_key_here&quot;
-</code></pre>
-<pre><code class="language-python">import os
-import json
-from typing import List, Annotated, TypedDict, Optional
-from dotenv import load_dotenv
+</code></pre></div>
 
-# LangChain components
-from langchain_nebius import ChatNebius
-from langchain_community.tools.tavily_search import TavilySearchResults
-from langchain_core.messages import BaseMessage, ToolMessage
-from pydantic import BaseModel, Field
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Annotated</span><span class="p">,</span> <span class="n">TypedDict</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dotenv</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_dotenv</span>
 
-# LangGraph components
-from langgraph.graph import StateGraph, END
-from langgraph.graph.message import AnyMessage, add_messages
-from langgraph.prebuilt import ToolNode
+<span class="c1"># LangChain components</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_nebius</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatNebius</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_community.tools.tavily_search</span><span class="w"> </span><span class="kn">import</span> <span class="n">TavilySearchResults</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_core.messages</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseMessage</span><span class="p">,</span> <span class="n">ToolMessage</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span>
 
-# For pretty printing
-from rich.console import Console
-from rich.markdown import Markdown
+<span class="c1"># LangGraph components</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langgraph.graph</span><span class="w"> </span><span class="kn">import</span> <span class="n">StateGraph</span><span class="p">,</span> <span class="n">END</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langgraph.graph.message</span><span class="w"> </span><span class="kn">import</span> <span class="n">AnyMessage</span><span class="p">,</span> <span class="n">add_messages</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langgraph.prebuilt</span><span class="w"> </span><span class="kn">import</span> <span class="n">ToolNode</span>
 
-# --- API Key and Tracing Setup ---
-load_dotenv()
+<span class="c1"># For pretty printing</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rich.console</span><span class="w"> </span><span class="kn">import</span> <span class="n">Console</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rich.markdown</span><span class="w"> </span><span class="kn">import</span> <span class="n">Markdown</span>
 
-os.environ[&quot;LANGCHAIN_TRACING_V2&quot;] = &quot;true&quot;
-os.environ[&quot;LANGCHAIN_PROJECT&quot;] = &quot;Agentic Architecture - Tool Use (Nebius)&quot;
+<span class="c1"># --- API Key and Tracing Setup ---</span>
+<span class="n">load_dotenv</span><span class="p">()</span>
 
-# Kiểm tra xem các key đã được thiết lập chưa
-for key in [&quot;NEBIUS_API_KEY&quot;, &quot;LANGCHAIN_API_KEY&quot;, &quot;TAVILY_API_KEY&quot;]:
-    if not os.environ.get(key):
-        print(f&quot;{key} not found. Please create a .env file and set it.&quot;)
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;LANGCHAIN_TRACING_V2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;true&quot;</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;LANGCHAIN_PROJECT&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Agentic Architecture - Tool Use (Nebius)&quot;</span>
 
-print(&quot;Environment variables loaded and tracing is set up.&quot;)
-</code></pre>
+<span class="c1"># Kiểm tra xem các key đã được thiết lập chưa</span>
+<span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;NEBIUS_API_KEY&quot;</span><span class="p">,</span> <span class="s2">&quot;LANGCHAIN_API_KEY&quot;</span><span class="p">,</span> <span class="s2">&quot;TAVILY_API_KEY&quot;</span><span class="p">]:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2"> not found. Please create a .env file and set it.&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Environment variables loaded and tracing is set up.&quot;</span><span class="p">)</span>
+</code></pre></div>
+
 <h2>Phase 1: Defining the Agent's Toolkit</h2>
 <p>Một agent chỉ có năng lực tương đương với các tool mà nó có quyền truy cập. Trong Phase này, chúng ta sẽ định nghĩa và kiểm thử tool cụ thể mà chúng ta sẽ cung cấp cho agent: tính năng tìm kiếm web trực tiếp.</p>
 <h3>Step 1.1: Creating and Testing the Web Search Tool</h3>
 <p><strong>Những gì chúng ta sẽ làm:</strong>
 Chúng ta sẽ khởi tạo tool <code>TavilySearchResults</code>. Phần quan trọng nhất của việc định nghĩa một tool là <strong>mô tả (description)</strong> của nó. LLM sử dụng mô tả bằng ngôn ngữ tự nhiên này để hiểu tool đó làm gì và khi nào nên sử dụng nó. Một bản mô tả rõ ràng, chính xác là điều thiết yếu để agent đưa ra các quyết định đúng đắn. Sau đó, chúng ta sẽ kiểm thử tool trực tiếp để xem kết quả đầu ra thô của nó trông như thế nào.</p>
-<pre><code class="language-python"># Khởi tạo tool. Chúng ta có thể đặt số lượng kết quả tối đa để giữ cho context ngắn gọn.
-search_tool = TavilySearchResults(max_results=2)
+<div class="codehilite"><pre><span></span><code><span class="c1"># Khởi tạo tool. Chúng ta có thể đặt số lượng kết quả tối đa để giữ cho context ngắn gọn.</span>
+<span class="n">search_tool</span> <span class="o">=</span> <span class="n">TavilySearchResults</span><span class="p">(</span><span class="n">max_results</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 
-# Việc đặt tên và mô tả rõ ràng cho tool là cực kỳ quan trọng đối với agent
-search_tool.name = &quot;web_search&quot;
-search_tool.description = &quot;A tool that can be used to search the internet for up-to-date information on any topic, including news, events, and current affairs.&quot;
+<span class="c1"># Việc đặt tên và mô tả rõ ràng cho tool là cực kỳ quan trọng đối với agent</span>
+<span class="n">search_tool</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;web_search&quot;</span>
+<span class="n">search_tool</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;A tool that can be used to search the internet for up-to-date information on any topic, including news, events, and current affairs.&quot;</span>
 
-tools = [search_tool]
-print(f&quot;Tool '{search_tool.name}' created with description: '{search_tool.description}'&quot;)
+<span class="n">tools</span> <span class="o">=</span> <span class="p">[</span><span class="n">search_tool</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Tool &#39;</span><span class="si">{</span><span class="n">search_tool</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; created with description: &#39;</span><span class="si">{</span><span class="n">search_tool</span><span class="o">.</span><span class="n">description</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
 
-console = Console()
+<span class="n">console</span> <span class="o">=</span> <span class="n">Console</span><span class="p">()</span>
 
-# Hãy thử kiểm thử tool trực tiếp để xem format kết quả đầu ra của nó
-print(&quot;\n--- Testing the tool directly ---&quot;)
-test_query = &quot;What was the score of the last Super Bowl?&quot;
-test_result = search_tool.invoke({&quot;query&quot;: test_query})
-console.print(f&quot;[bold green]Query:[/bold green] {test_query}&quot;)
-console.print(&quot;\n[bold green]Result:[/bold green]&quot;)
-console.print(test_result)
-</code></pre>
+<span class="c1"># Hãy thử kiểm thử tool trực tiếp để xem format kết quả đầu ra của nó</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- Testing the tool directly ---&quot;</span><span class="p">)</span>
+<span class="n">test_query</span> <span class="o">=</span> <span class="s2">&quot;What was the score of the last Super Bowl?&quot;</span>
+<span class="n">test_result</span> <span class="o">=</span> <span class="n">search_tool</span><span class="o">.</span><span class="n">invoke</span><span class="p">({</span><span class="s2">&quot;query&quot;</span><span class="p">:</span> <span class="n">test_query</span><span class="p">})</span>
+<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[bold green]Query:[/bold green] </span><span class="si">{</span><span class="n">test_query</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">[bold green]Result:[/bold green]&quot;</span><span class="p">)</span>
+<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">test_result</span><span class="p">)</span>
+</code></pre></div>
+
 <p><strong>Discussion of the Output:</strong>
 Bài kiểm thử cho thấy kết quả thô của tool <code>web_search</code> của chúng ta. Nó trả về một danh sách các dictionary, trong đó mỗi dictionary chứa URL và đoạn snippet nội dung của một kết quả tìm kiếm. Thông tin có cấu trúc này chính là những gì agent sẽ nhận được dưới dạng "observation" sau khi nó quyết định sử dụng tool. Bây giờ khi đã có một tool hoạt động tốt, chúng ta có thể xây dựng agent sẽ học cách sử dụng nó.</p>
 <h2>Phase 2: Building the Tool-Using Agent with LangGraph</h2>
@@ -130,106 +227,112 @@ Bài kiểm thử cho thấy kết quả thô của tool <code>web_search</code>
 <h3>Step 2.1: Defining the Graph State</h3>
 <p><strong>Những gì chúng ta sẽ làm:</strong>
 State cho một agent sử dụng tool thường là một danh sách các message đại diện cho lịch sử hội thoại. Lịch sử này bao gồm các câu hỏi của người dùng, suy nghĩ của agent và các lời gọi tool, cùng với kết quả từ các tool đó. Chúng ta sẽ sử dụng một <code>TypedDict</code> có thể chứa bất kỳ loại LangChain message nào.</p>
-<pre><code class="language-python">class AgentState(TypedDict):
-    messages: Annotated[list[AnyMessage], add_messages]
+<div class="codehilite"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">AgentState</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+    <span class="n">messages</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="n">AnyMessage</span><span class="p">],</span> <span class="n">add_messages</span><span class="p">]</span>
 
-print(&quot;AgentState TypedDict defined to manage conversation history.&quot;)
-</code></pre>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;AgentState TypedDict defined to manage conversation history.&quot;</span><span class="p">)</span>
+</code></pre></div>
+
 <h3>Step 2.2: Binding the Tools to the LLM</h3>
 <p><strong>Những gì chúng ta sẽ làm:</strong>
 Đây là bước quan trọng nơi chúng ta làm cho LLM "nhận thức" được về các tool. Chúng ta sử dụng phương thức <code>.bind_tools()</code>, phương thức này truyền tên và mô tả của các tool vào system prompt của LLM. Điều này cho phép logic nội bộ của model quyết định khi nào nên gọi một tool dựa trên mô tả của nó.</p>
-<pre><code class="language-python">llm = ChatNebius(model=&quot;meta-llama/Meta-Llama-3.1-8B-Instruct&quot;, temperature=0)
+<div class="codehilite"><pre><span></span><code><span class="n">llm</span> <span class="o">=</span> <span class="n">ChatNebius</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;meta-llama/Meta-Llama-3.1-8B-Instruct&quot;</span><span class="p">,</span> <span class="n">temperature</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
-# Bind các tool vào LLM, giúp nó nhận thức được các tool
-llm_with_tools = llm.bind_tools(tools)
+<span class="c1"># Bind các tool vào LLM, giúp nó nhận thức được các tool</span>
+<span class="n">llm_with_tools</span> <span class="o">=</span> <span class="n">llm</span><span class="o">.</span><span class="n">bind_tools</span><span class="p">(</span><span class="n">tools</span><span class="p">)</span>
 
-print(&quot;LLM has been bound with the provided tools.&quot;)
-</code></pre>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;LLM has been bound with the provided tools.&quot;</span><span class="p">)</span>
+</code></pre></div>
+
 <h3>Step 2.3: Defining the Agent Nodes</h3>
 <p><strong>Những gì chúng ta sẽ làm:</strong>
 Graph của chúng ta sẽ có hai node chính:
 1.  <strong><code>agent_node</code>:</strong> Đây là "bộ não". Nó gọi LLM với lịch sử hội thoại hiện tại. Phản hồi của LLM sẽ là câu trả lời cuối cùng hoặc một yêu cầu gọi một tool.
 2.  <strong><code>tool_node</code>:</strong> Đây là "đôi tay". Nó tiếp nhận yêu cầu gọi tool từ <code>agent_node</code>, thực thi tool tương ứng, và trả về kết quả đầu ra. Chúng ta sẽ sử dụng <code>ToolNode</code> có sẵn của LangGraph cho việc này.</p>
-<pre><code class="language-python">def agent_node(state: AgentState):
-    &quot;&quot;&quot;Node chính thực hiện gọi LLM để quyết định hành động tiếp theo.&quot;&quot;&quot;
-    console.print(&quot;--- AGENT: Thinking... ---&quot;)
-    response = llm_with_tools.invoke(state[&quot;messages&quot;])
-    return {&quot;messages&quot;: [response]}
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">agent_node</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">AgentState</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Node chính thực hiện gọi LLM để quyết định hành động tiếp theo.&quot;&quot;&quot;</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;--- AGENT: Thinking... ---&quot;</span><span class="p">)</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">llm_with_tools</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">state</span><span class="p">[</span><span class="s2">&quot;messages&quot;</span><span class="p">])</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;messages&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">response</span><span class="p">]}</span>
 
-# ToolNode là một node có sẵn từ LangGraph thực hiện việc chạy các tool
-tool_node = ToolNode(tools)
+<span class="c1"># ToolNode là một node có sẵn từ LangGraph thực hiện việc chạy các tool</span>
+<span class="n">tool_node</span> <span class="o">=</span> <span class="n">ToolNode</span><span class="p">(</span><span class="n">tools</span><span class="p">)</span>
 
-print(&quot;Agent node and Tool node have been defined.&quot;)
-</code></pre>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Agent node and Tool node have been defined.&quot;</span><span class="p">)</span>
+</code></pre></div>
+
 <h3>Step 2.4: Defining the Conditional Router</h3>
 <p><strong>Những gì chúng ta sẽ làm:</strong>
 Sau khi <code>agent_node</code> chạy, chúng ta cần quyết định đi đâu tiếp theo. Hàm router kiểm tra message cuối cùng từ agent. Nếu message đó chứa attribute <code>tool_calls</code>, điều đó có nghĩa là agent muốn sử dụng một tool, vì vậy chúng ta route đến <code>tool_node</code>. Nếu không, điều đó có nghĩa là agent đã có câu trả lời cuối cùng, và chúng ta có thể kết thúc workflow.</p>
-<pre><code class="language-python">def router_function(state: AgentState) -&gt; str:
-    &quot;&quot;&quot;Kiểm tra message cuối cùng của agent để quyết định bước tiếp theo.&quot;&quot;&quot;
-    last_message = state[&quot;messages&quot;][-1]
-    if last_message.tool_calls:
-        # Agent đã yêu cầu một cuộc gọi tool
-        console.print(&quot;--- ROUTER: Decision is to call a tool. ---&quot;)
-        return &quot;call_tool&quot;
-    else:
-        # Agent đã cung cấp câu trả lời cuối cùng
-        console.print(&quot;--- ROUTER: Decision is to finish. ---&quot;)
-        return &quot;__end__&quot;
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">router_function</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">AgentState</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Kiểm tra message cuối cùng của agent để quyết định bước tiếp theo.&quot;&quot;&quot;</span>
+    <span class="n">last_message</span> <span class="o">=</span> <span class="n">state</span><span class="p">[</span><span class="s2">&quot;messages&quot;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">last_message</span><span class="o">.</span><span class="n">tool_calls</span><span class="p">:</span>
+        <span class="c1"># Agent đã yêu cầu một cuộc gọi tool</span>
+        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;--- ROUTER: Decision is to call a tool. ---&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s2">&quot;call_tool&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Agent đã cung cấp câu trả lời cuối cùng</span>
+        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;--- ROUTER: Decision is to finish. ---&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s2">&quot;__end__&quot;</span>
 
-print(&quot;Router function defined.&quot;)
-</code></pre>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Router function defined.&quot;</span><span class="p">)</span>
+</code></pre></div>
+
 <h2>Phase 3: Assembling and Running the Workflow</h2>
 <p>Bây giờ chúng ta sẽ kết nối tất cả các thành phần lại với nhau thành một graph hoàn chỉnh, có thể thực thi và chạy nó trên một truy vấn buộc agent phải sử dụng khả năng tìm kiếm web mới của mình.</p>
 <h3>Step 3.1: Building and Visualizing the Graph</h3>
 <p><strong>Những gì chúng ta sẽ làm:</strong>
 Chúng ta sẽ tạo <code>StateGraph</code> và thêm các node cùng các edge của mình. Phần then chốt là conditional edge sử dụng <code>router_function</code> của chúng ta để tạo ra vòng lặp suy luận chính của agent: <code>agent -&gt; router -&gt; tool -&gt; agent</code>.</p>
-<pre><code class="language-python">graph_builder = StateGraph(AgentState)
+<div class="codehilite"><pre><span></span><code><span class="n">graph_builder</span> <span class="o">=</span> <span class="n">StateGraph</span><span class="p">(</span><span class="n">AgentState</span><span class="p">)</span>
 
-# Thêm các node
-graph_builder.add_node(&quot;agent&quot;, agent_node)
-graph_builder.add_node(&quot;call_tool&quot;, tool_node)
+<span class="c1"># Thêm các node</span>
+<span class="n">graph_builder</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="s2">&quot;agent&quot;</span><span class="p">,</span> <span class="n">agent_node</span><span class="p">)</span>
+<span class="n">graph_builder</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="s2">&quot;call_tool&quot;</span><span class="p">,</span> <span class="n">tool_node</span><span class="p">)</span>
 
-# Thiết lập điểm bắt đầu
-graph_builder.set_entry_point(&quot;agent&quot;)
+<span class="c1"># Thiết lập điểm bắt đầu</span>
+<span class="n">graph_builder</span><span class="o">.</span><span class="n">set_entry_point</span><span class="p">(</span><span class="s2">&quot;agent&quot;</span><span class="p">)</span>
 
-# Thêm conditional router
-graph_builder.add_conditional_edges(
-    &quot;agent&quot;,
-    router_function,
-)
+<span class="c1"># Thêm conditional router</span>
+<span class="n">graph_builder</span><span class="o">.</span><span class="n">add_conditional_edges</span><span class="p">(</span>
+    <span class="s2">&quot;agent&quot;</span><span class="p">,</span>
+    <span class="n">router_function</span><span class="p">,</span>
+<span class="p">)</span>
 
-# Thêm edge từ tool node quay lại agent để hoàn tất vòng lặp
-graph_builder.add_edge(&quot;call_tool&quot;, &quot;agent&quot;)
+<span class="c1"># Thêm edge từ tool node quay lại agent để hoàn tất vòng lặp</span>
+<span class="n">graph_builder</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="s2">&quot;call_tool&quot;</span><span class="p">,</span> <span class="s2">&quot;agent&quot;</span><span class="p">)</span>
 
-# Compile graph
-tool_agent_app = graph_builder.compile()
+<span class="c1"># Compile graph</span>
+<span class="n">tool_agent_app</span> <span class="o">=</span> <span class="n">graph_builder</span><span class="o">.</span><span class="n">compile</span><span class="p">()</span>
 
-print(&quot;Tool-using agent graph compiled successfully!&quot;)
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Tool-using agent graph compiled successfully!&quot;</span><span class="p">)</span>
 
-# Hình ảnh hóa graph
-try:
-    from IPython.display import Image, display
-    png_image = tool_agent_app.get_graph().draw_png()
-    display(Image(png_image))
-except Exception as e:
-    print(f&quot;Graph visualization failed: {e}. Please ensure pygraphviz is installed.&quot;)
-</code></pre>
+<span class="c1"># Hình ảnh hóa graph</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">Image</span><span class="p">,</span> <span class="n">display</span>
+    <span class="n">png_image</span> <span class="o">=</span> <span class="n">tool_agent_app</span><span class="o">.</span><span class="n">get_graph</span><span class="p">()</span><span class="o">.</span><span class="n">draw_png</span><span class="p">()</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">Image</span><span class="p">(</span><span class="n">png_image</span><span class="p">))</span>
+<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Graph visualization failed: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">. Please ensure pygraphviz is installed.&quot;</span><span class="p">)</span>
+</code></pre></div>
+
 <p><strong>Discussion of the Output:</strong>
 Graph đã hoàn tất việc compile và sẵn sàng hoạt động. Hình ảnh hóa cho thấy rõ ràng vòng lặp suy luận của agent. Quy trình bắt đầu tại node <code>agent</code>. Conditional edge (được đại diện bởi hình thoi) sau đó sẽ route luồng công việc. Nếu cần một tool, nó sẽ đi đến node <code>call_tool</code>, và kết quả đầu ra được đưa ngược lại node <code>agent</code> để tổng hợp. Nếu không cần tool nào, quy trình sẽ đi tới <code>__end__</code>. Cấu trúc này triển khai hoàn hảo pattern Tool Use.</p>
 <h3>Step 3.2: End-to-End Execution</h3>
 <p><strong>Những gì chúng ta sẽ làm:</strong>
 Hãy chạy agent với một câu hỏi mà nó không thể biết được từ dữ liệu training của mình, buộc nó phải sử dụng tool tìm kiếm web. Chúng ta sẽ stream các bước trung gian để theo dõi quá trình suy luận của nó diễn ra.</p>
-<pre><code class="language-python">user_query = &quot;What were the main announcements from Apple's latest WWDC event?&quot;
-initial_input = {&quot;messages&quot;: [(&quot;user&quot;, user_query)]}
+<div class="codehilite"><pre><span></span><code><span class="n">user_query</span> <span class="o">=</span> <span class="s2">&quot;What were the main announcements from Apple&#39;s latest WWDC event?&quot;</span>
+<span class="n">initial_input</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;messages&quot;</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="n">user_query</span><span class="p">)]}</span>
 
-console.print(f&quot;[bold cyan]🚀 Kicking off Tool Use workflow for request:[/bold cyan] '{user_query}'\n&quot;)
+<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[bold cyan]🚀 Kicking off Tool Use workflow for request:[/bold cyan] &#39;</span><span class="si">{</span><span class="n">user_query</span><span class="si">}</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 
-for chunk in tool_agent_app.stream(initial_input, stream_mode=&quot;values&quot;):
-    chunk[&quot;messages&quot;][-1].pretty_print()
-    console.print(&quot;\n---\n&quot;)
+<span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">tool_agent_app</span><span class="o">.</span><span class="n">stream</span><span class="p">(</span><span class="n">initial_input</span><span class="p">,</span> <span class="n">stream_mode</span><span class="o">=</span><span class="s2">&quot;values&quot;</span><span class="p">):</span>
+    <span class="n">chunk</span><span class="p">[</span><span class="s2">&quot;messages&quot;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">pretty_print</span><span class="p">()</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">---</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 
-console.print(&quot;\n[bold green]✅ Tool Use workflow complete![/bold green]&quot;)
-</code></pre>
+<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">[bold green]✅ Tool Use workflow complete![/bold green]&quot;</span><span class="p">)</span>
+</code></pre></div>
+
 <h2>Phase 4: Evaluation</h2>
 <p>Bây giờ agent đã chạy xong, chúng ta có thể evaluate hiệu năng của nó. Đối với một agent sử dụng tool, chúng ta quan tâm đến hai điều: liệu nó có sử dụng các tool của mình một cách chính xác không, và câu trả lời cuối cùng – vốn được tổng hợp từ kết quả đầu ra của tool – có đạt chất lượng cao không?</p>
 <h3>Step 4.1: Analyzing the Execution Trace</h3>
@@ -244,33 +347,34 @@ Trace này xác nhận rằng logic của agent và việc routing của graph �
 <h3>Step 4.2: Evaluating with LLM-as-a-Judge</h3>
 <p><strong>Những gì chúng ta sẽ làm:</strong>
 Chúng ta sẽ tạo một LLM 'Judge' (Giám khảo) để cung cấp một bản evaluation có cấu trúc, mang tính định lượng về hiệu năng của agent. Các tiêu chí evaluation sẽ được điều chỉnh cụ thể để đánh giá chất lượng của việc sử dụng tool.</p>
-<pre><code class="language-python">class ToolUseEvaluation(BaseModel):
-    &quot;&quot;&quot;Schema để đánh giá việc sử dụng tool của agent và câu trả lời cuối cùng.&quot;&quot;&quot;
-    tool_selection_score: int = Field(description=&quot;Score 1-5 on whether the agent chose the correct tool for the task.&quot;)
-    tool_input_score: int = Field(description=&quot;Score 1-5 on how well-formed and relevant the input to the tool was.&quot;)
-    synthesis_quality_score: int = Field(description=&quot;Score 1-5 on how well the agent integrated the tool's output into its final answer.&quot;)
-    justification: str = Field(description=&quot;A brief justification for the scores.&quot;)
+<div class="codehilite"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">ToolUseEvaluation</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Schema để đánh giá việc sử dụng tool của agent và câu trả lời cuối cùng.&quot;&quot;&quot;</span>
+    <span class="n">tool_selection_score</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Score 1-5 on whether the agent chose the correct tool for the task.&quot;</span><span class="p">)</span>
+    <span class="n">tool_input_score</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Score 1-5 on how well-formed and relevant the input to the tool was.&quot;</span><span class="p">)</span>
+    <span class="n">synthesis_quality_score</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Score 1-5 on how well the agent integrated the tool&#39;s output into its final answer.&quot;</span><span class="p">)</span>
+    <span class="n">justification</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;A brief justification for the scores.&quot;</span><span class="p">)</span>
 
-judge_llm = llm.with_structured_output(ToolUseEvaluation)
+<span class="n">judge_llm</span> <span class="o">=</span> <span class="n">llm</span><span class="o">.</span><span class="n">with_structured_output</span><span class="p">(</span><span class="n">ToolUseEvaluation</span><span class="p">)</span>
 
-# Để đánh giá, chúng ta cần tái lập conversation trace đầy đủ
-final_answer = tool_agent_app.invoke(initial_input)
-conversation_trace = &quot;\n&quot;.join([f&quot;{m.type}: {m.content or ''} {getattr(m, 'tool_calls', '')}&quot; for m in final_answer['messages']])
+<span class="c1"># Để đánh giá, chúng ta cần tái lập conversation trace đầy đủ</span>
+<span class="n">final_answer</span> <span class="o">=</span> <span class="n">tool_agent_app</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">initial_input</span><span class="p">)</span>
+<span class="n">conversation_trace</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">m</span><span class="o">.</span><span class="n">type</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">m</span><span class="o">.</span><span class="n">content</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;tool_calls&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">final_answer</span><span class="p">[</span><span class="s1">&#39;messages&#39;</span><span class="p">]])</span>
 
-def evaluate_tool_use(trace: str):
-    prompt = f&quot;&quot;&quot;You are an expert judge of AI agents. Evaluate the following conversation trace based on the agent's tool use on a scale of 1-5. Provide a brief justification.
+<span class="k">def</span><span class="w"> </span><span class="nf">evaluate_tool_use</span><span class="p">(</span><span class="n">trace</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="n">prompt</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;You are an expert judge of AI agents. Evaluate the following conversation trace based on the agent&#39;s tool use on a scale of 1-5. Provide a brief justification.</span>
 
-    Conversation Trace:
-    ```
-    {trace}
-    ```
-    &quot;&quot;&quot;
-    return judge_llm.invoke(prompt)
+<span class="s2">    Conversation Trace:</span>
+<span class="s2">    ```</span>
+<span class="s2">    </span><span class="si">{</span><span class="n">trace</span><span class="si">}</span>
+<span class="s2">    ```</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">judge_llm</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
 
-console.print(&quot;--- Evaluating Tool Use Performance ---&quot;)
-evaluation = evaluate_tool_use(conversation_trace)
-console.print(evaluation.model_dump())
-</code></pre>
+<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;--- Evaluating Tool Use Performance ---&quot;</span><span class="p">)</span>
+<span class="n">evaluation</span> <span class="o">=</span> <span class="n">evaluate_tool_use</span><span class="p">(</span><span class="n">conversation_trace</span><span class="p">)</span>
+<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">evaluation</span><span class="o">.</span><span class="n">model_dump</span><span class="p">())</span>
+</code></pre></div>
+
 <p><strong>Discussion of the Output:</strong>
 LLM-as-a-Judge cung cấp một bản đánh giá có cấu trúc và có lý lẽ về hiệu năng của agent của chúng ta. Các điểm số cao trên cả ba danh mục—<code>tool_selection_score</code>, <code>tool_input_score</code>, và <code>synthesis_quality_score</code>—xác nhận rằng agent của chúng ta không chỉ đang sử dụng các tool, mà còn sử dụng chúng một cách <em>hiệu quả</em>. Nó đã xác định chính xác nhu cầu tìm kiếm web, xây dựng một truy vấn phù hợp, và tổng hợp thành công các sự thật đã truy xuất được thành một câu trả lời cuối cùng hữu ích và chính xác. Bản evaluation tự động này giúp chúng ta tin tưởng vào mức độ mạnh mẽ của việc triển khai.</p>
 <h2>Conclusion</h2>

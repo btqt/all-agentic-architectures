@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -6,15 +5,109 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>12_Graph</title>
     <style>
-        body { font-family: system-ui, -apple-system, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; color: #333; }
-        pre { background: #f4f4f4; padding: 15px; border-radius: 5px; overflow-x: auto; }
-        code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; font-family: monospace; }
+        body { font-family: system-ui, -apple-system, sans-serif; line-height: 1.6; max-width: 1100px; margin: 0 auto; padding: 20px; color: #333; }
+        pre { background: #f4f4f4; padding: 15px; border-radius: 5px; white-space: pre-wrap; word-wrap: break-word; }
+        code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; font-family: 'Operator Mono Lig', monospace; }
         a { color: #007bff; text-decoration: none; }
         a:hover { text-decoration: underline; }
         table { border-collapse: collapse; width: 100%; margin: 20px 0; }
         th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
         th { background-color: #f2f2f2; }
         img { max-width: 100%; height: auto; }
+
+        /* --- Pygments: friendly theme (inline, no CDN) --- */
+        pre { line-height: 125%; }
+td.linenos .normal { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.codehilite .hll { background-color: #ffffcc }
+.codehilite { background: #f0f0f0; }
+.codehilite .c { color: #60A0B0; font-style: italic } /* Comment */
+.codehilite .err { border: 1px solid #F00 } /* Error */
+.codehilite .k { color: #007020; font-weight: bold } /* Keyword */
+.codehilite .o { color: #666 } /* Operator */
+.codehilite .ch { color: #60A0B0; font-style: italic } /* Comment.Hashbang */
+.codehilite .cm { color: #60A0B0; font-style: italic } /* Comment.Multiline */
+.codehilite .cp { color: #007020 } /* Comment.Preproc */
+.codehilite .cpf { color: #60A0B0; font-style: italic } /* Comment.PreprocFile */
+.codehilite .c1 { color: #60A0B0; font-style: italic } /* Comment.Single */
+.codehilite .cs { color: #60A0B0; background-color: #FFF0F0 } /* Comment.Special */
+.codehilite .gd { color: #A00000 } /* Generic.Deleted */
+.codehilite .ge { font-style: italic } /* Generic.Emph */
+.codehilite .ges { font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+.codehilite .gr { color: #F00 } /* Generic.Error */
+.codehilite .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.codehilite .gi { color: #00A000 } /* Generic.Inserted */
+.codehilite .go { color: #888 } /* Generic.Output */
+.codehilite .gp { color: #C65D09; font-weight: bold } /* Generic.Prompt */
+.codehilite .gs { font-weight: bold } /* Generic.Strong */
+.codehilite .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.codehilite .gt { color: #04D } /* Generic.Traceback */
+.codehilite .kc { color: #007020; font-weight: bold } /* Keyword.Constant */
+.codehilite .kd { color: #007020; font-weight: bold } /* Keyword.Declaration */
+.codehilite .kn { color: #007020; font-weight: bold } /* Keyword.Namespace */
+.codehilite .kp { color: #007020 } /* Keyword.Pseudo */
+.codehilite .kr { color: #007020; font-weight: bold } /* Keyword.Reserved */
+.codehilite .kt { color: #902000 } /* Keyword.Type */
+.codehilite .m { color: #40A070 } /* Literal.Number */
+.codehilite .s { color: #4070A0 } /* Literal.String */
+.codehilite .na { color: #4070A0 } /* Name.Attribute */
+.codehilite .nb { color: #007020 } /* Name.Builtin */
+.codehilite .nc { color: #0E84B5; font-weight: bold } /* Name.Class */
+.codehilite .no { color: #60ADD5 } /* Name.Constant */
+.codehilite .nd { color: #555; font-weight: bold } /* Name.Decorator */
+.codehilite .ni { color: #D55537; font-weight: bold } /* Name.Entity */
+.codehilite .ne { color: #007020 } /* Name.Exception */
+.codehilite .nf { color: #06287E } /* Name.Function */
+.codehilite .nl { color: #002070; font-weight: bold } /* Name.Label */
+.codehilite .nn { color: #0E84B5; font-weight: bold } /* Name.Namespace */
+.codehilite .nt { color: #062873; font-weight: bold } /* Name.Tag */
+.codehilite .nv { color: #BB60D5 } /* Name.Variable */
+.codehilite .ow { color: #007020; font-weight: bold } /* Operator.Word */
+.codehilite .w { color: #BBB } /* Text.Whitespace */
+.codehilite .mb { color: #40A070 } /* Literal.Number.Bin */
+.codehilite .mf { color: #40A070 } /* Literal.Number.Float */
+.codehilite .mh { color: #40A070 } /* Literal.Number.Hex */
+.codehilite .mi { color: #40A070 } /* Literal.Number.Integer */
+.codehilite .mo { color: #40A070 } /* Literal.Number.Oct */
+.codehilite .sa { color: #4070A0 } /* Literal.String.Affix */
+.codehilite .sb { color: #4070A0 } /* Literal.String.Backtick */
+.codehilite .sc { color: #4070A0 } /* Literal.String.Char */
+.codehilite .dl { color: #4070A0 } /* Literal.String.Delimiter */
+.codehilite .sd { color: #4070A0; font-style: italic } /* Literal.String.Doc */
+.codehilite .s2 { color: #4070A0 } /* Literal.String.Double */
+.codehilite .se { color: #4070A0; font-weight: bold } /* Literal.String.Escape */
+.codehilite .sh { color: #4070A0 } /* Literal.String.Heredoc */
+.codehilite .si { color: #70A0D0; font-style: italic } /* Literal.String.Interpol */
+.codehilite .sx { color: #C65D09 } /* Literal.String.Other */
+.codehilite .sr { color: #235388 } /* Literal.String.Regex */
+.codehilite .s1 { color: #4070A0 } /* Literal.String.Single */
+.codehilite .ss { color: #517918 } /* Literal.String.Symbol */
+.codehilite .bp { color: #007020 } /* Name.Builtin.Pseudo */
+.codehilite .fm { color: #06287E } /* Name.Function.Magic */
+.codehilite .vc { color: #BB60D5 } /* Name.Variable.Class */
+.codehilite .vg { color: #BB60D5 } /* Name.Variable.Global */
+.codehilite .vi { color: #BB60D5 } /* Name.Variable.Instance */
+.codehilite .vm { color: #BB60D5 } /* Name.Variable.Magic */
+.codehilite .il { color: #40A070 } /* Literal.Number.Integer.Long */
+
+        /* Override: keep gray bg + wrap */
+        .codehilite { background: #f4f4f4 !important; padding: 15px; border-radius: 5px; overflow: visible; }
+        .codehilite pre { background: #f4f4f4 !important; white-space: pre-wrap; word-wrap: break-word; margin: 0; font-family: 'Operator Mono', monospace; }
+
+        /* Operator Mono italic: comments, docstrings, keywords */
+        .codehilite .c,
+        .codehilite .c1,
+        .codehilite .cm,
+        .codehilite .cs,
+        .codehilite .cp  { font-style: italic; }
+        .codehilite .k,
+        .codehilite .kd,
+        .codehilite .kn,
+        .codehilite .kr,
+        .codehilite .kc  { font-style: italic; }
+        .codehilite .sd  { font-style: italic; } /* docstring */
     </style>
 </head>
 <body>
@@ -58,173 +151,179 @@
 </ul>
 <h2>Phase 0: Foundation &amp; Setup</h2>
 <p>Chúng ta sẽ cài đặt các thư viện, bao gồm Neo4j driver, và cấu hình môi trường. <strong>Quan trọng là bạn phải có một instance Neo4j đang chạy và một file <code>.env</code> với các thông tin đăng nhập.</strong></p>
-<pre><code class="language-python"># !pip install -q -U langchain-nebius langchain langgraph rich python-dotenv langchain_community neo4j
-</code></pre>
-<pre><code class="language-python">import os
-from typing import List, Dict, Any, Optional
-from dotenv import load_dotenv
+<div class="codehilite"><pre><span></span><code><span class="c1"># !pip install -q -U langchain-nebius langchain langgraph rich python-dotenv langchain_community neo4j</span>
+</code></pre></div>
 
-# Pydantic for data modeling
-from pydantic import BaseModel, Field
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dotenv</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_dotenv</span>
 
-# LangChain components
-from langchain_nebius import ChatNebius
-from langchain_community.graphs import Neo4jGraph
-from langchain.chains import GraphCypherQAChain
-from langchain_core.prompts import ChatPromptTemplate
-from langchain_core.pydantic_v1 import BaseModel as V1BaseModel
+<span class="c1"># Pydantic for data modeling</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span>
 
-# For pretty printing
-from rich.console import Console
-from rich.markdown import Markdown
+<span class="c1"># LangChain components</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_nebius</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatNebius</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_community.graphs</span><span class="w"> </span><span class="kn">import</span> <span class="n">Neo4jGraph</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain.chains</span><span class="w"> </span><span class="kn">import</span> <span class="n">GraphCypherQAChain</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_core.prompts</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatPromptTemplate</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_core.pydantic_v1</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span> <span class="k">as</span> <span class="n">V1BaseModel</span>
 
-# --- API Key and Tracing Setup ---
-load_dotenv()
+<span class="c1"># For pretty printing</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rich.console</span><span class="w"> </span><span class="kn">import</span> <span class="n">Console</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rich.markdown</span><span class="w"> </span><span class="kn">import</span> <span class="n">Markdown</span>
 
-os.environ[&quot;LANGCHAIN_TRACING_V2&quot;] = &quot;true&quot;
-os.environ[&quot;LANGCHAIN_PROJECT&quot;] = &quot;Agentic Architecture - Graph Memory (Nebius)&quot;
+<span class="c1"># --- API Key and Tracing Setup ---</span>
+<span class="n">load_dotenv</span><span class="p">()</span>
 
-required_vars = [&quot;NEBIUS_API_KEY&quot;, &quot;LANGCHAIN_API_KEY&quot;, &quot;NEO4J_URI&quot;, &quot;NEO4J_USERNAME&quot;, &quot;NEO4J_PASSWORD&quot;]
-for var in required_vars:
-    if var not in os.environ:
-        print(f&quot;Warning: Environment variable {var} not set.&quot;)
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;LANGCHAIN_TRACING_V2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;true&quot;</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;LANGCHAIN_PROJECT&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Agentic Architecture - Graph Memory (Nebius)&quot;</span>
 
-print(&quot;Environment variables loaded and tracing is set up.&quot;)
-</code></pre>
+<span class="n">required_vars</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;NEBIUS_API_KEY&quot;</span><span class="p">,</span> <span class="s2">&quot;LANGCHAIN_API_KEY&quot;</span><span class="p">,</span> <span class="s2">&quot;NEO4J_URI&quot;</span><span class="p">,</span> <span class="s2">&quot;NEO4J_USERNAME&quot;</span><span class="p">,</span> <span class="s2">&quot;NEO4J_PASSWORD&quot;</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">required_vars</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">var</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Warning: Environment variable </span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s2"> not set.&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Environment variables loaded and tracing is set up.&quot;</span><span class="p">)</span>
+</code></pre></div>
+
 <h2>Phase 1: Building the Graph Construction Agent</h2>
 <p>Đây là trái tim của pipeline hấp thụ thông tin. Chúng ta cần một agent có thể đọc văn bản phi cấu trúc và trích xuất các thực thể cũng như các mối quan hệ dưới một định dạng có cấu trúc. Chúng ta sẽ sử dụng một LLM với khả năng đầu ra có cấu trúc (Pydantic) để đóng vai trò là bộ trích xuất tri thức.</p>
-<pre><code class="language-python">console = Console()
-llm = ChatNebius(model=&quot;mistralai/Mixtral-8x22B-Instruct-v0.1&quot;, temperature=0)
+<div class="codehilite"><pre><span></span><code><span class="n">console</span> <span class="o">=</span> <span class="n">Console</span><span class="p">()</span>
+<span class="n">llm</span> <span class="o">=</span> <span class="n">ChatNebius</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;mistralai/Mixtral-8x22B-Instruct-v0.1&quot;</span><span class="p">,</span> <span class="n">temperature</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
-# Kết nối tới cơ sở dữ liệu Neo4j
-try:
-    graph = Neo4jGraph()
-    # Xóa đồ thị để có một lượt chạy sạch sẽ
-    graph.query(&quot;MATCH (n) DETACH DELETE n&quot;)
-except Exception as e:
-    console.print(f&quot;[bold red]Failed to connect to Neo4j: {e}. Please check your credentials and connection.[/bold red]&quot;)
-    graph = None
+<span class="c1"># Kết nối tới cơ sở dữ liệu Neo4j</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">graph</span> <span class="o">=</span> <span class="n">Neo4jGraph</span><span class="p">()</span>
+    <span class="c1"># Xóa đồ thị để có một lượt chạy sạch sẽ</span>
+    <span class="n">graph</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;MATCH (n) DETACH DELETE n&quot;</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[bold red]Failed to connect to Neo4j: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">. Please check your credentials and connection.[/bold red]&quot;</span><span class="p">)</span>
+    <span class="n">graph</span> <span class="o">=</span> <span class="kc">None</span>
 
-# Pydantic models cho trích xuất có cấu trúc (sử dụng LangChain v1 BaseModel để tương thích với các phương thức đầu ra có cấu trúc cũ hơn)
-class Node(V1BaseModel):
-    id: str = Field(description=&quot;Unique name or identifier for the entity.&quot;)
-    type: str = Field(description=&quot;The type or label of the entity (e.g., Person, Company, Product).&quot;)
+<span class="c1"># Pydantic models cho trích xuất có cấu trúc (sử dụng LangChain v1 BaseModel để tương thích với các phương thức đầu ra có cấu trúc cũ hơn)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Node</span><span class="p">(</span><span class="n">V1BaseModel</span><span class="p">):</span>
+    <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Unique name or identifier for the entity.&quot;</span><span class="p">)</span>
+    <span class="nb">type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;The type or label of the entity (e.g., Person, Company, Product).&quot;</span><span class="p">)</span>
 
-class Relationship(V1BaseModel):
-    source: Node
-    target: Node
-    type: str = Field(description=&quot;The type of relationship (e.g., WORKS_FOR, ACQUIRED).&quot;)
+<span class="k">class</span><span class="w"> </span><span class="nc">Relationship</span><span class="p">(</span><span class="n">V1BaseModel</span><span class="p">):</span>
+    <span class="n">source</span><span class="p">:</span> <span class="n">Node</span>
+    <span class="n">target</span><span class="p">:</span> <span class="n">Node</span>
+    <span class="nb">type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;The type of relationship (e.g., WORKS_FOR, ACQUIRED).&quot;</span><span class="p">)</span>
 
-class KnowledgeGraph(V1BaseModel):
-    &quot;&quot;&quot;Một đồ thị gồm các node và relationship.&quot;&quot;&quot;
-    relationships: List[Relationship]
+<span class="k">class</span><span class="w"> </span><span class="nc">KnowledgeGraph</span><span class="p">(</span><span class="n">V1BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Một đồ thị gồm các node và relationship.&quot;&quot;&quot;</span>
+    <span class="n">relationships</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Relationship</span><span class="p">]</span>
 
-# Graph Maker Agent
-def get_graph_maker_chain():
-    extractor_llm = llm.with_structured_output(KnowledgeGraph)
-    prompt = ChatPromptTemplate.from_messages([
-        (&quot;system&quot;, &quot;You are an expert at extracting information from text and building a knowledge graph. Extract all entities (nodes) and relationships from the provided text. The relationship type should be a verb in all caps, like 'WORKS_FOR' or 'ACQUIRED'.&quot;),
-        (&quot;human&quot;, &quot;Extract a knowledge graph from the following text:\n\n{text}&quot;)
-    ])
-    return prompt | extractor_llm
+<span class="c1"># Graph Maker Agent</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_graph_maker_chain</span><span class="p">():</span>
+    <span class="n">extractor_llm</span> <span class="o">=</span> <span class="n">llm</span><span class="o">.</span><span class="n">with_structured_output</span><span class="p">(</span><span class="n">KnowledgeGraph</span><span class="p">)</span>
+    <span class="n">prompt</span> <span class="o">=</span> <span class="n">ChatPromptTemplate</span><span class="o">.</span><span class="n">from_messages</span><span class="p">([</span>
+        <span class="p">(</span><span class="s2">&quot;system&quot;</span><span class="p">,</span> <span class="s2">&quot;You are an expert at extracting information from text and building a knowledge graph. Extract all entities (nodes) and relationships from the provided text. The relationship type should be a verb in all caps, like &#39;WORKS_FOR&#39; or &#39;ACQUIRED&#39;.&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;human&quot;</span><span class="p">,</span> <span class="s2">&quot;Extract a knowledge graph from the following text:</span><span class="se">\n\n</span><span class="si">{text}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="p">])</span>
+    <span class="k">return</span> <span class="n">prompt</span> <span class="o">|</span> <span class="n">extractor_llm</span>
 
-graph_maker_agent = get_graph_maker_chain()
-print(&quot;Successfully connected to Neo4j and defined the Graph Maker Agent.&quot;)
-</code></pre>
+<span class="n">graph_maker_agent</span> <span class="o">=</span> <span class="n">get_graph_maker_chain</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Successfully connected to Neo4j and defined the Graph Maker Agent.&quot;</span><span class="p">)</span>
+</code></pre></div>
+
 <h2>Phase 2: Ingesting Knowledge and Building the World Model</h2>
 <p>Bây giờ, chúng ta sẽ cung cấp cho agent một loạt các tài liệu liên quan nhưng riêng biệt. Agent sẽ xử lý từng tài liệu và dần dần xây dựng đồ thị tri thức doanh nghiệp. Điều này mô phỏng cách một hệ thống thực tế sẽ học hỏi theo thời gian khi có thông tin mới.</p>
-<pre><code class="language-python">unstructured_documents = [
-    &quot;On May 15, 2023, global tech giant AlphaCorp announced its acquisition of startup BetaSolutions, a leader in cloud-native database technology.&quot;,
-    &quot;Dr. Evelyn Reed, a renowned AI researcher, has been the Chief Science Officer at AlphaCorp since 2021. She leads the team responsible for the QuantumLeap AI platform.&quot;,
-    &quot;Innovate Inc.'s flagship product, NeuraGen, is seen as a direct competitor to AlphaCorp's QuantumLeap AI. Meanwhile, Innovate Inc. recently hired Johnathan Miles as their new CTO.&quot;
-]
-for i, doc in enumerate(unstructured_documents):
-    console.print(f&quot;--- Ingesting Document {i+1} ---&quot;)
-    try:
-        kg_data = graph_maker_agent.invoke({&quot;text&quot;: doc})
-        if kg_data.relationships:
-            graph.add_graph_documents(graph_documents=kg_data.relationships, include_source=False)
-            console.print(f&quot;[green]Successfully added {len(kg_data.relationships)} relationships to the graph.[/green]&quot;)
-        else:
-             console.print(&quot;[yellow]No relationships extracted.[/yellow]&quot;)
-    except Exception as e:
-        console.print(f&quot;[red]Failed to process document: {e}[/red]&quot;)
+<div class="codehilite"><pre><span></span><code><span class="n">unstructured_documents</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;On May 15, 2023, global tech giant AlphaCorp announced its acquisition of startup BetaSolutions, a leader in cloud-native database technology.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Dr. Evelyn Reed, a renowned AI researcher, has been the Chief Science Officer at AlphaCorp since 2021. She leads the team responsible for the QuantumLeap AI platform.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Innovate Inc.&#39;s flagship product, NeuraGen, is seen as a direct competitor to AlphaCorp&#39;s QuantumLeap AI. Meanwhile, Innovate Inc. recently hired Johnathan Miles as their new CTO.&quot;</span>
+<span class="p">]</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">doc</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">unstructured_documents</span><span class="p">):</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;--- Ingesting Document </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2"> ---&quot;</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">kg_data</span> <span class="o">=</span> <span class="n">graph_maker_agent</span><span class="o">.</span><span class="n">invoke</span><span class="p">({</span><span class="s2">&quot;text&quot;</span><span class="p">:</span> <span class="n">doc</span><span class="p">})</span>
+        <span class="k">if</span> <span class="n">kg_data</span><span class="o">.</span><span class="n">relationships</span><span class="p">:</span>
+            <span class="n">graph</span><span class="o">.</span><span class="n">add_graph_documents</span><span class="p">(</span><span class="n">graph_documents</span><span class="o">=</span><span class="n">kg_data</span><span class="o">.</span><span class="n">relationships</span><span class="p">,</span> <span class="n">include_source</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[green]Successfully added </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">kg_data</span><span class="o">.</span><span class="n">relationships</span><span class="p">)</span><span class="si">}</span><span class="s2"> relationships to the graph.[/green]&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+             <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;[yellow]No relationships extracted.[/yellow]&quot;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[red]Failed to process document: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">[/red]&quot;</span><span class="p">)</span>
 
-console.print(&quot;--- ✅ Knowledge Graph Ingestion Complete ---&quot;)
-console.print(&quot;\n--- Graph Schema ---&quot;)
-console.print(graph.schema)
-</code></pre>
+<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;--- ✅ Knowledge Graph Ingestion Complete ---&quot;</span><span class="p">)</span>
+<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- Graph Schema ---&quot;</span><span class="p">)</span>
+<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">schema</span><span class="p">)</span>
+</code></pre></div>
+
 <h2>Phase 3: Building the Graph-Querying Agent</h2>
 <p>Với đồ thị tri thức đã có dữ liệu, chúng ta cần một agent có thể sử dụng nó. Điều này bao gồm một quy trình <strong>Text-to-Cypher</strong>. Agent sẽ nhận một câu hỏi ngôn ngữ tự nhiên từ người dùng, chuyển đổi nó thành một truy vấn Cypher sử dụng schema của đồ thị làm ngữ cảnh, thực thi truy vấn, và sau đó tổng hợp các kết quả thành một câu trả lời mà con người có thể đọc được.</p>
-<pre><code class="language-python"># LangChain có một chain tích hợp cho việc này, nhưng chúng ta sẽ kiểm tra các thành phần
-# để hiểu cách nó hoạt động.
-cypher_generation_prompt = ChatPromptTemplate.from_template(
-    &quot;&quot;&quot;You are an expert Neo4j Cypher query developer. Your task is to convert a user's natural language question into a valid Cypher query.
-You must use the provided graph schema to construct the query. Do not use any node labels or relationship types that are not in the schema.
-Return ONLY the Cypher query, with no additional text or explanations.
+<div class="codehilite"><pre><span></span><code><span class="c1"># LangChain có một chain tích hợp cho việc này, nhưng chúng ta sẽ kiểm tra các thành phần</span>
+<span class="c1"># để hiểu cách nó hoạt động.</span>
+<span class="n">cypher_generation_prompt</span> <span class="o">=</span> <span class="n">ChatPromptTemplate</span><span class="o">.</span><span class="n">from_template</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;You are an expert Neo4j Cypher query developer. Your task is to convert a user&#39;s natural language question into a valid Cypher query.</span>
+<span class="sd">You must use the provided graph schema to construct the query. Do not use any node labels or relationship types that are not in the schema.</span>
+<span class="sd">Return ONLY the Cypher query, with no additional text or explanations.</span>
 
-Graph Schema:
-{schema}
+<span class="sd">Graph Schema:</span>
+<span class="sd">{schema}</span>
 
-User Question:
-{question}
-&quot;&quot;&quot;
-)
+<span class="sd">User Question:</span>
+<span class="sd">{question}</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="p">)</span>
 
-cypher_response_prompt = ChatPromptTemplate.from_template(
-    &quot;&quot;&quot;You are an assistant that provides clear, natural language answers based on query results from a knowledge graph.
-Use the context from the graph query result to answer the user's original question.
+<span class="n">cypher_response_prompt</span> <span class="o">=</span> <span class="n">ChatPromptTemplate</span><span class="o">.</span><span class="n">from_template</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;You are an assistant that provides clear, natural language answers based on query results from a knowledge graph.</span>
+<span class="sd">Use the context from the graph query result to answer the user&#39;s original question.</span>
 
-User Question: {question}
-Query Result: {context}
-&quot;&quot;&quot;
-)
+<span class="sd">User Question: {question}</span>
+<span class="sd">Query Result: {context}</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="p">)</span>
 
-def query_graph(question: str) -&gt; Dict[str, Any]:
-    &quot;&quot;&quot;Toàn bộ pipeline Text-to-Cypher và synthesis.&quot;&quot;&quot;
-    console.print(f&quot;\n[bold]Question:[/bold] {question}&quot;)
+<span class="k">def</span><span class="w"> </span><span class="nf">query_graph</span><span class="p">(</span><span class="n">question</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Toàn bộ pipeline Text-to-Cypher và synthesis.&quot;&quot;&quot;</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">[bold]Question:[/bold] </span><span class="si">{</span><span class="n">question</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-    # 1. Tạo Cypher Query
-    console.print(&quot;--- ➡️ Generating Cypher Query ---&quot;)
-    cypher_chain = cypher_generation_prompt | llm
-    generated_cypher = cypher_chain.invoke({&quot;schema&quot;: graph.schema, &quot;question&quot;: question}).content
-    console.print(f&quot;[cyan]Generated Cypher:\n{generated_cypher}[/cyan]&quot;)
+    <span class="c1"># 1. Tạo Cypher Query</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;--- ➡️ Generating Cypher Query ---&quot;</span><span class="p">)</span>
+    <span class="n">cypher_chain</span> <span class="o">=</span> <span class="n">cypher_generation_prompt</span> <span class="o">|</span> <span class="n">llm</span>
+    <span class="n">generated_cypher</span> <span class="o">=</span> <span class="n">cypher_chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">({</span><span class="s2">&quot;schema&quot;</span><span class="p">:</span> <span class="n">graph</span><span class="o">.</span><span class="n">schema</span><span class="p">,</span> <span class="s2">&quot;question&quot;</span><span class="p">:</span> <span class="n">question</span><span class="p">})</span><span class="o">.</span><span class="n">content</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[cyan]Generated Cypher:</span><span class="se">\n</span><span class="si">{</span><span class="n">generated_cypher</span><span class="si">}</span><span class="s2">[/cyan]&quot;</span><span class="p">)</span>
 
-    # 2. Thực thi Cypher Query
-    console.print(&quot;--- ⚡ Executing Query ---&quot;)
-    try:
-        context = graph.query(generated_cypher)
-        console.print(f&quot;[yellow]Query Result:\n{context}[/yellow]&quot;)
-    except Exception as e:
-        console.print(f&quot;[red]Cypher Query Failed: {e}[/red]&quot;)
-        return {&quot;answer&quot;: &quot;I was unable to execute a query to find the answer to your question.&quot;}
+    <span class="c1"># 2. Thực thi Cypher Query</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;--- ⚡ Executing Query ---&quot;</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="n">graph</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">generated_cypher</span><span class="p">)</span>
+        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[yellow]Query Result:</span><span class="se">\n</span><span class="si">{</span><span class="n">context</span><span class="si">}</span><span class="s2">[/yellow]&quot;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[red]Cypher Query Failed: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">[/red]&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;answer&quot;</span><span class="p">:</span> <span class="s2">&quot;I was unable to execute a query to find the answer to your question.&quot;</span><span class="p">}</span>
 
-    # 3. Tổng hợp câu trả lời cuối cùng
-    console.print(&quot;--- 🗣️ Synthesizing Final Answer ---&quot;)
-    synthesis_chain = cypher_response_prompt | llm
-    answer = synthesis_chain.invoke({&quot;question&quot;: question, &quot;context&quot;: context}).content
+    <span class="c1"># 3. Tổng hợp câu trả lời cuối cùng</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;--- 🗣️ Synthesizing Final Answer ---&quot;</span><span class="p">)</span>
+    <span class="n">synthesis_chain</span> <span class="o">=</span> <span class="n">cypher_response_prompt</span> <span class="o">|</span> <span class="n">llm</span>
+    <span class="n">answer</span> <span class="o">=</span> <span class="n">synthesis_chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">({</span><span class="s2">&quot;question&quot;</span><span class="p">:</span> <span class="n">question</span><span class="p">,</span> <span class="s2">&quot;context&quot;</span><span class="p">:</span> <span class="n">context</span><span class="p">})</span><span class="o">.</span><span class="n">content</span>
 
-    return {&quot;answer&quot;: answer}
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;answer&quot;</span><span class="p">:</span> <span class="n">answer</span><span class="p">}</span>
 
-print(&quot;Graph-Querying Agent defined successfully.&quot;)
-</code></pre>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Graph-Querying Agent defined successfully.&quot;</span><span class="p">)</span>
+</code></pre></div>
+
 <h2>Phase 4: Demonstration &amp; Analysis</h2>
 <p>Bây giờ là bài kiểm tra cuối cùng. Chúng ta sẽ đặt cho agent các câu hỏi từ việc truy xuất sự thật đơn giản đến lập luận đa bước phức tạp, yêu cầu kết nối thông tin từ cả ba tài liệu nguồn của chúng ta.</p>
-<pre><code class="language-python"># Test 1: Truy xuất sự thật đơn giản (yêu cầu thông tin từ doc 2)
-result1 = query_graph(&quot;Who works for AlphaCorp?&quot;)
-console.print(&quot;\n--- Final Answer ---&quot;)
-console.print(Markdown(result1['answer']))
+<div class="codehilite"><pre><span></span><code><span class="c1"># Test 1: Truy xuất sự thật đơn giản (yêu cầu thông tin từ doc 2)</span>
+<span class="n">result1</span> <span class="o">=</span> <span class="n">query_graph</span><span class="p">(</span><span class="s2">&quot;Who works for AlphaCorp?&quot;</span><span class="p">)</span>
+<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- Final Answer ---&quot;</span><span class="p">)</span>
+<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">result1</span><span class="p">[</span><span class="s1">&#39;answer&#39;</span><span class="p">]))</span>
 
-# Test 2: Một truy xuất sự thật đơn giản khác (yêu cầu thông tin từ doc 1)
-result2 = query_graph(&quot;What company did AlphaCorp acquire?&quot;)
-console.print(&quot;\n--- Final Answer ---&quot;)
-console.print(Markdown(result2['answer']))
+<span class="c1"># Test 2: Một truy xuất sự thật đơn giản khác (yêu cầu thông tin từ doc 1)</span>
+<span class="n">result2</span> <span class="o">=</span> <span class="n">query_graph</span><span class="p">(</span><span class="s2">&quot;What company did AlphaCorp acquire?&quot;</span><span class="p">)</span>
+<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- Final Answer ---&quot;</span><span class="p">)</span>
+<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">result2</span><span class="p">[</span><span class="s1">&#39;answer&#39;</span><span class="p">]))</span>
 
-# Test 3: Câu hỏi lập luận đa bước (yêu cầu thông tin từ cả 3 tài liệu)
-result3 = query_graph(&quot;What companies compete with the products made by the company that acquired BetaSolutions?&quot;)
-console.print(&quot;\n--- Final Answer ---&quot;)
-console.print(Markdown(result3['answer']))
-</code></pre>
+<span class="c1"># Test 3: Câu hỏi lập luận đa bước (yêu cầu thông tin từ cả 3 tài liệu)</span>
+<span class="n">result3</span> <span class="o">=</span> <span class="n">query_graph</span><span class="p">(</span><span class="s2">&quot;What companies compete with the products made by the company that acquired BetaSolutions?&quot;</span><span class="p">)</span>
+<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- Final Answer ---&quot;</span><span class="p">)</span>
+<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">result3</span><span class="p">[</span><span class="s1">&#39;answer&#39;</span><span class="p">]))</span>
+</code></pre></div>
+
 <h3>Analysis of the Results</h3>
 <p>Phần trình diễn làm nổi bật lợi thế sâu sắc của một graph-based world model:</p>
 <ul>

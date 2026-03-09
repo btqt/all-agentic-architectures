@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -6,15 +5,109 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>15_Rlhf</title>
     <style>
-        body { font-family: system-ui, -apple-system, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; color: #333; }
-        pre { background: #f4f4f4; padding: 15px; border-radius: 5px; overflow-x: auto; }
-        code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; font-family: monospace; }
+        body { font-family: system-ui, -apple-system, sans-serif; line-height: 1.6; max-width: 1100px; margin: 0 auto; padding: 20px; color: #333; }
+        pre { background: #f4f4f4; padding: 15px; border-radius: 5px; white-space: pre-wrap; word-wrap: break-word; }
+        code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; font-family: 'Operator Mono Lig', monospace; }
         a { color: #007bff; text-decoration: none; }
         a:hover { text-decoration: underline; }
         table { border-collapse: collapse; width: 100%; margin: 20px 0; }
         th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
         th { background-color: #f2f2f2; }
         img { max-width: 100%; height: auto; }
+
+        /* --- Pygments: friendly theme (inline, no CDN) --- */
+        pre { line-height: 125%; }
+td.linenos .normal { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.codehilite .hll { background-color: #ffffcc }
+.codehilite { background: #f0f0f0; }
+.codehilite .c { color: #60A0B0; font-style: italic } /* Comment */
+.codehilite .err { border: 1px solid #F00 } /* Error */
+.codehilite .k { color: #007020; font-weight: bold } /* Keyword */
+.codehilite .o { color: #666 } /* Operator */
+.codehilite .ch { color: #60A0B0; font-style: italic } /* Comment.Hashbang */
+.codehilite .cm { color: #60A0B0; font-style: italic } /* Comment.Multiline */
+.codehilite .cp { color: #007020 } /* Comment.Preproc */
+.codehilite .cpf { color: #60A0B0; font-style: italic } /* Comment.PreprocFile */
+.codehilite .c1 { color: #60A0B0; font-style: italic } /* Comment.Single */
+.codehilite .cs { color: #60A0B0; background-color: #FFF0F0 } /* Comment.Special */
+.codehilite .gd { color: #A00000 } /* Generic.Deleted */
+.codehilite .ge { font-style: italic } /* Generic.Emph */
+.codehilite .ges { font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+.codehilite .gr { color: #F00 } /* Generic.Error */
+.codehilite .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.codehilite .gi { color: #00A000 } /* Generic.Inserted */
+.codehilite .go { color: #888 } /* Generic.Output */
+.codehilite .gp { color: #C65D09; font-weight: bold } /* Generic.Prompt */
+.codehilite .gs { font-weight: bold } /* Generic.Strong */
+.codehilite .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.codehilite .gt { color: #04D } /* Generic.Traceback */
+.codehilite .kc { color: #007020; font-weight: bold } /* Keyword.Constant */
+.codehilite .kd { color: #007020; font-weight: bold } /* Keyword.Declaration */
+.codehilite .kn { color: #007020; font-weight: bold } /* Keyword.Namespace */
+.codehilite .kp { color: #007020 } /* Keyword.Pseudo */
+.codehilite .kr { color: #007020; font-weight: bold } /* Keyword.Reserved */
+.codehilite .kt { color: #902000 } /* Keyword.Type */
+.codehilite .m { color: #40A070 } /* Literal.Number */
+.codehilite .s { color: #4070A0 } /* Literal.String */
+.codehilite .na { color: #4070A0 } /* Name.Attribute */
+.codehilite .nb { color: #007020 } /* Name.Builtin */
+.codehilite .nc { color: #0E84B5; font-weight: bold } /* Name.Class */
+.codehilite .no { color: #60ADD5 } /* Name.Constant */
+.codehilite .nd { color: #555; font-weight: bold } /* Name.Decorator */
+.codehilite .ni { color: #D55537; font-weight: bold } /* Name.Entity */
+.codehilite .ne { color: #007020 } /* Name.Exception */
+.codehilite .nf { color: #06287E } /* Name.Function */
+.codehilite .nl { color: #002070; font-weight: bold } /* Name.Label */
+.codehilite .nn { color: #0E84B5; font-weight: bold } /* Name.Namespace */
+.codehilite .nt { color: #062873; font-weight: bold } /* Name.Tag */
+.codehilite .nv { color: #BB60D5 } /* Name.Variable */
+.codehilite .ow { color: #007020; font-weight: bold } /* Operator.Word */
+.codehilite .w { color: #BBB } /* Text.Whitespace */
+.codehilite .mb { color: #40A070 } /* Literal.Number.Bin */
+.codehilite .mf { color: #40A070 } /* Literal.Number.Float */
+.codehilite .mh { color: #40A070 } /* Literal.Number.Hex */
+.codehilite .mi { color: #40A070 } /* Literal.Number.Integer */
+.codehilite .mo { color: #40A070 } /* Literal.Number.Oct */
+.codehilite .sa { color: #4070A0 } /* Literal.String.Affix */
+.codehilite .sb { color: #4070A0 } /* Literal.String.Backtick */
+.codehilite .sc { color: #4070A0 } /* Literal.String.Char */
+.codehilite .dl { color: #4070A0 } /* Literal.String.Delimiter */
+.codehilite .sd { color: #4070A0; font-style: italic } /* Literal.String.Doc */
+.codehilite .s2 { color: #4070A0 } /* Literal.String.Double */
+.codehilite .se { color: #4070A0; font-weight: bold } /* Literal.String.Escape */
+.codehilite .sh { color: #4070A0 } /* Literal.String.Heredoc */
+.codehilite .si { color: #70A0D0; font-style: italic } /* Literal.String.Interpol */
+.codehilite .sx { color: #C65D09 } /* Literal.String.Other */
+.codehilite .sr { color: #235388 } /* Literal.String.Regex */
+.codehilite .s1 { color: #4070A0 } /* Literal.String.Single */
+.codehilite .ss { color: #517918 } /* Literal.String.Symbol */
+.codehilite .bp { color: #007020 } /* Name.Builtin.Pseudo */
+.codehilite .fm { color: #06287E } /* Name.Function.Magic */
+.codehilite .vc { color: #BB60D5 } /* Name.Variable.Class */
+.codehilite .vg { color: #BB60D5 } /* Name.Variable.Global */
+.codehilite .vi { color: #BB60D5 } /* Name.Variable.Instance */
+.codehilite .vm { color: #BB60D5 } /* Name.Variable.Magic */
+.codehilite .il { color: #40A070 } /* Literal.Number.Integer.Long */
+
+        /* Override: keep gray bg + wrap */
+        .codehilite { background: #f4f4f4 !important; padding: 15px; border-radius: 5px; overflow: visible; }
+        .codehilite pre { background: #f4f4f4 !important; white-space: pre-wrap; word-wrap: break-word; margin: 0; font-family: 'Operator Mono', monospace; }
+
+        /* Operator Mono italic: comments, docstrings, keywords */
+        .codehilite .c,
+        .codehilite .c1,
+        .codehilite .cm,
+        .codehilite .cs,
+        .codehilite .cp  { font-style: italic; }
+        .codehilite .k,
+        .codehilite .kd,
+        .codehilite .kn,
+        .codehilite .kr,
+        .codehilite .kc  { font-style: italic; }
+        .codehilite .sd  { font-style: italic; } /* docstring */
     </style>
 </head>
 <body>
@@ -58,263 +151,269 @@
 </ul>
 <h2>Phase 0: Foundation &amp; Setup</h2>
 <p>Thiết lập tiêu chuẩn các thư viện và biến môi trường.</p>
-<pre><code class="language-python"># !pip install -q -U langchain-nebius langchain langgraph rich python-dotenv
-</code></pre>
-<pre><code class="language-python">import os
-from typing import List, Dict, Any, Optional
-from dotenv import load_dotenv
+<div class="codehilite"><pre><span></span><code><span class="c1"># !pip install -q -U langchain-nebius langchain langgraph rich python-dotenv</span>
+</code></pre></div>
 
-# Pydantic for data modeling
-from pydantic import BaseModel, Field
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dotenv</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_dotenv</span>
 
-# LangChain components
-from langchain_nebius import ChatNebius
-from langchain_core.prompts import ChatPromptTemplate
+<span class="c1"># Pydantic for data modeling</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span>
 
-# LangGraph components
-from langgraph.graph import StateGraph, END
-from typing_extensions import TypedDict
+<span class="c1"># LangChain components</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_nebius</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatNebius</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_core.prompts</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatPromptTemplate</span>
 
-# For pretty printing
-from rich.console import Console
-from rich.markdown import Markdown
-from rich.panel import Panel
+<span class="c1"># LangGraph components</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langgraph.graph</span><span class="w"> </span><span class="kn">import</span> <span class="n">StateGraph</span><span class="p">,</span> <span class="n">END</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing_extensions</span><span class="w"> </span><span class="kn">import</span> <span class="n">TypedDict</span>
 
-# --- API Key and Tracing Setup ---
-load_dotenv()
+<span class="c1"># For pretty printing</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rich.console</span><span class="w"> </span><span class="kn">import</span> <span class="n">Console</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rich.markdown</span><span class="w"> </span><span class="kn">import</span> <span class="n">Markdown</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rich.panel</span><span class="w"> </span><span class="kn">import</span> <span class="n">Panel</span>
 
-os.environ[&quot;LANGCHAIN_TRACING_V2&quot;] = &quot;true&quot;
-os.environ[&quot;LANGCHAIN_PROJECT&quot;] = &quot;Agentic Architecture - Self-Improvement Loop (Nebius)&quot;
+<span class="c1"># --- API Key and Tracing Setup ---</span>
+<span class="n">load_dotenv</span><span class="p">()</span>
 
-required_vars = [&quot;NEBIUS_API_KEY&quot;, &quot;LANGCHAIN_API_KEY&quot;]
-for var in required_vars:
-    if var not in os.environ:
-        print(f&quot;Warning: Environment variable {var} not set.&quot;)
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;LANGCHAIN_TRACING_V2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;true&quot;</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;LANGCHAIN_PROJECT&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Agentic Architecture - Self-Improvement Loop (Nebius)&quot;</span>
 
-print(&quot;Environment variables loaded and tracing is set up.&quot;)
-</code></pre>
+<span class="n">required_vars</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;NEBIUS_API_KEY&quot;</span><span class="p">,</span> <span class="s2">&quot;LANGCHAIN_API_KEY&quot;</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">required_vars</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">var</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Warning: Environment variable </span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s2"> not set.&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Environment variables loaded and tracing is set up.&quot;</span><span class="p">)</span>
+</code></pre></div>
+
 <h2>Phase 1: Defining the Core Components (Generator, Critic, Reviser)</h2>
 <p>Hệ thống của chúng ta cần các vai trò riêng biệt. Chúng ta sẽ định nghĩa các persona và đầu ra có cấu trúc cho <code>JuniorCopywriter</code> (người tạo) và <code>SeniorEditor</code> (người phê bình). <code>Reviser</code> (người sửa đổi) không phải là một agent mới, mà là một chế độ gọi khác của người tạo, được trang bị thêm phản hồi.</p>
-<pre><code class="language-python">console = Console()
-llm = ChatNebius(model=&quot;mistralai/Mixtral-8x22B-Instruct-v0.1&quot;, temperature=0.4)
+<div class="codehilite"><pre><span></span><code><span class="n">console</span> <span class="o">=</span> <span class="n">Console</span><span class="p">()</span>
+<span class="n">llm</span> <span class="o">=</span> <span class="n">ChatNebius</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;mistralai/Mixtral-8x22B-Instruct-v0.1&quot;</span><span class="p">,</span> <span class="n">temperature</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
 
-# --- Pydantic Models for Structured Data ---
-class MarketingEmail(BaseModel):
-    &quot;&quot;&quot;Đại diện cho một bản nháp email marketing.&quot;&quot;&quot;
-    subject: str = Field(description=&quot;A catchy and concise subject line for the email.&quot;)
-    body: str = Field(description=&quot;The full body text of the email, written in markdown.&quot;)
+<span class="c1"># --- Pydantic Models for Structured Data ---</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">MarketingEmail</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Đại diện cho một bản nháp email marketing.&quot;&quot;&quot;</span>
+    <span class="n">subject</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;A catchy and concise subject line for the email.&quot;</span><span class="p">)</span>
+    <span class="n">body</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;The full body text of the email, written in markdown.&quot;</span><span class="p">)</span>
 
-class Critique(BaseModel):
-    &quot;&quot;&quot;Phê bình có cấu trúc cho bản nháp email marketing.&quot;&quot;&quot;
-    score: int = Field(description=&quot;Overall quality score from 1 (poor) to 10 (excellent).&quot;)
-    feedback_points: List[str] = Field(description=&quot;A bulleted list of specific, actionable feedback points for improvement.&quot;)
-    is_approved: bool = Field(description=&quot;A boolean indicating if the draft is approved (score &gt;= 8). This is redundant with the score but useful for routing.&quot;)
+<span class="k">class</span><span class="w"> </span><span class="nc">Critique</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Phê bình có cấu trúc cho bản nháp email marketing.&quot;&quot;&quot;</span>
+    <span class="n">score</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Overall quality score from 1 (poor) to 10 (excellent).&quot;</span><span class="p">)</span>
+    <span class="n">feedback_points</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;A bulleted list of specific, actionable feedback points for improvement.&quot;</span><span class="p">)</span>
+    <span class="n">is_approved</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;A boolean indicating if the draft is approved (score &gt;= 8). This is redundant with the score but useful for routing.&quot;</span><span class="p">)</span>
 
-# --- 1. The Generator: Junior Copywriter ---
-def get_generator_chain():
-    prompt = ChatPromptTemplate.from_messages([
-        (&quot;system&quot;, &quot;You are a junior marketing copywriter. Your task is to write a first draft of a marketing email based on the user's request. Be creative, but focus on getting the core message across.&quot;),
-        (&quot;human&quot;, &quot;Write a marketing email about the following topic:\n\n{request}&quot;)
-    ])
-    return prompt | llm.with_structured_output(MarketingEmail)
+<span class="c1"># --- 1. The Generator: Junior Copywriter ---</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_generator_chain</span><span class="p">():</span>
+    <span class="n">prompt</span> <span class="o">=</span> <span class="n">ChatPromptTemplate</span><span class="o">.</span><span class="n">from_messages</span><span class="p">([</span>
+        <span class="p">(</span><span class="s2">&quot;system&quot;</span><span class="p">,</span> <span class="s2">&quot;You are a junior marketing copywriter. Your task is to write a first draft of a marketing email based on the user&#39;s request. Be creative, but focus on getting the core message across.&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;human&quot;</span><span class="p">,</span> <span class="s2">&quot;Write a marketing email about the following topic:</span><span class="se">\n\n</span><span class="si">{request}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="p">])</span>
+    <span class="k">return</span> <span class="n">prompt</span> <span class="o">|</span> <span class="n">llm</span><span class="o">.</span><span class="n">with_structured_output</span><span class="p">(</span><span class="n">MarketingEmail</span><span class="p">)</span>
 
-# --- 2. The Critic: Senior Editor ---
-def get_critic_chain():
-    prompt = ChatPromptTemplate.from_messages([
-        (&quot;system&quot;, &quot;&quot;&quot;You are a senior marketing editor and brand manager. Your job is to critique an email draft written by a junior copywriter. 
-        Evaluate the draft against the following criteria:
-        1.  **Catchy Subject:** Is the subject line engaging and likely to get opened?
-        2.  **Clarity &amp; Persuasiveness:** Is the body text clear, compelling, and persuasive?
-        3.  **Strong Call-to-Action (CTA):** Is there a clear, single action for the user to take?
-        4.  **Brand Voice:** Is the tone professional yet approachable?
-        Provide a score from 1-10. A score of 8 or higher means the draft is approved for sending. Provide specific, actionable feedback to help the writer improve.&quot;&quot;&quot;
-        ),
-        (&quot;human&quot;, &quot;Please critique the following email draft:\n\n**Subject:** {subject}\n\n**Body:**\n{body}&quot;)
-    ])
-    return prompt | llm.with_structured_output(Critique)
+<span class="c1"># --- 2. The Critic: Senior Editor ---</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_critic_chain</span><span class="p">():</span>
+    <span class="n">prompt</span> <span class="o">=</span> <span class="n">ChatPromptTemplate</span><span class="o">.</span><span class="n">from_messages</span><span class="p">([</span>
+        <span class="p">(</span><span class="s2">&quot;system&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;&quot;You are a senior marketing editor and brand manager. Your job is to critique an email draft written by a junior copywriter. </span>
+<span class="s2">        Evaluate the draft against the following criteria:</span>
+<span class="s2">        1.  **Catchy Subject:** Is the subject line engaging and likely to get opened?</span>
+<span class="s2">        2.  **Clarity &amp; Persuasiveness:** Is the body text clear, compelling, and persuasive?</span>
+<span class="s2">        3.  **Strong Call-to-Action (CTA):** Is there a clear, single action for the user to take?</span>
+<span class="s2">        4.  **Brand Voice:** Is the tone professional yet approachable?</span>
+<span class="s2">        Provide a score from 1-10. A score of 8 or higher means the draft is approved for sending. Provide specific, actionable feedback to help the writer improve.&quot;&quot;&quot;</span>
+        <span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;human&quot;</span><span class="p">,</span> <span class="s2">&quot;Please critique the following email draft:</span><span class="se">\n\n</span><span class="s2">**Subject:** </span><span class="si">{subject}</span><span class="se">\n\n</span><span class="s2">**Body:**</span><span class="se">\n</span><span class="si">{body}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="p">])</span>
+    <span class="k">return</span> <span class="n">prompt</span> <span class="o">|</span> <span class="n">llm</span><span class="o">.</span><span class="n">with_structured_output</span><span class="p">(</span><span class="n">Critique</span><span class="p">)</span>
 
-# --- 3. The Reviser (Generator in 'Revise' Mode) ---
-def get_reviser_chain():
-    prompt = ChatPromptTemplate.from_messages([
-        (&quot;system&quot;, &quot;You are the junior marketing copywriter who wrote the original draft. You have just received feedback from your senior editor. Your task is to carefully revise your draft to address every single point of feedback. Produce a new, improved version of the email.&quot;),
-        (&quot;human&quot;, &quot;Original Request: {request}\n\nHere is your original draft:\n**Subject:** {original_subject}\n**Body:**\n{original_body}\n\nHere is the feedback from your editor:\n{feedback}\n\nPlease provide the revised email.&quot;)
-    ])
-    return prompt | llm.with_structured_output(MarketingEmail)
+<span class="c1"># --- 3. The Reviser (Generator in &#39;Revise&#39; Mode) ---</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_reviser_chain</span><span class="p">():</span>
+    <span class="n">prompt</span> <span class="o">=</span> <span class="n">ChatPromptTemplate</span><span class="o">.</span><span class="n">from_messages</span><span class="p">([</span>
+        <span class="p">(</span><span class="s2">&quot;system&quot;</span><span class="p">,</span> <span class="s2">&quot;You are the junior marketing copywriter who wrote the original draft. You have just received feedback from your senior editor. Your task is to carefully revise your draft to address every single point of feedback. Produce a new, improved version of the email.&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;human&quot;</span><span class="p">,</span> <span class="s2">&quot;Original Request: </span><span class="si">{request}</span><span class="se">\n\n</span><span class="s2">Here is your original draft:</span><span class="se">\n</span><span class="s2">**Subject:** </span><span class="si">{original_subject}</span><span class="se">\n</span><span class="s2">**Body:**</span><span class="se">\n</span><span class="si">{original_body}</span><span class="se">\n\n</span><span class="s2">Here is the feedback from your editor:</span><span class="se">\n</span><span class="si">{feedback}</span><span class="se">\n\n</span><span class="s2">Please provide the revised email.&quot;</span><span class="p">)</span>
+    <span class="p">])</span>
+    <span class="k">return</span> <span class="n">prompt</span> <span class="o">|</span> <span class="n">llm</span><span class="o">.</span><span class="n">with_structured_output</span><span class="p">(</span><span class="n">MarketingEmail</span><span class="p">)</span>
 
-print(&quot;Generator and Critic components defined successfully.&quot;)
-</code></pre>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Generator and Critic components defined successfully.&quot;</span><span class="p">)</span>
+</code></pre></div>
+
 <h2>Phase 2: Building the Self-Refinement Loop with LangGraph</h2>
 <p>Bây giờ chúng ta sẽ xây dựng graph tự động hóa vòng lặp <code>Generate -&gt; Critique -&gt; Revise</code>. State sẽ theo dõi bản nháp, phản biện và số lần sửa đổi. Một conditional edge sẽ kiểm tra điểm số của người phản biện để quyết định thoát khỏi vòng lặp hoặc tiếp tục với một lần sửa đổi khác.</p>
-<pre><code class="language-python"># LangGraph State
-class AgentState(TypedDict):
-    user_request: str
-    draft_email: Optional[MarketingEmail]
-    critique: Optional[Critique]
-    revision_number: int
+<div class="codehilite"><pre><span></span><code><span class="c1"># LangGraph State</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">AgentState</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+    <span class="n">user_request</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">draft_email</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">MarketingEmail</span><span class="p">]</span>
+    <span class="n">critique</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Critique</span><span class="p">]</span>
+    <span class="n">revision_number</span><span class="p">:</span> <span class="nb">int</span>
 
-# Graph Nodes
-def generate_node(state: AgentState) -&gt; Dict[str, Any]:
-    console.print(Panel(&quot;📝 Junior Copywriter is generating the initial draft.&quot;, title=&quot;[yellow]Step: Generate[/yellow]&quot;, border_style=&quot;yellow&quot;))
-    chain = get_generator_chain()
-    draft = chain.invoke({&quot;request&quot;: state['user_request']})
-    console.print(Panel(f&quot;[bold]Subject:[/bold] {draft.subject}\n\n{draft.body}&quot;, title=&quot;Draft 1&quot;))
-    return {&quot;draft_email&quot;: draft, &quot;revision_number&quot;: 1}
+<span class="c1"># Graph Nodes</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">generate_node</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">AgentState</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">Panel</span><span class="p">(</span><span class="s2">&quot;📝 Junior Copywriter is generating the initial draft.&quot;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;[yellow]Step: Generate[/yellow]&quot;</span><span class="p">,</span> <span class="n">border_style</span><span class="o">=</span><span class="s2">&quot;yellow&quot;</span><span class="p">))</span>
+    <span class="n">chain</span> <span class="o">=</span> <span class="n">get_generator_chain</span><span class="p">()</span>
+    <span class="n">draft</span> <span class="o">=</span> <span class="n">chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">({</span><span class="s2">&quot;request&quot;</span><span class="p">:</span> <span class="n">state</span><span class="p">[</span><span class="s1">&#39;user_request&#39;</span><span class="p">]})</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">Panel</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[bold]Subject:[/bold] </span><span class="si">{</span><span class="n">draft</span><span class="o">.</span><span class="n">subject</span><span class="si">}</span><span class="se">\n\n</span><span class="si">{</span><span class="n">draft</span><span class="o">.</span><span class="n">body</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Draft 1&quot;</span><span class="p">))</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;draft_email&quot;</span><span class="p">:</span> <span class="n">draft</span><span class="p">,</span> <span class="s2">&quot;revision_number&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
 
-def critique_node(state: AgentState) -&gt; Dict[str, Any]:
-    title = f&quot;[yellow]Step: Critique (Revision #{state['revision_number']})[/yellow]&quot;
-    console.print(Panel(f&quot;🧐 Senior Editor is critiquing draft #{state['revision_number']}.&quot;, title=title, border_style=&quot;yellow&quot;))
-    chain = get_critic_chain()
-    critique_result = chain.invoke(state['draft_email'].dict())
-    feedback_text = &quot;\n- &quot;.join(critique_result.feedback_points)
-    console.print(Panel(f&quot;[bold]Score:[/bold] {critique_result.score}/10\n[bold]Feedback:[/bold]\n- {feedback_text}&quot;, title=&quot;Critique Result&quot;))
-    return {&quot;critique&quot;: critique_result}
+<span class="k">def</span><span class="w"> </span><span class="nf">critique_node</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">AgentState</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;[yellow]Step: Critique (Revision #</span><span class="si">{</span><span class="n">state</span><span class="p">[</span><span class="s1">&#39;revision_number&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">)[/yellow]&quot;</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">Panel</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;🧐 Senior Editor is critiquing draft #</span><span class="si">{</span><span class="n">state</span><span class="p">[</span><span class="s1">&#39;revision_number&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span> <span class="n">border_style</span><span class="o">=</span><span class="s2">&quot;yellow&quot;</span><span class="p">))</span>
+    <span class="n">chain</span> <span class="o">=</span> <span class="n">get_critic_chain</span><span class="p">()</span>
+    <span class="n">critique_result</span> <span class="o">=</span> <span class="n">chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">state</span><span class="p">[</span><span class="s1">&#39;draft_email&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dict</span><span class="p">())</span>
+    <span class="n">feedback_text</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">- &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">critique_result</span><span class="o">.</span><span class="n">feedback_points</span><span class="p">)</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">Panel</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[bold]Score:[/bold] </span><span class="si">{</span><span class="n">critique_result</span><span class="o">.</span><span class="n">score</span><span class="si">}</span><span class="s2">/10</span><span class="se">\n</span><span class="s2">[bold]Feedback:[/bold]</span><span class="se">\n</span><span class="s2">- </span><span class="si">{</span><span class="n">feedback_text</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Critique Result&quot;</span><span class="p">))</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;critique&quot;</span><span class="p">:</span> <span class="n">critique_result</span><span class="p">}</span>
 
-def revise_node(state: AgentState) -&gt; Dict[str, Any]:
-    console.print(Panel(&quot;✍️ Junior Copywriter is revising the draft based on feedback.&quot;, title=&quot;[yellow]Step: Revise[/yellow]&quot;, border_style=&quot;yellow&quot;))
-    chain = get_reviser_chain()
-    feedback_str = &quot;\n- &quot;.join(state['critique'].feedback_points)
-    revised_draft = chain.invoke({
-        &quot;request&quot;: state['user_request'],
-        &quot;original_subject&quot;: state['draft_email'].subject,
-        &quot;original_body&quot;: state['draft_email'].body,
-        &quot;feedback&quot;: feedback_str,
-    })
-    console.print(Panel(f&quot;[bold]Subject:[/bold] {revised_draft.subject}\n\n{revised_draft.body}&quot;, title=f&quot;Draft {state['revision_number'] + 1}&quot;))
-    return {&quot;draft_email&quot;: revised_draft, &quot;revision_number&quot;: state['revision_number'] + 1}
+<span class="k">def</span><span class="w"> </span><span class="nf">revise_node</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">AgentState</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">Panel</span><span class="p">(</span><span class="s2">&quot;✍️ Junior Copywriter is revising the draft based on feedback.&quot;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;[yellow]Step: Revise[/yellow]&quot;</span><span class="p">,</span> <span class="n">border_style</span><span class="o">=</span><span class="s2">&quot;yellow&quot;</span><span class="p">))</span>
+    <span class="n">chain</span> <span class="o">=</span> <span class="n">get_reviser_chain</span><span class="p">()</span>
+    <span class="n">feedback_str</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">- &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">state</span><span class="p">[</span><span class="s1">&#39;critique&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">feedback_points</span><span class="p">)</span>
+    <span class="n">revised_draft</span> <span class="o">=</span> <span class="n">chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">({</span>
+        <span class="s2">&quot;request&quot;</span><span class="p">:</span> <span class="n">state</span><span class="p">[</span><span class="s1">&#39;user_request&#39;</span><span class="p">],</span>
+        <span class="s2">&quot;original_subject&quot;</span><span class="p">:</span> <span class="n">state</span><span class="p">[</span><span class="s1">&#39;draft_email&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">subject</span><span class="p">,</span>
+        <span class="s2">&quot;original_body&quot;</span><span class="p">:</span> <span class="n">state</span><span class="p">[</span><span class="s1">&#39;draft_email&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">body</span><span class="p">,</span>
+        <span class="s2">&quot;feedback&quot;</span><span class="p">:</span> <span class="n">feedback_str</span><span class="p">,</span>
+    <span class="p">})</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">Panel</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[bold]Subject:[/bold] </span><span class="si">{</span><span class="n">revised_draft</span><span class="o">.</span><span class="n">subject</span><span class="si">}</span><span class="se">\n\n</span><span class="si">{</span><span class="n">revised_draft</span><span class="o">.</span><span class="n">body</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Draft </span><span class="si">{</span><span class="n">state</span><span class="p">[</span><span class="s1">&#39;revision_number&#39;</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">))</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;draft_email&quot;</span><span class="p">:</span> <span class="n">revised_draft</span><span class="p">,</span> <span class="s2">&quot;revision_number&quot;</span><span class="p">:</span> <span class="n">state</span><span class="p">[</span><span class="s1">&#39;revision_number&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">}</span>
 
-# Conditional Edge
-def should_continue(state: AgentState) -&gt; str:
-    console.print(Panel(&quot;⚖️ Decision Point: Does the draft meet quality standards?&quot;, title=&quot;[yellow]Step: Decide[/yellow]&quot;, border_style=&quot;yellow&quot;))
-    if state['critique'].is_approved:
-        console.print(&quot;[green]Conclusion: Critique APPROVED! Finishing process.[/green]&quot;)
-        return &quot;end&quot;
-    if state['revision_number'] &gt;= 3: # Thiết lập giới hạn sửa đổi tối đa
-        console.print(&quot;[red]Conclusion: Max revisions reached. Finishing with last draft.[/red]&quot;)
-        return &quot;end&quot;
-    else:
-        console.print(&quot;[yellow]Conclusion: Critique requires revision. Looping back.[/yellow]&quot;)
-        return &quot;continue&quot;
+<span class="c1"># Conditional Edge</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">should_continue</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">AgentState</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">Panel</span><span class="p">(</span><span class="s2">&quot;⚖️ Decision Point: Does the draft meet quality standards?&quot;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;[yellow]Step: Decide[/yellow]&quot;</span><span class="p">,</span> <span class="n">border_style</span><span class="o">=</span><span class="s2">&quot;yellow&quot;</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">state</span><span class="p">[</span><span class="s1">&#39;critique&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">is_approved</span><span class="p">:</span>
+        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;[green]Conclusion: Critique APPROVED! Finishing process.[/green]&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s2">&quot;end&quot;</span>
+    <span class="k">if</span> <span class="n">state</span><span class="p">[</span><span class="s1">&#39;revision_number&#39;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="p">:</span> <span class="c1"># Thiết lập giới hạn sửa đổi tối đa</span>
+        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;[red]Conclusion: Max revisions reached. Finishing with last draft.[/red]&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s2">&quot;end&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;[yellow]Conclusion: Critique requires revision. Looping back.[/yellow]&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s2">&quot;continue&quot;</span>
 
-# Xây dựng graph
-workflow = StateGraph(AgentState)
-workflow.add_node(&quot;generate&quot;, generate_node)
-workflow.add_node(&quot;critique&quot;, critique_node)
-workflow.add_node(&quot;revise&quot;, revise_node)
+<span class="c1"># Xây dựng graph</span>
+<span class="n">workflow</span> <span class="o">=</span> <span class="n">StateGraph</span><span class="p">(</span><span class="n">AgentState</span><span class="p">)</span>
+<span class="n">workflow</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="s2">&quot;generate&quot;</span><span class="p">,</span> <span class="n">generate_node</span><span class="p">)</span>
+<span class="n">workflow</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="s2">&quot;critique&quot;</span><span class="p">,</span> <span class="n">critique_node</span><span class="p">)</span>
+<span class="n">workflow</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="s2">&quot;revise&quot;</span><span class="p">,</span> <span class="n">revise_node</span><span class="p">)</span>
 
-workflow.set_entry_point(&quot;generate&quot;)
-workflow.add_edge(&quot;generate&quot;, &quot;critique&quot;)
-workflow.add_conditional_edges(
-    &quot;critique&quot;,
-    should_continue,
-    {&quot;continue&quot;: &quot;revise&quot;, &quot;end&quot;: END}
-)
-workflow.add_edge(&quot;revise&quot;, &quot;critique&quot;)
+<span class="n">workflow</span><span class="o">.</span><span class="n">set_entry_point</span><span class="p">(</span><span class="s2">&quot;generate&quot;</span><span class="p">)</span>
+<span class="n">workflow</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="s2">&quot;generate&quot;</span><span class="p">,</span> <span class="s2">&quot;critique&quot;</span><span class="p">)</span>
+<span class="n">workflow</span><span class="o">.</span><span class="n">add_conditional_edges</span><span class="p">(</span>
+    <span class="s2">&quot;critique&quot;</span><span class="p">,</span>
+    <span class="n">should_continue</span><span class="p">,</span>
+    <span class="p">{</span><span class="s2">&quot;continue&quot;</span><span class="p">:</span> <span class="s2">&quot;revise&quot;</span><span class="p">,</span> <span class="s2">&quot;end&quot;</span><span class="p">:</span> <span class="n">END</span><span class="p">}</span>
+<span class="p">)</span>
+<span class="n">workflow</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="s2">&quot;revise&quot;</span><span class="p">,</span> <span class="s2">&quot;critique&quot;</span><span class="p">)</span>
 
-self_refine_agent = workflow.compile()
-print(&quot;Self-Refinement agent graph compiled successfully.&quot;)
-</code></pre>
+<span class="n">self_refine_agent</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">compile</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Self-Refinement agent graph compiled successfully.&quot;</span><span class="p">)</span>
+</code></pre></div>
+
 <h2>Phase 3: Demonstration of the Self-Refinement Loop</h2>
 <p>Hãy chạy agent và quan sát quy trình tinh chỉnh lặp lại. Chúng ta sẽ yêu cầu nó viết một email cho một sản phẩm AI mới và theo dõi quá trình nó tạo ra, bị phê bình và tự sửa đổi công việc của mình cho đến khi đáp ứng tiêu chuẩn chất lượng.</p>
-<pre><code class="language-python">def run_agent(request: str):
-    initial_state = {&quot;user_request&quot;: request}
-    # stream() cho phép chúng ta thấy các bước trung gian
-    final_state = None
-    for step in self_refine_agent.stream(initial_state):
-        # State cuối cùng là cái ngay trước khi END được gọi
-        if END not in step:
-            final_state = list(step.values())[0]
-    return final_state
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">run_agent</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="n">initial_state</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;user_request&quot;</span><span class="p">:</span> <span class="n">request</span><span class="p">}</span>
+    <span class="c1"># stream() cho phép chúng ta thấy các bước trung gian</span>
+    <span class="n">final_state</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="n">self_refine_agent</span><span class="o">.</span><span class="n">stream</span><span class="p">(</span><span class="n">initial_state</span><span class="p">):</span>
+        <span class="c1"># State cuối cùng là cái ngay trước khi END được gọi</span>
+        <span class="k">if</span> <span class="n">END</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">step</span><span class="p">:</span>
+            <span class="n">final_state</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">step</span><span class="o">.</span><span class="n">values</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">final_state</span>
 
-request = &quot;Write a marketing email announcing our new revolutionary AI-powered data analytics platform, 'InsightSphere'.&quot;
-console.print(f&quot;--- 🚀 Kicking off the Self-Refinement Process ---&quot;)
-final_result = run_agent(request)
+<span class="n">request</span> <span class="o">=</span> <span class="s2">&quot;Write a marketing email announcing our new revolutionary AI-powered data analytics platform, &#39;InsightSphere&#39;.&quot;</span>
+<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;--- 🚀 Kicking off the Self-Refinement Process ---&quot;</span><span class="p">)</span>
+<span class="n">final_result</span> <span class="o">=</span> <span class="n">run_agent</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
 
-# Hiển thị kết quả cuối cùng đã được phê duyệt
-console.print(&quot;\n--- Final Approved Email ---&quot;)
-final_email = final_result['draft_email']
-final_critique = final_result['critique']
-email_panel = Panel(
-    f&quot;[bold]Subject:[/bold] {final_email.subject}\n\n---\n\n{final_email.body}&quot;,
-    title=&quot;[bold green]Approved Email[/bold green]&quot;,
-    subtitle=f&quot;[green]Final Score: {final_critique.score}/10[/green]&quot;,
-    border_style=&quot;green&quot;
-)
-console.print(email_panel)
-</code></pre>
+<span class="c1"># Hiển thị kết quả cuối cùng đã được phê duyệt</span>
+<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- Final Approved Email ---&quot;</span><span class="p">)</span>
+<span class="n">final_email</span> <span class="o">=</span> <span class="n">final_result</span><span class="p">[</span><span class="s1">&#39;draft_email&#39;</span><span class="p">]</span>
+<span class="n">final_critique</span> <span class="o">=</span> <span class="n">final_result</span><span class="p">[</span><span class="s1">&#39;critique&#39;</span><span class="p">]</span>
+<span class="n">email_panel</span> <span class="o">=</span> <span class="n">Panel</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;[bold]Subject:[/bold] </span><span class="si">{</span><span class="n">final_email</span><span class="o">.</span><span class="n">subject</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">---</span><span class="se">\n\n</span><span class="si">{</span><span class="n">final_email</span><span class="o">.</span><span class="n">body</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">&quot;[bold green]Approved Email[/bold green]&quot;</span><span class="p">,</span>
+    <span class="n">subtitle</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;[green]Final Score: </span><span class="si">{</span><span class="n">final_critique</span><span class="o">.</span><span class="n">score</span><span class="si">}</span><span class="s2">/10[/green]&quot;</span><span class="p">,</span>
+    <span class="n">border_style</span><span class="o">=</span><span class="s2">&quot;green&quot;</span>
+<span class="p">)</span>
+<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">email_panel</span><span class="p">)</span>
+</code></pre></div>
+
 <h2>Phase 4: Persistent Improvement - The RLHF Analogy</h2>
 <p>Vòng lặp self-refine giúp cải thiện chất lượng cho <em>một lượt chạy duy nhất</em>. Nhưng làm thế nào để chúng ta làm cho agent tốt hơn <em>theo thời gian</em>? Chúng ta có thể mở rộng kiến trúc của mình để lưu các đầu ra chất lượng cao, đã được phê duyệt và sử dụng chúng làm ví dụ cho các nhiệm vụ trong tương lai. Đây là một sự tương đồng thực tế, ở cấp độ ứng dụng, với cách hoạt động của Reinforcement Learning from Human/AI Feedback (RLHF).</p>
 <p>Chúng ta sẽ định nghĩa một <code>GoldStandardMemory</code> đơn giản trong bộ nhớ và một node tạo mới sử dụng bộ nhớ này để cải thiện bản nháp đầu tiên của nó.</p>
-<pre><code class="language-python">class GoldStandardMemory:
-    &quot;&quot;&quot;Một kho lưu trữ đơn giản trong bộ nhớ cho các ví dụ chất lượng cao.&quot;&quot;&quot;
-    def __init__(self):
-        self.examples: List[MarketingEmail] = []
+<div class="codehilite"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">GoldStandardMemory</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Một kho lưu trữ đơn giản trong bộ nhớ cho các ví dụ chất lượng cao.&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">examples</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">MarketingEmail</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
 
-    def add_example(self, email: MarketingEmail):
-        self.examples.append(email)
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_example</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">email</span><span class="p">:</span> <span class="n">MarketingEmail</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">examples</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">email</span><span class="p">)</span>
 
-    def get_formatted_examples(self) -&gt; str:
-        if not self.examples:
-            return &quot;No examples available yet.&quot;
-        formatted = &quot;\n\n---\n\n&quot;.join([
-            f&quot;Example Subject: {ex.subject}\nExample Body:\n{ex.body}&quot;
-            for ex in self.examples
-        ])
-        return formatted
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_formatted_examples</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">examples</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;No examples available yet.&quot;</span>
+        <span class="n">formatted</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">---</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span>
+            <span class="sa">f</span><span class="s2">&quot;Example Subject: </span><span class="si">{</span><span class="n">ex</span><span class="o">.</span><span class="n">subject</span><span class="si">}</span><span class="se">\n</span><span class="s2">Example Body:</span><span class="se">\n</span><span class="si">{</span><span class="n">ex</span><span class="o">.</span><span class="n">body</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="k">for</span> <span class="n">ex</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">examples</span>
+        <span class="p">])</span>
+        <span class="k">return</span> <span class="n">formatted</span>
 
-# Khởi tạo bộ nhớ bền vững của chúng ta
-gold_standard_memory = GoldStandardMemory()
+<span class="c1"># Khởi tạo bộ nhớ bền vững của chúng ta</span>
+<span class="n">gold_standard_memory</span> <span class="o">=</span> <span class="n">GoldStandardMemory</span><span class="p">()</span>
 
-# Node tạo mới sử dụng bộ nhớ
-def generate_node_with_memory(state: AgentState) -&gt; Dict[str, Any]:
-    title = &quot;[yellow]Step: Generate[/yellow]&quot;
-    console.print(Panel(&quot;📝 Junior Copywriter is generating the initial draft (Informed by Past Successes).&quot;, title=title, border_style=&quot;yellow&quot;))
-    examples = gold_standard_memory.get_formatted_examples()
+<span class="c1"># Node tạo mới sử dụng bộ nhớ</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">generate_node_with_memory</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">AgentState</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;[yellow]Step: Generate[/yellow]&quot;</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">Panel</span><span class="p">(</span><span class="s2">&quot;📝 Junior Copywriter is generating the initial draft (Informed by Past Successes).&quot;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span> <span class="n">border_style</span><span class="o">=</span><span class="s2">&quot;yellow&quot;</span><span class="p">))</span>
+    <span class="n">examples</span> <span class="o">=</span> <span class="n">gold_standard_memory</span><span class="o">.</span><span class="n">get_formatted_examples</span><span class="p">()</span>
 
-    prompt = ChatPromptTemplate.from_messages([
-        (&quot;system&quot;, &quot;You are a junior marketing copywriter. Your task is to write a first draft of a marketing email based on the user's request. You should learn from the style and quality of past successful examples.&quot;),
-        (&quot;human&quot;, &quot;Here are some examples of high-quality emails that were approved by your editor:\n\n{examples}\n\nNow, write a marketing email about the following topic:\n\n{request}&quot;)
-    ])
-    chain = prompt | llm.with_structured_output(MarketingEmail)
-    draft = chain.invoke({&quot;request&quot;: state['user_request'], &quot;examples&quot;: examples})
-    console.print(Panel(f&quot;[bold]Subject:[/bold] {draft.subject}\n\n{draft.body}&quot;, title=f&quot;Draft {state.get('revision_number', 1)}&quot;))
-    return {&quot;draft_email&quot;: draft, &quot;revision_number&quot;: 1}
+    <span class="n">prompt</span> <span class="o">=</span> <span class="n">ChatPromptTemplate</span><span class="o">.</span><span class="n">from_messages</span><span class="p">([</span>
+        <span class="p">(</span><span class="s2">&quot;system&quot;</span><span class="p">,</span> <span class="s2">&quot;You are a junior marketing copywriter. Your task is to write a first draft of a marketing email based on the user&#39;s request. You should learn from the style and quality of past successful examples.&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;human&quot;</span><span class="p">,</span> <span class="s2">&quot;Here are some examples of high-quality emails that were approved by your editor:</span><span class="se">\n\n</span><span class="si">{examples}</span><span class="se">\n\n</span><span class="s2">Now, write a marketing email about the following topic:</span><span class="se">\n\n</span><span class="si">{request}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="p">])</span>
+    <span class="n">chain</span> <span class="o">=</span> <span class="n">prompt</span> <span class="o">|</span> <span class="n">llm</span><span class="o">.</span><span class="n">with_structured_output</span><span class="p">(</span><span class="n">MarketingEmail</span><span class="p">)</span>
+    <span class="n">draft</span> <span class="o">=</span> <span class="n">chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">({</span><span class="s2">&quot;request&quot;</span><span class="p">:</span> <span class="n">state</span><span class="p">[</span><span class="s1">&#39;user_request&#39;</span><span class="p">],</span> <span class="s2">&quot;examples&quot;</span><span class="p">:</span> <span class="n">examples</span><span class="p">})</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">Panel</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[bold]Subject:[/bold] </span><span class="si">{</span><span class="n">draft</span><span class="o">.</span><span class="n">subject</span><span class="si">}</span><span class="se">\n\n</span><span class="si">{</span><span class="n">draft</span><span class="o">.</span><span class="n">body</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Draft </span><span class="si">{</span><span class="n">state</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;revision_number&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">))</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;draft_email&quot;</span><span class="p">:</span> <span class="n">draft</span><span class="p">,</span> <span class="s2">&quot;revision_number&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
 
-# Xây dựng graph mới với người tạo có hỗ trợ bộ nhớ
-workflow_with_memory = StateGraph(AgentState)
-workflow_with_memory.add_node(&quot;generate&quot;, generate_node_with_memory)
-workflow_with_memory.add_node(&quot;critique&quot;, critique_node)
-workflow_with_memory.add_node(&quot;revise&quot;, revise_node)
+<span class="c1"># Xây dựng graph mới với người tạo có hỗ trợ bộ nhớ</span>
+<span class="n">workflow_with_memory</span> <span class="o">=</span> <span class="n">StateGraph</span><span class="p">(</span><span class="n">AgentState</span><span class="p">)</span>
+<span class="n">workflow_with_memory</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="s2">&quot;generate&quot;</span><span class="p">,</span> <span class="n">generate_node_with_memory</span><span class="p">)</span>
+<span class="n">workflow_with_memory</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="s2">&quot;critique&quot;</span><span class="p">,</span> <span class="n">critique_node</span><span class="p">)</span>
+<span class="n">workflow_with_memory</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="s2">&quot;revise&quot;</span><span class="p">,</span> <span class="n">revise_node</span><span class="p">)</span>
 
-workflow_with_memory.set_entry_point(&quot;generate&quot;)
-workflow_with_memory.add_edge(&quot;generate&quot;, &quot;critique&quot;)
-workflow_with_memory.add_conditional_edges(&quot;critique&quot;, should_continue, {&quot;continue&quot;: &quot;revise&quot;, &quot;end&quot;: END})
-workflow_with_memory.add_edge(&quot;revise&quot;, &quot;critique&quot;)
-self_improving_agent = workflow_with_memory.compile()
-print(&quot;Persistent memory components defined successfully.&quot;)
+<span class="n">workflow_with_memory</span><span class="o">.</span><span class="n">set_entry_point</span><span class="p">(</span><span class="s2">&quot;generate&quot;</span><span class="p">)</span>
+<span class="n">workflow_with_memory</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="s2">&quot;generate&quot;</span><span class="p">,</span> <span class="s2">&quot;critique&quot;</span><span class="p">)</span>
+<span class="n">workflow_with_memory</span><span class="o">.</span><span class="n">add_conditional_edges</span><span class="p">(</span><span class="s2">&quot;critique&quot;</span><span class="p">,</span> <span class="n">should_continue</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;continue&quot;</span><span class="p">:</span> <span class="s2">&quot;revise&quot;</span><span class="p">,</span> <span class="s2">&quot;end&quot;</span><span class="p">:</span> <span class="n">END</span><span class="p">})</span>
+<span class="n">workflow_with_memory</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="s2">&quot;revise&quot;</span><span class="p">,</span> <span class="s2">&quot;critique&quot;</span><span class="p">)</span>
+<span class="n">self_improving_agent</span> <span class="o">=</span> <span class="n">workflow_with_memory</span><span class="o">.</span><span class="n">compile</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Persistent memory components defined successfully.&quot;</span><span class="p">)</span>
 
-# --- DEMONSTRATION OF LONG-TERM IMPROVEMENT ---
+<span class="c1"># --- DEMONSTRATION OF LONG-TERM IMPROVEMENT ---</span>
 
-# 1. Lưu email đã được phê duyệt trước đó vào bộ nhớ
-console.print(Panel(&quot;The high-quality, editor-approved email for 'InsightSphere' has been saved. It will now be used as a reference for future generations.&quot;, title=&quot;[bold]🏆 Saving approved email to Gold Standard Memory[/bold]&quot;, border_style=&quot;magenta&quot;))
-gold_standard_memory.add_example(final_result['draft_email'])
+<span class="c1"># 1. Lưu email đã được phê duyệt trước đó vào bộ nhớ</span>
+<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">Panel</span><span class="p">(</span><span class="s2">&quot;The high-quality, editor-approved email for &#39;InsightSphere&#39; has been saved. It will now be used as a reference for future generations.&quot;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;[bold]🏆 Saving approved email to Gold Standard Memory[/bold]&quot;</span><span class="p">,</span> <span class="n">border_style</span><span class="o">=</span><span class="s2">&quot;magenta&quot;</span><span class="p">))</span>
+<span class="n">gold_standard_memory</span><span class="o">.</span><span class="n">add_example</span><span class="p">(</span><span class="n">final_result</span><span class="p">[</span><span class="s1">&#39;draft_email&#39;</span><span class="p">])</span>
 
-# 2. Chạy lại agent cho một nhiệm vụ MỚI
-new_request = &quot;Write a promotional email for our new AI-powered CRM called 'Visionary'.&quot;
-console.print(&quot;\n--- 🚀 Kicking off the Self-Refinement Process with Memory ---&quot;)
-new_final_result = run_agent(new_request)
+<span class="c1"># 2. Chạy lại agent cho một nhiệm vụ MỚI</span>
+<span class="n">new_request</span> <span class="o">=</span> <span class="s2">&quot;Write a promotional email for our new AI-powered CRM called &#39;Visionary&#39;.&quot;</span>
+<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- 🚀 Kicking off the Self-Refinement Process with Memory ---&quot;</span><span class="p">)</span>
+<span class="n">new_final_result</span> <span class="o">=</span> <span class="n">run_agent</span><span class="p">(</span><span class="n">new_request</span><span class="p">)</span>
 
-# 3. Hiển thị kết quả mới. Điểm mấu chốt cần lưu ý là liệu nó có được phê duyệt nhanh hơn không.
-console.print(&quot;\n--- Final Approved Email (Generated with Memory) ---&quot;)
-new_final_email = new_final_result['draft_email']
-new_critique = new_final_result['critique']
-email_panel_2 = Panel(
-    f&quot;[bold]Subject:[/bold] {new_final_email.subject}\n\n---\n\n{new_final_email.body}&quot;,
-    title=&quot;[bold green]Approved Email[/bold green]&quot;,
-    subtitle=f&quot;[green]Final Score: {new_critique.score}/10[/green]&quot;,
-    border_style=&quot;green&quot;
-)
-console.print(email_panel_2)
-</code></pre>
+<span class="c1"># 3. Hiển thị kết quả mới. Điểm mấu chốt cần lưu ý là liệu nó có được phê duyệt nhanh hơn không.</span>
+<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- Final Approved Email (Generated with Memory) ---&quot;</span><span class="p">)</span>
+<span class="n">new_final_email</span> <span class="o">=</span> <span class="n">new_final_result</span><span class="p">[</span><span class="s1">&#39;draft_email&#39;</span><span class="p">]</span>
+<span class="n">new_critique</span> <span class="o">=</span> <span class="n">new_final_result</span><span class="p">[</span><span class="s1">&#39;critique&#39;</span><span class="p">]</span>
+<span class="n">email_panel_2</span> <span class="o">=</span> <span class="n">Panel</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;[bold]Subject:[/bold] </span><span class="si">{</span><span class="n">new_final_email</span><span class="o">.</span><span class="n">subject</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">---</span><span class="se">\n\n</span><span class="si">{</span><span class="n">new_final_email</span><span class="o">.</span><span class="n">body</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">&quot;[bold green]Approved Email[/bold green]&quot;</span><span class="p">,</span>
+    <span class="n">subtitle</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;[green]Final Score: </span><span class="si">{</span><span class="n">new_critique</span><span class="o">.</span><span class="n">score</span><span class="si">}</span><span class="s2">/10[/green]&quot;</span><span class="p">,</span>
+    <span class="n">border_style</span><span class="o">=</span><span class="s2">&quot;green&quot;</span>
+<span class="p">)</span>
+<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">email_panel_2</span><span class="p">)</span>
+</code></pre></div>
+
 <h3>Analysis of the Results</h3>
 <p>Việc triển khai chi tiết này tiết lộ một quy trình cải thiện hai lớp:</p>
 <ol>

@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -6,15 +5,109 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>01_Reflection</title>
     <style>
-        body { font-family: system-ui, -apple-system, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; color: #333; }
-        pre { background: #f4f4f4; padding: 15px; border-radius: 5px; overflow-x: auto; }
-        code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; font-family: monospace; }
+        body { font-family: system-ui, -apple-system, sans-serif; line-height: 1.6; max-width: 1100px; margin: 0 auto; padding: 20px; color: #333; }
+        pre { background: #f4f4f4; padding: 15px; border-radius: 5px; white-space: pre-wrap; word-wrap: break-word; }
+        code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; font-family: 'Operator Mono Lig', monospace; }
         a { color: #007bff; text-decoration: none; }
         a:hover { text-decoration: underline; }
         table { border-collapse: collapse; width: 100%; margin: 20px 0; }
         th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
         th { background-color: #f2f2f2; }
         img { max-width: 100%; height: auto; }
+
+        /* --- Pygments: friendly theme (inline, no CDN) --- */
+        pre { line-height: 125%; }
+td.linenos .normal { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.codehilite .hll { background-color: #ffffcc }
+.codehilite { background: #f0f0f0; }
+.codehilite .c { color: #60A0B0; font-style: italic } /* Comment */
+.codehilite .err { border: 1px solid #F00 } /* Error */
+.codehilite .k { color: #007020; font-weight: bold } /* Keyword */
+.codehilite .o { color: #666 } /* Operator */
+.codehilite .ch { color: #60A0B0; font-style: italic } /* Comment.Hashbang */
+.codehilite .cm { color: #60A0B0; font-style: italic } /* Comment.Multiline */
+.codehilite .cp { color: #007020 } /* Comment.Preproc */
+.codehilite .cpf { color: #60A0B0; font-style: italic } /* Comment.PreprocFile */
+.codehilite .c1 { color: #60A0B0; font-style: italic } /* Comment.Single */
+.codehilite .cs { color: #60A0B0; background-color: #FFF0F0 } /* Comment.Special */
+.codehilite .gd { color: #A00000 } /* Generic.Deleted */
+.codehilite .ge { font-style: italic } /* Generic.Emph */
+.codehilite .ges { font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+.codehilite .gr { color: #F00 } /* Generic.Error */
+.codehilite .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.codehilite .gi { color: #00A000 } /* Generic.Inserted */
+.codehilite .go { color: #888 } /* Generic.Output */
+.codehilite .gp { color: #C65D09; font-weight: bold } /* Generic.Prompt */
+.codehilite .gs { font-weight: bold } /* Generic.Strong */
+.codehilite .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.codehilite .gt { color: #04D } /* Generic.Traceback */
+.codehilite .kc { color: #007020; font-weight: bold } /* Keyword.Constant */
+.codehilite .kd { color: #007020; font-weight: bold } /* Keyword.Declaration */
+.codehilite .kn { color: #007020; font-weight: bold } /* Keyword.Namespace */
+.codehilite .kp { color: #007020 } /* Keyword.Pseudo */
+.codehilite .kr { color: #007020; font-weight: bold } /* Keyword.Reserved */
+.codehilite .kt { color: #902000 } /* Keyword.Type */
+.codehilite .m { color: #40A070 } /* Literal.Number */
+.codehilite .s { color: #4070A0 } /* Literal.String */
+.codehilite .na { color: #4070A0 } /* Name.Attribute */
+.codehilite .nb { color: #007020 } /* Name.Builtin */
+.codehilite .nc { color: #0E84B5; font-weight: bold } /* Name.Class */
+.codehilite .no { color: #60ADD5 } /* Name.Constant */
+.codehilite .nd { color: #555; font-weight: bold } /* Name.Decorator */
+.codehilite .ni { color: #D55537; font-weight: bold } /* Name.Entity */
+.codehilite .ne { color: #007020 } /* Name.Exception */
+.codehilite .nf { color: #06287E } /* Name.Function */
+.codehilite .nl { color: #002070; font-weight: bold } /* Name.Label */
+.codehilite .nn { color: #0E84B5; font-weight: bold } /* Name.Namespace */
+.codehilite .nt { color: #062873; font-weight: bold } /* Name.Tag */
+.codehilite .nv { color: #BB60D5 } /* Name.Variable */
+.codehilite .ow { color: #007020; font-weight: bold } /* Operator.Word */
+.codehilite .w { color: #BBB } /* Text.Whitespace */
+.codehilite .mb { color: #40A070 } /* Literal.Number.Bin */
+.codehilite .mf { color: #40A070 } /* Literal.Number.Float */
+.codehilite .mh { color: #40A070 } /* Literal.Number.Hex */
+.codehilite .mi { color: #40A070 } /* Literal.Number.Integer */
+.codehilite .mo { color: #40A070 } /* Literal.Number.Oct */
+.codehilite .sa { color: #4070A0 } /* Literal.String.Affix */
+.codehilite .sb { color: #4070A0 } /* Literal.String.Backtick */
+.codehilite .sc { color: #4070A0 } /* Literal.String.Char */
+.codehilite .dl { color: #4070A0 } /* Literal.String.Delimiter */
+.codehilite .sd { color: #4070A0; font-style: italic } /* Literal.String.Doc */
+.codehilite .s2 { color: #4070A0 } /* Literal.String.Double */
+.codehilite .se { color: #4070A0; font-weight: bold } /* Literal.String.Escape */
+.codehilite .sh { color: #4070A0 } /* Literal.String.Heredoc */
+.codehilite .si { color: #70A0D0; font-style: italic } /* Literal.String.Interpol */
+.codehilite .sx { color: #C65D09 } /* Literal.String.Other */
+.codehilite .sr { color: #235388 } /* Literal.String.Regex */
+.codehilite .s1 { color: #4070A0 } /* Literal.String.Single */
+.codehilite .ss { color: #517918 } /* Literal.String.Symbol */
+.codehilite .bp { color: #007020 } /* Name.Builtin.Pseudo */
+.codehilite .fm { color: #06287E } /* Name.Function.Magic */
+.codehilite .vc { color: #BB60D5 } /* Name.Variable.Class */
+.codehilite .vg { color: #BB60D5 } /* Name.Variable.Global */
+.codehilite .vi { color: #BB60D5 } /* Name.Variable.Instance */
+.codehilite .vm { color: #BB60D5 } /* Name.Variable.Magic */
+.codehilite .il { color: #40A070 } /* Literal.Number.Integer.Long */
+
+        /* Override: keep gray bg + wrap */
+        .codehilite { background: #f4f4f4 !important; padding: 15px; border-radius: 5px; overflow: visible; }
+        .codehilite pre { background: #f4f4f4 !important; white-space: pre-wrap; word-wrap: break-word; margin: 0; font-family: 'Operator Mono', monospace; }
+
+        /* Operator Mono italic: comments, docstrings, keywords */
+        .codehilite .c,
+        .codehilite .c1,
+        .codehilite .cm,
+        .codehilite .cs,
+        .codehilite .cp  { font-style: italic; }
+        .codehilite .k,
+        .codehilite .kd,
+        .codehilite .kn,
+        .codehilite .kr,
+        .codehilite .kc  { font-style: italic; }
+        .codehilite .sd  { font-style: italic; } /* docstring */
     </style>
 </head>
 <body>
@@ -53,199 +146,209 @@
 <h3>Step 0.1: Installing Core Libraries</h3>
 <p><strong>Những gì chúng ta sẽ làm:</strong>
 Chúng ta sẽ cài đặt các thư viện Python thiết yếu cho project này. Package <code>langchain-nebius</code> cung cấp quyền truy cập vào các model của Nebius AI Studio, <code>langchain</code> và <code>langgraph</code> sẽ cung cấp orchestration framework cốt lõi, <code>python-dotenv</code> sẽ quản lý API keys, và <code>rich</code> sẽ giúp chúng ta in kết quả đầu ra một cách đẹp mắt.</p>
-<pre><code class="language-python"># !pip install -q -U langchain-nebius langchain langgraph rich python-dotenv
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="c1"># !pip install -q -U langchain-nebius langchain langgraph rich python-dotenv</span>
+</code></pre></div>
+
 <h3>Step 0.2: Importing Libraries and Setting Up Keys</h3>
 <p><strong>Những gì chúng ta sẽ làm:</strong>
 Bây giờ chúng ta sẽ import tất cả các thành phần cần thiết từ các thư viện đã cài đặt. Chúng ta sẽ sử dụng thư viện <code>python-dotenv</code> để load Nebius API key từ file <code>.env</code> cục bộ một cách an toàn. Chúng ta cũng sẽ thiết lập LangSmith để thực hiện tracing, điều này cực kỳ giá trị để debug các agentic workflows nhiều bước.</p>
 <p><strong>Action Required:</strong> Bạn phải tạo một file tên là <code>.env</code> trong cùng thư mục với notebook này và thêm các key của bạn vào đó, như sau:</p>
-<pre><code>NEBIUS_API_KEY=&quot;your_nebius_api_key_here&quot;
+<div class="codehilite"><pre><span></span><code>NEBIUS_API_KEY=&quot;your_nebius_api_key_here&quot;
 LANGCHAIN_API_KEY=&quot;your_langsmith_api_key_here&quot;
-</code></pre>
-<pre><code class="language-python">import os
-import json
-from typing import List, TypedDict, Optional
-from dotenv import load_dotenv
+</code></pre></div>
 
-# Nebius and LangChain components
-from langchain_nebius import ChatNebius
-from pydantic import BaseModel, Field # Corrected import for Pydantic v2
-from langgraph.graph import StateGraph, END
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">TypedDict</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dotenv</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_dotenv</span>
 
-# For pretty printing
-from rich.console import Console
-from rich.markdown import Markdown
-from rich.syntax import Syntax
+<span class="c1"># Nebius and LangChain components</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_nebius</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatNebius</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span> <span class="c1"># Corrected import for Pydantic v2</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langgraph.graph</span><span class="w"> </span><span class="kn">import</span> <span class="n">StateGraph</span><span class="p">,</span> <span class="n">END</span>
 
-# --- API Key and Tracing Setup ---
-load_dotenv()
+<span class="c1"># For pretty printing</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rich.console</span><span class="w"> </span><span class="kn">import</span> <span class="n">Console</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rich.markdown</span><span class="w"> </span><span class="kn">import</span> <span class="n">Markdown</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rich.syntax</span><span class="w"> </span><span class="kn">import</span> <span class="n">Syntax</span>
 
-# Set up LangSmith tracing
-os.environ[&quot;LANGCHAIN_TRACING_V2&quot;] = &quot;true&quot;
-os.environ[&quot;LANGCHAIN_PROJECT&quot;] = &quot;Agentic Architecture - Reflection (Nebius)&quot;
+<span class="c1"># --- API Key and Tracing Setup ---</span>
+<span class="n">load_dotenv</span><span class="p">()</span>
 
-# Check that the keys are set
-if not os.environ.get(&quot;NEBIUS_API_KEY&quot;):
-    print(&quot;NEBIUS_API_KEY not found. Please create a .env file and set it.&quot;)
-if not os.environ.get(&quot;LANGCHAIN_API_KEY&quot;):
-    print(&quot;LANGCHAIN_API_KEY not found. Please create a .env file and set it for tracing.&quot;)
+<span class="c1"># Set up LangSmith tracing</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;LANGCHAIN_TRACING_V2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;true&quot;</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;LANGCHAIN_PROJECT&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Agentic Architecture - Reflection (Nebius)&quot;</span>
 
-print(&quot;Environment variables loaded and tracing is set up.&quot;)
-</code></pre>
+<span class="c1"># Check that the keys are set</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;NEBIUS_API_KEY&quot;</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;NEBIUS_API_KEY not found. Please create a .env file and set it.&quot;</span><span class="p">)</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;LANGCHAIN_API_KEY&quot;</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;LANGCHAIN_API_KEY not found. Please create a .env file and set it for tracing.&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Environment variables loaded and tracing is set up.&quot;</span><span class="p">)</span>
+</code></pre></div>
+
 <h2>Phase 1: Building the Core Components of Reflection</h2>
 <p>Một kiến trúc reflection mạnh mẽ không chỉ đơn thuần là một prompt đơn giản. Chúng ta sẽ xây dựng nó như một hệ thống gồm ba phần có cấu trúc: một <strong>Generator</strong>, một <strong>Critic</strong>, và một <strong>Refiner</strong>. Để đảm bảo sự tin cậy, chúng ta sẽ sử dụng các Pydantic model để định nghĩa output schemas mong đợi cho mỗi bước.</p>
 <h3>Step 1.1: Defining the Data Schemas with Pydantic</h3>
 <p><strong>Những gì chúng ta sẽ làm:</strong>
 Chúng ta sẽ định nghĩa các Pydantic model đóng vai trò như một bản hợp đồng cho LLM. Điều này cho LLM biết chính xác cấu trúc mà kết quả đầu ra của nó nên có, điều này rất quan trọng cho một quy trình nhiều bước nơi kết quả đầu ra của bước này trở thành đầu vào cho bước tiếp theo.</p>
-<pre><code class="language-python">class DraftCode(BaseModel):
-    &quot;&quot;&quot;Schema for the initial code draft generated by the agent.&quot;&quot;&quot;
-    code: str = Field(description=&quot;The Python code generated to solve the user's request.&quot;)
-    explanation: str = Field(description=&quot;A brief explanation of how the code works.&quot;)
+<div class="codehilite"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">DraftCode</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Schema for the initial code draft generated by the agent.&quot;&quot;&quot;</span>
+    <span class="n">code</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;The Python code generated to solve the user&#39;s request.&quot;</span><span class="p">)</span>
+    <span class="n">explanation</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;A brief explanation of how the code works.&quot;</span><span class="p">)</span>
 
-class Critique(BaseModel):
-    &quot;&quot;&quot;Schema for the self-critique of the generated code.&quot;&quot;&quot;
-    has_errors: bool = Field(description=&quot;Does the code have any potential bugs or logical errors?&quot;)
-    is_efficient: bool = Field(description=&quot;Is the code written in an efficient and optimal way?&quot;)
-    suggested_improvements: List[str] = Field(description=&quot;Specific, actionable suggestions for improving the code.&quot;)
-    critique_summary: str = Field(description=&quot;A summary of the critique.&quot;)
+<span class="k">class</span><span class="w"> </span><span class="nc">Critique</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Schema for the self-critique of the generated code.&quot;&quot;&quot;</span>
+    <span class="n">has_errors</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Does the code have any potential bugs or logical errors?&quot;</span><span class="p">)</span>
+    <span class="n">is_efficient</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Is the code written in an efficient and optimal way?&quot;</span><span class="p">)</span>
+    <span class="n">suggested_improvements</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Specific, actionable suggestions for improving the code.&quot;</span><span class="p">)</span>
+    <span class="n">critique_summary</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;A summary of the critique.&quot;</span><span class="p">)</span>
 
-class RefinedCode(BaseModel):
-    &quot;&quot;&quot;Schema for the final, refined code after incorporating the critique.&quot;&quot;&quot;
-    refined_code: str = Field(description=&quot;The final, improved Python code.&quot;)
-    refinement_summary: str = Field(description=&quot;A summary of the changes made based on the critique.&quot;)
+<span class="k">class</span><span class="w"> </span><span class="nc">RefinedCode</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Schema for the final, refined code after incorporating the critique.&quot;&quot;&quot;</span>
+    <span class="n">refined_code</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;The final, improved Python code.&quot;</span><span class="p">)</span>
+    <span class="n">refinement_summary</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;A summary of the changes made based on the critique.&quot;</span><span class="p">)</span>
 
-print(&quot;Pydantic models for Draft, Critique, and RefinedCode have been defined.&quot;)
-</code></pre>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Pydantic models for Draft, Critique, and RefinedCode have been defined.&quot;</span><span class="p">)</span>
+</code></pre></div>
+
 <p><strong>Discussion of the Output:</strong>
 Chúng ta đã định nghĩa thành công các cấu trúc dữ liệu của mình. Model <code>Critique</code> đặc biệt quan trọng; bằng cách yêu cầu các field cụ thể như <code>has_errors</code> và <code>is_efficient</code>, chúng ta hướng dẫn LLM thực hiện một quá trình evaluation có cấu trúc và hữu ích hơn là chỉ yêu cầu nó "review code".</p>
 <h3>Step 1.2: Initializing the Nebius LLM and the Console</h3>
 <p><strong>Những gì chúng ta sẽ làm:</strong>
 Chúng ta sẽ khởi tạo Nebius language model, thành phần sẽ cung cấp sức mạnh cho cả ba vai trò (Generator, Critic, và Refiner). Chúng ta sẽ sử dụng một model mạnh mẽ như <code>meta-llama/Meta-Llama-3.1-8B-Instruct</code> để đảm bảo khả năng suy luận chất lượng cao cho tất cả các bước. Chúng ta cũng sẽ thiết lập <code>rich</code> console để có kết quả đầu ra được format rõ ràng.</p>
-<pre><code class="language-python"># Use a powerful Nebius model for generation and critique
-llm = ChatNebius(model=&quot;meta-llama/Meta-Llama-3.1-8B-Instruct&quot;, temperature=0.2)
+<div class="codehilite"><pre><span></span><code><span class="c1"># Use a powerful Nebius model for generation and critique</span>
+<span class="n">llm</span> <span class="o">=</span> <span class="n">ChatNebius</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;meta-llama/Meta-Llama-3.1-8B-Instruct&quot;</span><span class="p">,</span> <span class="n">temperature</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
 
-# Initialize console for pretty printing
-console = Console()
+<span class="c1"># Initialize console for pretty printing</span>
+<span class="n">console</span> <span class="o">=</span> <span class="n">Console</span><span class="p">()</span>
 
-print(&quot;Nebius LLM and Console are initialized.&quot;)
-</code></pre>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Nebius LLM and Console are initialized.&quot;</span><span class="p">)</span>
+</code></pre></div>
+
 <h3>Step 1.3: Creating the Generator Node</h3>
 <p><strong>Những gì chúng ta sẽ làm:</strong>
 Nhiệm vụ duy nhất của node này là tiếp nhận request của người dùng và tạo ra bản draft đầu tiên. Chúng ta sẽ bind Pydantic model <code>DraftCode</code> vào Nebius LLM để đảm bảo kết quả đầu ra của nó được cấu trúc chính xác.</p>
-<pre><code class="language-python">def generator_node(state):
-    &quot;&quot;&quot;Generates the initial draft of the code.&quot;&quot;&quot;
-    console.print(&quot;--- 1. Generating Initial Draft ---&quot;)
-    generator_llm = llm.with_structured_output(DraftCode)
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">generator_node</span><span class="p">(</span><span class="n">state</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generates the initial draft of the code.&quot;&quot;&quot;</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;--- 1. Generating Initial Draft ---&quot;</span><span class="p">)</span>
+    <span class="n">generator_llm</span> <span class="o">=</span> <span class="n">llm</span><span class="o">.</span><span class="n">with_structured_output</span><span class="p">(</span><span class="n">DraftCode</span><span class="p">)</span>
 
-    prompt = f&quot;&quot;&quot;You are an expert Python programmer. Write a Python function to solve the following request.
-    Provide a simple, clear implementation and an explanation.
+    <span class="n">prompt</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;You are an expert Python programmer. Write a Python function to solve the following request.</span>
+<span class="s2">    Provide a simple, clear implementation and an explanation.</span>
 
-    Request: {state['user_request']}
-    &quot;&quot;&quot;
+<span class="s2">    Request: </span><span class="si">{</span><span class="n">state</span><span class="p">[</span><span class="s1">&#39;user_request&#39;</span><span class="p">]</span><span class="si">}</span>
+<span class="s2">    &quot;&quot;&quot;</span>
 
-    draft = generator_llm.invoke(prompt)
-    return {&quot;draft&quot;: draft.model_dump()} # Corrected: use .model_dump()
-</code></pre>
+    <span class="n">draft</span> <span class="o">=</span> <span class="n">generator_llm</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;draft&quot;</span><span class="p">:</span> <span class="n">draft</span><span class="o">.</span><span class="n">model_dump</span><span class="p">()}</span> <span class="c1"># Corrected: use .model_dump()</span>
+</code></pre></div>
+
 <h3>Step 1.4: Creating the Critic Node</h3>
 <p><strong>Những gì chúng ta sẽ làm:</strong>
 Đây là phần cốt lõi của quá trình reflection. Node Critic tiếp nhận bản draft ban đầu, phân tích các điểm yếu, và tạo ra một bản critique có cấu trúc bằng cách sử dụng Pydantic model <code>Critique</code> của chúng ta.</p>
-<pre><code class="language-python">def critic_node(state):
-    &quot;&quot;&quot;Critiques the generated code for errors and inefficiencies.&quot;&quot;&quot;
-    console.print(&quot;--- 2. Critiquing Draft ---&quot;)
-    critic_llm = llm.with_structured_output(Critique)
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">critic_node</span><span class="p">(</span><span class="n">state</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Critiques the generated code for errors and inefficiencies.&quot;&quot;&quot;</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;--- 2. Critiquing Draft ---&quot;</span><span class="p">)</span>
+    <span class="n">critic_llm</span> <span class="o">=</span> <span class="n">llm</span><span class="o">.</span><span class="n">with_structured_output</span><span class="p">(</span><span class="n">Critique</span><span class="p">)</span>
 
-    code_to_critique = state['draft']['code']
+    <span class="n">code_to_critique</span> <span class="o">=</span> <span class="n">state</span><span class="p">[</span><span class="s1">&#39;draft&#39;</span><span class="p">][</span><span class="s1">&#39;code&#39;</span><span class="p">]</span>
 
-    prompt = f&quot;&quot;&quot;You are an expert code reviewer and senior Python developer. Your task is to perform a thorough critique of the following code.
+    <span class="n">prompt</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;You are an expert code reviewer and senior Python developer. Your task is to perform a thorough critique of the following code.</span>
 
-    Analyze the code for:
-    1.  **Bugs and Errors:** Are there any potential runtime errors, logical flaws, or edge cases that are not handled?
-    2.  **Efficiency and Best Practices:** Is this the most efficient way to solve the problem? Does it follow standard Python conventions (PEP 8)?
+<span class="s2">    Analyze the code for:</span>
+<span class="s2">    1.  **Bugs and Errors:** Are there any potential runtime errors, logical flaws, or edge cases that are not handled?</span>
+<span class="s2">    2.  **Efficiency and Best Practices:** Is this the most efficient way to solve the problem? Does it follow standard Python conventions (PEP 8)?</span>
 
-    Provide a structured critique with specific, actionable suggestions.
+<span class="s2">    Provide a structured critique with specific, actionable suggestions.</span>
 
-    Code to Review:
-    ```python
-    {code_to_critique}
-    ```
-    &quot;&quot;&quot;
+<span class="s2">    Code to Review:</span>
+<span class="s2">    ```python</span>
+<span class="s2">    </span><span class="si">{</span><span class="n">code_to_critique</span><span class="si">}</span>
+<span class="s2">    ```</span>
+<span class="s2">    &quot;&quot;&quot;</span>
 
-    critique = critic_llm.invoke(prompt)
-    return {&quot;critique&quot;: critique.model_dump()} # Corrected: use .model_dump()
-</code></pre>
+    <span class="n">critique</span> <span class="o">=</span> <span class="n">critic_llm</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;critique&quot;</span><span class="p">:</span> <span class="n">critique</span><span class="o">.</span><span class="n">model_dump</span><span class="p">()}</span> <span class="c1"># Corrected: use .model_dump()</span>
+</code></pre></div>
+
 <h3>Step 1.5: Creating the Refiner Node</h3>
 <p><strong>Những gì chúng ta sẽ làm:</strong>
 Bước cuối cùng trong logic của chúng ta là Refiner. Node này nhận cả bản draft gốc và bản critique có cấu trúc, với nhiệm vụ viết phiên bản code cuối cùng đã được cải thiện.</p>
-<pre><code class="language-python">def refiner_node(state):
-    &quot;&quot;&quot;Refines the code based on the critique.&quot;&quot;&quot;
-    console.print(&quot;--- 3. Refining Code ---&quot;)
-    refiner_llm = llm.with_structured_output(RefinedCode)
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">refiner_node</span><span class="p">(</span><span class="n">state</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Refines the code based on the critique.&quot;&quot;&quot;</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;--- 3. Refining Code ---&quot;</span><span class="p">)</span>
+    <span class="n">refiner_llm</span> <span class="o">=</span> <span class="n">llm</span><span class="o">.</span><span class="n">with_structured_output</span><span class="p">(</span><span class="n">RefinedCode</span><span class="p">)</span>
 
-    draft_code = state['draft']['code']
-    critique_suggestions = json.dumps(state['critique'], indent=2)
+    <span class="n">draft_code</span> <span class="o">=</span> <span class="n">state</span><span class="p">[</span><span class="s1">&#39;draft&#39;</span><span class="p">][</span><span class="s1">&#39;code&#39;</span><span class="p">]</span>
+    <span class="n">critique_suggestions</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">state</span><span class="p">[</span><span class="s1">&#39;critique&#39;</span><span class="p">],</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 
-    prompt = f&quot;&quot;&quot;You are an expert Python programmer tasked with refining a piece of code based on a critique.
+    <span class="n">prompt</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;You are an expert Python programmer tasked with refining a piece of code based on a critique.</span>
 
-    Your goal is to rewrite the original code, implementing all the suggested improvements from the critique.
+<span class="s2">    Your goal is to rewrite the original code, implementing all the suggested improvements from the critique.</span>
 
-    **Original Code:**
-    ```python
-    {draft_code}
-    ```
+<span class="s2">    **Original Code:**</span>
+<span class="s2">    ```python</span>
+<span class="s2">    </span><span class="si">{</span><span class="n">draft_code</span><span class="si">}</span>
+<span class="s2">    ```</span>
 
-    **Critique and Suggestions:**
-    {critique_suggestions}
+<span class="s2">    **Critique and Suggestions:**</span>
+<span class="s2">    </span><span class="si">{</span><span class="n">critique_suggestions</span><span class="si">}</span>
 
-    Please provide the final, refined code and a summary of the changes you made.
-    &quot;&quot;&quot;
+<span class="s2">    Please provide the final, refined code and a summary of the changes you made.</span>
+<span class="s2">    &quot;&quot;&quot;</span>
 
-    refined_code = refiner_llm.invoke(prompt)
-    return {&quot;refined_code&quot;: refined_code.model_dump()} # Corrected: use .model_dump()
-</code></pre>
+    <span class="n">refined_code</span> <span class="o">=</span> <span class="n">refiner_llm</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;refined_code&quot;</span><span class="p">:</span> <span class="n">refined_code</span><span class="o">.</span><span class="n">model_dump</span><span class="p">()}</span> <span class="c1"># Corrected: use .model_dump()</span>
+</code></pre></div>
+
 <p><strong>Discussion of Phase 1:</strong>
 Hiện tại, chúng ta đã tạo ra ba thành phần logic cốt lõi cho reflective agent của mình. Mỗi thành phần là một hàm độc lập (hoặc 'node') thực hiện một nhiệm vụ duy nhất và được định nghĩa rõ ràng. Việc sử dụng structured output ở mỗi giai đoạn đảm bảo dữ liệu truyền đi một cách đáng tin cậy từ node này sang node tiếp theo. Bây giờ, chúng ta đã sẵn sàng để orchestrate workflow này bằng LangGraph.</p>
 <h2>Phase 2: Orchestrating the Reflection Workflow with LangGraph</h2>
 <h3>Step 2.1: Defining the Graph State</h3>
 <p><strong>Những gì chúng ta sẽ làm:</strong>
 'State' là bộ nhớ của graph của chúng ta. Nó là một object trung tâm được truyền giữa các node, và mỗi node có thể đọc từ đó hoặc ghi vào đó. Chúng ta sẽ định nghĩa một <code>ReflectionState</code> sử dụng <code>TypedDict</code> của Python để chứa tất cả các phần trong workflow của mình.</p>
-<pre><code class="language-python">class ReflectionState(TypedDict):
-    &quot;&quot;&quot;Represents the state of our reflection graph.&quot;&quot;&quot;
-    user_request: str
-    draft: Optional[dict]
-    critique: Optional[dict]
-    refined_code: Optional[dict]
+<div class="codehilite"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">ReflectionState</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents the state of our reflection graph.&quot;&quot;&quot;</span>
+    <span class="n">user_request</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">draft</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span>
+    <span class="n">critique</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span>
+    <span class="n">refined_code</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span>
 
-print(&quot;ReflectionState TypedDict defined.&quot;)
-</code></pre>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ReflectionState TypedDict defined.&quot;</span><span class="p">)</span>
+</code></pre></div>
+
 <h3>Step 2.2: Building and Visualizing the Graph</h3>
 <p><strong>Những gì chúng ta sẽ làm:</strong>
 Bây giờ chúng ta sẽ lắp ráp các node của mình thành một workflow mạch lạc bằng cách sử dụng <code>StateGraph</code>. Đối với reflection pattern này, workflow là một chuỗi tuần tự đơn giản: <strong>Generate → Critique → Refine</strong>. Chúng ta sẽ định nghĩa luồng này, sau đó compile và hình ảnh hóa graph để xác nhận cấu trúc của nó.</p>
-<pre><code class="language-python">graph_builder = StateGraph(ReflectionState)
+<div class="codehilite"><pre><span></span><code><span class="n">graph_builder</span> <span class="o">=</span> <span class="n">StateGraph</span><span class="p">(</span><span class="n">ReflectionState</span><span class="p">)</span>
 
-# Add the nodes to the graph
-graph_builder.add_node(&quot;generator&quot;, generator_node)
-graph_builder.add_node(&quot;critic&quot;, critic_node)
-graph_builder.add_node(&quot;refiner&quot;, refiner_node)
+<span class="c1"># Add the nodes to the graph</span>
+<span class="n">graph_builder</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="s2">&quot;generator&quot;</span><span class="p">,</span> <span class="n">generator_node</span><span class="p">)</span>
+<span class="n">graph_builder</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="s2">&quot;critic&quot;</span><span class="p">,</span> <span class="n">critic_node</span><span class="p">)</span>
+<span class="n">graph_builder</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="s2">&quot;refiner&quot;</span><span class="p">,</span> <span class="n">refiner_node</span><span class="p">)</span>
 
-# Define the workflow edges
-graph_builder.set_entry_point(&quot;generator&quot;)
-graph_builder.add_edge(&quot;generator&quot;, &quot;critic&quot;)
-graph_builder.add_edge(&quot;critic&quot;, &quot;refiner&quot;)
-graph_builder.add_edge(&quot;refiner&quot;, END)
+<span class="c1"># Define the workflow edges</span>
+<span class="n">graph_builder</span><span class="o">.</span><span class="n">set_entry_point</span><span class="p">(</span><span class="s2">&quot;generator&quot;</span><span class="p">)</span>
+<span class="n">graph_builder</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="s2">&quot;generator&quot;</span><span class="p">,</span> <span class="s2">&quot;critic&quot;</span><span class="p">)</span>
+<span class="n">graph_builder</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="s2">&quot;critic&quot;</span><span class="p">,</span> <span class="s2">&quot;refiner&quot;</span><span class="p">)</span>
+<span class="n">graph_builder</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="s2">&quot;refiner&quot;</span><span class="p">,</span> <span class="n">END</span><span class="p">)</span>
 
-# Compile the graph
-reflection_app = graph_builder.compile()
+<span class="c1"># Compile the graph</span>
+<span class="n">reflection_app</span> <span class="o">=</span> <span class="n">graph_builder</span><span class="o">.</span><span class="n">compile</span><span class="p">()</span>
 
-print(&quot;Reflection graph compiled successfully!&quot;)
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Reflection graph compiled successfully!&quot;</span><span class="p">)</span>
 
-# Visualize the graph
-try:
-    from IPython.display import Image, display
-    png_image = reflection_app.get_graph().draw_png()
-    display(Image(png_image))
-except Exception as e:
-    print(f&quot;Graph visualization failed: {e}. Please ensure pygraphviz is installed.&quot;)
-</code></pre>
+<span class="c1"># Visualize the graph</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">Image</span><span class="p">,</span> <span class="n">display</span>
+    <span class="n">png_image</span> <span class="o">=</span> <span class="n">reflection_app</span><span class="o">.</span><span class="n">get_graph</span><span class="p">()</span><span class="o">.</span><span class="n">draw_png</span><span class="p">()</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">Image</span><span class="p">(</span><span class="n">png_image</span><span class="p">))</span>
+<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Graph visualization failed: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">. Please ensure pygraphviz is installed.&quot;</span><span class="p">)</span>
+</code></pre></div>
+
 <p><strong>Discussion of the Output:</strong>
 Hệ thống graph đã được compile thành công. Hình ảnh hóa xác nhận workflow tuần tự đúng như dự định. Bạn có thể thấy rõ ràng state truyền từ điểm bắt đầu (<code>generator</code>), đi qua các node <code>critic</code> và <code>refiner</code>, và cuối cùng kết thúc ở trạng thái <code>__end__</code>. Cấu trúc đơn giản nhưng mạnh mẽ này hiện đã sẵn sàng để thực thi.</p>
 <h2>Phase 3: End-to-End Execution and Evaluation</h2>
@@ -253,40 +356,42 @@ Hệ thống graph đã được compile thành công. Hình ảnh hóa xác nh�
 <h3>Step 3.1: Running the Full Reflection Workflow</h3>
 <p><strong>Những gì chúng ta sẽ làm:</strong>
 Chúng ta sẽ invoke ứng dụng LangGraph đã được compile của mình với một request yêu cầu viết một hàm tìm số Fibonacci thứ n. Chúng ta sẽ stream các kết quả và tích lũy đầy đủ state để có thể kiểm tra tất cả các bước trung gian ở cuối quy trình.</p>
-<pre><code class="language-python">user_request = &quot;Write a Python function to find the nth Fibonacci number.&quot;
-initial_input = {&quot;user_request&quot;: user_request}
+<div class="codehilite"><pre><span></span><code><span class="n">user_request</span> <span class="o">=</span> <span class="s2">&quot;Write a Python function to find the nth Fibonacci number.&quot;</span>
+<span class="n">initial_input</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;user_request&quot;</span><span class="p">:</span> <span class="n">user_request</span><span class="p">}</span>
 
-console.print(f&quot;[bold cyan]🚀 Kicking off Reflection workflow for request:[/bold cyan] '{user_request}'\n&quot;)
+<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[bold cyan]🚀 Kicking off Reflection workflow for request:[/bold cyan] &#39;</span><span class="si">{</span><span class="n">user_request</span><span class="si">}</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 
-# Corrected: This loop correctly captures the final, fully-populated state
-final_state = None
-for state_update in reflection_app.stream(initial_input, stream_mode=&quot;values&quot;):
-    final_state = state_update
+<span class="c1"># Corrected: This loop correctly captures the final, fully-populated state</span>
+<span class="n">final_state</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="k">for</span> <span class="n">state_update</span> <span class="ow">in</span> <span class="n">reflection_app</span><span class="o">.</span><span class="n">stream</span><span class="p">(</span><span class="n">initial_input</span><span class="p">,</span> <span class="n">stream_mode</span><span class="o">=</span><span class="s2">&quot;values&quot;</span><span class="p">):</span>
+    <span class="n">final_state</span> <span class="o">=</span> <span class="n">state_update</span>
 
-console.print(&quot;\n[bold green]✅ Reflection workflow complete![/bold green]&quot;)
-</code></pre>
+<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">[bold green]✅ Reflection workflow complete![/bold green]&quot;</span><span class="p">)</span>
+</code></pre></div>
+
 <h3>Step 3.2: Analyzing the 'Before and After'</h3>
 <p><strong>Những gì chúng ta sẽ làm:</strong>
 Đây là thời điểm quyết định. Bây giờ chúng ta sẽ kiểm tra kết quả từ mỗi giai đoạn của workflow, được lưu trữ trong <code>final_state</code>. Chúng ta sẽ in bản draft đầu tiên, bản critique mà nó nhận được, và code cuối cùng đã được tinh chỉnh để thấy rõ giá trị gia tăng được tạo ra bởi quá trình reflection.</p>
-<pre><code class="language-python"># Check if final_state is available and has the expected keys
-if final_state and 'draft' in final_state and 'critique' in final_state and 'refined_code' in final_state:
-    console.print(Markdown(&quot;--- ### Initial Draft ---&quot;))
-    console.print(Markdown(f&quot;**Explanation:** {final_state['draft']['explanation']}&quot;))
-    # Use rich's Syntax for proper code highlighting
-    console.print(Syntax(final_state['draft']['code'], &quot;python&quot;, theme=&quot;monokai&quot;, line_numbers=True))
+<div class="codehilite"><pre><span></span><code><span class="c1"># Check if final_state is available and has the expected keys</span>
+<span class="k">if</span> <span class="n">final_state</span> <span class="ow">and</span> <span class="s1">&#39;draft&#39;</span> <span class="ow">in</span> <span class="n">final_state</span> <span class="ow">and</span> <span class="s1">&#39;critique&#39;</span> <span class="ow">in</span> <span class="n">final_state</span> <span class="ow">and</span> <span class="s1">&#39;refined_code&#39;</span> <span class="ow">in</span> <span class="n">final_state</span><span class="p">:</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="s2">&quot;--- ### Initial Draft ---&quot;</span><span class="p">))</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;**Explanation:** </span><span class="si">{</span><span class="n">final_state</span><span class="p">[</span><span class="s1">&#39;draft&#39;</span><span class="p">][</span><span class="s1">&#39;explanation&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">))</span>
+    <span class="c1"># Use rich&#39;s Syntax for proper code highlighting</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">Syntax</span><span class="p">(</span><span class="n">final_state</span><span class="p">[</span><span class="s1">&#39;draft&#39;</span><span class="p">][</span><span class="s1">&#39;code&#39;</span><span class="p">],</span> <span class="s2">&quot;python&quot;</span><span class="p">,</span> <span class="n">theme</span><span class="o">=</span><span class="s2">&quot;monokai&quot;</span><span class="p">,</span> <span class="n">line_numbers</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
 
-    console.print(Markdown(&quot;\n--- ### Critique ---&quot;))
-    console.print(Markdown(f&quot;**Summary:** {final_state['critique']['critique_summary']}&quot;))
-    console.print(Markdown(f&quot;**Improvements Suggested:**&quot;))
-    for improvement in final_state['critique']['suggested_improvements']:
-        console.print(Markdown(f&quot;- {improvement}&quot;))
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- ### Critique ---&quot;</span><span class="p">))</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;**Summary:** </span><span class="si">{</span><span class="n">final_state</span><span class="p">[</span><span class="s1">&#39;critique&#39;</span><span class="p">][</span><span class="s1">&#39;critique_summary&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">))</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;**Improvements Suggested:**&quot;</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">improvement</span> <span class="ow">in</span> <span class="n">final_state</span><span class="p">[</span><span class="s1">&#39;critique&#39;</span><span class="p">][</span><span class="s1">&#39;suggested_improvements&#39;</span><span class="p">]:</span>
+        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;- </span><span class="si">{</span><span class="n">improvement</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">))</span>
 
-    console.print(Markdown(&quot;\n--- ### Final Refined Code ---&quot;))
-    console.print(Markdown(f&quot;**Refinement Summary:** {final_state['refined_code']['refinement_summary']}&quot;))
-    console.print(Syntax(final_state['refined_code']['refined_code'], &quot;python&quot;, theme=&quot;monokai&quot;, line_numbers=True))
-else:
-    console.print(&quot;[bold red]Error: The `final_state` is not available or is incomplete. Please check the execution of the previous cells.[/bold red]&quot;)
-</code></pre>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- ### Final Refined Code ---&quot;</span><span class="p">))</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;**Refinement Summary:** </span><span class="si">{</span><span class="n">final_state</span><span class="p">[</span><span class="s1">&#39;refined_code&#39;</span><span class="p">][</span><span class="s1">&#39;refinement_summary&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">))</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">Syntax</span><span class="p">(</span><span class="n">final_state</span><span class="p">[</span><span class="s1">&#39;refined_code&#39;</span><span class="p">][</span><span class="s1">&#39;refined_code&#39;</span><span class="p">],</span> <span class="s2">&quot;python&quot;</span><span class="p">,</span> <span class="n">theme</span><span class="o">=</span><span class="s2">&quot;monokai&quot;</span><span class="p">,</span> <span class="n">line_numbers</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;[bold red]Error: The `final_state` is not available or is incomplete. Please check the execution of the previous cells.[/bold red]&quot;</span><span class="p">)</span>
+</code></pre></div>
+
 <p><strong>Discussion of the Output:</strong>
 Các kết quả là một minh họa hoàn hảo cho sức mạnh của reflection.</p>
 <ol>
@@ -298,36 +403,37 @@ Các kết quả là một minh họa hoàn hảo cho sức mạnh của reflect
 <h3>Step 3.3: Quantitative Evaluation (LLM-as-a-Judge)</h3>
 <p><strong>Những gì chúng ta sẽ làm:</strong>
 Để chính thức hóa việc phân tích, chúng ta sẽ sử dụng một LLM khác làm 'judge' khách quan để chấm điểm chất lượng của bản draft đầu tiên so với code cuối cùng. Điều này cung cấp một thước đo khách quan hơn về sự cải thiện đạt được thông qua reflection.</p>
-<pre><code class="language-python">class CodeEvaluation(BaseModel):
-    &quot;&quot;&quot;Schema for evaluating a piece of code.&quot;&quot;&quot;
-    correctness_score: int = Field(description=&quot;Score from 1-10 on whether the code is logically correct.&quot;)
-    efficiency_score: int = Field(description=&quot;Score from 1-10 on the code's algorithmic efficiency.&quot;)
-    style_score: int = Field(description=&quot;Score from 1-10 on code style and readability (PEP 8). &quot;)
-    justification: str = Field(description=&quot;A brief justification for the scores.&quot;)
+<div class="codehilite"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">CodeEvaluation</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Schema for evaluating a piece of code.&quot;&quot;&quot;</span>
+    <span class="n">correctness_score</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Score from 1-10 on whether the code is logically correct.&quot;</span><span class="p">)</span>
+    <span class="n">efficiency_score</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Score from 1-10 on the code&#39;s algorithmic efficiency.&quot;</span><span class="p">)</span>
+    <span class="n">style_score</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Score from 1-10 on code style and readability (PEP 8). &quot;</span><span class="p">)</span>
+    <span class="n">justification</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;A brief justification for the scores.&quot;</span><span class="p">)</span>
 
-judge_llm = llm.with_structured_output(CodeEvaluation)
+<span class="n">judge_llm</span> <span class="o">=</span> <span class="n">llm</span><span class="o">.</span><span class="n">with_structured_output</span><span class="p">(</span><span class="n">CodeEvaluation</span><span class="p">)</span>
 
-def evaluate_code(code_to_evaluate: str):
-    prompt = f&quot;&quot;&quot;You are an expert judge of Python code. Evaluate the following function on a scale of 1-10 for correctness, efficiency, and style. Provide a brief justification.
+<span class="k">def</span><span class="w"> </span><span class="nf">evaluate_code</span><span class="p">(</span><span class="n">code_to_evaluate</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="n">prompt</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;You are an expert judge of Python code. Evaluate the following function on a scale of 1-10 for correctness, efficiency, and style. Provide a brief justification.</span>
 
-    Code:
-    ```python
-    {code_to_evaluate}
-    ```
-    &quot;&quot;&quot;
-    return judge_llm.invoke(prompt)
+<span class="s2">    Code:</span>
+<span class="s2">    ```python</span>
+<span class="s2">    </span><span class="si">{</span><span class="n">code_to_evaluate</span><span class="si">}</span>
+<span class="s2">    ```</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">judge_llm</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
 
-if final_state and 'draft' in final_state and 'refined_code' in final_state:
-    console.print(&quot;--- Evaluating Initial Draft ---&quot;)
-    initial_draft_evaluation = evaluate_code(final_state['draft']['code'])
-    console.print(initial_draft_evaluation.model_dump()) # Corrected: use .model_dump()
+<span class="k">if</span> <span class="n">final_state</span> <span class="ow">and</span> <span class="s1">&#39;draft&#39;</span> <span class="ow">in</span> <span class="n">final_state</span> <span class="ow">and</span> <span class="s1">&#39;refined_code&#39;</span> <span class="ow">in</span> <span class="n">final_state</span><span class="p">:</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;--- Evaluating Initial Draft ---&quot;</span><span class="p">)</span>
+    <span class="n">initial_draft_evaluation</span> <span class="o">=</span> <span class="n">evaluate_code</span><span class="p">(</span><span class="n">final_state</span><span class="p">[</span><span class="s1">&#39;draft&#39;</span><span class="p">][</span><span class="s1">&#39;code&#39;</span><span class="p">])</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">initial_draft_evaluation</span><span class="o">.</span><span class="n">model_dump</span><span class="p">())</span> <span class="c1"># Corrected: use .model_dump()</span>
 
-    console.print(&quot;\n--- Evaluating Refined Code ---&quot;)
-    refined_code_evaluation = evaluate_code(final_state['refined_code']['refined_code'])
-    console.print(refined_code_evaluation.model_dump()) # Corrected: use .model_dump()
-else:
-    console.print(&quot;[bold red]Error: Cannot perform evaluation because the `final_state` is incomplete.[/bold red]&quot;)
-</code></pre>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- Evaluating Refined Code ---&quot;</span><span class="p">)</span>
+    <span class="n">refined_code_evaluation</span> <span class="o">=</span> <span class="n">evaluate_code</span><span class="p">(</span><span class="n">final_state</span><span class="p">[</span><span class="s1">&#39;refined_code&#39;</span><span class="p">][</span><span class="s1">&#39;refined_code&#39;</span><span class="p">])</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">refined_code_evaluation</span><span class="o">.</span><span class="n">model_dump</span><span class="p">())</span> <span class="c1"># Corrected: use .model_dump()</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;[bold red]Error: Cannot perform evaluation because the `final_state` is incomplete.[/bold red]&quot;</span><span class="p">)</span>
+</code></pre></div>
+
 <p><strong>Discussion of the Output:</strong>
 Quá trình evaluation theo kiểu LLM-as-a-Judge cung cấp bằng chứng định lượng về sự thành công của reflection pattern. Bản draft đầu tiên có lẽ đã nhận được điểm cao về tính chính xác nhưng điểm rất thấp về hiệu quả. Ngược lại, code đã tinh chỉnh sẽ đạt điểm cao ở cả tính chính xác và hiệu quả. Quá trình evaluation tự động, có chấm điểm này xác nhận rằng quy trình reflection không chỉ làm thay đổi code—nó còn cải thiện code một cách rõ rệt có thể đo lường được.</p>
 <h2>Conclusion</h2>

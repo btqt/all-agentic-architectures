@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -6,15 +5,109 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>11_Meta_Controller</title>
     <style>
-        body { font-family: system-ui, -apple-system, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; color: #333; }
-        pre { background: #f4f4f4; padding: 15px; border-radius: 5px; overflow-x: auto; }
-        code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; font-family: monospace; }
+        body { font-family: system-ui, -apple-system, sans-serif; line-height: 1.6; max-width: 1100px; margin: 0 auto; padding: 20px; color: #333; }
+        pre { background: #f4f4f4; padding: 15px; border-radius: 5px; white-space: pre-wrap; word-wrap: break-word; }
+        code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; font-family: 'Operator Mono Lig', monospace; }
         a { color: #007bff; text-decoration: none; }
         a:hover { text-decoration: underline; }
         table { border-collapse: collapse; width: 100%; margin: 20px 0; }
         th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
         th { background-color: #f2f2f2; }
         img { max-width: 100%; height: auto; }
+
+        /* --- Pygments: friendly theme (inline, no CDN) --- */
+        pre { line-height: 125%; }
+td.linenos .normal { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.codehilite .hll { background-color: #ffffcc }
+.codehilite { background: #f0f0f0; }
+.codehilite .c { color: #60A0B0; font-style: italic } /* Comment */
+.codehilite .err { border: 1px solid #F00 } /* Error */
+.codehilite .k { color: #007020; font-weight: bold } /* Keyword */
+.codehilite .o { color: #666 } /* Operator */
+.codehilite .ch { color: #60A0B0; font-style: italic } /* Comment.Hashbang */
+.codehilite .cm { color: #60A0B0; font-style: italic } /* Comment.Multiline */
+.codehilite .cp { color: #007020 } /* Comment.Preproc */
+.codehilite .cpf { color: #60A0B0; font-style: italic } /* Comment.PreprocFile */
+.codehilite .c1 { color: #60A0B0; font-style: italic } /* Comment.Single */
+.codehilite .cs { color: #60A0B0; background-color: #FFF0F0 } /* Comment.Special */
+.codehilite .gd { color: #A00000 } /* Generic.Deleted */
+.codehilite .ge { font-style: italic } /* Generic.Emph */
+.codehilite .ges { font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+.codehilite .gr { color: #F00 } /* Generic.Error */
+.codehilite .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.codehilite .gi { color: #00A000 } /* Generic.Inserted */
+.codehilite .go { color: #888 } /* Generic.Output */
+.codehilite .gp { color: #C65D09; font-weight: bold } /* Generic.Prompt */
+.codehilite .gs { font-weight: bold } /* Generic.Strong */
+.codehilite .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.codehilite .gt { color: #04D } /* Generic.Traceback */
+.codehilite .kc { color: #007020; font-weight: bold } /* Keyword.Constant */
+.codehilite .kd { color: #007020; font-weight: bold } /* Keyword.Declaration */
+.codehilite .kn { color: #007020; font-weight: bold } /* Keyword.Namespace */
+.codehilite .kp { color: #007020 } /* Keyword.Pseudo */
+.codehilite .kr { color: #007020; font-weight: bold } /* Keyword.Reserved */
+.codehilite .kt { color: #902000 } /* Keyword.Type */
+.codehilite .m { color: #40A070 } /* Literal.Number */
+.codehilite .s { color: #4070A0 } /* Literal.String */
+.codehilite .na { color: #4070A0 } /* Name.Attribute */
+.codehilite .nb { color: #007020 } /* Name.Builtin */
+.codehilite .nc { color: #0E84B5; font-weight: bold } /* Name.Class */
+.codehilite .no { color: #60ADD5 } /* Name.Constant */
+.codehilite .nd { color: #555; font-weight: bold } /* Name.Decorator */
+.codehilite .ni { color: #D55537; font-weight: bold } /* Name.Entity */
+.codehilite .ne { color: #007020 } /* Name.Exception */
+.codehilite .nf { color: #06287E } /* Name.Function */
+.codehilite .nl { color: #002070; font-weight: bold } /* Name.Label */
+.codehilite .nn { color: #0E84B5; font-weight: bold } /* Name.Namespace */
+.codehilite .nt { color: #062873; font-weight: bold } /* Name.Tag */
+.codehilite .nv { color: #BB60D5 } /* Name.Variable */
+.codehilite .ow { color: #007020; font-weight: bold } /* Operator.Word */
+.codehilite .w { color: #BBB } /* Text.Whitespace */
+.codehilite .mb { color: #40A070 } /* Literal.Number.Bin */
+.codehilite .mf { color: #40A070 } /* Literal.Number.Float */
+.codehilite .mh { color: #40A070 } /* Literal.Number.Hex */
+.codehilite .mi { color: #40A070 } /* Literal.Number.Integer */
+.codehilite .mo { color: #40A070 } /* Literal.Number.Oct */
+.codehilite .sa { color: #4070A0 } /* Literal.String.Affix */
+.codehilite .sb { color: #4070A0 } /* Literal.String.Backtick */
+.codehilite .sc { color: #4070A0 } /* Literal.String.Char */
+.codehilite .dl { color: #4070A0 } /* Literal.String.Delimiter */
+.codehilite .sd { color: #4070A0; font-style: italic } /* Literal.String.Doc */
+.codehilite .s2 { color: #4070A0 } /* Literal.String.Double */
+.codehilite .se { color: #4070A0; font-weight: bold } /* Literal.String.Escape */
+.codehilite .sh { color: #4070A0 } /* Literal.String.Heredoc */
+.codehilite .si { color: #70A0D0; font-style: italic } /* Literal.String.Interpol */
+.codehilite .sx { color: #C65D09 } /* Literal.String.Other */
+.codehilite .sr { color: #235388 } /* Literal.String.Regex */
+.codehilite .s1 { color: #4070A0 } /* Literal.String.Single */
+.codehilite .ss { color: #517918 } /* Literal.String.Symbol */
+.codehilite .bp { color: #007020 } /* Name.Builtin.Pseudo */
+.codehilite .fm { color: #06287E } /* Name.Function.Magic */
+.codehilite .vc { color: #BB60D5 } /* Name.Variable.Class */
+.codehilite .vg { color: #BB60D5 } /* Name.Variable.Global */
+.codehilite .vi { color: #BB60D5 } /* Name.Variable.Instance */
+.codehilite .vm { color: #BB60D5 } /* Name.Variable.Magic */
+.codehilite .il { color: #40A070 } /* Literal.Number.Integer.Long */
+
+        /* Override: keep gray bg + wrap */
+        .codehilite { background: #f4f4f4 !important; padding: 15px; border-radius: 5px; overflow: visible; }
+        .codehilite pre { background: #f4f4f4 !important; white-space: pre-wrap; word-wrap: break-word; margin: 0; font-family: 'Operator Mono', monospace; }
+
+        /* Operator Mono italic: comments, docstrings, keywords */
+        .codehilite .c,
+        .codehilite .c1,
+        .codehilite .cm,
+        .codehilite .cs,
+        .codehilite .cp  { font-style: italic; }
+        .codehilite .k,
+        .codehilite .kd,
+        .codehilite .kn,
+        .codehilite .kr,
+        .codehilite .kc  { font-style: italic; }
+        .codehilite .sd  { font-style: italic; } /* docstring */
     </style>
 </head>
 <body>
@@ -57,188 +150,194 @@
 </ul>
 <h2>Phase 0: Foundation &amp; Setup</h2>
 <p>Chúng ta sẽ cài đặt các thư viện và thiết lập môi trường. Chúng ta sẽ cần <code>langchain-tavily</code> cho search tool của Research Agent.</p>
-<pre><code class="language-python"># !pip install -q -U langchain-nebius langchain langgraph rich python-dotenv langchain-tavily
-</code></pre>
-<pre><code class="language-python">import os
-from typing import List, Dict, Any, Optional
-from dotenv import load_dotenv
+<div class="codehilite"><pre><span></span><code><span class="c1"># !pip install -q -U langchain-nebius langchain langgraph rich python-dotenv langchain-tavily</span>
+</code></pre></div>
 
-# Pydantic for data modeling
-from pydantic import BaseModel, Field
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dotenv</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_dotenv</span>
 
-# LangChain components
-from langchain_nebius import ChatNebius
-from langchain_tavily import TavilySearch
-from langchain_core.prompts import ChatPromptTemplate
+<span class="c1"># Pydantic for data modeling</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span>
 
-# LangGraph components
-from langgraph.graph import StateGraph, END
-from typing_extensions import TypedDict
+<span class="c1"># LangChain components</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_nebius</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatNebius</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_tavily</span><span class="w"> </span><span class="kn">import</span> <span class="n">TavilySearch</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_core.prompts</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatPromptTemplate</span>
 
-# For pretty printing
-from rich.console import Console
-from rich.markdown import Markdown
+<span class="c1"># LangGraph components</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langgraph.graph</span><span class="w"> </span><span class="kn">import</span> <span class="n">StateGraph</span><span class="p">,</span> <span class="n">END</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing_extensions</span><span class="w"> </span><span class="kn">import</span> <span class="n">TypedDict</span>
 
-# --- API Key and Tracing Setup ---
-load_dotenv()
+<span class="c1"># For pretty printing</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rich.console</span><span class="w"> </span><span class="kn">import</span> <span class="n">Console</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rich.markdown</span><span class="w"> </span><span class="kn">import</span> <span class="n">Markdown</span>
 
-os.environ[&quot;LANGCHAIN_TRACING_V2&quot;] = &quot;true&quot;
-os.environ[&quot;LANGCHAIN_PROJECT&quot;] = &quot;Agentic Architecture - Meta-Controller (Nebius)&quot;
+<span class="c1"># --- API Key and Tracing Setup ---</span>
+<span class="n">load_dotenv</span><span class="p">()</span>
 
-required_vars = [&quot;NEBIUS_API_KEY&quot;, &quot;LANGCHAIN_API_KEY&quot;, &quot;TAVILY_API_KEY&quot;]
-for var in required_vars:
-    if var not in os.environ:
-        print(f&quot;Warning: Environment variable {var} not set.&quot;)
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;LANGCHAIN_TRACING_V2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;true&quot;</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;LANGCHAIN_PROJECT&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Agentic Architecture - Meta-Controller (Nebius)&quot;</span>
 
-print(&quot;Environment variables loaded and tracing is set up.&quot;)
-</code></pre>
+<span class="n">required_vars</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;NEBIUS_API_KEY&quot;</span><span class="p">,</span> <span class="s2">&quot;LANGCHAIN_API_KEY&quot;</span><span class="p">,</span> <span class="s2">&quot;TAVILY_API_KEY&quot;</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">required_vars</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">var</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Warning: Environment variable </span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s2"> not set.&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Environment variables loaded and tracing is set up.&quot;</span><span class="p">)</span>
+</code></pre></div>
+
 <h2>Phase 1: Building the Specialist Agents</h2>
 <p>Đầu tiên, chúng ta sẽ tạo ra nhóm các agent chuyên gia. Mỗi agent sẽ là một chuỗi (chain) đơn giản với một persona cụ thể và trong trường hợp của Researcher là một công cụ (tool). Chúng ta sẽ bao bọc chúng trong một hàm node để sử dụng trong LangGraph.</p>
-<pre><code class="language-python">console = Console()
-llm = ChatNebius(model=&quot;mistralai/Mixtral-8x22B-Instruct-v0.1&quot;, temperature=0)
-search_tool = TavilySearch(max_results=3)
+<div class="codehilite"><pre><span></span><code><span class="n">console</span> <span class="o">=</span> <span class="n">Console</span><span class="p">()</span>
+<span class="n">llm</span> <span class="o">=</span> <span class="n">ChatNebius</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;mistralai/Mixtral-8x22B-Instruct-v0.1&quot;</span><span class="p">,</span> <span class="n">temperature</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">search_tool</span> <span class="o">=</span> <span class="n">TavilySearch</span><span class="p">(</span><span class="n">max_results</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 
-# Định nghĩa state cho toàn bộ graph
-class MetaAgentState(TypedDict):
-    user_request: str
-    next_agent_to_call: Optional[str]
-    generation: str
+<span class="c1"># Định nghĩa state cho toàn bộ graph</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">MetaAgentState</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+    <span class="n">user_request</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">next_agent_to_call</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">generation</span><span class="p">:</span> <span class="nb">str</span>
 
-# Một hàm factory hỗ trợ để tạo các specialist agent nodes
-def create_specialist_node(persona: str, tools: list = None):
-    &quot;&quot;&quot;Factory để tạo một specialist agent node.&quot;&quot;&quot;
-    system_prompt = f&quot;You are a specialist agent with the following persona: {persona}. Respond directly and concisely to the user's request based on your role.&quot;
-    prompt = ChatPromptTemplate.from_messages([
-        (&quot;system&quot;, system_prompt),
-        (&quot;human&quot;, &quot;{user_request}&quot;)
-    ])
+<span class="c1"># Một hàm factory hỗ trợ để tạo các specialist agent nodes</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">create_specialist_node</span><span class="p">(</span><span class="n">persona</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">tools</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Factory để tạo một specialist agent node.&quot;&quot;&quot;</span>
+    <span class="n">system_prompt</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;You are a specialist agent with the following persona: </span><span class="si">{</span><span class="n">persona</span><span class="si">}</span><span class="s2">. Respond directly and concisely to the user&#39;s request based on your role.&quot;</span>
+    <span class="n">prompt</span> <span class="o">=</span> <span class="n">ChatPromptTemplate</span><span class="o">.</span><span class="n">from_messages</span><span class="p">([</span>
+        <span class="p">(</span><span class="s2">&quot;system&quot;</span><span class="p">,</span> <span class="n">system_prompt</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;human&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{user_request}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="p">])</span>
 
-    if tools:
-        chain = prompt | llm.bind_tools(tools)
-    else:
-        chain = prompt | llm
+    <span class="k">if</span> <span class="n">tools</span><span class="p">:</span>
+        <span class="n">chain</span> <span class="o">=</span> <span class="n">prompt</span> <span class="o">|</span> <span class="n">llm</span><span class="o">.</span><span class="n">bind_tools</span><span class="p">(</span><span class="n">tools</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">chain</span> <span class="o">=</span> <span class="n">prompt</span> <span class="o">|</span> <span class="n">llm</span>
 
-    def specialist_node(state: MetaAgentState) -&gt; Dict[str, Any]:
-        result = chain.invoke({&quot;user_request&quot;: state['user_request']})
-        return {&quot;generation&quot;: result.content}
+    <span class="k">def</span><span class="w"> </span><span class="nf">specialist_node</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">MetaAgentState</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">({</span><span class="s2">&quot;user_request&quot;</span><span class="p">:</span> <span class="n">state</span><span class="p">[</span><span class="s1">&#39;user_request&#39;</span><span class="p">]})</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;generation&quot;</span><span class="p">:</span> <span class="n">result</span><span class="o">.</span><span class="n">content</span><span class="p">}</span>
 
-    return specialist_node
+    <span class="k">return</span> <span class="n">specialist_node</span>
 
-# 1. Generalist Agent Node
-generalist_node = create_specialist_node(
-    &quot;You are a friendly and helpful generalist AI assistant. You handle casual conversation and simple questions.&quot;
-)
+<span class="c1"># 1. Generalist Agent Node</span>
+<span class="n">generalist_node</span> <span class="o">=</span> <span class="n">create_specialist_node</span><span class="p">(</span>
+    <span class="s2">&quot;You are a friendly and helpful generalist AI assistant. You handle casual conversation and simple questions.&quot;</span>
+<span class="p">)</span>
 
-# 2. Research Agent Node
-research_agent_node = create_specialist_node(
-    &quot;You are an expert researcher. You must use your search tool to find information to answer the user's question.&quot;,
-    tools=[search_tool]
-)
+<span class="c1"># 2. Research Agent Node</span>
+<span class="n">research_agent_node</span> <span class="o">=</span> <span class="n">create_specialist_node</span><span class="p">(</span>
+    <span class="s2">&quot;You are an expert researcher. You must use your search tool to find information to answer the user&#39;s question.&quot;</span><span class="p">,</span>
+    <span class="n">tools</span><span class="o">=</span><span class="p">[</span><span class="n">search_tool</span><span class="p">]</span>
+<span class="p">)</span>
 
-# 3. Coding Agent Node
-coding_agent_node = create_specialist_node(
-    &quot;You are an expert Python programmer. Your task is to write clean, efficient Python code based on the user's request. Provide only the code, wrapped in markdown code blocks, with minimal explanation.&quot;
-)
+<span class="c1"># 3. Coding Agent Node</span>
+<span class="n">coding_agent_node</span> <span class="o">=</span> <span class="n">create_specialist_node</span><span class="p">(</span>
+    <span class="s2">&quot;You are an expert Python programmer. Your task is to write clean, efficient Python code based on the user&#39;s request. Provide only the code, wrapped in markdown code blocks, with minimal explanation.&quot;</span>
+<span class="p">)</span>
 
-print(&quot;Specialist agents defined successfully.&quot;)
-</code></pre>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Specialist agents defined successfully.&quot;</span><span class="p">)</span>
+</code></pre></div>
+
 <h2>Phase 2: Building the Meta-Controller</h2>
 <p>Đây là bộ não của hệ thống. Meta-Controller là một node được hỗ trợ bởi LLM, công việc duy nhất của nó là quyết định nên định tuyến yêu cầu tới specialist nào. Chất lượng của prompt là yếu tố quyết định hiệu suất của hệ thống.</p>
-<pre><code class="language-python"># Pydantic model cho quyết định định tuyến của controller
-class ControllerDecision(BaseModel):
-    next_agent: str = Field(description=&quot;The name of the specialist agent to call next. Must be one of ['Generalist', 'Researcher', 'Coder'].&quot;)
-    reasoning: str = Field(description=&quot;A brief reason for choosing the next agent.&quot;)
+<div class="codehilite"><pre><span></span><code><span class="c1"># Pydantic model cho quyết định định tuyến của controller</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ControllerDecision</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">next_agent</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;The name of the specialist agent to call next. Must be one of [&#39;Generalist&#39;, &#39;Researcher&#39;, &#39;Coder&#39;].&quot;</span><span class="p">)</span>
+    <span class="n">reasoning</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;A brief reason for choosing the next agent.&quot;</span><span class="p">)</span>
 
-def meta_controller_node(state: MetaAgentState) -&gt; Dict[str, Any]:
-    &quot;&quot;&quot;Controller trung tâm quyết định specialist nào sẽ được gọi.&quot;&quot;&quot;
-    console.print(&quot;--- 🧠 Meta-Controller Analyzing Request ---&quot;)
+<span class="k">def</span><span class="w"> </span><span class="nf">meta_controller_node</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">MetaAgentState</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Controller trung tâm quyết định specialist nào sẽ được gọi.&quot;&quot;&quot;</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;--- 🧠 Meta-Controller Analyzing Request ---&quot;</span><span class="p">)</span>
 
-    # Định nghĩa các specialist và mô tả của chúng cho controller
-    specialists = {
-        &quot;Generalist&quot;: &quot;Handles casual conversation, greetings, and simple questions.&quot;,
-        &quot;Researcher&quot;: &quot;Answers questions about recent events, complex topics, or anything requiring up-to-date information from the web.&quot;,
-        &quot;Coder&quot;: &quot;Writes Python code based on a user's specification.&quot;
-    }
+    <span class="c1"># Định nghĩa các specialist và mô tả của chúng cho controller</span>
+    <span class="n">specialists</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;Generalist&quot;</span><span class="p">:</span> <span class="s2">&quot;Handles casual conversation, greetings, and simple questions.&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Researcher&quot;</span><span class="p">:</span> <span class="s2">&quot;Answers questions about recent events, complex topics, or anything requiring up-to-date information from the web.&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Coder&quot;</span><span class="p">:</span> <span class="s2">&quot;Writes Python code based on a user&#39;s specification.&quot;</span>
+    <span class="p">}</span>
 
-    specialist_descriptions = &quot;\n&quot;.join([f&quot;- {name}: {desc}&quot; for name, desc in specialists.items()])
+    <span class="n">specialist_descriptions</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;- </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">desc</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">desc</span> <span class="ow">in</span> <span class="n">specialists</span><span class="o">.</span><span class="n">items</span><span class="p">()])</span>
 
-    prompt = ChatPromptTemplate.from_template(
-        f&quot;&quot;&quot;You are the meta-controller for a multi-agent AI system. Your job is to analyze the user's request and route it to the most appropriate specialist agent.
+    <span class="n">prompt</span> <span class="o">=</span> <span class="n">ChatPromptTemplate</span><span class="o">.</span><span class="n">from_template</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;&quot;&quot;You are the meta-controller for a multi-agent AI system. Your job is to analyze the user&#39;s request and route it to the most appropriate specialist agent.</span>
 
-Here are the available specialists:
-{specialist_descriptions}
+<span class="s2">Here are the available specialists:</span>
+<span class="si">{</span><span class="n">specialist_descriptions</span><span class="si">}</span>
 
-Analyze the following user request and choose the best specialist to handle it. Provide your decision in the required format.
+<span class="s2">Analyze the following user request and choose the best specialist to handle it. Provide your decision in the required format.</span>
 
-User Request: &quot;{{user_request}}&quot; &quot;&quot;&quot;
-    )
+<span class="s2">User Request: &quot;</span><span class="se">{{</span><span class="s2">user_request</span><span class="se">}}</span><span class="s2">&quot; &quot;&quot;&quot;</span>
+    <span class="p">)</span>
 
-    controller_llm = llm.with_structured_output(ControllerDecision)
-    chain = prompt | controller_llm
+    <span class="n">controller_llm</span> <span class="o">=</span> <span class="n">llm</span><span class="o">.</span><span class="n">with_structured_output</span><span class="p">(</span><span class="n">ControllerDecision</span><span class="p">)</span>
+    <span class="n">chain</span> <span class="o">=</span> <span class="n">prompt</span> <span class="o">|</span> <span class="n">controller_llm</span>
 
-    decision = chain.invoke({&quot;user_request&quot;: state['user_request']})
-    console.print(f&quot;[yellow]Routing decision:[/yellow] Send to [bold]{decision.next_agent}[/bold]. [italic]Reason: {decision.reasoning}[/italic]&quot;)
+    <span class="n">decision</span> <span class="o">=</span> <span class="n">chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">({</span><span class="s2">&quot;user_request&quot;</span><span class="p">:</span> <span class="n">state</span><span class="p">[</span><span class="s1">&#39;user_request&#39;</span><span class="p">]})</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[yellow]Routing decision:[/yellow] Send to [bold]</span><span class="si">{</span><span class="n">decision</span><span class="o">.</span><span class="n">next_agent</span><span class="si">}</span><span class="s2">[/bold]. [italic]Reason: </span><span class="si">{</span><span class="n">decision</span><span class="o">.</span><span class="n">reasoning</span><span class="si">}</span><span class="s2">[/italic]&quot;</span><span class="p">)</span>
 
-    return {&quot;next_agent_to_call&quot;: decision.next_agent}
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;next_agent_to_call&quot;</span><span class="p">:</span> <span class="n">decision</span><span class="o">.</span><span class="n">next_agent</span><span class="p">}</span>
 
-print(&quot;Meta-Controller node defined successfully.&quot;)
-</code></pre>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Meta-Controller node defined successfully.&quot;</span><span class="p">)</span>
+</code></pre></div>
+
 <h2>Phase 3: Assembling and Running the Graph</h2>
 <p>Bây giờ chúng ta sẽ dùng LangGraph để kết nối mọi thứ lại với nhau. Graph sẽ bắt đầu với Meta-Controller, sau đó dựa trên quyết định của nó, một conditional edge sẽ định tuyến state tới specialist node chính xác. Sau khi specialist chạy, graph sẽ kết thúc.</p>
-<pre><code class="language-python"># Xây dựng graph
-workflow = StateGraph(MetaAgentState)
+<div class="codehilite"><pre><span></span><code><span class="c1"># Xây dựng graph</span>
+<span class="n">workflow</span> <span class="o">=</span> <span class="n">StateGraph</span><span class="p">(</span><span class="n">MetaAgentState</span><span class="p">)</span>
 
-# Thêm các node cho controller và mỗi specialist
-workflow.add_node(&quot;meta_controller&quot;, meta_controller_node)
-workflow.add_node(&quot;Generalist&quot;, generalist_node)
-workflow.add_node(&quot;Researcher&quot;, research_agent_node)
-workflow.add_node(&quot;Coder&quot;, coding_agent_node)
+<span class="c1"># Thêm các node cho controller và mỗi specialist</span>
+<span class="n">workflow</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="s2">&quot;meta_controller&quot;</span><span class="p">,</span> <span class="n">meta_controller_node</span><span class="p">)</span>
+<span class="n">workflow</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="s2">&quot;Generalist&quot;</span><span class="p">,</span> <span class="n">generalist_node</span><span class="p">)</span>
+<span class="n">workflow</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="s2">&quot;Researcher&quot;</span><span class="p">,</span> <span class="n">research_agent_node</span><span class="p">)</span>
+<span class="n">workflow</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="s2">&quot;Coder&quot;</span><span class="p">,</span> <span class="n">coding_agent_node</span><span class="p">)</span>
 
-# Thiết lập entry point
-workflow.set_entry_point(&quot;meta_controller&quot;)
+<span class="c1"># Thiết lập entry point</span>
+<span class="n">workflow</span><span class="o">.</span><span class="n">set_entry_point</span><span class="p">(</span><span class="s2">&quot;meta_controller&quot;</span><span class="p">)</span>
 
-# Định nghĩa logic định tuyến có điều kiện
-def route_to_specialist(state: MetaAgentState) -&gt; str:
-    &quot;&quot;&quot;Đọc quyết định của controller và trả về tên của node cần định tuyến tới.&quot;&quot;&quot;
-    return state[&quot;next_agent_to_call&quot;]
+<span class="c1"># Định nghĩa logic định tuyến có điều kiện</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">route_to_specialist</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">MetaAgentState</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Đọc quyết định của controller và trả về tên của node cần định tuyến tới.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">state</span><span class="p">[</span><span class="s2">&quot;next_agent_to_call&quot;</span><span class="p">]</span>
 
-workflow.add_conditional_edges(
-    &quot;meta_controller&quot;,
-    route_to_specialist,
-    {
-        &quot;Generalist&quot;: &quot;Generalist&quot;,
-        &quot;Researcher&quot;: &quot;Researcher&quot;,
-        &quot;Coder&quot;: &quot;Coder&quot;
-    }
-)
+<span class="n">workflow</span><span class="o">.</span><span class="n">add_conditional_edges</span><span class="p">(</span>
+    <span class="s2">&quot;meta_controller&quot;</span><span class="p">,</span>
+    <span class="n">route_to_specialist</span><span class="p">,</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;Generalist&quot;</span><span class="p">:</span> <span class="s2">&quot;Generalist&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Researcher&quot;</span><span class="p">:</span> <span class="s2">&quot;Researcher&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Coder&quot;</span><span class="p">:</span> <span class="s2">&quot;Coder&quot;</span>
+    <span class="p">}</span>
+<span class="p">)</span>
 
-# Sau khi bất kỳ specialist nào chạy, quy trình kết thúc
-workflow.add_edge(&quot;Generalist&quot;, END)
-workflow.add_edge(&quot;Researcher&quot;, END)
-workflow.add_edge(&quot;Coder&quot;, END)
+<span class="c1"># Sau khi bất kỳ specialist nào chạy, quy trình kết thúc</span>
+<span class="n">workflow</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="s2">&quot;Generalist&quot;</span><span class="p">,</span> <span class="n">END</span><span class="p">)</span>
+<span class="n">workflow</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="s2">&quot;Researcher&quot;</span><span class="p">,</span> <span class="n">END</span><span class="p">)</span>
+<span class="n">workflow</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="s2">&quot;Coder&quot;</span><span class="p">,</span> <span class="n">END</span><span class="p">)</span>
 
-meta_agent = workflow.compile()
-print(&quot;Meta-Controller agent graph compiled successfully.&quot;)
-</code></pre>
+<span class="n">meta_agent</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">compile</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Meta-Controller agent graph compiled successfully.&quot;</span><span class="p">)</span>
+</code></pre></div>
+
 <h2>Phase 4: Demonstration</h2>
 <p>Hãy kiểm tra Meta-Controller của chúng ta với một loạt các câu lệnh để xem liệu nó có gửi chúng đến đúng specialist hay không.</p>
-<pre><code class="language-python">def run_agent(query: str):
-    result = meta_agent.invoke({&quot;user_request&quot;: query})
-    console.print(&quot;\n[bold]Final Response:[/bold]&quot;)
-    console.print(Markdown(result['generation']))
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">run_agent</span><span class="p">(</span><span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">meta_agent</span><span class="o">.</span><span class="n">invoke</span><span class="p">({</span><span class="s2">&quot;user_request&quot;</span><span class="p">:</span> <span class="n">query</span><span class="p">})</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">[bold]Final Response:[/bold]&quot;</span><span class="p">)</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;generation&#39;</span><span class="p">]))</span>
 
-# Test 1: Nên được định tuyến tới Generalist
-console.print(&quot;--- 💬 Test 1: General Conversation ---&quot;)
-run_agent(&quot;Hello, how are you today?&quot;)
+<span class="c1"># Test 1: Nên được định tuyến tới Generalist</span>
+<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;--- 💬 Test 1: General Conversation ---&quot;</span><span class="p">)</span>
+<span class="n">run_agent</span><span class="p">(</span><span class="s2">&quot;Hello, how are you today?&quot;</span><span class="p">)</span>
 
-# Test 2: Nên được định tuyến tới Researcher
-console.print(&quot;\n--- 🔬 Test 2: Research Question ---&quot;)
-run_agent(&quot;What were NVIDIA's latest financial results?&quot;)
+<span class="c1"># Test 2: Nên được định tuyến tới Researcher</span>
+<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- 🔬 Test 2: Research Question ---&quot;</span><span class="p">)</span>
+<span class="n">run_agent</span><span class="p">(</span><span class="s2">&quot;What were NVIDIA&#39;s latest financial results?&quot;</span><span class="p">)</span>
 
-# Test 3: Nên được định tuyến tới Coder
-console.print(&quot;\n--- 💻 Test 3: Coding Request ---&quot;)
-run_agent(&quot;Can you write me a python function to calculate the nth fibonacci number?&quot;)
-</code></pre>
+<span class="c1"># Test 3: Nên được định tuyến tới Coder</span>
+<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- 💻 Test 3: Coding Request ---&quot;</span><span class="p">)</span>
+<span class="n">run_agent</span><span class="p">(</span><span class="s2">&quot;Can you write me a python function to calculate the nth fibonacci number?&quot;</span><span class="p">)</span>
+</code></pre></div>
+
 <h2>Conclusion</h2>
 <p>Trong notebook này, chúng ta đã triển khai thành công một kiến trúc <strong>Meta-Controller</strong>. Các bài kiểm tra của chúng ta đã chứng minh rõ ràng chức năng chính của nó: hoạt động như một bộ định tuyến thông minh và năng động.</p>
 <ol>

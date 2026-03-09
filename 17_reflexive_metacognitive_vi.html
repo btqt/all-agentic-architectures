@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -6,15 +5,109 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>17_Reflexive_Metacognitive</title>
     <style>
-        body { font-family: system-ui, -apple-system, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; color: #333; }
-        pre { background: #f4f4f4; padding: 15px; border-radius: 5px; overflow-x: auto; }
-        code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; font-family: monospace; }
+        body { font-family: system-ui, -apple-system, sans-serif; line-height: 1.6; max-width: 1100px; margin: 0 auto; padding: 20px; color: #333; }
+        pre { background: #f4f4f4; padding: 15px; border-radius: 5px; white-space: pre-wrap; word-wrap: break-word; }
+        code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; font-family: 'Operator Mono Lig', monospace; }
         a { color: #007bff; text-decoration: none; }
         a:hover { text-decoration: underline; }
         table { border-collapse: collapse; width: 100%; margin: 20px 0; }
         th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
         th { background-color: #f2f2f2; }
         img { max-width: 100%; height: auto; }
+
+        /* --- Pygments: friendly theme (inline, no CDN) --- */
+        pre { line-height: 125%; }
+td.linenos .normal { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.codehilite .hll { background-color: #ffffcc }
+.codehilite { background: #f0f0f0; }
+.codehilite .c { color: #60A0B0; font-style: italic } /* Comment */
+.codehilite .err { border: 1px solid #F00 } /* Error */
+.codehilite .k { color: #007020; font-weight: bold } /* Keyword */
+.codehilite .o { color: #666 } /* Operator */
+.codehilite .ch { color: #60A0B0; font-style: italic } /* Comment.Hashbang */
+.codehilite .cm { color: #60A0B0; font-style: italic } /* Comment.Multiline */
+.codehilite .cp { color: #007020 } /* Comment.Preproc */
+.codehilite .cpf { color: #60A0B0; font-style: italic } /* Comment.PreprocFile */
+.codehilite .c1 { color: #60A0B0; font-style: italic } /* Comment.Single */
+.codehilite .cs { color: #60A0B0; background-color: #FFF0F0 } /* Comment.Special */
+.codehilite .gd { color: #A00000 } /* Generic.Deleted */
+.codehilite .ge { font-style: italic } /* Generic.Emph */
+.codehilite .ges { font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+.codehilite .gr { color: #F00 } /* Generic.Error */
+.codehilite .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.codehilite .gi { color: #00A000 } /* Generic.Inserted */
+.codehilite .go { color: #888 } /* Generic.Output */
+.codehilite .gp { color: #C65D09; font-weight: bold } /* Generic.Prompt */
+.codehilite .gs { font-weight: bold } /* Generic.Strong */
+.codehilite .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.codehilite .gt { color: #04D } /* Generic.Traceback */
+.codehilite .kc { color: #007020; font-weight: bold } /* Keyword.Constant */
+.codehilite .kd { color: #007020; font-weight: bold } /* Keyword.Declaration */
+.codehilite .kn { color: #007020; font-weight: bold } /* Keyword.Namespace */
+.codehilite .kp { color: #007020 } /* Keyword.Pseudo */
+.codehilite .kr { color: #007020; font-weight: bold } /* Keyword.Reserved */
+.codehilite .kt { color: #902000 } /* Keyword.Type */
+.codehilite .m { color: #40A070 } /* Literal.Number */
+.codehilite .s { color: #4070A0 } /* Literal.String */
+.codehilite .na { color: #4070A0 } /* Name.Attribute */
+.codehilite .nb { color: #007020 } /* Name.Builtin */
+.codehilite .nc { color: #0E84B5; font-weight: bold } /* Name.Class */
+.codehilite .no { color: #60ADD5 } /* Name.Constant */
+.codehilite .nd { color: #555; font-weight: bold } /* Name.Decorator */
+.codehilite .ni { color: #D55537; font-weight: bold } /* Name.Entity */
+.codehilite .ne { color: #007020 } /* Name.Exception */
+.codehilite .nf { color: #06287E } /* Name.Function */
+.codehilite .nl { color: #002070; font-weight: bold } /* Name.Label */
+.codehilite .nn { color: #0E84B5; font-weight: bold } /* Name.Namespace */
+.codehilite .nt { color: #062873; font-weight: bold } /* Name.Tag */
+.codehilite .nv { color: #BB60D5 } /* Name.Variable */
+.codehilite .ow { color: #007020; font-weight: bold } /* Operator.Word */
+.codehilite .w { color: #BBB } /* Text.Whitespace */
+.codehilite .mb { color: #40A070 } /* Literal.Number.Bin */
+.codehilite .mf { color: #40A070 } /* Literal.Number.Float */
+.codehilite .mh { color: #40A070 } /* Literal.Number.Hex */
+.codehilite .mi { color: #40A070 } /* Literal.Number.Integer */
+.codehilite .mo { color: #40A070 } /* Literal.Number.Oct */
+.codehilite .sa { color: #4070A0 } /* Literal.String.Affix */
+.codehilite .sb { color: #4070A0 } /* Literal.String.Backtick */
+.codehilite .sc { color: #4070A0 } /* Literal.String.Char */
+.codehilite .dl { color: #4070A0 } /* Literal.String.Delimiter */
+.codehilite .sd { color: #4070A0; font-style: italic } /* Literal.String.Doc */
+.codehilite .s2 { color: #4070A0 } /* Literal.String.Double */
+.codehilite .se { color: #4070A0; font-weight: bold } /* Literal.String.Escape */
+.codehilite .sh { color: #4070A0 } /* Literal.String.Heredoc */
+.codehilite .si { color: #70A0D0; font-style: italic } /* Literal.String.Interpol */
+.codehilite .sx { color: #C65D09 } /* Literal.String.Other */
+.codehilite .sr { color: #235388 } /* Literal.String.Regex */
+.codehilite .s1 { color: #4070A0 } /* Literal.String.Single */
+.codehilite .ss { color: #517918 } /* Literal.String.Symbol */
+.codehilite .bp { color: #007020 } /* Name.Builtin.Pseudo */
+.codehilite .fm { color: #06287E } /* Name.Function.Magic */
+.codehilite .vc { color: #BB60D5 } /* Name.Variable.Class */
+.codehilite .vg { color: #BB60D5 } /* Name.Variable.Global */
+.codehilite .vi { color: #BB60D5 } /* Name.Variable.Instance */
+.codehilite .vm { color: #BB60D5 } /* Name.Variable.Magic */
+.codehilite .il { color: #40A070 } /* Literal.Number.Integer.Long */
+
+        /* Override: keep gray bg + wrap */
+        .codehilite { background: #f4f4f4 !important; padding: 15px; border-radius: 5px; overflow: visible; }
+        .codehilite pre { background: #f4f4f4 !important; white-space: pre-wrap; word-wrap: break-word; margin: 0; font-family: 'Operator Mono', monospace; }
+
+        /* Operator Mono italic: comments, docstrings, keywords */
+        .codehilite .c,
+        .codehilite .c1,
+        .codehilite .cm,
+        .codehilite .cs,
+        .codehilite .cp  { font-style: italic; }
+        .codehilite .k,
+        .codehilite .kd,
+        .codehilite .kn,
+        .codehilite .kr,
+        .codehilite .kc  { font-style: italic; }
+        .codehilite .sd  { font-style: italic; } /* docstring */
     </style>
 </head>
 <body>
@@ -63,208 +156,213 @@
 </ul>
 <h2>Phase 0: Foundation &amp; Setup</h2>
 <p>Thiết lập tiêu chuẩn các thư viện và biến môi trường.</p>
-<pre><code class="language-python"># !pip install -q -U langchain-nebius langchain langgraph rich python-dotenv
-</code></pre>
-<pre><code class="language-python">import os
-from typing import List, Dict, Any, Optional
-from dotenv import load_dotenv
+<div class="codehilite"><pre><span></span><code><span class="c1"># !pip install -q -U langchain-nebius langchain langgraph rich python-dotenv</span>
+</code></pre></div>
 
-# Pydantic for data modeling
-from pydantic import BaseModel, Field
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dotenv</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_dotenv</span>
 
-# LangChain components
-from langchain_nebius import ChatNebius
-from langchain_core.prompts import ChatPromptTemplate
+<span class="c1"># Pydantic for data modeling</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span>
 
-# LangGraph components
-from langgraph.graph import StateGraph, END
-from typing_extensions import TypedDict
+<span class="c1"># LangChain components</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_nebius</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatNebius</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_core.prompts</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatPromptTemplate</span>
 
-# For pretty printing
-from rich.console import Console
-from rich.markdown import Markdown
-from rich.panel import Panel
+<span class="c1"># LangGraph components</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langgraph.graph</span><span class="w"> </span><span class="kn">import</span> <span class="n">StateGraph</span><span class="p">,</span> <span class="n">END</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing_extensions</span><span class="w"> </span><span class="kn">import</span> <span class="n">TypedDict</span>
 
-# --- API Key and Tracing Setup ---
-load_dotenv()
+<span class="c1"># For pretty printing</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rich.console</span><span class="w"> </span><span class="kn">import</span> <span class="n">Console</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rich.markdown</span><span class="w"> </span><span class="kn">import</span> <span class="n">Markdown</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rich.panel</span><span class="w"> </span><span class="kn">import</span> <span class="n">Panel</span>
 
-os.environ[&quot;LANGCHAIN_TRACING_V2&quot;] = &quot;true&quot;
-os.environ[&quot;LANGCHAIN_PROJECT&quot;] = &quot;Agentic Architecture - Metacognitive Agent (Nebius)&quot;
+<span class="c1"># --- API Key and Tracing Setup ---</span>
+<span class="n">load_dotenv</span><span class="p">()</span>
 
-required_vars = [&quot;NEBIUS_API_KEY&quot;, &quot;LANGCHAIN_API_KEY&quot;]
-for var in required_vars:
-    if var not in os.environ:
-        print(f&quot;Warning: Environment variable {var} not set.&quot;)
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;LANGCHAIN_TRACING_V2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;true&quot;</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;LANGCHAIN_PROJECT&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Agentic Architecture - Metacognitive Agent (Nebius)&quot;</span>
 
-print(&quot;Environment variables loaded and tracing is set up.&quot;)
-</code></pre>
+<span class="n">required_vars</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;NEBIUS_API_KEY&quot;</span><span class="p">,</span> <span class="s2">&quot;LANGCHAIN_API_KEY&quot;</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">required_vars</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">var</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Warning: Environment variable </span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s2"> not set.&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Environment variables loaded and tracing is set up.&quot;</span><span class="p">)</span>
+</code></pre></div>
+
 <h2>Phase 1: Defining the Agent's Self-Model and Tools</h2>
 <p>Đây là nền tảng cho khả năng tự nhận thức của agent. Chúng ta sẽ tạo ra một <code>AgentSelfModel</code> có cấu trúc và một công cụ chuyên dụng. Mô hình này không chỉ là một câu lệnh (prompt); nó là một đối tượng cấu hình sẽ được chuyển vào vòng lặp lập luận của agent.</p>
-<pre><code class="language-python">console = Console()
+<div class="codehilite"><pre><span></span><code><span class="n">console</span> <span class="o">=</span> <span class="n">Console</span><span class="p">()</span>
 
-# --- The Agent's Self-Model ---
-class AgentSelfModel(BaseModel):
-    &quot;&quot;&quot;Một sự đại diện có cấu trúc về các khả năng và hạn chế của agent.&quot;&quot;&quot;
-    name: str
-    role: str
-    # Các ranh giới kiến thức rõ ràng của agent
-    knowledge_domain: List[str] = Field(description=&quot;List of topics the agent is knowledgeable about.&quot;)
-    # Các công cụ có sẵn của agent
-    available_tools: List[str] = Field(description=&quot;List of tools the agent can use.&quot;)
-    confidence_threshold: float = Field(description=&quot;The confidence level (0-1) below which the agent must escalate.&quot;, default=0.6)
+<span class="c1"># --- The Agent&#39;s Self-Model ---</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">AgentSelfModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Một sự đại diện có cấu trúc về các khả năng và hạn chế của agent.&quot;&quot;&quot;</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">role</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="c1"># Các ranh giới kiến thức rõ ràng của agent</span>
+    <span class="n">knowledge_domain</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;List of topics the agent is knowledgeable about.&quot;</span><span class="p">)</span>
+    <span class="c1"># Các công cụ có sẵn của agent</span>
+    <span class="n">available_tools</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;List of tools the agent can use.&quot;</span><span class="p">)</span>
+    <span class="n">confidence_threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;The confidence level (0-1) below which the agent must escalate.&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
 
-# Khởi tạo mô hình bản thân cho Triage Agent y tế của chúng ta
-medical_agent_model = AgentSelfModel(
-    name=&quot;TriageBot-3000&quot;,
-    role=&quot;A helpful AI assistant for providing preliminary medical information.&quot;,
-    knowledge_domain=[&quot;common_cold&quot;, &quot;influenza&quot;, &quot;allergies&quot;, &quot;headaches&quot;, &quot;basic_first_aid&quot;],
-    available_tools=[&quot;drug_interaction_checker&quot;]
-)
+<span class="c1"># Khởi tạo mô hình bản thân cho Triage Agent y tế của chúng ta</span>
+<span class="n">medical_agent_model</span> <span class="o">=</span> <span class="n">AgentSelfModel</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;TriageBot-3000&quot;</span><span class="p">,</span>
+    <span class="n">role</span><span class="o">=</span><span class="s2">&quot;A helpful AI assistant for providing preliminary medical information.&quot;</span><span class="p">,</span>
+    <span class="n">knowledge_domain</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;common_cold&quot;</span><span class="p">,</span> <span class="s2">&quot;influenza&quot;</span><span class="p">,</span> <span class="s2">&quot;allergies&quot;</span><span class="p">,</span> <span class="s2">&quot;headaches&quot;</span><span class="p">,</span> <span class="s2">&quot;basic_first_aid&quot;</span><span class="p">],</span>
+    <span class="n">available_tools</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;drug_interaction_checker&quot;</span><span class="p">]</span>
+<span class="p">)</span>
 
-# --- Specialist Tools ---
-class DrugInteractionChecker:
-    &quot;&quot;&quot;Một công cụ giả lập để kiểm tra tương tác thuốc.&quot;&quot;&quot;
-    def check(self, drug_a: str, drug_b: str) -&gt; str:
-        &quot;&quot;&quot;Kiểm tra tương tác giữa hai loại thuốc.&quot;&quot;&quot;
-        # Trong một hệ thống thực, việc này sẽ truy vấn một cơ sở dữ liệu y tế.
-        known_interactions = {
-            frozenset([&quot;ibuprofen&quot;, &quot;lisinopril&quot;]): &quot;Moderate risk: Ibuprofen may reduce the blood pressure-lowering effects of lisinopril. Monitor blood pressure.&quot;,
-            frozenset([&quot;aspirin&quot;, &quot;warfarin&quot;]): &quot;High risk: Increased risk of bleeding. This combination should be avoided unless directed by a doctor.&quot;
-        }
-        interaction = known_interactions.get(frozenset([drug_a.lower(), drug_b.lower()]))
-        if interaction:
-            return f&quot;Interaction Found: {interaction}&quot;
-        return &quot;No known significant interactions found. However, always consult a pharmacist or doctor.&quot;
+<span class="c1"># --- Specialist Tools ---</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">DrugInteractionChecker</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Một công cụ giả lập để kiểm tra tương tác thuốc.&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">check</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">drug_a</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">drug_b</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Kiểm tra tương tác giữa hai loại thuốc.&quot;&quot;&quot;</span>
+        <span class="c1"># Trong một hệ thống thực, việc này sẽ truy vấn một cơ sở dữ liệu y tế.</span>
+        <span class="n">known_interactions</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="nb">frozenset</span><span class="p">([</span><span class="s2">&quot;ibuprofen&quot;</span><span class="p">,</span> <span class="s2">&quot;lisinopril&quot;</span><span class="p">]):</span> <span class="s2">&quot;Moderate risk: Ibuprofen may reduce the blood pressure-lowering effects of lisinopril. Monitor blood pressure.&quot;</span><span class="p">,</span>
+            <span class="nb">frozenset</span><span class="p">([</span><span class="s2">&quot;aspirin&quot;</span><span class="p">,</span> <span class="s2">&quot;warfarin&quot;</span><span class="p">]):</span> <span class="s2">&quot;High risk: Increased risk of bleeding. This combination should be avoided unless directed by a doctor.&quot;</span>
+        <span class="p">}</span>
+        <span class="n">interaction</span> <span class="o">=</span> <span class="n">known_interactions</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">frozenset</span><span class="p">([</span><span class="n">drug_a</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">drug_b</span><span class="o">.</span><span class="n">lower</span><span class="p">()]))</span>
+        <span class="k">if</span> <span class="n">interaction</span><span class="p">:</span>
+            <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Interaction Found: </span><span class="si">{</span><span class="n">interaction</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">return</span> <span class="s2">&quot;No known significant interactions found. However, always consult a pharmacist or doctor.&quot;</span>
 
-drug_tool = DrugInteractionChecker()
-print(&quot;Agent Self-Model and Tools defined successfully.&quot;)
-</code></pre>
+<span class="n">drug_tool</span> <span class="o">=</span> <span class="n">DrugInteractionChecker</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Agent Self-Model and Tools defined successfully.&quot;</span><span class="p">)</span>
+</code></pre></div>
+
 <h2>Phase 2: Building the Metacognitive Agent with LangGraph</h2>
 <p>Đây là nơi điều kỳ diệu xảy ra. Chúng ta sẽ xây dựng một graph trong đó bước đầu tiên chính là <strong>phân tích siêu nhận thức</strong>. Node này sẽ sử dụng một prompt mạnh mẽ, chi tiết để khiến agent lập luận về chính nó. Một router có điều kiện sau đó sẽ hướng dòng chảy dựa trên chiến lược đã chọn.</p>
-<pre><code class="language-python">llm = ChatNebius(model=&quot;mistralai/Mixtral-8x22B-Instruct-v0.1&quot;, temperature=0)
+<div class="codehilite"><pre><span></span><code><span class="n">llm</span> <span class="o">=</span> <span class="n">ChatNebius</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;mistralai/Mixtral-8x22B-Instruct-v0.1&quot;</span><span class="p">,</span> <span class="n">temperature</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
-# Pydantic Models cho đầu ra có cấu trúc
-class MetacognitiveAnalysis(BaseModel):
-    &quot;&quot;&quot;Tự phân tích của agent về một truy vấn.&quot;&quot;&quot;
-    confidence: float = Field(description=&quot;A score from 0.0 to 1.0 representing the agent's confidence in its ability to answer safely and accurately.&quot;)
-    strategy: str = Field(description=&quot;The chosen strategy. Must be one of: 'reason_directly', 'use_tool', 'escalate'.&quot;)
-    reasoning: str = Field(description=&quot;A brief justification for the chosen confidence and strategy.&quot;)
-    tool_to_use: Optional[str] = Field(description=&quot;If strategy is 'use_tool', the name of the tool to use.&quot;, default=None)
-    tool_args: Optional[Dict[str, Any]] = Field(description=&quot;If strategy is 'use_tool', the arguments for the tool.&quot;, default=None)
+<span class="c1"># Pydantic Models cho đầu ra có cấu trúc</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">MetacognitiveAnalysis</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Tự phân tích của agent về một truy vấn.&quot;&quot;&quot;</span>
+    <span class="n">confidence</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;A score from 0.0 to 1.0 representing the agent&#39;s confidence in its ability to answer safely and accurately.&quot;</span><span class="p">)</span>
+    <span class="n">strategy</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;The chosen strategy. Must be one of: &#39;reason_directly&#39;, &#39;use_tool&#39;, &#39;escalate&#39;.&quot;</span><span class="p">)</span>
+    <span class="n">reasoning</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;A brief justification for the chosen confidence and strategy.&quot;</span><span class="p">)</span>
+    <span class="n">tool_to_use</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;If strategy is &#39;use_tool&#39;, the name of the tool to use.&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="n">tool_args</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;If strategy is &#39;use_tool&#39;, the arguments for the tool.&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 
-# LangGraph State
-class AgentState(TypedDict):
-    user_query: str
-    self_model: AgentSelfModel
-    metacognitive_analysis: Optional[MetacognitiveAnalysis]
-    tool_output: Optional[str]
-    final_response: str
+<span class="c1"># LangGraph State</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">AgentState</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+    <span class="n">user_query</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">self_model</span><span class="p">:</span> <span class="n">AgentSelfModel</span>
+    <span class="n">metacognitive_analysis</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">MetacognitiveAnalysis</span><span class="p">]</span>
+    <span class="n">tool_output</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">final_response</span><span class="p">:</span> <span class="nb">str</span>
 
-# Graph Nodes
-def metacognitive_analysis_node(state: AgentState) -&gt; Dict[str, Any]:
-    console.print(Panel(&quot;🤔 Agent is performing metacognitive analysis...&quot;, title=&quot;[yellow]Step: Self-Reflection[/yellow]&quot;))
-    prompt = ChatPromptTemplate.from_template(
-        &quot;&quot;&quot;You are a metacognitive reasoning engine for an AI assistant. Your task is to analyze a user's query in the context of the agent's own capabilities and limitations (its 'self-model').
-        Your primary directive is **SAFETY**. You must determine the safest and most appropriate strategy for handling the query.
+<span class="c1"># Graph Nodes</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">metacognitive_analysis_node</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">AgentState</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">Panel</span><span class="p">(</span><span class="s2">&quot;🤔 Agent is performing metacognitive analysis...&quot;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;[yellow]Step: Self-Reflection[/yellow]&quot;</span><span class="p">))</span>
+    <span class="n">prompt</span> <span class="o">=</span> <span class="n">ChatPromptTemplate</span><span class="o">.</span><span class="n">from_template</span><span class="p">(</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;You are a metacognitive reasoning engine for an AI assistant. Your task is to analyze a user&#39;s query in the context of the agent&#39;s own capabilities and limitations (its &#39;self-model&#39;).</span>
+<span class="sd">        Your primary directive is **SAFETY**. You must determine the safest and most appropriate strategy for handling the query.</span>
 
-        **Agent's Self-Model:**
-        - Name: {agent_name}
-        - Role: {agent_role}
-        - Knowledge Domain: {knowledge_domain}
-        - Available Tools: {available_tools}
+<span class="sd">        **Agent&#39;s Self-Model:**</span>
+<span class="sd">        - Name: {agent_name}</span>
+<span class="sd">        - Role: {agent_role}</span>
+<span class="sd">        - Knowledge Domain: {knowledge_domain}</span>
+<span class="sd">        - Available Tools: {available_tools}</span>
 
-        **Strategy Rules:**
-        1.  **escalate:** Choose this strategy if the query involves a potential medical emergency (e.g., chest pain, difficulty breathing, severe injury, broken bones), is outside the agent's knowledge domain, or if you have any doubt about providing a safe answer. **WHEN IN DOUBT, ESCALATE.**
-        2.  **use_tool:** Choose this strategy if the query explicitly or implicitly requires one of the available tools. For example, a question about drug interactions requires the 'drug_interaction_checker'.
-        3.  **reason_directly:** Choose this strategy ONLY if you are highly confident the query is a simple, low-risk question that falls squarely within the agent's knowledge domain.
+<span class="sd">        **Strategy Rules:**</span>
+<span class="sd">        1.  **escalate:** Choose this strategy if the query involves a potential medical emergency (e.g., chest pain, difficulty breathing, severe injury, broken bones), is outside the agent&#39;s knowledge domain, or if you have any doubt about providing a safe answer. **WHEN IN DOUBT, ESCALATE.**</span>
+<span class="sd">        2.  **use_tool:** Choose this strategy if the query explicitly or implicitly requires one of the available tools. For example, a question about drug interactions requires the &#39;drug_interaction_checker&#39;.</span>
+<span class="sd">        3.  **reason_directly:** Choose this strategy ONLY if you are highly confident the query is a simple, low-risk question that falls squarely within the agent&#39;s knowledge domain.</span>
 
-        Analyze the user query below and provide your metacognitive analysis in the required format.
+<span class="sd">        Analyze the user query below and provide your metacognitive analysis in the required format.</span>
 
-        **User Query:** &quot;{query}&quot;&quot;&quot;&quot;
-    )
-    chain = prompt | llm.with_structured_output(MetacognitiveAnalysis)
-    analysis = chain.invoke({
-        &quot;query&quot;: state['user_query'],
-        &quot;agent_name&quot;: state['self_model'].name,
-        &quot;agent_role&quot;: state['self_model'].role,
-        &quot;knowledge_domain&quot;: &quot;, &quot;.join(state['self_model'].knowledge_domain),
-        &quot;available_tools&quot;: &quot;, &quot;.join(state['self_model'].available_tools),
-    })
-    console.print(Panel(f&quot;[bold]Confidence:[/bold] {analysis.confidence:.2f}\n[bold]Strategy:[/bold] {analysis.strategy}\n[bold]Reasoning:[/bold] {analysis.reasoning}&quot;, title=&quot;Metacognitive Analysis Result&quot;))
-    return {&quot;metacognitive_analysis&quot;: analysis}
+<span class="sd">        **User Query:** &quot;{query}&quot;&quot;&quot;</span><span class="s2">&quot;</span>
+    <span class="p">)</span>
+    <span class="n">chain</span> <span class="o">=</span> <span class="n">prompt</span> <span class="o">|</span> <span class="n">llm</span><span class="o">.</span><span class="n">with_structured_output</span><span class="p">(</span><span class="n">MetacognitiveAnalysis</span><span class="p">)</span>
+    <span class="n">analysis</span> <span class="o">=</span> <span class="n">chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">({</span>
+        <span class="s2">&quot;query&quot;</span><span class="p">:</span> <span class="n">state</span><span class="p">[</span><span class="s1">&#39;user_query&#39;</span><span class="p">],</span>
+        <span class="s2">&quot;agent_name&quot;</span><span class="p">:</span> <span class="n">state</span><span class="p">[</span><span class="s1">&#39;self_model&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+        <span class="s2">&quot;agent_role&quot;</span><span class="p">:</span> <span class="n">state</span><span class="p">[</span><span class="s1">&#39;self_model&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">role</span><span class="p">,</span>
+        <span class="s2">&quot;knowledge_domain&quot;</span><span class="p">:</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">state</span><span class="p">[</span><span class="s1">&#39;self_model&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">knowledge_domain</span><span class="p">),</span>
+        <span class="s2">&quot;available_tools&quot;</span><span class="p">:</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">state</span><span class="p">[</span><span class="s1">&#39;self_model&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">available_tools</span><span class="p">),</span>
+    <span class="p">})</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">Panel</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[bold]Confidence:[/bold] </span><span class="si">{</span><span class="n">analysis</span><span class="o">.</span><span class="n">confidence</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="se">\n</span><span class="s2">[bold]Strategy:[/bold] </span><span class="si">{</span><span class="n">analysis</span><span class="o">.</span><span class="n">strategy</span><span class="si">}</span><span class="se">\n</span><span class="s2">[bold]Reasoning:[/bold] </span><span class="si">{</span><span class="n">analysis</span><span class="o">.</span><span class="n">reasoning</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Metacognitive Analysis Result&quot;</span><span class="p">))</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;metacognitive_analysis&quot;</span><span class="p">:</span> <span class="n">analysis</span><span class="p">}</span>
 
-def reason_directly_node(state: AgentState) -&gt; Dict[str, Any]:
-    console.print(Panel(&quot;✅ Confident in direct answer. Generating response...&quot;, title=&quot;[green]Strategy: Reason Directly[/green]&quot;))
-    prompt = ChatPromptTemplate.from_template(&quot;You are {agent_role}. Provide a helpful, non-prescriptive answer to the user's query. Remind the user that you are not a doctor.\n\nQuery: {query}&quot;)
-    chain = prompt | llm
-    response = chain.invoke({&quot;agent_role&quot;: state['self_model'].role, &quot;query&quot;: state['user_query']}).content
-    return {&quot;final_response&quot;: response}
+<span class="k">def</span><span class="w"> </span><span class="nf">reason_directly_node</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">AgentState</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">Panel</span><span class="p">(</span><span class="s2">&quot;✅ Confident in direct answer. Generating response...&quot;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;[green]Strategy: Reason Directly[/green]&quot;</span><span class="p">))</span>
+    <span class="n">prompt</span> <span class="o">=</span> <span class="n">ChatPromptTemplate</span><span class="o">.</span><span class="n">from_template</span><span class="p">(</span><span class="s2">&quot;You are </span><span class="si">{agent_role}</span><span class="s2">. Provide a helpful, non-prescriptive answer to the user&#39;s query. Remind the user that you are not a doctor.</span><span class="se">\n\n</span><span class="s2">Query: </span><span class="si">{query}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">chain</span> <span class="o">=</span> <span class="n">prompt</span> <span class="o">|</span> <span class="n">llm</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">({</span><span class="s2">&quot;agent_role&quot;</span><span class="p">:</span> <span class="n">state</span><span class="p">[</span><span class="s1">&#39;self_model&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">role</span><span class="p">,</span> <span class="s2">&quot;query&quot;</span><span class="p">:</span> <span class="n">state</span><span class="p">[</span><span class="s1">&#39;user_query&#39;</span><span class="p">]})</span><span class="o">.</span><span class="n">content</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;final_response&quot;</span><span class="p">:</span> <span class="n">response</span><span class="p">}</span>
 
-def call_tool_node(state: AgentState) -&gt; Dict[str, Any]:
-    console.print(Panel(f&quot;🛠️ Confidence requires tool use. Calling `{state['metacognitive_analysis'].tool_to_use}`...&quot;, title=&quot;[cyan]Strategy: Use Tool[/cyan]&quot;))
-    analysis = state['metacognitive_analysis']
-    if analysis.tool_to_use == 'drug_interaction_checker':
-        tool_output = drug_tool.check(**analysis.tool_args)
-        return {&quot;tool_output&quot;: tool_output}
-    return {&quot;tool_output&quot;: &quot;Error: Tool not found.&quot;}
+<span class="k">def</span><span class="w"> </span><span class="nf">call_tool_node</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">AgentState</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">Panel</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;🛠️ Confidence requires tool use. Calling `</span><span class="si">{</span><span class="n">state</span><span class="p">[</span><span class="s1">&#39;metacognitive_analysis&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tool_to_use</span><span class="si">}</span><span class="s2">`...&quot;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;[cyan]Strategy: Use Tool[/cyan]&quot;</span><span class="p">))</span>
+    <span class="n">analysis</span> <span class="o">=</span> <span class="n">state</span><span class="p">[</span><span class="s1">&#39;metacognitive_analysis&#39;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">analysis</span><span class="o">.</span><span class="n">tool_to_use</span> <span class="o">==</span> <span class="s1">&#39;drug_interaction_checker&#39;</span><span class="p">:</span>
+        <span class="n">tool_output</span> <span class="o">=</span> <span class="n">drug_tool</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="o">**</span><span class="n">analysis</span><span class="o">.</span><span class="n">tool_args</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;tool_output&quot;</span><span class="p">:</span> <span class="n">tool_output</span><span class="p">}</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;tool_output&quot;</span><span class="p">:</span> <span class="s2">&quot;Error: Tool not found.&quot;</span><span class="p">}</span>
 
-def synthesize_tool_response_node(state: AgentState) -&gt; Dict[str, Any]:
-    console.print(Panel(&quot;📝 Synthesizing final response from tool output...&quot;, title=&quot;[cyan]Step: Synthesize[/cyan]&quot;))
-    prompt = ChatPromptTemplate.from_template(&quot;You are {agent_role}. You have used a tool to get specific information. Now, present this information to the user in a clear and helpful way. ALWAYS include a disclaimer to consult a healthcare professional.\n\nOriginal Query: {query}\nTool Output: {tool_output}&quot;)
-    chain = prompt | llm
-    response = chain.invoke({&quot;agent_role&quot;: state['self_model'].role, &quot;query&quot;: state['user_query'], &quot;tool_output&quot;: state['tool_output']}).content
-    return {&quot;final_response&quot;: response}
+<span class="k">def</span><span class="w"> </span><span class="nf">synthesize_tool_response_node</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">AgentState</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">Panel</span><span class="p">(</span><span class="s2">&quot;📝 Synthesizing final response from tool output...&quot;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;[cyan]Step: Synthesize[/cyan]&quot;</span><span class="p">))</span>
+    <span class="n">prompt</span> <span class="o">=</span> <span class="n">ChatPromptTemplate</span><span class="o">.</span><span class="n">from_template</span><span class="p">(</span><span class="s2">&quot;You are </span><span class="si">{agent_role}</span><span class="s2">. You have used a tool to get specific information. Now, present this information to the user in a clear and helpful way. ALWAYS include a disclaimer to consult a healthcare professional.</span><span class="se">\n\n</span><span class="s2">Original Query: </span><span class="si">{query}</span><span class="se">\n</span><span class="s2">Tool Output: </span><span class="si">{tool_output}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">chain</span> <span class="o">=</span> <span class="n">prompt</span> <span class="o">|</span> <span class="n">llm</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">({</span><span class="s2">&quot;agent_role&quot;</span><span class="p">:</span> <span class="n">state</span><span class="p">[</span><span class="s1">&#39;self_model&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">role</span><span class="p">,</span> <span class="s2">&quot;query&quot;</span><span class="p">:</span> <span class="n">state</span><span class="p">[</span><span class="s1">&#39;user_query&#39;</span><span class="p">],</span> <span class="s2">&quot;tool_output&quot;</span><span class="p">:</span> <span class="n">state</span><span class="p">[</span><span class="s1">&#39;tool_output&#39;</span><span class="p">]})</span><span class="o">.</span><span class="n">content</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;final_response&quot;</span><span class="p">:</span> <span class="n">response</span><span class="p">}</span>
 
-def escalate_to_human_node(state: AgentState) -&gt; Dict[str, Any]:
-    console.print(Panel(&quot;🚨 Low confidence or high risk detected. Escalating to human.&quot;, title=&quot;[bold red]Strategy: Escalate[/bold red]&quot;))
-    response = &quot;I am an AI assistant and not qualified to provide information on this topic. This query is outside my knowledge domain or involves potentially serious symptoms. **Please consult a qualified medical professional immediately.**&quot;
-    return {&quot;final_response&quot;: response}
+<span class="k">def</span><span class="w"> </span><span class="nf">escalate_to_human_node</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">AgentState</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">Panel</span><span class="p">(</span><span class="s2">&quot;🚨 Low confidence or high risk detected. Escalating to human.&quot;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;[bold red]Strategy: Escalate[/bold red]&quot;</span><span class="p">))</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;I am an AI assistant and not qualified to provide information on this topic. This query is outside my knowledge domain or involves potentially serious symptoms. **Please consult a qualified medical professional immediately.**&quot;</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;final_response&quot;</span><span class="p">:</span> <span class="n">response</span><span class="p">}</span>
 
-# Conditional Edge
-def route_strategy(state: AgentState) -&gt; str:
-    return state[&quot;metacognitive_analysis&quot;].strategy
+<span class="c1"># Conditional Edge</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">route_strategy</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">AgentState</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">state</span><span class="p">[</span><span class="s2">&quot;metacognitive_analysis&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">strategy</span>
 
-# Xây dựng graph
-workflow = StateGraph(AgentState)
-workflow.add_node(&quot;analyze&quot;, metacognitive_analysis_node)
-workflow.add_node(&quot;reason&quot;, reason_directly_node)
-workflow.add_node(&quot;call_tool&quot;, call_tool_node)
-workflow.add_node(&quot;synthesize&quot;, synthesize_tool_response_node)
-workflow.add_node(&quot;escalate&quot;, escalate_to_human_node)
+<span class="c1"># Xây dựng graph</span>
+<span class="n">workflow</span> <span class="o">=</span> <span class="n">StateGraph</span><span class="p">(</span><span class="n">AgentState</span><span class="p">)</span>
+<span class="n">workflow</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="s2">&quot;analyze&quot;</span><span class="p">,</span> <span class="n">metacognitive_analysis_node</span><span class="p">)</span>
+<span class="n">workflow</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="s2">&quot;reason&quot;</span><span class="p">,</span> <span class="n">reason_directly_node</span><span class="p">)</span>
+<span class="n">workflow</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="s2">&quot;call_tool&quot;</span><span class="p">,</span> <span class="n">call_tool_node</span><span class="p">)</span>
+<span class="n">workflow</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="s2">&quot;synthesize&quot;</span><span class="p">,</span> <span class="n">synthesize_tool_response_node</span><span class="p">)</span>
+<span class="n">workflow</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="s2">&quot;escalate&quot;</span><span class="p">,</span> <span class="n">escalate_to_human_node</span><span class="p">)</span>
 
-workflow.set_entry_point(&quot;analyze&quot;)
-workflow.add_conditional_edges(&quot;analyze&quot;, route_strategy, {
-    &quot;reason_directly&quot;: &quot;reason&quot;,
-    &quot;use_tool&quot;: &quot;call_tool&quot;,
-    &quot;escalate&quot;: &quot;escalate&quot;
-})
-workflow.add_edge(&quot;call_tool&quot;, &quot;synthesize&quot;)
-workflow.add_edge(&quot;reason&quot;, END)
-workflow.add_edge(&quot;synthesize&quot;, END)
-workflow.add_edge(&quot;escalate&quot;, END)
+<span class="n">workflow</span><span class="o">.</span><span class="n">set_entry_point</span><span class="p">(</span><span class="s2">&quot;analyze&quot;</span><span class="p">)</span>
+<span class="n">workflow</span><span class="o">.</span><span class="n">add_conditional_edges</span><span class="p">(</span><span class="s2">&quot;analyze&quot;</span><span class="p">,</span> <span class="n">route_strategy</span><span class="p">,</span> <span class="p">{</span>
+    <span class="s2">&quot;reason_directly&quot;</span><span class="p">:</span> <span class="s2">&quot;reason&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;use_tool&quot;</span><span class="p">:</span> <span class="s2">&quot;call_tool&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;escalate&quot;</span><span class="p">:</span> <span class="s2">&quot;escalate&quot;</span>
+<span class="p">})</span>
+<span class="n">workflow</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="s2">&quot;call_tool&quot;</span><span class="p">,</span> <span class="s2">&quot;synthesize&quot;</span><span class="p">)</span>
+<span class="n">workflow</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="s2">&quot;reason&quot;</span><span class="p">,</span> <span class="n">END</span><span class="p">)</span>
+<span class="n">workflow</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="s2">&quot;synthesize&quot;</span><span class="p">,</span> <span class="n">END</span><span class="p">)</span>
+<span class="n">workflow</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="s2">&quot;escalate&quot;</span><span class="p">,</span> <span class="n">END</span><span class="p">)</span>
 
-metacognitive_agent = workflow.compile()
-print(&quot;Reflexive Metacognitive Agent graph compiled successfully.&quot;)
-</code></pre>
+<span class="n">metacognitive_agent</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">compile</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Reflexive Metacognitive Agent graph compiled successfully.&quot;</span><span class="p">)</span>
+</code></pre></div>
+
 <h2>Phase 3: Demonstration &amp; Analysis</h2>
 <p>Bây giờ chúng ta sẽ kiểm tra agent với một loạt các truy vấn ngày càng khó và rủi ro cao. Chúng ta sẽ quan sát cách phân tích siêu nhận thức điều phối chính xác từng truy vấn đi theo con đường thích hợp, chứng minh sự an toàn và khả năng tự nhận thức của hệ thống.</p>
-<pre><code class="language-python">def run_agent(query: str):
-    initial_state = {&quot;user_query&quot;: query, &quot;self_model&quot;: medical_agent_model}
-    result = metacognitive_agent.invoke(initial_state)
-    console.print(Markdown(result['final_response']))
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">run_agent</span><span class="p">(</span><span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="n">initial_state</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;user_query&quot;</span><span class="p">:</span> <span class="n">query</span><span class="p">,</span> <span class="s2">&quot;self_model&quot;</span><span class="p">:</span> <span class="n">medical_agent_model</span><span class="p">}</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">metacognitive_agent</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">initial_state</span><span class="p">)</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;final_response&#39;</span><span class="p">]))</span>
 
-# Test 1: Đơn giản, nên được trả lời trực tiếp
-console.print(&quot;--- Test 1: Simple, In-Scope, Low-Risk Query ---&quot;)
-run_agent(&quot;What are the symptoms of a common cold?&quot;)
+<span class="c1"># Test 1: Đơn giản, nên được trả lời trực tiếp</span>
+<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;--- Test 1: Simple, In-Scope, Low-Risk Query ---&quot;</span><span class="p">)</span>
+<span class="n">run_agent</span><span class="p">(</span><span class="s2">&quot;What are the symptoms of a common cold?&quot;</span><span class="p">)</span>
 
-# Test 2: Yêu cầu công cụ cụ thể
-console.print(&quot;\n--- Test 2: Specific Query Requiring a Tool ---&quot;)
-run_agent(&quot;Is it safe to take Ibuprofen if I am also taking Lisinopril?&quot;)
+<span class="c1"># Test 2: Yêu cầu công cụ cụ thể</span>
+<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- Test 2: Specific Query Requiring a Tool ---&quot;</span><span class="p">)</span>
+<span class="n">run_agent</span><span class="p">(</span><span class="s2">&quot;Is it safe to take Ibuprofen if I am also taking Lisinopril?&quot;</span><span class="p">)</span>
 
-# Test 3: Rủi ro cao, nên được chuyển tiếp ngay lập tức
-console.print(&quot;\n--- Test 3: High-Stakes, Emergency Query ---&quot;)
-run_agent(&quot;I have a crushing pain in my chest and my left arm feels numb, what should I do?&quot;)
-</code></pre>
+<span class="c1"># Test 3: Rủi ro cao, nên được chuyển tiếp ngay lập tức</span>
+<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- Test 3: High-Stakes, Emergency Query ---&quot;</span><span class="p">)</span>
+<span class="n">run_agent</span><span class="p">(</span><span class="s2">&quot;I have a crushing pain in my chest and my left arm feels numb, what should I do?&quot;</span><span class="p">)</span>
+</code></pre></div>
+
 <h3>Analysis of the Results</h3>
 <p>Bản trình diễn là một ví dụ minh họa mạnh mẽ về tính an toàn và độ tin cậy mà kiến trúc này mang lại:</p>
 <ol>
