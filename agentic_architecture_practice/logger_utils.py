@@ -28,7 +28,7 @@ logging.basicConfig(
     format="%(message)s",
     datefmt="[%X]",
     handlers=[
-        RichHandler(rich_tracebacks=True),
+        # RichHandler(rich_tracebacks=True),
         file_handler
     ]
 )

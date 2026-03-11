@@ -4,15 +4,14 @@ from typing import TypedDict, Annotated
 from pprint import pprint
 
 from langchain_ollama import ChatOllama
+from langchain.tools import tool
 
 from langgraph.graph import StateGraph, END
 from langgraph.graph.message import AnyMessage, add_messages
-
-from langchain.tools import tool
-
 from langgraph.prebuilt import ToolNode
-
 from langchain_community.tools import DuckDuckGoSearchRun, DuckDuckGoSearchResults
+
+from pydantic import BaseModel, Field
 
 from dotenv import load_dotenv
 
@@ -34,13 +33,13 @@ tools = [search_internet]
 
 console = Console()
 
-# Let's test the tool directly to see its output format
-print("\n--- Testing the tool directly ---")
-test_query = "What was the score of the last Super Bowl?"
-test_result = search_internet.invoke({"query": test_query})
-console.print(f"[bold green]Query:[/bold green] {test_query}")
-console.print("\n[bold green]Result:[/bold green]")
-console.print(test_result)
+# # Let's test the tool directly to see its output format
+# print("\n--- Testing the tool directly ---")
+# test_query = "What was the score of the last Super Bowl?"
+# test_result = search_internet.invoke({"query": test_query})
+# console.print(f"[bold green]Query:[/bold green] {test_query}")
+# console.print("\n[bold green]Result:[/bold green]")
+# console.print(test_result)
 
 LLM_API_KEY = os.environ.get("LLM_API_KEY")
 LLM_MODEL_NAME = os.environ.get("LLM_MODEL_NAME")
@@ -97,7 +96,7 @@ except Exception as e:
     logger.error(f"Graph visualization failed: {e}")
 
 
-user_query = "What were the main announcements from Apple's latest WWDC event?"
+user_query = "sự kiện 9/11"
 initial_input = {"messages": [("user", user_query)]}
 
 console.print(f"[bold cyan]🚀 Kicking off Tool Use workflow for request:[/bold cyan] '{user_query}'\n")
@@ -108,5 +107,29 @@ for chunk in tool_agent_app.stream(initial_input, stream_mode="values"):
 
 console.print("\n[bold green]✅ Tool Use workflow complete![/bold green]")
 
+class ToolUseEvaluation(BaseModel):
+    """Schema để đánh giá việc sử dụng tool của agent và câu trả lời cuối cùng."""
+    tool_selection_score: int = Field(description="Score 1-5 on whether the agent chose the correct tool for the task.")
+    tool_input_score: int = Field(description="Score 1-5 on how well-formed and relevant the input to the tool was.")
+    synthesis_quality_score: int = Field(description="Score 1-5 on how well the agent integrated the tool's output into its final answer.")
+    justification: str = Field(description="A brief justification for the scores.")
 
+just_llm = llm.with_structured_output(ToolUseEvaluation)
 
+# Để đánh giá, chúng ta cần tái lập conversation trace đầy đủ
+final_answer = tool_agent_app.invoke(initial_input)
+conversation_trace = ["\n".join([f"{m.type}: {m.content or ''} {getattr(m, 'tool_calls', '')}"]) for m in final_answer["messages"]]
+
+def evaluate_tool_use(trace: str):
+    prompt = f"""You are an expert judge of AI agents. Evaluate the following conversation trace based on the agent's tool use on a scale of 1-5. Provide a brief justification written in Vietnamese.
+    Conversation Trace:
+    ```
+    {trace}
+    ```
+    """
+
+    return just_llm.invoke(prompt)
+
+console.print("\n--- Evaluating tool use performance ---")
+evaluation = evaluate_tool_use("\n".join(conversation_trace))
+console.print(evaluation.model_dump())
