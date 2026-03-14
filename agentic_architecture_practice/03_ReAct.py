@@ -8,6 +8,7 @@ from typing import Annotated, TypedDict
 from langchain_ollama import ChatOllama
 from langchain_core.messages import BaseMessage
 from langchain.tools import tool
+from langchain_community.tools import DuckDuckGoSearchResults
 from pydantic import BaseModel, Field
 
 
@@ -18,6 +19,7 @@ from langgraph.prebuilt import ToolNode, tools_condition
 
 # pretty printing
 from rich.console import Console
+from rich.markdown import Markdown
 
 from logger_utils import get_logger
 
@@ -29,6 +31,10 @@ load_dotenv()
 
 console = Console()
 
+LLM_MODEL_NAME = os.getenv("LLM_MODEL_NAME")
+
+llm = ChatOllama(model=LLM_MODEL_NAME, temperature=0)
+
 # Định nghĩa state
 class AgentState(TypedDict):
     messages: Annotated[list[AnyMessage], add_messages]
@@ -37,22 +43,22 @@ class AgentState(TypedDict):
 @tool("web_search", description="A tool that can be used to search the internet for up-to-date information on any topic, including news, events, and current affairs.")
 def search_internet(query: str) -> str:
     """Search the internet for up-to-date information on any topic, including news, events, and current affairs."""
+    console.print(f"\n--- Searching for: [bold green]{query}[/bold green] ---")
     search_tool = DuckDuckGoSearchResults(output_format="list")    
     return search_tool.invoke(query)
 
 tools = [search_internet]
 
-llm = ChatOllama(model="qwen2.5-coder:3b", temperature=0)
 llm_with_tools = llm.bind_tools(tools)
 
 # Định nghĩa basic agent, có thể sử dụng tool nhưng chỉ dùng 1 lần duy nhất
 def basic_agent_node(state: AgentState):
     console.print("--- BASIC AGENT: Thinking... ---")
     # Note: Cung cấp 1 system prompt khuyến khích agent chỉ gọi tool 1 lần duy nhất
-    system_prompt = f"""You are a helpful assistant. You have access to a web search tool. Answer the user's question based on the tool's results. You must provide a final answer after one tool call."""
+    system_prompt = f"""You are a helpful assistant. You have access to a web search tool. Answer the user's question based on the tool's results."""
     
     messages = [("system", system_prompt)] + state["messages"]
-    response = llm.invoke(messages)
+    response = llm_with_tools.invoke(messages)
     return {"messages": [response]}
 
 # Định nghĩa basic linear graph
@@ -74,10 +80,82 @@ console.print(f"[bold yellow]Testing BASIC agent on a multi-step query:[/bold ye
 
 basic_agent_output = basic_tool_agent_app.invoke({"messages": [("user", multi_step_query)]})
 
-console.print("\n--- [bold red]Final Output from Basic Agent[/bold red] ---")
+console.print("\n--- [bold green]Final Output from Basic Agent[/bold green] ---")
 console.print(Markdown(basic_agent_output['messages'][-1].content))
+console.print("\n---\n")
 
+def react_agent_node(state: AgentState):
+    console.print("--- REACT AGENT: Thinking... ---")
+    response = llm_with_tools.invoke(state["messages"])
+    return {"messages": [response]}
 
+# ToolNode giống như trước
+react_tool_node = ToolNode(tools)
 
+# Router function
+def react_router(state: AgentState):
+    last_message = state["messages"][-1]
+    if last_message.tool_calls:
+        console.print("--- ROUTER: Decision is to call a tool. ---")
+        return "tools"
+    else:
+        console.print("--- ROUTER: Decision is to finish. ---")
+        return "__end__"
 
+# Bây giờ chúng ta định nghĩa graph với vòng lặp quan trọng
+react_graph_builder = StateGraph(AgentState)
+react_graph_builder.add_node("agent", react_agent_node)
+react_graph_builder.add_node("tools", react_tool_node)
+react_graph_builder.add_conditional_edges("agent", react_router, {"tools": "tools", "__end__": END})
 
+react_graph_builder.set_entry_point("agent")
+
+# Đây là sự khác biệt chính: edge đi từ tools QUAY LẠI agent
+react_graph_builder.add_edge("tools", "agent")
+
+react_agent_app = react_graph_builder.compile()
+
+console.print(f"Testing ReAct agent on the same multi-step query: [bold green]'{multi_step_query}'[/bold green]\n")
+
+final_react_output = None
+
+for chunk in react_agent_app.stream({"messages": [("user", multi_step_query)]}, stream_mode="values"):
+    final_react_output = chunk
+    console.print(f"--- [bold purple]Current State:[/bold purple] ---")
+    chunk["messages"][-1].pretty_print()
+    console.print("\n---\n")
+
+console.print("\n--- [bold green]Final Output from ReAct Agent[/bold green] ---")
+console.print(Markdown(final_react_output['messages'][-1].content))
+
+class AgentEvaluation(BaseModel):
+    """Schema để đánh giá agent"""
+    task_completion_score: int = Field(description="Score từ 1-10 về mức độ hoàn thành nhiệm vụ.")
+    reasoning_quality_score: int = Field(description="Score từ 1-10 về chất lượng suy luận.")
+    justification: str = Field(description="Giải thích ngắn gọn cho các điểm số.")
+
+judge_llm = llm.with_structured_output(AgentEvaluation)
+
+def evaluate_agent(output_content: str):
+    prompt = f"""You are an expert judge of AI agents. Evaluate the following final answer provided by an agent based on a complex, multi-step user requset. Provide a brief justification written in Vietnamese.
+    
+    User Request: {multi_step_query}
+
+    Agent Final Answer:
+    {output_content}
+
+    Evaluate the answer from 1-10 for task completion and reasoning quality. Provide a brief justification.
+    """
+
+    return judge_llm.invoke(prompt)
+
+if basic_agent_output and final_react_output:
+    console.print("--- Evaluating Basic Agent's output ---")
+    basic_eval = evaluate_agent(basic_agent_output['messages'][-1].content)
+    console.print(basic_eval.model_dump())
+
+    console.print("\n--- Evaluating ReAct Agent's output ---")
+    react_eval = evaluate_agent(final_react_output['messages'][-1].content)
+    console.print(react_eval.model_dump())
+
+    
