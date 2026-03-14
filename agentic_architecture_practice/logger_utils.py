@@ -27,14 +27,17 @@ logging.basicConfig(
     level=logging.INFO,
     format="%(message)s",
     datefmt="[%X]",
+    force=True,
     handlers=[
-        # RichHandler(rich_tracebacks=True),
+        RichHandler(rich_tracebacks=True, markup=True),
         file_handler
     ]
 )
 
 def get_logger(name):
     """
-    Returns a logger instance with the specified name.
+    Returns a logger instance with the specified name, set to DEBUG level.
     """
-    return logging.getLogger(name)
+    logger = logging.getLogger(name)
+    logger.setLevel(logging.DEBUG) # Chỉ source code của bạn (khi dùng get_logger) mới in log từ DEBUG
+    return logger
