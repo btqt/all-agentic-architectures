@@ -111,48 +111,45 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
     </style>
 </head>
 <body>
-<h1>📘 Agentic Architectures 4: Planning</h1>
-<p>Trong notebook này, chúng ta khám phá kiến trúc <strong>Planning</strong>. Pattern này giới thiệu một lớp nhìn xa trông rộng (foresight) quan trọng vào quá trình suy luận của một agent. Thay vì phản ứng với thông tin theo từng bước như trong mô hình ReAct, một planning agent trước tiên sẽ phân tách một nhiệm vụ phức tạp thành một chuỗi các mục tiêu phụ nhỏ hơn, có thể quản lý được. Nó tạo ra một bế hoạch tác chiến (battle plan) đầy đủ <em>trước khi</em> thực hiện bất kỳ hành động nào.</p>
-<p>Cách tiếp cận chủ động này mang lại cấu trúc, khả năng dự đoán và hiệu quả cho các nhiệm vụ nhiều bước. Để làm nổi bật các lợi ích của nó, chúng ta sẽ so sánh trực tiếp hiệu năng của một <strong>reactive agent (ReAct)</strong> với <strong>planning agent</strong> mới của chúng ta. Chúng ta sẽ giao cho cả hai một nhiệm vụ yêu cầu thu thập nhiều mẩu thông tin trước khi thực hiện phép tính cuối cùng, chứng minh cách một kế hoạch được tính toán trước có thể dẫn đến một giải pháp mạnh mẽ và trực tiếp hơn.</p>
-<h3>Definition</h3>
-<p>Kiến trúc <strong>Planning</strong> bao gồm một agent thực hiện việc phân tách một mục tiêu phức tạp thành một chuỗi các nhiệm vụ phụ chi tiết một cách rõ ràng <em>trước khi</em> bắt đầu thực thi. Kết quả đầu ra của giai đoạn lập kế hoạch ban đầu này là một kế hoạch cụ thể, từng bước mà agent sau đó sẽ tuân thủ một cách có phương pháp để đạt được giải pháp.</p>
-<h3>High-level Workflow</h3>
+<h1>📘 Agentic Architectures 4: Planning - Quy trình Lập kế hoạch</h1>
+<p>Trong notebook này, chúng ta sẽ khám phá kiến trúc <strong>Planning</strong>. Pattern này giới thiệu một lớp dự phòng (foresight) quan trọng vào quy trình suy luận của Agent. Thay vì phản ứng với thông tin theo từng bước như trong mô hình ReAct, một Planning Agent trước tiên sẽ phân tách một nhiệm vụ phức tạp thành một chuỗi các mục tiêu phụ (sub-goals) nhỏ hơn, có thể quản lý được. Nó tạo ra một "kế hoạch tác chiến" (battle plan) đầy đủ <em>trước khi</em> thực hiện bất kỳ hành động nào.</p>
+<p>Cách tiếp cận chủ động này mang lại sự cấu trúc, khả năng dự đoán và hiệu quả cho các nhiệm vụ gồm nhiều bước. Để làm nổi bật các lợi ích của nó, chúng ta sẽ so sánh trực tiếp hiệu suất của một <strong>Reactive Agent (ReAct)</strong> với <strong>Planning Agent</strong> mới của chúng ta. Chúng ta sẽ giao cho cả hai một nhiệm vụ yêu cầu thu thập nhiều mẩu thông tin trước khi thực hiện tính toán cuối cùng, minh chứng cách một kế hoạch được tính toán trước có thể dẫn đến một giải pháp mạnh mẽ và trực tiếp hơn.</p>
+<h3>Definition: Định nghĩa</h3>
+<p>Kiến trúc <strong>Planning</strong> bao gồm một Agent thực hiện việc chia nhỏ một mục tiêu phức tạp thành một chuỗi các Sub-task chi tiết một cách rõ ràng <em>trước khi</em> bắt đầu thực thi. Đầu ra của giai đoạn lập kế hoạch ban đầu này là một bản kế hoạch cụ thể, từng bước một mà Agent sau đó sẽ tuân thủ một cách có phương pháp để đạt được giải pháp.</p>
+<h3>High-level Workflow: Quy trình cấp cao</h3>
 <ol>
-<li><strong>Receive Goal:</strong> Agent nhận một nhiệm vụ phức tạp.</li>
-<li><strong>Plan:</strong> Một thành phần 'Planner' chuyên dụng phân tích mục tiêu và tạo ra một danh sách có thứ tự các nhiệm vụ phụ cần thiết để đạt được mục tiêu đó. Ví dụ: <code>["Tìm sự thật A", "Tìm sự thật B", "Tính toán C bằng A và B"]</code>.</li>
-<li><strong>Execute:</strong> Một thành phần 'Executor' nhận kế hoạch và thực hiện từng nhiệm vụ phụ theo trình tự, sử dụng các tool khi cần thiết.</li>
-<li><strong>Synthesize:</strong> Sau khi tất cả các bước trong kế hoạch hoàn tất, một thành phần cuối cùng sẽ tổng hợp các kết quả từ các bước đã thực thi thành một câu trả lời cuối cùng mạch lạc.</li>
+<li><strong>Receive Goal (Nhận mục tiêu):</strong> Agent được giao một nhiệm vụ phức tạp.</li>
+<li><strong>Plan (Lập kế hoạch):</strong> Một thành phần 'Planner' chuyên dụng phân tích mục tiêu và tạo ra một danh sách các Sub-task có thứ tự cần thiết để đạt được mục tiêu đó. Ví dụ: <code>["Tìm dữ kiện A", "Tìm dữ kiện B", "Tính toán C bằng A và B"]</code>.</li>
+<li><strong>Execute (Thực thi):</strong> Một thành phần 'Executor' nhận kế hoạch và thực hiện từng Sub-task theo thứ tự, sử dụng các công cụ khi cần thiết.</li>
+<li><strong>Synthesize (Tổng hợp):</strong> Sau khi tất cả các bước trong kế hoạch hoàn tất, một thành phần cuối cùng sẽ tổng hợp các kết quả từ các bước đã thực thi thành một câu trả lời cuối cùng mạch lạc.</li>
 </ol>
-<h3>When to Use / Applications</h3>
+<h3>When to Use / Applications: Khi nào nên sử dụng / Ứng dụng</h3>
 <ul>
-<li><strong>Multi-Step Workflows:</strong> Lý tưởng cho các nhiệm vụ mà trình tự các hoạt động đã được biết trước và quan trọng, chẳng hạn như tạo một báo cáo yêu cầu tìm nạp dữ liệu, xử lý dữ liệu đó và sau đó tóm tắt nó.</li>
-<li><strong>Project Management Assistants:</strong> Phân chia một mục tiêu lớn như "ra mắt một tính năng mới" thành các nhiệm vụ phụ cho các nhóm khác nhau.</li>
-<li><strong>Educational Tutoring:</strong> Tạo một kế hoạch bài giảng để dạy một học sinh một khái niệm cụ thể, từ các nguyên tắc nền tảng đến ứng dụng nâng cao.</li>
+<li><strong>Multi-Step Workflows (Quy trình nhiều bước):</strong> Lý tưởng cho các nhiệm vụ mà trình tự hoạt động đã được biết trước và mang tính quyết định, chẳng hạn như tạo báo cáo yêu cầu lấy dữ liệu, xử lý dữ liệu và sau đó tóm tắt dữ liệu đó.</li>
+<li><strong>Project Management Assistants (Trợ lý quản lý dự án):</strong> Phân tách một mục tiêu lớn như "ra mắt tính năng mới" thành các Sub-task cho các nhóm khác nhau.</li>
+<li><strong>Educational Tutoring (Gia sư giáo dục):</strong> Tạo kế hoạch bài giảng để dạy học sinh một khái niệm cụ thể, từ các nguyên lý cơ bản đến ứng dụng nâng cao.</li>
 </ul>
-<h3>Strengths &amp; Weaknesses</h3>
+<h3>Strengths &amp; Weaknesses: Điểm mạnh &amp; Điểm yếu</h3>
 <ul>
-<li><strong>Strengths:</strong><ul>
-<li><strong>Cấu trúc &amp; Có thể truy vết (Traceable):</strong> Toàn bộ workflow được trình bày trước, làm cho quy trình của agent trở nên minh bạch và dễ debug.</li>
-<li><strong>Hiệu quả:</strong> Có thể hiệu quả hơn ReAct đối với các nhiệm vụ có thể dự đoán được, vì nó tránh được các vòng lặp suy luận không cần thiết giữa các bước.</li>
+<li><strong>Strengths (Điểm mạnh):</strong></li>
+<li><strong>Structured &amp; Traceable (Có cấu trúc &amp; Có thể truy vết):</strong> Toàn bộ quy trình được vạch ra trước, giúp quy trình của Agent trở nên minh bạch và dễ dàng debug.</li>
+<li><strong>Efficient (Hiệu quả):</strong> Có thể hiệu quả hơn ReAct đối với các nhiệm vụ có thể dự đoán được, vì nó tránh được các vòng lặp suy luận không cần thiết giữa các bước.</li>
+<li><strong>Weaknesses (Điểm yếu):</strong></li>
+<li><strong>Brittle to Change (Dễ gãy trước sự thay đổi):</strong> Một kế hoạch được chuẩn bị trước có thể thất bại nếu môi trường thay đổi bất ngờ trong khi thực thi. Nó ít có khả năng thích ứng hơn so với một ReAct Agent - vốn có thể thay đổi quyết định sau mỗi bước.</li>
 </ul>
-</li>
-<li><strong>Weaknesses:</strong><ul>
-<li><strong>Dễ bị phá vỡ (Brittle to Change):</strong> Một kế hoạch được lập sẵn có thể thất bại nếu môi trường thay đổi bất ngờ trong quá trình thực thi. Nó ít có khả năng thích ứng hơn một ReAct agent, vốn có thể thay đổi ý định sau mỗi bước.</li>
-</ul>
-</li>
-</ul>
-<h2>Phase 0: Foundation &amp; Setup</h2>
-<p>Chúng ta sẽ bắt đầu với quy trình thiết lập tiêu chuẩn: cài đặt các thư viện và cấu hình API keys cho Nebius, LangSmith, và công cụ tìm kiếm web Tavily của chúng ta.</p>
-<h3>Step 0.1: Installing Core Libraries</h3>
-<p><strong>Những gì chúng ta sẽ làm:</strong>
-Chúng ta sẽ cài đặt bộ thư viện tiêu chuẩn của mình, bao gồm gói <code>langchain-tavily</code> đã được cập nhật để giải quyết cảnh báo không còn sử dụng (deprecation warning).</p>
+<hr />
+<h2>Phase 0: Foundation &amp; Setup - Nền tảng &amp; Cài đặt</h2>
+<p>Chúng ta sẽ bắt đầu với quy trình thiết lập tiêu chuẩn: cài đặt các thư viện và cấu hình API key cho Nebius, LangSmith và công cụ tìm kiếm web Tavily của chúng ta.</p>
+<h3>Step 0.1: Installing Core Libraries - Cài đặt các thư viện cốt lõi</h3>
+<p><strong>Chúng ta sẽ làm gì:</strong>
+Chúng ta sẽ cài đặt bộ thư viện tiêu chuẩn, bao gồm gói <code>langchain-tavily</code> đã cập nhật để giải quyết cảnh báo lỗi thời (deprecation warning).</p>
 <div class="codehilite"><pre><span></span><code><span class="c1"># !pip install -q -U langchain-nebius langchain langgraph rich python-dotenv langchain-tavily</span>
 </code></pre></div>
 
-<h3>Step 0.2: Importing Libraries and Setting Up Keys</h3>
-<p><strong>Những gì chúng ta sẽ làm:</strong>
-Chúng ta sẽ import các module cần thiết và load các API keys của mình từ file <code>.env</code>.</p>
-<p><strong>Action Required:</strong> Tạo một file <code>.env</code> trong thư mục này với các key của bạn:</p>
+<h3>Step 0.2: Importing Libraries and Setting Up Keys - Nhập thư viện và thiết lập Key</h3>
+<p><strong>Chúng ta sẽ làm gì:</strong>
+Chúng ta sẽ nhập các module cần thiết và tải các API key từ file <code>.env</code>.</p>
+<p><strong>Yêu cầu hành động:</strong> Tạo một file <code>.env</code> trong thư mục này với các key của bạn:</p>
 <div class="codehilite"><pre><span></span><code>NEBIUS_API_KEY=&quot;your_nebius_api_key_here&quot;
 LANGCHAIN_API_KEY=&quot;your_langsmith_api_key_here&quot;
 TAVILY_API_KEY=&quot;your_tavily_api_key_here&quot;
@@ -180,7 +177,7 @@ TAVILY_API_KEY=&quot;your_tavily_api_key_here&quot;
 <span class="kn">from</span><span class="w"> </span><span class="nn">rich.console</span><span class="w"> </span><span class="kn">import</span> <span class="n">Console</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">rich.markdown</span><span class="w"> </span><span class="kn">import</span> <span class="n">Markdown</span>
 
-<span class="c1"># --- API Key and Tracing Setup ---</span>
+<span class="c1"># --- Thiết lập API Key và Tracing ---</span>
 <span class="n">load_dotenv</span><span class="p">()</span>
 
 <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;LANGCHAIN_TRACING_V2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;true&quot;</span>
@@ -189,51 +186,52 @@ TAVILY_API_KEY=&quot;your_tavily_api_key_here&quot;
 <span class="c1"># Kiểm tra xem các key đã được thiết lập chưa</span>
 <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;NEBIUS_API_KEY&quot;</span><span class="p">,</span> <span class="s2">&quot;LANGCHAIN_API_KEY&quot;</span><span class="p">,</span> <span class="s2">&quot;TAVILY_API_KEY&quot;</span><span class="p">]:</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2"> not found. Please create a .env file and set it.&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2"> không tìm thấy. Vui lòng tạo file .env và thiết lập nó.&quot;</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Environment variables loaded and tracing is set up.&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Các biến môi trường đã được tải và tracing đã được thiết lập.&quot;</span><span class="p">)</span>
 </code></pre></div>
 
-<h2>Phase 1: The Baseline - A Reactive Agent (ReAct)</h2>
-<p>Để đánh giá giá trị của planning, trước tiên chúng ta cần một baseline. Chúng ta sẽ sử dụng ReAct agent mà chúng ta đã xây dựng trong notebook trước. Agent này thông minh nhưng bị hạn chế về tầm nhìn—nó tìm ra con đường của mình theo từng bước một.</p>
-<h3>Step 1.1: Re-building the ReAct Agent</h3>
-<p><strong>Những gì chúng ta sẽ làm:</strong>
-Chúng ta sẽ nhanh chóng tái cấu trúc ReAct agent. Tính năng cốt lõi của nó là một vòng lặp nơi kết quả đầu ra của agent được route quay lại chính nó sau mỗi cuộc gọi tool, cho phép nó đánh giá lại và quyết định bước tiếp theo dựa trên thông tin mới nhất.</p>
+<hr />
+<h2>Phase 1: The Baseline - Một Agent 'Phản ứng' (ReAct)</h2>
+<p>Để đánh giá đúng giá trị của Planning, trước tiên chúng ta cần một mức cơ sở (baseline). Chúng ta sẽ sử dụng ReAct Agent mà chúng ta đã xây dựng trong notebook trước. Agent này thông minh nhưng có tầm nhìn hẹp - nó tìm ra lộ trình của mình theo từng bước một.</p>
+<h3>Step 1.1: Re-building the ReAct Agent - Xây dựng lại ReAct Agent</h3>
+<p><strong>Chúng ta sẽ làm gì:</strong>
+Chúng ta sẽ nhanh chóng tái cấu trúc ReAct Agent. Tính năng cốt lõi của nó là một vòng lặp nơi đầu ra của Agent được định tuyến quay lại chính nó sau mỗi lần gọi công cụ, cho phép nó đánh giá lại và quyết định bước tiếp theo dựa trên thông tin mới nhất.</p>
 <div class="codehilite"><pre><span></span><code><span class="n">console</span> <span class="o">=</span> <span class="n">Console</span><span class="p">()</span>
 
-<span class="c1"># Định nghĩa state cho các graph của chúng ta</span>
+<span class="c1"># Định nghĩa trạng thái cho các graph của chúng ta</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">AgentState</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
     <span class="n">messages</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="n">AnyMessage</span><span class="p">],</span> <span class="n">add_messages</span><span class="p">]</span>
 
-<span class="c1"># 1. Định nghĩa base tool từ gói tavily</span>
+<span class="c1"># 1. Định nghĩa công cụ cơ sở từ gói tavily</span>
 <span class="n">tavily_search_tool</span> <span class="o">=</span> <span class="n">TavilySearch</span><span class="p">(</span><span class="n">max_results</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 
-<span class="c1"># 2. THE FIX: Đơn giản hóa custom tool. </span>
-<span class="c1"># Phương thức .invoke() đã trả về một string sạch, vì vậy chúng ta chỉ cần truyền nó qua.</span>
+<span class="c1"># 2. GIẢI PHÁP: Đơn giản hóa công cụ tùy chỉnh.</span>
+<span class="c1">#    Phương thức .invoke() đã trả về một chuỗi sạch, vì vậy chúng ta chỉ cần chuyển tiếp nó.</span>
 <span class="nd">@tool</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">web_search</span><span class="p">(</span><span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Thực hiện tìm kiếm web bằng Tavily và trả về kết quả dưới dạng string.&quot;&quot;&quot;</span>
-    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;--- TOOL: Searching for &#39;</span><span class="si">{</span><span class="n">query</span><span class="si">}</span><span class="s2">&#39;...&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Thực hiện tìm kiếm web bằng Tavily và trả về kết quả dưới dạng chuỗi.&quot;&quot;&quot;</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;--- TOOL: Đang tìm kiếm cho &#39;</span><span class="si">{</span><span class="n">query</span><span class="si">}</span><span class="s2">&#39;...&quot;</span><span class="p">)</span>
     <span class="n">results</span> <span class="o">=</span> <span class="n">tavily_search_tool</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">results</span>
 
-<span class="c1"># 3. Định nghĩa LLM và bind nó vào custom tool của chúng ta</span>
+<span class="c1"># 3. Định nghĩa LLM và liên kết nó với công cụ tùy chỉnh của chúng ta</span>
 <span class="n">llm</span> <span class="o">=</span> <span class="n">ChatNebius</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;meta-llama/Meta-Llama-3.1-8B-Instruct&quot;</span><span class="p">,</span> <span class="n">temperature</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 <span class="n">llm_with_tools</span> <span class="o">=</span> <span class="n">llm</span><span class="o">.</span><span class="n">bind_tools</span><span class="p">([</span><span class="n">web_search</span><span class="p">])</span>
 
-<span class="c1"># 4. Agent node với một system prompt để ép buộc một cuộc gọi tool tại một thời điểm</span>
+<span class="c1"># 4. Agent node với một system prompt để buộc thực hiện mỗi lần một lệnh gọi công cụ</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">react_agent_node</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">AgentState</span><span class="p">):</span>
-    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;--- REACTIVE AGENT: Thinking... ---&quot;</span><span class="p">)</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;--- REACTIVE AGENT: Đang suy nghĩ... ---&quot;</span><span class="p">)</span>
 
     <span class="n">messages_with_system_prompt</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="n">SystemMessage</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="s2">&quot;You are a helpful research assistant. You must call one and only one tool at a time. Do not call multiple tools in a single turn. After receiving the result from a tool, you will decide on the next step.&quot;</span><span class="p">)</span>
+        <span class="n">SystemMessage</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="s2">&quot;Bạn là một trợ lý nghiên cứu hữu ích. Bạn phải gọi một và chỉ một công cụ tại một thời điểm. Không gọi nhiều công cụ trong một lượt duy nhất. Sau khi nhận được kết quả từ một công cụ, bạn sẽ quyết định bước tiếp theo.&quot;</span><span class="p">)</span>
     <span class="p">]</span> <span class="o">+</span> <span class="n">state</span><span class="p">[</span><span class="s2">&quot;messages&quot;</span><span class="p">]</span>
 
     <span class="n">response</span> <span class="o">=</span> <span class="n">llm_with_tools</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">messages_with_system_prompt</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;messages&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">response</span><span class="p">]}</span>
 
-<span class="c1"># 5. Sử dụng custom tool đã được chỉnh sửa của chúng ta trong ToolNode</span>
+<span class="c1"># 5. Sử dụng công cụ tùy chỉnh đã sửa lỗi trong ToolNode</span>
 <span class="n">tool_node</span> <span class="o">=</span> <span class="n">ToolNode</span><span class="p">([</span><span class="n">web_search</span><span class="p">])</span>
 
 <span class="c1"># ReAct graph với vòng lặp đặc trưng của nó</span>
@@ -245,51 +243,56 @@ Chúng ta sẽ nhanh chóng tái cấu trúc ReAct agent. Tính năng cốt lõi
 <span class="n">react_graph_builder</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="s2">&quot;tools&quot;</span><span class="p">,</span> <span class="s2">&quot;agent&quot;</span><span class="p">)</span>
 
 <span class="n">react_agent_app</span> <span class="o">=</span> <span class="n">react_graph_builder</span><span class="o">.</span><span class="n">compile</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Reactive (ReAct) agent compiled successfully.&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Reactive (ReAct) agent đã được biên dịch thành công.&quot;</span><span class="p">)</span>
 </code></pre></div>
 
-<h3>Step 1.2: Testing the Reactive Agent on a Plan-Centric Problem</h3>
-<p><strong>Những gì chúng ta sẽ làm:</strong>
-Chúng ta sẽ giao cho ReAct agent một nhiệm vụ yêu cầu hai bước thu thập dữ liệu riêng biệt theo sau là một phép tính cuối cùng. Điều này sẽ kiểm tra khả năng quản lý workflow nhiều bước của nó mà không có kế hoạch trả trước.</p>
+<h3>Step 1.2: Testing the Reactive Agent on a Plan-Centric Problem - Kiểm tra Reactive Agent trên một bài toán tập trung vào lập kế hoạch</h3>
+<p><strong>Chúng ta sẽ làm gì:</strong>
+Chúng ta sẽ giao cho ReAct Agent một nhiệm vụ yêu cầu hai bước thu thập dữ liệu riêng biệt, theo sau là một phép tính cuối cùng. Điều này sẽ kiểm tra khả năng quản lý một quy trình nhiều bước mà không có kế hoạch trả trước của nó.</p>
 <div class="codehilite"><pre><span></span><code><span class="n">plan_centric_query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">Find the population of the capital cities of France, Germany, and Italy. </span>
-<span class="s2">Then calculate their combined total. </span>
-<span class="s2">Finally, compare that combined total to the population of the United States, and say which is larger.</span>
+<span class="s2">Tìm dân số của các thành phố thủ đô của Pháp, Đức và Ý.</span>
+<span class="s2">Sau đó tính tổng dân số kết hợp của chúng.</span>
+<span class="s2">Cuối cùng, so sánh tổng đó với dân số của Hoa Kỳ và cho biết cái nào lớn hơn.</span>
 <span class="s2">&quot;&quot;&quot;</span>
 
-<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[bold yellow]Testing REACTIVE agent on a plan-centric query:[/bold yellow] &#39;</span><span class="si">{</span><span class="n">plan_centric_query</span><span class="si">}</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[bold yellow]Đang kiểm tra REACTIVE agent với truy vấn tập trung vào lập kế hoạch:[/bold yellow] &#39;</span><span class="si">{</span><span class="n">plan_centric_query</span><span class="si">}</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 
 <span class="n">final_react_output</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">react_agent_app</span><span class="o">.</span><span class="n">stream</span><span class="p">({</span><span class="s2">&quot;messages&quot;</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="n">plan_centric_query</span><span class="p">)]},</span> <span class="n">stream_mode</span><span class="o">=</span><span class="s2">&quot;values&quot;</span><span class="p">):</span>
     <span class="n">final_react_output</span> <span class="o">=</span> <span class="n">chunk</span>
-    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;--- [bold purple]Current State Update[/bold purple] ---&quot;</span><span class="p">)</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;--- [bold purple]Cập nhật trạng thái hiện tại[/bold purple] ---&quot;</span><span class="p">)</span>
     <span class="n">chunk</span><span class="p">[</span><span class="s1">&#39;messages&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">pretty_print</span><span class="p">()</span>
     <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 
-<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- [bold red]Final Output from Reactive Agent[/bold red] ---&quot;</span><span class="p">)</span>
+<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- [bold red]Đầu ra cuối cùng từ Reactive Agent[/bold red] ---&quot;</span><span class="p">)</span>
 <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">final_react_output</span><span class="p">[</span><span class="s1">&#39;messages&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">content</span><span class="p">))</span>
 </code></pre></div>
 
-<p><strong>Discussion of the Output:</strong>
-ReAct agent đã hoàn thành thành công nhiệm vụ. Bằng cách quan sát kết quả được stream, chúng ta có thể theo dõi quá trình suy luận từng bước của nó:
-1. Trước tiên, nó quyết định tìm kiếm dân số của Paris.
-2. Sau khi nhận được kết quả đó, nó tích hợp vào bộ nhớ và sau đó quyết định bước tiếp theo là tìm kiếm dân số của Berlin.
-3. Cuối cùng, với cả hai mẩu thông tin đã thu thập được, nó thực hiện phép tính và đưa ra câu trả lời cuối cùng.</p>
-<p>Mặc dù nó hoạt động, nhưng quy trình khám phá lặp đi lặp lại này không phải lúc nào cũng hiệu quả nhất. Đối với một nhiệm vụ có thể dự đoán được như thế này, agent đang thực hiện thêm các cuộc gọi LLM để suy luận giữa mỗi bước. Điều này tạo tiền đề cho việc chứng minh giá trị của một planning agent.</p>
-<h2>Phase 2: The Advanced Approach - A Planning Agent</h2>
-<p>Bây giờ, hãy xây dựng một agent biết suy nghĩ trước khi hành động. Agent này sẽ có một <strong>Planner</strong> chuyên dụng để tạo danh sách nhiệm vụ đầy đủ, một <strong>Executor</strong> để thực hiện kế hoạch, và một <strong>Synthesizer</strong> để lắp ráp kết quả cuối cùng.</p>
-<h3>Step 2.1: Defining the Planner, Executor, and Synthesizer Nodes</h3>
-<p><strong>Những gì chúng ta sẽ làm:</strong>
-Chúng ta sẽ tạo các thành phần cốt lõi cho agent mới của mình:
-1.  <strong><code>Planner</code>:</strong> Một node dựa trên LLM nhận yêu cầu của người dùng và xuất ra một kế hoạch có cấu trúc.
-2.  <strong><code>Executor</code>:</strong> Một node nhận kế hoạch, thực hiện bước <em>tiếp theo</em> bằng một tool và ghi lại kết quả.
-3.  <strong><code>Synthesizer</code>:</strong> Một node dựa trên LLM cuối cùng nhận tất cả các kết quả đã thu thập được và tạo ra câu trả lời cuối cùng.</p>
-<div class="codehilite"><pre><span></span><code><span class="c1"># Pydantic model để đảm bảo kết quả đầu ra của planner là danh sách các bước có cấu trúc</span>
+<p><strong>Discussion of the Output: Thảo luận về kết quả</strong>
+ReAct Agent đã hoàn thành thành công nhiệm vụ. Bằng cách quan sát đầu ra được stream, chúng ta có thể truy vết quy trình suy luận từng bước của nó:</p>
+<ol>
+<li>Đầu tiên, nó quyết định tìm kiếm dân số của Paris.</li>
+<li>Sau khi nhận kết quả đó, nó đưa thông tin vào bộ nhớ và sau đó quyết định bước tiếp theo là tìm kiếm dân số của Berlin.</li>
+<li>Cuối cùng, với cả hai mẩu thông tin đã thu thập được, nó thực hiện tính toán và đưa ra câu trả lời cuối cùng.</li>
+</ol>
+<p>Mặc dù nó hoạt động, quy trình khám phá lặp lại này không phải lúc nào cũng hiệu quả nhất. Đối với một nhiệm vụ có thể đoán trước như thế này, Agent đang thực hiện thêm các lệnh gọi LLM để suy luận giữa mỗi bước. Điều này tạo tiền đề cho việc trình diễn giá trị của một Planning Agent.</p>
+<hr />
+<h2>Phase 2: The Advanced Approach - Một Agent Lập kế hoạch (Planning Agent)</h2>
+<p>Bây giờ, hãy xây dựng một Agent biết suy nghĩ trước khi hành động. Agent này sẽ có một <strong>Planner</strong> chuyên dụng để tạo danh sách nhiệm vụ hoàn chỉnh, một <strong>Executor</strong> để thực hiện kế hoạch và một <strong>Synthesizer</strong> để lắp ráp kết quả cuối cùng.</p>
+<h3>Step 2.1: Defining the Planner, Executor, and Synthesizer Nodes - Định nghĩa các Node Planner, Executor và Synthesizer</h3>
+<p><strong>Chúng ta sẽ làm gì:</strong>
+Chúng ta sẽ tạo các thành phần cốt lõi cho Agent mới của mình:</p>
+<ol>
+<li><strong><code>Planner</code>:</strong> Một Node dựa trên LLM nhận yêu cầu của người dùng và xuất ra một bản kế hoạch có cấu trúc.</li>
+<li><strong><code>Executor</code>:</strong> Một Node nhận kế hoạch, thực hiện bước <em>tiếp theo</em> bằng một công cụ và ghi lại kết quả.</li>
+<li><strong><code>Synthesizer</code>:</strong> Một Node dựa trên LLM cuối cùng nhận tất cả các kết quả đã thu thập và tạo ra câu trả lời cuối cùng.</li>
+</ol>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Pydantic model để đảm bảo đầu ra của planner là một danh sách các bước có cấu trúc</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Plan</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Một kế hoạch gồm các cuộc gọi tool cần thực thi để trả lời truy vấn của người dùng.&quot;&quot;&quot;</span>
-    <span class="n">steps</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;A list of tool calls that, when executed, will answer the query.&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Một kế hoạch gồm các lệnh gọi công cụ để thực thi nhằm trả lời truy vấn của người dùng.&quot;&quot;&quot;</span>
+    <span class="n">steps</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Một danh sách các lệnh gọi công cụ mà khi thực hiện sẽ trả lời được truy vấn.&quot;</span><span class="p">)</span>
 
-<span class="c1"># Định nghĩa state cho planning agent</span>
+<span class="c1"># Định nghĩa trạng thái cho planning agent</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">PlanningState</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
     <span class="n">user_request</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">plan</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span>
@@ -297,178 +300,173 @@ Chúng ta sẽ tạo các thành phần cốt lõi cho agent mới của mình:
     <span class="n">final_answer</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
 
 <span class="k">def</span><span class="w"> </span><span class="nf">planner_node</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">PlanningState</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Tạo một kế hoạch hành động để trả lời yêu cầu của người dùng.&quot;&quot;&quot;</span>
-    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;--- PLANNER: Decomposing task... ---&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Tạo ra một bản kế hoạch hành động để trả lời yêu cầu của người dùng.&quot;&quot;&quot;</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;--- PLANNER: Đang phân tách nhiệm vụ... ---&quot;</span><span class="p">)</span>
     <span class="n">planner_llm</span> <span class="o">=</span> <span class="n">llm</span><span class="o">.</span><span class="n">with_structured_output</span><span class="p">(</span><span class="n">Plan</span><span class="p">)</span>
 
-    <span class="c1"># THE FIX: Một prompt rõ ràng hơn nhiều với ví dụ cụ thể (few-shot prompting)</span>
-    <span class="n">prompt</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;You are an expert planner. Your job is to create a step-by-step plan to answer the user&#39;s request.</span>
-<span class="s2">        Each step in the plan must be a single call to the `web_search` tool.</span>
+    <span class="c1"># GIẢI PHÁP: Một prompt rõ ràng hơn nhiều với ví dụ cụ thể (few-shot prompting)</span>
+    <span class="n">prompt</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;Bạn là một chuyên gia lập kế hoạch. Công việc của bạn là tạo ra một kế hoạch từng bước để trả lời yêu cầu của người dùng.</span>
+<span class="s2">        Mỗi bước trong kế hoạch phải là một lệnh gọi duy nhất đến công cụ `web_search`.</span>
 
-<span class="s2">        Example:</span>
-<span class="s2">        User Request: Find the populations of Tokyo and Seoul and sum them.</span>
-<span class="s2">        Plan: </span>
-<span class="s2">        1. web_search(query=&quot;current population of Tokyo&quot;)</span>
-<span class="s2">        2. web_search(query=&quot;current population of Seoul&quot;)</span>
+<span class="s2">        **Hướng dẫn:**</span>
+<span class="s2">        1. Phân tích yêu cầu của người dùng.</span>
+<span class="s2">        2. Chia nhỏ nó thành một chuỗi các truy vấn tìm kiếm đơn giản, logic.</span>
+<span class="s2">        3. Định dạng đầu ra dưới dạng một danh sách các chuỗi, trong đó mỗi chuỗi là một lệnh gọi công cụ hợp lệ duy nhất.</span>
 
-<span class="s2">        User Request: </span><span class="si">{</span><span class="n">state</span><span class="p">[</span><span class="s1">&#39;user_request&#39;</span><span class="p">]</span><span class="si">}</span>
-<span class="s2">        Plan:&quot;&quot;&quot;</span>
+<span class="s2">        **Ví dụ:**</span>
+<span class="s2">        Yêu cầu: &quot;Thủ đô của Pháp là gì và dân số của nó là bao nhiêu?&quot;</span>
+<span class="s2">        Đầu ra kế hoạch đúng:</span>
+<span class="s2">        [</span>
+<span class="s2">            &quot;web_search(&#39;thủ đô của Pháp&#39;)&quot;,</span>
+<span class="s2">            &quot;web_search(&#39;dân số của Paris&#39;)&quot;</span>
+<span class="s2">        ]</span>
 
-    <span class="n">plan_output</span> <span class="o">=</span> <span class="n">planner_llm</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
-    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;plan&quot;</span><span class="p">:</span> <span class="n">plan_output</span><span class="o">.</span><span class="n">steps</span><span class="p">}</span>
+<span class="s2">        **Yêu cầu của người dùng:**</span>
+<span class="s2">        </span><span class="si">{</span><span class="n">state</span><span class="p">[</span><span class="s1">&#39;user_request&#39;</span><span class="p">]</span><span class="si">}</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+
+    <span class="n">plan_result</span> <span class="o">=</span> <span class="n">planner_llm</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
+    <span class="c1"># Sử dụng plan_result.steps để tránh nhầm lẫn với tên biến &#39;plan&#39;</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;--- PLANNER: Kế hoạch đã tạo: </span><span class="si">{</span><span class="n">plan_result</span><span class="o">.</span><span class="n">steps</span><span class="si">}</span><span class="s2"> ---&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;plan&quot;</span><span class="p">:</span> <span class="n">plan_result</span><span class="o">.</span><span class="n">steps</span><span class="p">}</span>
 
 <span class="k">def</span><span class="w"> </span><span class="nf">executor_node</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">PlanningState</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Thực hiện một bước từ kế hoạch bằng cách sử dụng công cụ tìm kiếm.&quot;&quot;&quot;</span>
-    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;--- EXECUTOR: Running the plan... ---&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Thực hiện bước tiếp theo trong kế hoạch.&quot;&quot;&quot;</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;--- EXECUTOR: Đang chạy bước tiếp theo... ---&quot;</span><span class="p">)</span>
+    <span class="n">plan</span> <span class="o">=</span> <span class="n">state</span><span class="p">[</span><span class="s2">&quot;plan&quot;</span><span class="p">]</span>
+    <span class="n">next_step</span> <span class="o">=</span> <span class="n">plan</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
-    <span class="c1"># Tìm bước đầu tiên trong kế hoạch chưa được thực thi</span>
-    <span class="n">executed_steps_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;intermediate_steps&quot;</span><span class="p">,</span> <span class="p">[]))</span>
-    <span class="n">current_step</span> <span class="o">=</span> <span class="n">state</span><span class="p">[</span><span class="s2">&quot;plan&quot;</span><span class="p">][</span><span class="n">executed_steps_count</span><span class="p">]</span>
+    <span class="c1"># Regex mạnh mẽ để xử lý cả dấu ngoặc đơn và ngoặc kép</span>
+    <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(\w+)\((?:</span><span class="se">\&quot;</span><span class="s2">|\&#39;)(.*?)(?:</span><span class="se">\&quot;</span><span class="s2">|\&#39;)\)&quot;</span><span class="p">,</span> <span class="n">next_step</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">match</span><span class="p">:</span>
+        <span class="n">tool_name</span> <span class="o">=</span> <span class="s2">&quot;web_search&quot;</span>
+        <span class="n">query</span> <span class="o">=</span> <span class="n">next_step</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">tool_name</span><span class="p">,</span> <span class="n">query</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">groups</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span> <span class="n">match</span><span class="o">.</span><span class="n">groups</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
 
-    <span class="c1"># Trích xuất query từ string của bước (XỬ LÝ CHUỖI CẦN THẬN)</span>
-    <span class="n">search_query</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;query=\&quot;(.*?)\&quot;&#39;</span><span class="p">,</span> <span class="n">current_step</span><span class="p">)</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;--- EXECUTOR: Đang gọi công cụ &#39;</span><span class="si">{</span><span class="n">tool_name</span><span class="si">}</span><span class="s2">&#39; với truy vấn &#39;</span><span class="si">{</span><span class="n">query</span><span class="si">}</span><span class="s2">&#39; ---&quot;</span><span class="p">)</span>
 
-    <span class="c1"># Gọi tool thủ công</span>
-    <span class="n">result</span> <span class="o">=</span> <span class="n">web_search</span><span class="o">.</span><span class="n">invoke</span><span class="p">({</span><span class="s2">&quot;query&quot;</span><span class="p">:</span> <span class="n">search_query</span><span class="p">})</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">tavily_search_tool</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
 
-    <span class="c1"># Trả về kết quả dưới dạng ToolMessage để giữ tính nhất quán</span>
-    <span class="n">new_message</span> <span class="o">=</span> <span class="n">ToolMessage</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">result</span><span class="p">),</span> <span class="n">tool_call_id</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;step_</span><span class="si">{</span><span class="n">executed_steps_count</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;intermediate_steps&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">new_message</span><span class="p">]}</span>
+    <span class="c1"># Chúng ta vẫn tạo ToolMessage, nhưng bản thân lệnh gọi công cụ hiện đã an toàn.</span>
+    <span class="n">tool_message</span> <span class="o">=</span> <span class="n">ToolMessage</span><span class="p">(</span>
+    <span class="n">content</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">result</span><span class="p">),</span>
+    <span class="n">name</span><span class="o">=</span><span class="n">tool_name</span><span class="p">,</span>
+    <span class="n">tool_call_id</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;manual-</span><span class="si">{</span><span class="nb">hash</span><span class="p">(</span><span class="n">query</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;plan&quot;</span><span class="p">:</span> <span class="n">plan</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="c1"># Lấy bước đã thực thi ra khỏi kế hoạch</span>
+        <span class="s2">&quot;intermediate_steps&quot;</span><span class="p">:</span> <span class="n">state</span><span class="p">[</span><span class="s2">&quot;intermediate_steps&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">tool_message</span><span class="p">]</span>
+    <span class="p">}</span>
 
 <span class="k">def</span><span class="w"> </span><span class="nf">synthesizer_node</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">PlanningState</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Tổng hợp tất cả các kết quả thu thập được thành câu trả lời cuối cùng.&quot;&quot;&quot;</span>
-    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;--- SYNTHESIZER: Generating final answer... ---&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Tổng hợp câu trả lời cuối cùng từ các bước trung gian.&quot;&quot;&quot;</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;--- SYNTHESIZER: Đang tạo câu trả lời cuối cùng... ---&quot;</span><span class="p">)</span>
 
-    <span class="n">results_summary</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;Step </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">msg</span><span class="o">.</span><span class="n">content</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">msg</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">state</span><span class="p">[</span><span class="s2">&quot;intermediate_steps&quot;</span><span class="p">])])</span>
+    <span class="n">context</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;Tool </span><span class="si">{</span><span class="n">msg</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> trả về: </span><span class="si">{</span><span class="n">msg</span><span class="o">.</span><span class="n">content</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">msg</span> <span class="ow">in</span> <span class="n">state</span><span class="p">[</span><span class="s2">&quot;intermediate_steps&quot;</span><span class="p">]])</span>
 
-    <span class="n">prompt</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;Based on the following collected information, provide a final answer to the user&#39;s request:</span>
+    <span class="n">prompt</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;Bạn là một chuyên gia tổng hợp. Dựa trên yêu cầu của người dùng và dữ liệu đã thu thập, hãy cung cấp một câu trả lời cuối cùng toàn diện.</span>
 
-<span class="s2">        User Request: </span><span class="si">{</span><span class="n">state</span><span class="p">[</span><span class="s1">&#39;user_request&#39;</span><span class="p">]</span><span class="si">}</span>
+<span class="s2">    Yêu cầu: </span><span class="si">{</span><span class="n">state</span><span class="p">[</span><span class="s1">&#39;user_request&#39;</span><span class="p">]</span><span class="si">}</span>
+<span class="s2">    Dữ liệu đã thu thập:</span>
+<span class="s2">    </span><span class="si">{</span><span class="n">context</span><span class="si">}</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+    <span class="n">final_answer</span> <span class="o">=</span> <span class="n">llm</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span><span class="o">.</span><span class="n">content</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;final_answer&quot;</span><span class="p">:</span> <span class="n">final_answer</span><span class="p">}</span>
 
-<span class="s2">        Collected Information:</span>
-<span class="s2">        </span><span class="si">{</span><span class="n">results_summary</span><span class="si">}</span>
-<span class="s2">        &quot;&quot;&quot;</span>
-    <span class="n">response</span> <span class="o">=</span> <span class="n">llm</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
-    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;final_answer&quot;</span><span class="p">:</span> <span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="p">}</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Planner, Executor, and Synthesizer nodes defined.&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Các Node Planner, Executor và Synthesizer đã được định nghĩa.&quot;</span><span class="p">)</span>
 </code></pre></div>
 
-<h3>Step 2.2: Defining the Graph and Routing Logic</h3>
-<p><strong>Những gì chúng ta sẽ làm:</strong>
-Chúng ta sẽ lắp ráp các node thành một graph. Sự đổi mới quan trọng ở đây nằm ở routing logic. Sau khi <code>Executor</code> chạy một bước, chúng ta kiểm tra xem còn bước nào trong kế hoạch nữa không. Nếu còn, chúng ta lặp lại (<code>executor -&gt; executor</code>). Nếu kế hoạch đã hoàn tất, chúng ta chuyển sang <code>Synthesizer</code>.</p>
-<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">check_plan_status</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">PlanningState</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Kiểm tra xem tất cả các bước trong kế hoạch đã được thực thi chưa.&quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;intermediate_steps&quot;</span><span class="p">,</span> <span class="p">[]))</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">state</span><span class="p">[</span><span class="s2">&quot;plan&quot;</span><span class="p">]):</span>
-        <span class="k">return</span> <span class="s2">&quot;continue&quot;</span>
-    <span class="k">return</span> <span class="s2">&quot;synthesize&quot;</span>
+<h3>Step 2.2: Building the Planning Agent Graph - Xây dựng Graph cho Planning Agent</h3>
+<p><strong>Chúng ta sẽ làm gì:</strong>
+Bây giờ chúng ta sẽ lắp ráp các Node mới vào một Graph. Luồng sẽ là: <code>Planner</code> -&gt; <code>Executor</code> (looped) -&gt; <code>Synthesizer</code>.</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">planning_router</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">PlanningState</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">state</span><span class="p">[</span><span class="s2">&quot;plan&quot;</span><span class="p">]:</span>
+        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;--- ROUTER: Kế hoạch hoàn tất. Chuyển sang synthesizer. ---&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s2">&quot;synthesize&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;--- ROUTER: Kế hoạch còn các bước khác. Tiếp tục thực thi. ---&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s2">&quot;execute&quot;</span>
 
-<span class="c1"># Đưa mọi thứ lại với nhau trong graph</span>
-<span class="n">planning_builder</span> <span class="o">=</span> <span class="n">StateGraph</span><span class="p">(</span><span class="n">PlanningState</span><span class="p">)</span>
+<span class="n">planning_graph_builder</span> <span class="o">=</span> <span class="n">StateGraph</span><span class="p">(</span><span class="n">PlanningState</span><span class="p">)</span>
+<span class="n">planning_graph_builder</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="s2">&quot;plan&quot;</span><span class="p">,</span> <span class="n">planner_node</span><span class="p">)</span>
+<span class="n">planning_graph_builder</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="s2">&quot;execute&quot;</span><span class="p">,</span> <span class="n">executor_node</span><span class="p">)</span>
+<span class="n">planning_graph_builder</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="s2">&quot;synthesize&quot;</span><span class="p">,</span> <span class="n">synthesizer_node</span><span class="p">)</span>
 
-<span class="n">planning_builder</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="s2">&quot;planner&quot;</span><span class="p">,</span> <span class="n">planner_node</span><span class="p">)</span>
-<span class="n">planning_builder</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="s2">&quot;executor&quot;</span><span class="p">,</span> <span class="n">executor_node</span><span class="p">)</span>
-<span class="n">planning_builder</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="s2">&quot;synthesizer&quot;</span><span class="p">,</span> <span class="n">synthesizer_node</span><span class="p">)</span>
+<span class="n">planning_graph_builder</span><span class="o">.</span><span class="n">set_entry_point</span><span class="p">(</span><span class="s2">&quot;plan&quot;</span><span class="p">)</span>
+<span class="n">planning_graph_builder</span><span class="o">.</span><span class="n">add_conditional_edges</span><span class="p">(</span><span class="s2">&quot;plan&quot;</span><span class="p">,</span> <span class="n">planning_router</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;execute&quot;</span><span class="p">:</span> <span class="s2">&quot;execute&quot;</span><span class="p">,</span> <span class="s2">&quot;synthesize&quot;</span><span class="p">:</span> <span class="s2">&quot;synthesize&quot;</span><span class="p">})</span> <span class="c1"># Định tuyến sau khi lập kế hoạch</span>
+<span class="n">planning_graph_builder</span><span class="o">.</span><span class="n">add_conditional_edges</span><span class="p">(</span><span class="s2">&quot;execute&quot;</span><span class="p">,</span> <span class="n">planning_router</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;execute&quot;</span><span class="p">:</span> <span class="s2">&quot;execute&quot;</span><span class="p">,</span> <span class="s2">&quot;synthesize&quot;</span><span class="p">:</span> <span class="s2">&quot;synthesize&quot;</span><span class="p">})</span>
+<span class="n">planning_graph_builder</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="s2">&quot;synthesize&quot;</span><span class="p">,</span> <span class="n">END</span><span class="p">)</span>
 
-<span class="n">planning_builder</span><span class="o">.</span><span class="n">set_entry_point</span><span class="p">(</span><span class="s2">&quot;planner&quot;</span><span class="p">)</span>
-
-<span class="c1"># Sau khi lập kế hoạch, chúng ta luôn đi đến executor</span>
-<span class="n">planning_builder</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="s2">&quot;planner&quot;</span><span class="p">,</span> <span class="s2">&quot;executor&quot;</span><span class="p">)</span>
-
-<span class="c1"># Vòng lặp quan trọng cho executor</span>
-<span class="n">planning_builder</span><span class="o">.</span><span class="n">add_conditional_edges</span><span class="p">(</span>
-    <span class="s2">&quot;executor&quot;</span><span class="p">,</span>
-    <span class="n">check_plan_status</span><span class="p">,</span>
-    <span class="p">{</span>
-        <span class="s2">&quot;continue&quot;</span><span class="p">:</span> <span class="s2">&quot;executor&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;synthesize&quot;</span><span class="p">:</span> <span class="s2">&quot;synthesizer&quot;</span>
-    <span class="p">}</span>
-<span class="p">)</span>
-
-<span class="n">planning_builder</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="s2">&quot;synthesizer&quot;</span><span class="p">,</span> <span class="n">END</span><span class="p">)</span>
-
-<span class="c1"># Compile graph</span>
-<span class="n">planning_agent_app</span> <span class="o">=</span> <span class="n">planning_builder</span><span class="o">.</span><span class="n">compile</span><span class="p">()</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Planning Agent graph compiled successfully!&quot;</span><span class="p">)</span>
-
-<span class="c1"># Hình ảnh hóa graph</span>
-<span class="k">try</span><span class="p">:</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">Image</span><span class="p">,</span> <span class="n">display</span>
-    <span class="n">png_image</span> <span class="o">=</span> <span class="n">planning_agent_app</span><span class="o">.</span><span class="n">get_graph</span><span class="p">()</span><span class="o">.</span><span class="n">draw_png</span><span class="p">()</span>
-    <span class="n">display</span><span class="p">(</span><span class="n">Image</span><span class="p">(</span><span class="n">png_image</span><span class="p">))</span>
-<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Graph visualization failed: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">. Please ensure pygraphviz is installed.&quot;</span><span class="p">)</span>
+<span class="n">planning_agent_app</span> <span class="o">=</span> <span class="n">planning_graph_builder</span><span class="o">.</span><span class="n">compile</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Planning agent đã được biên dịch thành công.&quot;</span><span class="p">)</span>
 </code></pre></div>
 
-<p><strong>Discussion of the Output:</strong>
-Graph mới thể hiện một triết lý khác biệt rõ rệt. Thay vì flow dựa trên message năng động như ReAct, flow ở đây mang tính định hướng hơn. Workflow bắt đầu tại node <code>planner</code>, node này thiết lập lịch trình. Sau đó, quy trình đi vào một vòng lặp tự quản tại node <code>executor</code>, node này tiếp tục thực thi cho đến khi tất cả các mục trong danh sách nhiệm vụ được đánh dấu là hoàn thành. Cuối cùng, kết quả được chuyển đến node <code>synthesizer</code>.</p>
-<h2>Phase 3: Direct Comparison</h2>
-<p>Bây giờ, hãy chạy cùng một truy vấn nhiều bước thông qua planning agent của chúng ta và quan sát cách nó thực thi kế hoạch của mình.</p>
-<h3>Step 3.1: Running the Planning Agent</h3>
-<p><strong>Những gì chúng ta sẽ làm:</strong>
-Chúng ta sẽ invoke planning agent với cùng một truy vấn và quan sát các bước thực thi có cấu trúc của nó.</p>
-<div class="codehilite"><pre><span></span><code><span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[bold cyan]Running Planning Agent on query:[/bold cyan] &#39;</span><span class="si">{</span><span class="n">plan_centric_query</span><span class="si">}</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<hr />
+<h2>Phase 3: Head-to-Head Comparison - So sánh đối đầu</h2>
+<p>Hãy chạy Planning Agent mới của chúng ta trên cùng một nhiệm vụ và so sánh luồng thực thi cũng như đầu ra cuối cùng của nó với Reactive Agent.</p>
+<div class="codehilite"><pre><span></span><code><span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[bold green]Đang kiểm tra PLANNING agent trên cùng một truy vấn tập trung vào lập kế hoạch:[/bold green] &#39;</span><span class="si">{</span><span class="n">plan_centric_query</span><span class="si">}</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 
-<span class="c1"># Chạy graph và stream results</span>
-<span class="n">initial_state</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;user_request&quot;</span><span class="p">:</span> <span class="n">plan_centric_query</span><span class="p">,</span> <span class="s2">&quot;intermediate_steps&quot;</span><span class="p">:</span> <span class="p">[]}</span>
+<span class="c1"># Nhớ khởi tạo trạng thái chính xác, đặc biệt là danh sách cho các bước trung gian</span>
+<span class="n">initial_planning_input</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;user_request&quot;</span><span class="p">:</span> <span class="n">plan_centric_query</span><span class="p">,</span> <span class="s2">&quot;intermediate_steps&quot;</span><span class="p">:</span> <span class="p">[]}</span>
 
-<span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">planning_agent_app</span><span class="o">.</span><span class="n">stream</span><span class="p">(</span><span class="n">initial_state</span><span class="p">):</span>
-    <span class="c1"># Trình bày node hiện tại đang chạy</span>
-    <span class="k">for</span> <span class="n">node_name</span><span class="p">,</span> <span class="n">values</span> <span class="ow">in</span> <span class="n">chunk</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;--- Node [bold cyan]</span><span class="si">{</span><span class="n">node_name</span><span class="si">}</span><span class="s2">[/bold cyan] completed ---&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">node_name</span> <span class="o">==</span> <span class="s2">&quot;planner&quot;</span><span class="p">:</span>
-            <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[bold]Plan generated:[/bold] </span><span class="si">{</span><span class="n">values</span><span class="p">[</span><span class="s1">&#39;plan&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">node_name</span> <span class="o">==</span> <span class="s2">&quot;synthesizer&quot;</span><span class="p">:</span>
-            <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="s1">&#39;final_answer&#39;</span><span class="p">])</span>
-    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">final_planning_output</span> <span class="o">=</span> <span class="n">planning_agent_app</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">initial_planning_input</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Planning Agent execution complete.&quot;</span><span class="p">)</span>
+<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- [bold green]Đầu ra cuối cùng từ Planning Agent[/bold green] ---&quot;</span><span class="p">)</span>
+<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">final_planning_output</span><span class="p">[</span><span class="s1">&#39;final_answer&#39;</span><span class="p">]))</span>
 </code></pre></div>
 
-<p><strong>Discussion of the Output:</strong>
-Màn trình diễn của planning agent cực kỳ hiệu quả. Phân tích results cho thấy:
-1.  <strong>Giai đoạn Planner:</strong> Ngay từ đầu, agent đã phân tích chính xác query và tạo ra một kế hoạch rõ ràng gồm ba phần: tra cứu dân số Paris, dân số Berlin, và dân số Rome.
-2.  <strong>Giai đoạn Executor:</strong> Sau đó, nó thực thi tuần tự các bước này một cách chính xác mà không cần thêm bất kỳ bước suy luận lặp lại nào ở giữa.
-3.  <strong>Giai đoạn Synthesizer:</strong> Cuối cùng, nó thu thập tất cả dữ liệu thô và đưa ra một phép so sánh chính xác và đầy đủ với Hoa Kỳ.</p>
-<p>So với ReAct agent, quy trình này ít mang tính thăm dò hơn nhưng trực tiếp và có mục đích hơn. Nó cho thấy cách sự rõ ràng của kế hoạch có thể giảm thiểu chi phí tính toán và cải thiện tính minh bạch.</p>
-<h2>Phase 4: Qualitative Evaluation</h2>
-<p>Cuối cùng, chúng ta sẽ sử dụng giám khảo LLM của mình để chấm điểm cả hai agent dựa trên một khía cạnh đo lường mới: Tính trực tiếp (Directness)—khả năng đi đến câu trả lời với ít bước suy luận không cần thiết nhất.</p>
-<div class="codehilite"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">ComparativeEvaluation</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Schema để so sánh trực tiếp hai agent.&quot;&quot;&quot;</span>
-    <span class="n">react_directness_score</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Score từ 1-10 về mức độ trực tiếp của ReAct agent.&quot;</span><span class="p">)</span>
-    <span class="n">planning_directness_score</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Score từ 1-10 về mức độ trực tiếp của Planning agent.&quot;</span><span class="p">)</span>
-    <span class="n">comparison_justification</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Giải thích lý do tại sao một agent trực tiếp hơn agent kia.&quot;</span><span class="p">)</span>
+<p><strong>Discussion of the Output: Thảo luận về kết quả</strong>
+Sự khác biệt trong quy trình là rõ ràng ngay lập tức. Bước đầu tiên chính là <code>Planner</code> tạo ra một bản kế hoạch hoàn chỉnh, rõ ràng: <code>['web_search("dân số Paris")', 'web_search("dân số Berlin")']</code>.</p>
+<p>Agent sau đó thực hiện kế hoạch này một cách có phương pháp mà không cần dừng lại để suy nghĩ giữa các bước. Quy trình này:</p>
+<ul>
+<li><strong>More Transparent (Minh bạch hơn):</strong> Chúng ta có thể thấy toàn bộ chiến lược của Agent trước khi nó bắt đầu.</li>
+<li><strong>More Robust (Mạnh mẽ hơn):</strong> Nó ít có khả năng bị lạc hướng vì nó đang tuân theo một bộ chỉ dẫn rõ ràng.</li>
+<li><strong>Potentially More Efficient (Tiềm năng hiệu quả hơn):</strong> Nó tránh được các lệnh gọi LLM bổ sung để suy luận giữa các bước.</li>
+</ul>
+<p>Điều này chứng minh sức mạnh của việc lập kế hoạch cho các nhiệm vụ mà các bước yêu cầu có thể được xác định trước.</p>
+<hr />
+<h2>Phase 4: Quantitative Evaluation - Đánh giá định lượng</h2>
+<p>Để chính thức hóa việc so sánh của chúng ta, chúng ta sẽ sử dụng một LLM-as-a-Judge (LLM làm giám khảo) để chấm điểm cả hai Agent, tập trung vào chất lượng và hiệu quả của quy trình giải quyết vấn đề của chúng.</p>
+<div class="codehilite"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">ProcessEvaluation</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Schema để đánh giá quy trình giải quyết vấn đề của một Agent.&quot;&quot;&quot;</span>
+    <span class="n">task_completion_score</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Điểm 1-10 về việc liệu Agent có hoàn thành nhiệm vụ thành công hay không.&quot;</span><span class="p">)</span>
+    <span class="n">process_efficiency_score</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Điểm 1-10 về hiệu quả và tính trực tiếp của quy trình của Agent. Điểm cao hơn có nghĩa là lộ trình logic hơn và ít vòng vo hơn.&quot;</span><span class="p">)</span>
+    <span class="n">justification</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Một lời giải thích ngắn gọn cho các điểm số.&quot;</span><span class="p">)</span>
 
-<span class="n">judge_llm</span> <span class="o">=</span> <span class="n">llm</span><span class="o">.</span><span class="n">with_structured_output</span><span class="p">(</span><span class="n">ComparativeEvaluation</span><span class="p">)</span>
+<span class="n">judge_llm</span> <span class="o">=</span> <span class="n">llm</span><span class="o">.</span><span class="n">with_structured_output</span><span class="p">(</span><span class="n">ProcessEvaluation</span><span class="p">)</span>
 
-<span class="k">def</span><span class="w"> </span><span class="nf">comparative_evaluation</span><span class="p">(</span><span class="n">react_trace</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">planning_trace</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-    <span class="n">prompt</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;You are analyzing the efficiency of two different AI agents.</span>
-<span class="s2">    One is a Reactive Agent (ReAct) which reasons step-by-step.</span>
-<span class="s2">    The other is a Planning Agent which creates an upfront list of tasks.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">evaluate_agent_process</span><span class="p">(</span><span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">final_state</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+    <span class="c1"># Đối với ReAct agent, dấu vết nằm trong &#39;messages&#39;. Đối với Planning, nó nằm trong &#39;intermediate_steps&#39;.</span>
+    <span class="k">if</span> <span class="s1">&#39;messages&#39;</span> <span class="ow">in</span> <span class="n">final_state</span><span class="p">:</span>
+        <span class="n">trace</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">m</span><span class="o">.</span><span class="n">type</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">content</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">final_state</span><span class="p">[</span><span class="s1">&#39;messages&#39;</span><span class="p">]])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">trace</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Plan: </span><span class="si">{</span><span class="n">final_state</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;plan&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">[])</span><span class="si">}</span><span class="se">\n</span><span class="s2">Steps: </span><span class="si">{</span><span class="n">final_state</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;intermediate_steps&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">[])</span><span class="si">}</span><span class="s2">&quot;</span>
 
-<span class="s2">    Compare their execution logs for the same task and score their &#39;Directness&#39; (how efficiently they reached the goal without unnecessary thought steps).</span>
+    <span class="n">prompt</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;Bạn là một giám khảo chuyên gia về các AI agent. Hãy đánh giá quy trình giải quyết nhiệm vụ của Agent trên thang điểm 1-10.</span>
+<span class="s2">    Tập trung vào việc liệu quy trình có logic và hiệu quả hay không.</span>
 
-<span class="s2">    --- REACT AGENT LOG ---</span>
-<span class="s2">    </span><span class="si">{</span><span class="n">react_trace</span><span class="si">}</span>
-
-<span class="s2">    --- PLANNING AGENT LOG ---</span>
-<span class="s2">    </span><span class="si">{</span><span class="n">planning_trace</span><span class="si">}</span>
+<span class="s2">    **Nhiệm vụ của người dùng:** </span><span class="si">{</span><span class="n">query</span><span class="si">}</span>
+<span class="s2">    **Dấu vết đầy đủ của Agent:**</span><span class="se">\n</span><span class="s2">```</span><span class="se">\n</span><span class="si">{</span><span class="n">trace</span><span class="si">}</span><span class="se">\n</span><span class="s2">```</span>
 <span class="s2">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">judge_llm</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
 
-<span class="c1"># (Để đơn giản, chúng ta pass qua logs thô)</span>
-<span class="n">react_log</span> <span class="o">=</span> <span class="s2">&quot;Followed an iterative think-act-observe loop for each city.&quot;</span>
-<span class="n">planning_log</span> <span class="o">=</span> <span class="s2">&quot;Created a 3-step plan upfront and executed it directly.&quot;</span>
+<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;--- Đang đánh giá quy trình của Reactive Agent ---&quot;</span><span class="p">)</span>
+<span class="n">react_agent_evaluation</span> <span class="o">=</span> <span class="n">evaluate_agent_process</span><span class="p">(</span><span class="n">plan_centric_query</span><span class="p">,</span> <span class="n">final_react_output</span><span class="p">)</span>
+<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">react_agent_evaluation</span><span class="o">.</span><span class="n">model_dump</span><span class="p">())</span>
 
-<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;--- Performing Comparative Evaluation ---&quot;</span><span class="p">)</span>
-<span class="n">comparison</span> <span class="o">=</span> <span class="n">comparative_evaluation</span><span class="p">(</span><span class="n">react_log</span><span class="p">,</span> <span class="n">planning_log</span><span class="p">)</span>
-<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">comparison</span><span class="o">.</span><span class="n">model_dump</span><span class="p">())</span>
+<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- Đang đánh giá quy trình của Planning Agent ---&quot;</span><span class="p">)</span>
+<span class="n">planning_agent_evaluation</span> <span class="o">=</span> <span class="n">evaluate_agent_process</span><span class="p">(</span><span class="n">plan_centric_query</span><span class="p">,</span> <span class="n">final_planning_output</span><span class="p">)</span>
+<span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">planning_agent_evaluation</span><span class="o">.</span><span class="n">model_dump</span><span class="p">())</span>
 </code></pre></div>
 
-<p><strong>Discussion of the Output:</strong>
-Results của giám khảo nêu bật giá trị cốt lõi của Planning. Mặc dù cả hai phương pháp đều dẫn đến kết quả đúng, nhưng Planning agent được đánh giá cao hơn về tính trực tiếp. Bằng cách thực hiện công việc lập bản đồ con đường ngay từ đầu, nó tránh được việc "phát minh lại bánh xe" (reinventing the wheel) về lý trí sau mỗi hành động mới. Nó biết mình đang đi đâu và đã đến đó bằng con đường ngắn nhất có thể.</p>
-<h2>Conclusion</h2>
-<p>Kiến trúc <strong>Planning</strong> giới thiệu tầm nhìn xa (foresight) như một công cụ đắc lực cho các AI agent. Bằng cách tách biệt giai đoạn chiến lược (lập kế hoạch) khỏi giai đoạn chiến thuật (thực thi), chúng ta tạo ra các hệ thống ổn định hơn, hiệu quả hơn và dễ hiểu hơn. Mặc dù nó đòi hỏi một nhiệm vụ ban đầu có thể dự đoán được ở một mức độ nào đó, nhưng đối với các workflow có cấu trúc, Planning không có đối thủ về khả năng mang lại sự rõ ràng và tính trực tiếp cho việc giải quyết vấn đề phức tạp. Pattern này là một sự bổ sung thiết yếu cho bộ công cụ của bất kỳ ai xây dựng các agent có năng lực cho các ứng dụng chuyên nghiệp.</p>
+<p><strong>Discussion of the Output: Thảo luận về kết quả</strong>
+Điểm số của giám khảo định lượng sự khác biệt trong hai cách tiếp cận. Cả hai Agent có khả năng nhận được <code>task_completion_score</code> cao vì cả hai cuối cùng đều tìm ra câu trả lời. Tuy nhiên, <strong>Planning Agent</strong> sẽ nhận được <code>process_efficiency_score</code> cao hơn đáng kể. Lời giải thích của giám khảo sẽ nêu bật rằng kế hoạch trả trước của nó là một cách trực tiếp và logic hơn để giải quyết vấn đề so với quy trình khám phá từng bước của ReAct Agent.</p>
+<p>Đánh giá này xác nhận giả thuyết của chúng ta: đối với các bài toán có con đường giải quyết có thể dự đoán được, kiến trúc Planning cung cấp một cách tiếp cận có cấu trúc, minh bạch và hiệu quả hơn.</p>
+<hr />
+<h2>Conclusion: Kết luận</h2>
+<p>Trong notebook này, chúng ta đã triển khai kiến trúc <strong>Planning</strong> và đối chiếu nó trực tiếp với mẫu <strong>ReAct</strong>. Bằng cách buộc một Agent trước tiên phải xây dựng một kế hoạch toàn diện trước khi thực thi, chúng ta thu được những lợi ích đáng kể về tính minh bạch, tính mạnh mẽ và hiệu quả cho các nhiệm vụ gồm nhiều bước đã được xác định rõ ràng.</p>
+<p>Trong khi ReAct xuất sắc trong các kịch bản khám phá nơi bước tiếp theo chưa được biết rõ, thì Planning tỏa sáng khi con đường đi tới giải pháp có thể được vạch ra trước. Hiểu được sự đánh đổi này là rất quan trọng đối với một nhà thiết kế hệ thống. Chọn lựa đúng kiến trúc cho đúng vấn đề là một kỹ năng then chốt trong việc xây dựng các AI Agent hiệu quả và thông minh. Pattern Planning là một công cụ thiết yếu trong bộ công cụ đó, cung cấp cấu trúc cần thiết cho các quy trình phức tạp và có thể dự đoán được.</p>
 </body>
 </html>
