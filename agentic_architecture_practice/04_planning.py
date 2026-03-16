@@ -1,5 +1,6 @@
 import os
 import operator
+import re
 from typing import Annotated, TypedDict, List, Optional
 
 # LangChain
@@ -130,68 +131,80 @@ def planner_node(state: PlanningState):
 
     # Use plan_result.steps, not plan.steps to avoid confusion with the variable name 'plan'
     logger.info(f"--- PLANNER: Generated Plan: {plan_result.steps} ---")
-
     return {"plan": plan_result.steps}
 
 def executor_node(state: PlanningState):
-    """Thực hiện một bước từ kế hoạch bằng cách sử dụng công cụ tìm kiếm."""
-    logger.info("--- EXECUTOR: Running the plan... ---")
+    """Executes bước tiếp theo trong plan"""
+    logger.info("--- EXECUTOR: Running next step... ---")
     
-    # Tìm bước đầu tiên trong kế hoạch chưa được thực thi
-    executed_steps_count = len(state.get("intermediate_steps", []))
-    current_step = state["plan"][executed_steps_count]
+    plan = state["plan"]
+    next_step = plan[0]
 
-    # Trích xuất query từ string của bước (XỬ LÝ CHUỖI CẦN THẬN)
+    # Robust regex to handle both single and double quotes
+    match = re.match(r'(\w+)\((?:\"|\')(.*?)(?:\"|\')\)', next_step)
+    if not match:
+        tool_name = "web_search"
+        query = next_step
+    else:
+        tool_name, query = match.groups()[0], match.groups()[1]
+
+    logger.info(f"--- EXECUTOR: Calling tool: '{tool_name}' with query '{query}' ---")
+
+    result = search_internet(query)
+
+    # We still create a ToolMessage, but the tool call itself is now safe
+    tool_message = ToolMessage(content=str(result),
+                               name=tool_name,
+                               tool_call_id=f"manual-{hash(query)}")
     
+    return {
+        "plan": plan[1:],  # Pop the executed step from the plan
+        "intermediate_steps": state["intermediate_steps"] + [tool_message]
+    }
+
+def synthesizer_node(state: PlanningState):
+    """Tổng hợp final answer từ các intermidiate steps."""
+    logger.info("--- SYNTHESIZER: Generating final answer... ---")
+    context = "\n".join(f"Tool {msg.name} returned: {msg.content}" for msg in state["intermediate_steps"])
+
+    prompt = f"""You are an expert synthesizer. Based on the user's request and the collected data, provide a comprehensive final answer.
     
-    
+    Request: {state['user_request']}
+    Collected Data:
+    {context}
+    """
+    final_answer = llm.invoke(prompt)
+    return {"final_answer": final_answer}
 
+def planning_router(state: PlanningState):
+    if not state["plan"]:
+        logger.info("--- ROUTER: Plan complete. Moving to synthesizer ---")
+        return "synthesize"
+    else:
+        logger.info("--- ROUTER: Plan has more steps. Continuing execution in executor ---")
+        return "execute"
 
+planning_graph_builder = StateGraph(PlanningState)
+planning_graph_builder.add_node("plan", planner_node)
+planning_graph_builder.add_node("execute", executor_node)
+planning_graph_builder.add_node("synthesize", synthesizer_node) 
 
+planning_graph_builder.set_entry_point("plan")
+planning_graph_builder.add_conditional_edges("plan", planning_router, {"execute": "execute", "synthesize": "synthesize"}) # Route after planning
+planning_graph_builder.add_conditional_edges("execute", planning_router, {"execute": "execute", "synthesize": "synthesize"})
+planning_graph_builder.add_edge("synthesize", END)
 
+planning_agent_app = planning_graph_builder.compile()
+print("Planning agent compiled successfully.")
 
+logger.info(f"""[bold green]Testing PLANNING agent on the same plan-centric query:[/bold green] '{plan_centric_query}'\n""")
 
+# Remember to initialize the state correctly, especially the list for intermediate steps
+initial_planning_input = {"user_request": plan_centric_query, "intermediate_steps": []}
+final_planning_output = planning_agent_app.invoke(initial_planning_input)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+logger.info("\n--- [bold green]Final Output from Planning Agent[/bold green] ---")
+console.print(Markdown(final_planning_output['final_answer']))
 
 
 
