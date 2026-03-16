@@ -150,7 +150,7 @@ def executor_node(state: PlanningState):
 
     logger.info(f"--- EXECUTOR: Calling tool: '{tool_name}' with query '{query}' ---")
 
-    result = search_internet(query)
+    result = search_internet.invoke(query)
 
     # We still create a ToolMessage, but the tool call itself is now safe
     tool_message = ToolMessage(content=str(result),
@@ -204,8 +204,7 @@ initial_planning_input = {"user_request": plan_centric_query, "intermediate_step
 final_planning_output = planning_agent_app.invoke(initial_planning_input)
 
 logger.info("\n--- [bold green]Final Output from Planning Agent[/bold green] ---")
-console.print(Markdown(final_planning_output['final_answer']))
-
+console.print(Markdown(final_planning_output['final_answer'].content))
 
 
 
