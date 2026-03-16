@@ -1,5 +1,4 @@
 import os
-import operator
 import re
 from typing import Annotated, TypedDict, List, Optional
 
